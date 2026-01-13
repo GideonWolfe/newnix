@@ -79,7 +79,8 @@
       "inputs": {
         "deploy-rs": "deploy-rs",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "wallpapers": "wallpapers"
       }
     },
     "systems": {
@@ -112,6 +113,27 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "wallpapers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768339041,
+        "narHash": "sha256-YD/I+ROI252TQMdMtF8oQaD27TSFr1ZbhvAjGQtwoaM=",
+        "owner": "gideonwolfe",
+        "repo": "wallpapers",
+        "rev": "f3ea4bbad47efb879bdb0ed7fcc33c685fdc480c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gideonwolfe",
+        "ref": "master",
+        "repo": "wallpapers",
         "type": "github"
       }
     }

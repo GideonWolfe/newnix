@@ -15,6 +15,11 @@
       inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
+    wallpapers = {
+      url = "github:gideonwolfe/wallpapers/master";
+      inputs = { nixpkgs.follows = "nixpkgs"; };
+    };
+
     # Declerative disk/filesystem management
     # disko = {
     #   url = "github:nix-community/disko/latest";
@@ -48,7 +53,7 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, ...  }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
