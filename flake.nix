@@ -27,10 +27,10 @@
     # };
 
     # Theming engine
-    # stylix = {
-    #   url = "github:nix-community/stylix/release-25.11";
-    #   inputs = { nixpkgs.follows = "nixpkgs"; };
-    # };
+    stylix = {
+      url = "github:nix-community/stylix/release-25.11";
+      inputs = { nixpkgs.follows = "nixpkgs"; };
+    };
 
     # Configure neovim with Nix!
     # nixvim = {
@@ -53,7 +53,7 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, ...  }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
