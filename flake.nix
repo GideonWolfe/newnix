@@ -48,14 +48,10 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, stylix, 
-    nixvim, sops-nix, deploy-rs, disko, ...
-    }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
 
 
@@ -65,13 +61,16 @@
 
       # example host configuration
       nixosConfigurations.example-host = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ ./nixos/vm.nix ];
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/example-host
+        ];
       };
 
       # Create a VM from this host
       # buld with nix build .#example-host-vm, run with nix run .#example-host-vm
-      packages.x86_64-linux.exmaple-host-vm = self.nixosConfigurations.example-host.config.system.build.vm;
+      packages.x86_64-linux.example-host-vm = self.nixosConfigurations.example-host.config.system.build.vm;
 
       # Deploy remotely to this host
       deploy.nodes.vm = {

@@ -4,6 +4,8 @@
     ../../users/gideon/default.nix
 
 
+    # This host uses the base configuration
+    ../../roles/base.nix
     # This host is a qemu VM
     ../../roles/qemu-vm.nix
     # This host has a desktop environment and UI

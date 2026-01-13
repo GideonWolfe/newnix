@@ -3,6 +3,6 @@
 { inputs, ... }:
 {
   imports = [
-    "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
+    "${inputs.nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
   ];
 }
