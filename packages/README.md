@@ -1,0 +1,1 @@
+`packages` contains lists of packages that are grouped by category. These lists can be imported by a host directly, or by a role/profile.
