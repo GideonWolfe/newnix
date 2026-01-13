@@ -1,6 +1,6 @@
 {pkgs, ... }:
 
-let tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+let tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
 in {
   # Enable greetd
   services.greetd = {

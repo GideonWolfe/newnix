@@ -15,6 +15,8 @@
   # Give the machine a unique hostname
   networking.hostName = "atlas";
 
+  system.stateVersion = "25.11";
+
   # Host-specific VM settings
   virtualisation = {
     # Allocate reasonable resources for testing
