@@ -18,5 +18,5 @@
       "storage" # for udiskie
     ];
   };
-  home-manager.users.gideon = import ./home.nix
+  home-manager.users.gideon = import ./home.nix;
 }

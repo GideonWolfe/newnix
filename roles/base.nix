@@ -6,5 +6,7 @@
     ../modules/system/nix.nix
     # Home manager setup
     ../modules/system/home-manager.nix
+    # Enable fish shell
+    ../modules/system/shell.nix
   ];
 }
