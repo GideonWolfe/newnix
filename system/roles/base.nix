@@ -10,6 +10,8 @@
     ../modules/system/nix.nix
     # Timezone
     ../modules/system/timezone.nix
+    # Network Manger
+    ../modules/networking/network-manager.nix
     # Home manager setup
     ../modules/system/home-manager.nix
     # Basic security services
@@ -27,11 +29,11 @@
     # Packages #
     ############
     # General system utilities
-  ../../packages/utilities/system.nix 
+    ../../packages/utilities/system.nix 
     # Command line utilities
-  ../../packages/utilities/cli.nix
+    ../../packages/utilities/cli.nix
     # System monitors
-  ../../packages/utilities/monitors.nix
+    ../../packages/utilities/monitors.nix
     # Networking utilities
     ../../packages/utilities/networking.nix
   ];

@@ -97,6 +97,7 @@
       # Build targets
       packages.x86_64-linux = {
         # buld with nix build .#uconsole-image
+        # WARNING: will result in resource intensive cross-compilation
         uconsole-image = self.nixosConfigurations.uconsole.config.system.build.sdImage;
         uconsole-nixos = self.nixosConfigurations.uconsole.config.system.build.toplevel;
       };
