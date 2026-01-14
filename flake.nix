@@ -28,10 +28,10 @@
     };
 
     # Declerative disk/filesystem management
-    # disko = {
-    #   url = "github:nix-community/disko/latest";
-    #   inputs = { nixpkgs.follows = "nixpkgs"; };
-    # };
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs = { nixpkgs.follows = "nixpkgs"; };
+    };
 
 
     # Configure neovim with Nix!
@@ -55,7 +55,7 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, ...  }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
