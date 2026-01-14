@@ -1,35 +1,9 @@
 { inputs, lib, ... }:
+# Home Manager role for all my non-necessary configs and themes
 {
   imports =
     lib.optional (inputs ? spicetify-nix) inputs.spicetify-nix.homeManagerModules.default
     ++ [
-    ###################
-    # External inputs #
-    ###################
-    inputs.stylix.homeManagerModules.stylix
-
-    #########################
-    # Session level services #
-    #########################
-    ../sessions/global/udiskie.nix
-    ../sessions/global/blueman-applet.nix
-
-    #############################
-    # Desktop / UI configuration #
-    #############################
-    ../sessions/global/ui/stylix.nix
-    ../sessions/global/ui/cursor.nix
-    ../sessions/global/ui/gtk.nix
-    ../sessions/global/ui/qt.nix
-    ../apps/wofi/wofi.nix
-    ../apps/kitty/kitty.nix
-    ../apps/swappy/swappy.nix
-    ../apps/fusuma/fusuma.nix
-    ../apps/kando/kando.nix
-    ../apps/clipse/clipse.nix
-
-    # Hyprland stack
-    ../sessions/hypr/hyprland.nix
 
     ###########################
     # Themed applications etc. #
