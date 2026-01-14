@@ -1,5 +1,5 @@
 { pkgs, inputs, ... }:
-
+# Enable Home Manager for user "gideon" and imports up the basic core config
 {
   home.username = "gideon";
   home.homeDirectory = "/home/gideon";

@@ -15,6 +15,7 @@
       inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
+    # My personal wallpaper collection
     wallpapers = {
       url = "github:gideonwolfe/wallpapers/master";
       inputs = { nixpkgs.follows = "nixpkgs"; };

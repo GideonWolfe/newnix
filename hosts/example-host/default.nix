@@ -8,17 +8,17 @@
     # This host is a qemu VM (could be changed to hardware.nix if running on bare metal)
     ../../system/roles/qemu-vm.nix
 
-    # This host uses the base configuration
-    #../../system/roles/base.nix
-    # This host has a desktop environment and UI
-    #../../system/roles/desktop.nix
-    # Apply a profile that encompasses the above setup
-    ../../system/profiles/minimal-desktop.nix
+    # Apply a system profile that matches this host
+    #../../system/profiles/minimal-desktop.nix
+    ../../system/profiles/minimal.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
   #home-manager.users.gideon.imports = lib.mkAfter [
+  #  # The workstation role with desktop environment and apps
   #  ../../home/roles/workstation.nix
+  #  # Gideon's personal accounts
+  #  ../../users/gideon/personal.nix
   #];
 
   # Give the machine a unique hostname

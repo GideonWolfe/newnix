@@ -1,0 +1,5 @@
+{
+  programs.khard = {
+      enable = true;
+  };
+}

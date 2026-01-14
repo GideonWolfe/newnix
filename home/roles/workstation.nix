@@ -72,6 +72,7 @@
     ../apps/darkreader/darkreader.nix
     ../apps/startpage/service.nix
     ../apps/thunderbird/thunderbird.nix
+    ../apps/neomutt/neomutt.nix
     ../apps/gpredict/gpredict.nix
     ../apps/obs-studio/obs-theme.nix
     ../apps/aichat/aichat.nix
@@ -82,5 +83,8 @@
     ../apps/glava/rc.nix
     ../apps/glava/shaders.nix
     ../apps/vdirsyncer/vdirsyncer.nix
+    ../apps/khard/khard.nix
+    ../apps/khal/khal.nix
+    ../apps/calcure/calcure.nix
   ];
 }
