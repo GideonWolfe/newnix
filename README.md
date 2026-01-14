@@ -1,21 +1,10 @@
 
 # Repo Architecture
 
-## Modules
-
-Lowest level building block of configuration
-
-## Packages
-
-Lists of packages logically grouped by function
-
-## Roles
-
-Groupings of `modules` and `packages` to fulfill a desired role
-
-## Profiles
-
-Opinionated groupings of `roles` into quickly deployable configurations
+- **system/** – operating-system side configuration (modules → roles → profiles).
+- **packages/** – reusable package sets grouped by purpose; consumed by system modules/roles.
+- **home/** – Home Manager layer (apps/sessions modules aggregated by roles).
+- **users/** – per-user definitions (each imports the desired home roles).
 
 # Creating a new host
 
@@ -26,8 +15,8 @@ imports = [
     # This host uses my default user configuration
     ../../users/gideon/default.nix
 
-    ../../modules/hardware/bluetooth.nix
-    ../../modules/hardware/power.nix
+    ../../system/modules/hardware/bluetooth.nix
+    ../../system/modules/hardware/power.nix
     # and so on
 ];
 ```
@@ -40,12 +29,12 @@ imports = [
     ../../users/gideon/default.nix
 
     # This host is a qemu VM (could be changed to hardware.nix if running on bare metal)
-    ../../roles/qemu-vm.nix
+    ../../system/roles/qemu-vm.nix
 
     # This host uses the base configuration
-    ../../roles/base.nix
+    ../../system/roles/base.nix
     # This host has a desktop environment and UI
-    ../../roles/desktop.nix
+    ../../system/roles/desktop.nix
 ];
 ```
 
@@ -56,7 +45,18 @@ imports = [
     # This host uses my default user configuration
     ../../users/gideon/default.nix
 
-    # Apply a profile that encompasseses the above setup
-    ../../profiles/minimal-desktop.nix
+    # Apply a profile that encompasses the above setup
+    ../../system/profiles/minimal-desktop.nix
 ];
 ```
+
+Once our desired system is designed, we add the appropriate Home Manager roles. In our new host's `default.nix`, we can also have
+
+```nix
+# Here we could add our full HM configuration (core is automatically imported)
+home-manager.users.gideon.imports = lib.mkAfter [
+    ../../home/roles/workstation.nix
+];
+```
+
+Now all the heavy HM configs such as GUI app themes will be generated as well.

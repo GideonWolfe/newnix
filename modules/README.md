@@ -1,1 +1,0 @@
-Modules are the most basic building block of configuration expression. Each module is scoped to a single service or functionality to enforce composability across various hosts. They do not provide applications (unless the module explicitly installs one, ie. `programs.steam`)

@@ -1,0 +1,1 @@
+`system/modules/` holds the most basic building blocks of configuration. Each module is scoped to a single service or piece of functionality so it can be mixed into any host or role. Modules generally avoid installing applications (unless that service explicitly requires one, such as `programs.steam`).
