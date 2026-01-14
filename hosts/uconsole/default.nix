@@ -11,7 +11,7 @@
 
     # uConsole specific configs
     ./initial-setup.nix
-    ./hardware-configuration.nix
+    ./configuration.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -25,23 +25,6 @@
 
   # Give the machine a unique hostname
   networking.hostName = "uconsole";
-
-
-  # Uconsole specific settings
-
-  # Enable cached raspberry pi packages
-  nix.settings = {
-    substituters = [
-      "https://cache.nixos.org/"
-      "https://nixos-raspberrypi.cachix.org"
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
-    ];
-  };
-
-
 
   system.stateVersion = "25.11";
 }

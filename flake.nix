@@ -87,7 +87,7 @@
       # uConsole #
       ############
       # System definition
-      nixosConfigurations.example-host = lib.nixosSystem {
+      nixosConfigurations.uconsole = lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
         modules = [
