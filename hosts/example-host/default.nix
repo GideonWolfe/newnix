@@ -3,7 +3,7 @@
     # This host uses my default user configuration
     ../../users/gideon/default.nix
 
-    # This host is a qemu VM
+    # This host is a qemu VM (could be changed to hardware.nix if running on bare metal)
     ../../roles/qemu-vm.nix
 
     # This host uses the base configuration

@@ -7,14 +7,11 @@
     ###########
     # Modules #
     ###########
-
     # Enable audio
     ../modules/system/pipewire.nix
-
     # Enable the boot splash and display manager
     ../modules/ui/plymouth.nix
     ../modules/ui/greeter.nix
-
     # Hyprland for our main window manager
     ../modules/ui/hyprland.nix
     # Other desktop glue
