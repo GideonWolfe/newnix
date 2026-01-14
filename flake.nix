@@ -65,7 +65,6 @@
       ################
       # Example Host #
       ################
-
       # example host configuration
       nixosConfigurations.example-host = lib.nixosSystem {
         inherit system;
@@ -74,17 +73,34 @@
           ./hosts/example-host
         ];
       };
-
       # Create a VM from this host
       # buld with nix build .#example-host-vm, run with nix run .#example-host-vm
       packages.x86_64-linux.example-host-vm = self.nixosConfigurations.example-host.config.system.build.vm;
-
       # Deploy remotely to this host
       deploy.nodes.vm = {
         hostname = "example-host";
         profiles.system.path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.example-host;
       };
 
+
+      ############
+      # uConsole #
+      ############
+      # System definition
+      nixosConfigurations.example-host = lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/uconsole
+        ];
+      };
+      # Build targets
+      packages.x86_64-linux = {
+        # buld with nix build .#uconsole-image
+        uconsole-image = self.nixosConfigurations.uconsole.config.system.build.sdImage;
+        uconsole-nixos = self.nixosConfigurations.uconsole.config.system.build.toplevel;
+      };
+      
 
       ###################
       # Test Proxmox VM #
