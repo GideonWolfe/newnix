@@ -3,6 +3,11 @@
 { pkgs, ... }:
 {
   imports = [
+    
+    ###########
+    # Modules #
+    ###########
+
     # Enable audio
     ../modules/system/pipewire.nix
 
@@ -14,25 +19,17 @@
     ../modules/ui/hyprland.nix
     # Other desktop glue
     ../modules/ui/xdg-portals.nix
+
+    ############
+    # Packages #
+    ############
+    # Audio utilities
+    ../packages/audio/utils.nix
+    # Video utilities
+    ../packages/video/utils.nix
+    # Desktop theming utilities
+    ../packages/utilities/theming.nix
+
   ];
 
-  # Add packages essential for desktop functionality
-  environment.systemPackages = with pkgs; [
-    ###########
-    # Theming #
-    ###########
-    # Icon themes
-    papirus-icon-theme
-    papirus-folders
-    adwaita-icon-theme
-    material-icons
-    libsForQt5.breeze-icons
-    # Qt theming tools
-    libsForQt5.qt5ct
-    qt6Packages.qt6ct
-    libsForQt5.qtcurve
-    libsForQt5.qtstyleplugins
-    # Additional theming tools
-    spicetify-cli
-  ];
 }
