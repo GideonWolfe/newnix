@@ -23,29 +23,29 @@ If I need to get hyper specific, I could add modules individually to build a sys
 
 ```nix
 imports = [
-# This host uses my default user configuration
-../../users/gideon/default.nix
+    # This host uses my default user configuration
+    ../../users/gideon/default.nix
 
-../../modules/hardware/bluetooth.nix
-../../modules/hardware/power.nix
-# and so on
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/hardware/power.nix
+    # and so on
 ];
 ```
 
-Or, I could throw together a couple roles that describe the system
+Or, I combine a couple roles that describe the system
 
 ```nix
 imports = [
-# This host uses my default user configuration
-../../users/gideon/default.nix
+    # This host uses my default user configuration
+    ../../users/gideon/default.nix
 
-# This host is a qemu VM (could be changed to hardware.nix if running on bare metal)
-../../roles/qemu-vm.nix
+    # This host is a qemu VM (could be changed to hardware.nix if running on bare metal)
+    ../../roles/qemu-vm.nix
 
-# This host uses the base configuration
-#../../roles/base.nix
-# This host has a desktop environment and UI
-#../../roles/desktop.nix
+    # This host uses the base configuration
+    ../../roles/base.nix
+    # This host has a desktop environment and UI
+    ../../roles/desktop.nix
 ];
 ```
 
@@ -53,10 +53,10 @@ Or, if we have a commonly reused set of roles such as "full workstation" or "hea
 
 ```nix
 imports = [
-# This host uses my default user configuration
-../../users/gideon/default.nix
+    # This host uses my default user configuration
+    ../../users/gideon/default.nix
 
-# Apply a profile that encompasseses the above setup
-../../profiles/minimal-desktop.nix
+    # Apply a profile that encompasseses the above setup
+    ../../profiles/minimal-desktop.nix
 ];
 ```
