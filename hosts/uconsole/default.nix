@@ -15,14 +15,14 @@
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
-  home-manager.users.gideon.imports = [
+  #home-manager.users.gideon.imports = [
     # The desktop with desktop environment and apps
     #../../home/roles/desktop.nix
     # Gideon's personal accounts
     #../../users/gideon/personal.nix
     # Or any other arbitrary HM config we are testing
-    ./uconsole-hyprland-monitors.nix
-  ];
+    #./uconsole-hyprland-monitors.nix
+  #];
 
   # Give the machine a unique hostname
   networking.hostName = "uconsole";

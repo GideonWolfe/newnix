@@ -31,13 +31,6 @@
     # Trackball/keyboard custom rules can be added here
   '';
 
-  # Account for rotated screen
-  wayland.windowManager.hyprland.settings = {
-    monitor = [
-      "DSI-1, preferred, auto, 1, transform, 3" # 1x scale, rotate 270 degrees
-    ];
-  };
-
   # ERROR interfering with services.power-profiles
   # Power management for battery operation
   # services.tlp = {

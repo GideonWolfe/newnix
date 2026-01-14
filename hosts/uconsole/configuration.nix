@@ -30,9 +30,6 @@ in {
   imports = [
     # Defines kernel version and SD card filesystem Layout
     ./hardware-configuration.nix
-
-    # specific hardware configurations for uConsole
-    ./uconsole-hardware.nix
   ];
 
   boot = {
