@@ -1,79 +1,21 @@
 
-Core Design Principles 
-1. “Define once, compose everywhere”
+# Repo Architecture
 
-Users, roles, package groups, and services are modules, not host configs
+## Modules
 
-Hosts only select modules; they don’t define behavior
+Lowest level building block of configuration
 
+## Packages
 
-high level repository layout
+Lists of packages logically grouped by function
 
-```
-.
-├── flake.nix
-├── flake.lock
-│
-├── hosts/                     # VERY thin
-│   ├── example-host/
-│   │   └── default.nix
-│   ├── another-host/
-│   │   └── default.nix
-│
-├── users/
-│   ├── gideon/
-│   │   └── default.nix
-│
-├── modules/                   # Reusable system modules
-│   ├── core/
-│   │   ├── base.nix
-│   │   ├── locale.nix
-│   │   └── nix.nix
-│   │
-│   ├── hardware/
-│   │   ├── amd.nix
-│   │   ├── intel.nix
-│   │   ├── arm.nix
-│   │   └── vm.nix
-│   │
-│   ├── networking/
-│   │   ├── base.nix
-│   │   ├── wireguard.nix
-│   │   └── tailscale.nix
-│   │
-│   ├── roles/
-│   │   ├── desktop.nix
-│   │   ├── server.nix
-│   │   ├── headless.nix
-│   │   └── laptop.nix
-│   │
-│   ├── services/
-│   │   ├── ssh.nix
-│   │   ├── backup.nix
-│   │   └── monitoring.nix
-│   │
-│   └── packages/
-│       ├── ai.nix
-│       ├── dev.nix
-│       ├── media.nix
-│       └── cli.nix
-│
-├── profiles/                  # High-level feature toggles
-│   ├── minimal.nix
-│   ├── desktop.nix
-│   ├── server.nix
-│   └── ai-workstation.nix
-│
-└── lib/
-    ├── mkHost.nix
-    ├── mkUser.nix
-    └── options.nix
-```
+## Roles
 
+Groupings of `modules` and `packages` to fulfill a desired role
 
-this is just a hypothetical skeleton, these aren't actual files yet
+## Profiles
 
-
+Opinionated groupings of `roles` into quickly deployable configurations
 
 # Creating a new host
 
@@ -105,6 +47,7 @@ imports = [
 # This host has a desktop environment and UI
 #../../roles/desktop.nix
 ];
+```
 
 Or, if we have a commonly reused set of roles such as "full workstation" or "headless server", we can use them directly
 
