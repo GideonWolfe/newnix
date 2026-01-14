@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 # This module can be enabled on a per-system basis
 # It extends my basic user to my "personal" user, adding personal accounts
+# Secrets role MUST be enabled on system
 {
   imports = [
     # Calendar accounts and sync settings

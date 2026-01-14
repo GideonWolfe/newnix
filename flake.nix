@@ -21,17 +21,18 @@
       inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
+    # Theming engine
+    stylix = {
+      url = "github:nix-community/stylix/release-25.11";
+      inputs = { nixpkgs.follows = "nixpkgs"; };
+    };
+
     # Declerative disk/filesystem management
     # disko = {
     #   url = "github:nix-community/disko/latest";
     #   inputs = { nixpkgs.follows = "nixpkgs"; };
     # };
 
-    # Theming engine
-    stylix = {
-      url = "github:nix-community/stylix/release-25.11";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
-    };
 
     # Configure neovim with Nix!
     # nixvim = {
@@ -40,10 +41,10 @@
     # };
 
     # Secret Management
-    # sops-nix = {
-    #   url = "github:Mic92/sops-nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Deployment tool
     deploy-rs = {

@@ -19,6 +19,7 @@
     ../modules/hardware/scrutiny.nix # Disk health monitoring
     ../modules/hardware/yubikey.nix # Yubikey and smartcard support
     ../modules/hardware/udisks2.nix # Disk automounting
+    ../modules/hardware/binfmt.nix # Enable cross-compilation
 
     ############
     # Packages #

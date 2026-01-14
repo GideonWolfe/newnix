@@ -11,6 +11,8 @@
     # Apply a system profile that matches this host
     ../../system/profiles/minimal-desktop.nix
     #../../system/profiles/minimal.nix
+    
+    # Or any other arbitrary module we are testing
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -19,6 +21,7 @@
     ../../home/roles/desktop.nix
     # Gideon's personal accounts
     #../../users/gideon/personal.nix
+    # Or any other arbitrary HM config we are testing
   ];
 
   # Give the machine a unique hostname

@@ -8,10 +8,14 @@
     ../../lib/world.nix
     # Basic nix settings
     ../modules/system/nix.nix
+    # Timezone
+    ../modules/system/timezone.nix
     # Home manager setup
     ../modules/system/home-manager.nix
     # Basic security services
     ../modules/system/security.nix
+    # Set up SOPS for the system
+    ../modules/system/sops.nix
     # Theme the system
     ../modules/system/stylix.nix
     # Enable fish shell
