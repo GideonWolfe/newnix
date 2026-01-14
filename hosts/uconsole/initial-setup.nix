@@ -21,6 +21,7 @@ in {
       if ! [ -e /etc/nixos/hardware-configuration.nix ]; then
         mkdir -pv /etc/nixos/
         pushd /etc/nixos/
+        cp ${./configuration.nix} configuration.nix
         cp ${./hardware-configuration.nix} hardware-configuration.nix
         cp ${./bootloader.nix} bootloader.nix
         cp ${./reinstall-bootloader.sh} reinstall-bootloader.sh
