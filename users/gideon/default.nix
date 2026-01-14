@@ -17,17 +17,15 @@
       "plugdev" # for RTL-SDR
       "storage" # for udiskie
     ];
+
+    # Automatically import my SSH key for this user
+    openssh.authorizedKeys.keys = [
+      (lib.strings.removeSuffix "\n" (builtins.readFile ./configs/ssh/gideon_ssh_sk.pub))
+    ];
   };
 
   # Allow gideon to copy closures (trusted user for nix operations)
   nix.settings.trusted-users = [ "gideon" ];
-  
-  # Automatically import my SSH key
-  # This associates this keypair wih this user, allowing it to authenticate me
-  openssh.authorizedKeys.keys = [
-    # Yubikey Public Key - read from file
-    (lib.strings.removeSuffix "\n" (builtins.readFile ./configs/ssh/gideon_ssh_sk.pub))
-  ];
 
   # Basic Home-Manager setup
   home-manager.users.gideon = { inputs, ... }: {
