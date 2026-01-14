@@ -16,6 +16,10 @@
     interval = "weekly";
   };
 
+  #########
+  # Disks #
+  #########
+
   # Define root FS, this is the disk we already generated
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
@@ -40,4 +44,41 @@
   #   autoFormat = true;  # Automatically format if not formatted
   #   options = [ "defaults" ];
   # };
+
+  ##############
+  # Bootloader #
+  ##############
+  # TODO: fix
+  boot = {
+    growPartition = true;
+    #kernelModules = [ "kvm-amd" ];
+    kernelParams = lib.mkForce [ ];
+
+    loader = {
+
+      efi.canTouchEfiVariables = lib.mkForce false;
+      efi.efiSysMountPoint = "/boot";
+      grub = {
+        enable = true;
+        device = "nodev";
+        #device = "/dev/disk/by-label/ESP";
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+      };
+      systemd-boot.enable = lib.mkForce false;
+      # wait for 3 seconds to select the boot entry
+      # timeout = lib.mkForce 3;
+    };
+
+
+    initrd = {
+      availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
+      kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
+    };
+
+    # clear /tmp on boot to get a stateless /tmp directory.
+    tmp.cleanOnBoot = true;
+  };
+
+
 }
