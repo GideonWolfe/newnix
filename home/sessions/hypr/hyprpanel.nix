@@ -746,12 +746,13 @@ with config.lib.stylix.colors.withHashtag;
           };
         };
 
-        clock = {
-          weather = {
-            key = "${osConfig.sops.secrets."weatherapi/apikey.json".path}";
-            location = "New York";
+        clock =
+          lib.optionalAttrs (lib.hasAttrByPath [ "sops" "secrets" "weatherapi/apikey.json" ] osConfig) {
+            weather = {
+              key = "${osConfig.sops.secrets."weatherapi/apikey.json".path}";
+              location = "New York";
+            };
           };
-        };
       };
 
       # Default bar layouts - can be overridden by host-specific configs using mkForce

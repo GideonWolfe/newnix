@@ -54,8 +54,8 @@ Once our desired system is designed, we add the appropriate Home Manager roles. 
 
 ```nix
 # Here we could add our full HM configuration (core is automatically imported)
-home-manager.users.gideon.imports = lib.mkAfter [
-    ../../home/roles/workstation.nix
+home-manager.users.gideon.imports = [
+    ../../home/roles/desktop.nix
 ];
 ```
 

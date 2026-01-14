@@ -3,11 +3,6 @@
 # Keybinds, themes, app launchers,etc
 {
   imports = [
-    ###################
-    # External inputs #
-    ###################
-    inputs.stylix.homeManagerModules.stylix
-
     #########################
     # Session level services #
     #########################
