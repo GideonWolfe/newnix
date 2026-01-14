@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 # Core user configuration I want on every system. Very lightweight.
-# Automatically imported via users/gideon/home.nix
+# Automatically imported via users/gideon/default.nix
 {
   imports =
     # Only inmport nixvim module and config if the input is available

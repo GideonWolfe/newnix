@@ -34,7 +34,7 @@ home/
 
 1. Create a new folder under `apps/<name>/`.
 2. Define the module (usually `<name>.nix`; additional files like themes or data are welcome).
-3. Decide which role should pull the new module in (or create a new role if it is a brand new category) and add the import there. The base user config (`users/<name>/home.nix`) can import a default role (e.g. `home/roles/core.nix`), while hosts append extra roles through `home-manager.users.<name>.imports` as needed.
+3. Decide which role should pull the new module in (or create a new role if it is a brand new category) and add the import there. The base user config (`users/<name>/default.nix`) can import a default role (e.g. `home/roles/core.nix`), while hosts append extra roles through `home-manager.users.<name>.imports` as needed.
 
 Because each module is self-contained, you can remove or override a single app by tweaking just one import line.
 

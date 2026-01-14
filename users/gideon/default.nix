@@ -18,5 +18,24 @@
       "storage" # for udiskie
     ];
   };
-  home-manager.users.gideon = import ./home.nix;
+
+  # Allow gideon to copy closures (trusted user for nix operations)
+  nix.settings.trusted-users = [ "gideon" ];
+
+  # Basic Home-Manager setup
+  home-manager.users.gideon = { inputs, ... }: {
+    home.username = "gideon";
+    home.homeDirectory = "/home/gideon";
+    home.stateVersion = "25.11";
+
+    programs.home-manager.enable = true;
+
+    # Put my profile image in the usual spot
+    home.file."profile.png".source = ./profile.png;
+
+    imports = [
+      # Import my core HM configs (shell stuff mostly) on every system
+      ../../home/roles/core.nix
+    ];
+  };
 }
