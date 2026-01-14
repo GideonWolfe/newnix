@@ -26,8 +26,8 @@
           menu.media.scaling = 50;
           tooltip.scaling = 50;
         };
-        osd.scaling = 50
-        notification.scaling = 50
+        osd.scaling = 50;
+        notification.scaling = 50;
       };
   };
 
