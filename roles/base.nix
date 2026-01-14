@@ -9,5 +9,13 @@
     ../modules/system/stylix.nix
     # Enable fish shell
     ../modules/system/shell.nix
+
+    ############
+    # Packages #
+    ############
+    ../packages/utilities/system.nix # General system utilities
+    ../packages/utilities/cli.nix # Command line utilities
+    ../packages/utilities/monitors.nix # System monitors
+    ../packages/utilities/networking.nix # Networking utilities
   ];
 }

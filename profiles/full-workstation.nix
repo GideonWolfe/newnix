@@ -11,6 +11,7 @@
         ############
         # Packages #
         ############
+
         # The full science suite
         ../packages/science/astronomy/astronomy.nix
         ../packages/science/biology/biology.nix
@@ -22,6 +23,20 @@
         ../packages/science/math/math.nix
         ../packages/science/medecine/medecine.nix
         ../packages/science/radio/radio.nix
+
+        # The full productivity suite
+        ../packages/productivity/art.nix
+        ../packages/productivity/calendar-contacts.nix
+        ../packages/productivity/ebooks.nix
+        ../packages/productivity/finance.nix
+        ../packages/productivity/news.nix
+        ../packages/productivity/office.nix
+        ../packages/productivity/photo.nix
+        ../packages/productivity/productivity.nix
+        ../packages/productivity/security.nix
+        ../packages/productivity/tasks.nix
+        ../packages/productivity/web.nix
+        ../packages/productivity/wikis.nix
 
         # The full development suite
         ../packages/development/c.nix
@@ -38,12 +53,9 @@
         ../packages/comms/signal.nix
         ../packages/comms/social-media.nix
 
-        # Full audio/video suite
+        # Extra audio/video packages
         ../packages/audio/audio.nix
         ../packages/video/video.nix
-
-        # Art stuff
-        ../packages/art/art.nix
 
         # AI tools for interacting with and running local LLMs
         ../packages/ai/ai.nix
