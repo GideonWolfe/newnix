@@ -4,6 +4,8 @@
     ###########
     # Modules #
     ###########
+    # Import global world data
+    ../../lib/world.nix
     # Basic nix settings
     ../modules/system/nix.nix
     # Home manager setup
