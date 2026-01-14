@@ -3,8 +3,10 @@
 Some examples of potential `profiles`:
 
 - Full workstation
-- Proxmox VM
-- DigitalOcean VM
+- Proxmox VMs
+- DigitalOcean VMs
+- Minimal testing VMs
+
 
 When I create a new system, I can ask myself, "what roles does this system have?"
 
