@@ -6,6 +6,6 @@
         # Roles #
         #########
         ../roles/base.nix # sets up low level system config
-        ../roles/proxmox-vm.nix # proxmox VM role
+        ../roles/vm-proxmox.nix # proxmox VM role
     ];
 }

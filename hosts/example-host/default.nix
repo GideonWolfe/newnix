@@ -6,7 +6,7 @@
     ../../users/gideon/default.nix
 
     # This host is a qemu VM (could be changed to hardware.nix if running on bare metal)
-    ../../system/roles/qemu-vm.nix
+  ../../system/roles/vm-qemu.nix
 
     # Apply a system profile that matches this host
     #../../system/profiles/minimal-desktop.nix

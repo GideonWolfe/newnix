@@ -5,7 +5,7 @@ Some examples of existing or potential profiles:
 - `full-workstation.nix`
 - `minimal-desktop.nix`
 - `minimal.nix`
-- future `proxmox-vm.nix`, `digitalocean-vm.nix`, etc.
+- future `vm-proxmox.nix`, `vm-digitalocean.nix`, etc.
 
 
 When I create a new system, I can ask myself, "what roles does this system have?"
