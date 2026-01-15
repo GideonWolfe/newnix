@@ -14,6 +14,9 @@
     # uConsole specific configs
     ./initial-setup.nix
     ./configuration.nix
+
+    # uconsole hardware stuff
+    ./uconsole-hardware.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

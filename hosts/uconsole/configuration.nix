@@ -65,6 +65,11 @@ in {
     ];
   };
 
+  # hacking a couple packages in to test HW
+  environment.systemPackages = [
+    pkgs.sdrpp # to test RTL-SDR
+    pkgs.minicom # to test GPS
+  ];
 
   ##### PERSONAL STUFF #####
 
