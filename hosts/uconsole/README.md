@@ -6,3 +6,4 @@ Configuration for my uconsole
 - get SDR working
 - Get LoRa working (with meshtastic)
 - Get GPS working
+- hyprpanel brightness slider works but hardware keyboard bind doesn't
