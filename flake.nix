@@ -101,6 +101,11 @@
         uconsole-image = self.nixosConfigurations.uconsole.config.system.build.sdImage;
         uconsole-nixos = self.nixosConfigurations.uconsole.config.system.build.toplevel;
       };
+      # Remotely deploy changes (so we don't have to bake images each time)
+      deploy.nodes.uconsole = {
+        hostname = "192.168.0.172";
+        profiles.system.path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.uconsole;
+      };
       
 
       ###################
@@ -112,7 +117,8 @@
       # deploy-rs global settings
       deploy = {
         sshUser = "gideon";
-        sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk" "-p" "2736"];
+        #sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk" "-p" "2736"];
+        sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk"];
         user = "root";
         fastConnection = true;
         interactiveSudo = true;

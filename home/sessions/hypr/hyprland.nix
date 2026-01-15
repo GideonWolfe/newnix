@@ -49,16 +49,16 @@ with config.lib.stylix.colors;
         "clipse -listen"
 
         # Music workspace
-        "spotify"
-        "sleep 2; kitty --class 'kitty-cava' cava &"
-        "sleep 2; kitty --class 'kitty-scope-tui' scope-tui --no-ui --scale 0.15 --channels 3 pulse pipewire.monitor &"
-        "sleep 2; NickvisionCavalier.GNOME"
+        #"spotify"
+        #"sleep 2; kitty --class 'kitty-cava' cava &"
+        #"sleep 2; kitty --class 'kitty-scope-tui' scope-tui --no-ui --scale 0.15 --channels 3 pulse pipewire.monitor &"
+        #"sleep 2; NickvisionCavalier.GNOME"
         # Monitor workspace
         "kitty --class 'kitty-btop' btop &"
         # Obsidian Workspace
-        "obsidian"
+        #"obsidian"
         # Discord
-        "vesktop"
+        #"vesktop"
       ];
 
       # Mouse bindings

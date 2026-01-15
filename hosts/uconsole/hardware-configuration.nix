@@ -22,6 +22,7 @@
     };
   };
   hardware.enableAllHardware = lib.mkForce false;
+  hardware.enableRedistributableFirmware = lib.mkForce true;
   #hardware.enableAllHardware = lib.mkForce true;
 
   # TODO: eventually enable swap

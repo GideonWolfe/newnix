@@ -7,17 +7,18 @@
     monitor = [
       "DSI-1, preferred, auto, 1, transform, 3" # 1x scale, rotate 270 degrees
     ];
+    animations.enabled = false;
   };
 
   # Override the scale settings for hyprpanel
   programs.hyprpanel.settings.theme = lib.mkForce {
       bar = {
         scaling = 65;
-        dropdownGap = "1.4em";
+        dropdownGap = "2.0em";
         menus = {
           menu.notifications.scaling = 50;
           menu.power.scaling = 50;
-          menu.dashboard.scaling = 43;
+          menu.dashboard.scaling = 45;
           menu.dashboard.confirmation_scaling = 50;
           menu.clock.scaling = 50;
           menu.battery.scaling = 50;

@@ -8,6 +8,8 @@
     # Apply a system profile that matches this host
     ../../system/profiles/minimal-desktop.nix
     #../../system/profiles/minimal.nix
+    # Enable all hardware support
+    ../../system/roles/hardware.nix
 
     # uConsole specific configs
     ./initial-setup.nix
