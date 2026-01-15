@@ -103,7 +103,7 @@
       };
       # Remotely deploy changes (so we don't have to bake images each time)
       deploy.nodes.uconsole = {
-        hostname = "192.168.0.172";
+        hostname = "192.168.0.29";
         profiles.system.path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.uconsole;
       };
       

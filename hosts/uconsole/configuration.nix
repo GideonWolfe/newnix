@@ -66,10 +66,19 @@ in {
     ];
   };
 
+  # Disable man page cache generation (slow on ARM)
+  documentation.man.generateCaches = false;
+
+  # Optional: disable other documentation if you don't need it
+  documentation.doc.enable = false;      # /share/doc
+  documentation.info.enable = false;     # GNU info pages
+  documentation.nixos.enable = false;    # NixOS manual (HTML)
+
   # hacking a couple packages in to test HW
   environment.systemPackages = [
     pkgs.sdrpp # to test RTL-SDR
     pkgs.minicom # to test GPS
+    pkgs.dtc # device tree compiler
   ];
 
   ##### PERSONAL STUFF #####

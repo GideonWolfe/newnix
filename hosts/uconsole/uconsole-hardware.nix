@@ -13,7 +13,7 @@
   # LoRa / Meshtastic
   # Enable the meshtasticd daemon for LoRa mesh networking
   services.meshtasticd = {
-    enable = true;
+    enable = false;
     gps = {
       enable = true;
       device = "/dev/ttyS0"; # Use /dev/ttyAMA0 for CM5
