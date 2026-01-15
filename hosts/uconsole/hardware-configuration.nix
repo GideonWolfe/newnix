@@ -22,6 +22,7 @@
     };
   };
   hardware.enableAllHardware = lib.mkForce false;
+  #hardware.enableAllHardware = lib.mkForce true;
 
   # TODO: eventually enable swap
   # Swap configuration (optional, but helpful for limited RAM)

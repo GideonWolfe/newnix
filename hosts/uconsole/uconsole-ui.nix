@@ -13,10 +13,11 @@
   programs.hyprpanel.settings.theme = lib.mkForce {
       bar = {
         scaling = 65;
+        dropdownGap = "1.4em";
         menus = {
           menu.notifications.scaling = 50;
           menu.power.scaling = 50;
-          menu.dashboard.scaling = 50;
+          menu.dashboard.scaling = 43;
           menu.dashboard.confirmation_scaling = 50;
           menu.clock.scaling = 50;
           menu.battery.scaling = 50;
