@@ -28,7 +28,6 @@ in {
           dtoverlay=dwc2,dr_mode=host           
           enable_uart=1
           uart_2ndstage=1
-          dtoverlay=disable-bt
         '';
       };
     };
