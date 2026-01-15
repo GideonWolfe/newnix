@@ -50,8 +50,9 @@ in {
       dsiErrorPatch
     ];
 
-    # for UART debugging
-    kernelParams = [ "console=serial0,115200" ];
+    # NOTE: Removed "console=serial0,115200" - this conflicts with GPS on /dev/ttyS0
+    # The GPS module uses the same UART, so kernel console output corrupts GPS data
+    # kernelParams = [ "console=serial0,115200" ];
   };
 
   nix.settings = {
