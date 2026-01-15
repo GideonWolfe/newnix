@@ -17,6 +17,9 @@
 
     # uconsole hardware stuff
     ./uconsole-hardware.nix
+
+    # Meshtastic/LoRa module
+    ./meshtastic.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
