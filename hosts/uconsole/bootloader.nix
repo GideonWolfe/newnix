@@ -28,6 +28,8 @@ in {
           dtoverlay=dwc2,dr_mode=host           
           enable_uart=1
           uart_2ndstage=1
+          # SPI1 for LoRa/Meshtastic (do NOT use dtparam=spi=on, it enables SPI0 which conflicts)
+          dtoverlay=spi1-1cs
         '';
       };
     };

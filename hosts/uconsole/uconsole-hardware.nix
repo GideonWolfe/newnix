@@ -13,14 +13,14 @@
   # LoRa / Meshtastic
   # Enable the meshtasticd daemon for LoRa mesh networking
   services.meshtasticd = {
-    enable = false;
+    enable = true;
     gps = {
       enable = true;
       device = "/dev/ttyS0"; # Use /dev/ttyAMA0 for CM5
     };
     webserver = {
       enable = true;
-      port = 443;
+      port = 9080;  # HTTP on high port to avoid conflicts
       openFirewall = false; # Set to true if you want remote access
     };
     # Set your LoRa region via the web interface on first boot
