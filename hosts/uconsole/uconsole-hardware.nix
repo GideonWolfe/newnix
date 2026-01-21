@@ -20,8 +20,8 @@
     };
     webserver = {
       enable = true;
-      port = 9080;  # HTTP on high port to avoid conflicts
-      openFirewall = false; # Set to true if you want remote access
+      port = 443;  # HTTPS (will show certificate warning - click "Proceed anyway")
+      openFirewall = true; # Set to true if you want remote access
     };
     # Set your LoRa region via the web interface on first boot
     # Options: US, EU_868, EU_433, CN, JP, ANZ, KR, TW, RU, IN, etc.

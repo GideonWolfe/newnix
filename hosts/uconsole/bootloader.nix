@@ -26,6 +26,7 @@ in {
           dtoverlay=vc4-kms-v3d-pi4
           dtoverlay=uconsole,cm4,hwi2c
           dtoverlay=dwc2,dr_mode=host           
+          dtoverlay=audremap,pins_12_13
           enable_uart=1
           uart_2ndstage=1
           # SPI1 for LoRa/Meshtastic (do NOT use dtparam=spi=on, it enables SPI0 which conflicts)
