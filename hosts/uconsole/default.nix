@@ -20,6 +20,9 @@
 
     # Meshtastic/LoRa module
     ./meshtastic.nix
+    
+    # Radio packages
+    ../../packages/science/radio/radio.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

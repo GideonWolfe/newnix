@@ -32,6 +32,9 @@ in {
   };
   sdImage = {
     firmwareSize = 512;
+    # Disable compression to reduce disk space needed during build
+    # The resulting .img file will be larger but build won't run out of space
+    compressImage = false;
     populateFirmwareCommands = ''
       DEST=./ ${config.system.build.installBootLoader} ${config.system.build.toplevel}
     '';

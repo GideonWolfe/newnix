@@ -31,6 +31,8 @@ in {
           uart_2ndstage=1
           # SPI1 for LoRa/Meshtastic (do NOT use dtparam=spi=on, it enables SPI0 which conflicts)
           dtoverlay=spi1-1cs
+          # Use external WiFi antenna (HackerGadgets AIO board provides U.FL connector)
+          #dtparam=ant2
         '';
       };
     };

@@ -76,7 +76,7 @@ in {
 
   # hacking a couple packages in to test HW
   environment.systemPackages = [
-    pkgs.sdrpp # to test RTL-SDR
+    #pkgs.sdrpp # to test RTL-SDR
     pkgs.minicom # to test GPS
     pkgs.dtc # device tree compiler
     pkgs.libraspberrypi # to get dtparam/dtoverlay commands

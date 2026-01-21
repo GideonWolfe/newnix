@@ -20,6 +20,8 @@
     ############
     # Packages #
     ############
+    # Desktop utilities
+    ../../packages/utilities/desktop.nix
     # Audio utilities
     ../../packages/audio/utils.nix
     # Video utilities

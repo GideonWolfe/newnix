@@ -12,11 +12,13 @@ mount ${DEST}firmware || true
 cp -v @fw@/{bootcode.bin,fixup.dat,start.elf,fixup4.dat,start4.elf,fixup4cd.dat,fixup_cd.dat,start4cd.elf,start_cd.elf} ${DEST}firmware
 
 # Copy overlays from kernel dtbs (uConsole-specific overlays)
-cp -v ${1}/dtbs/overlays/*.dtbo ${DEST}firmware/overlays
+# Use --no-preserve=mode to allow overwriting during SD image build
+cp -v --no-preserve=mode ${1}/dtbs/overlays/*.dtbo ${DEST}firmware/overlays/
 
 # Copy standard Raspberry Pi firmware overlays (spi1-1cs, i2c-rtc, etc.)
 # These are needed for hardware like RTC, LoRa SPI, etc.
-cp -v @fw@/overlays/*.dtbo ${DEST}firmware/overlays
+# Use --no-preserve=mode to allow overwriting during SD image build
+cp -v --no-preserve=mode @fw@/overlays/*.dtbo ${DEST}firmware/overlays/
 
 cp -v ${1}/dtbs/broadcom/{bcm2710*dtb,bcm2711*dtb,bcm2712*dtb} ${DEST}firmware
 
