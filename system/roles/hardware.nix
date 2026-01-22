@@ -14,6 +14,7 @@
     ../modules/hardware/power.nix # Power management for laptops
     ../modules/hardware/printing.nix # CUPS and printer support
     ../modules/hardware/ratbagd.nix # Configure gaming mice
+    ../modules/hardware/antimicrox.nix # Configure gamepads
     ../modules/hardware/rtl-sdr.nix # RTL-SDR support
     #../modules/hardware/smartd.nix # HDD/SSD S.M.A.R.T monitoring
     #../modules/hardware/scrutiny.nix # Disk health monitoring

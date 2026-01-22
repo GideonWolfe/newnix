@@ -33,6 +33,9 @@
     #../../users/gideon/personal.nix
     # Or any other arbitrary HM config we are testing
     ./uconsole-ui.nix
+
+    # SDR++
+    ../../home/apps/sdrpp/sdrpp.nix
   ];
 
   # Give the machine a unique hostname
