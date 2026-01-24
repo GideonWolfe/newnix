@@ -16,8 +16,7 @@
     ../modules/hardware/ratbagd.nix # Configure gaming mice
     ../modules/hardware/antimicrox.nix # Configure gamepads
     ../modules/hardware/rtl-sdr.nix # RTL-SDR support
-    #../modules/hardware/smartd.nix # HDD/SSD S.M.A.R.T monitoring
-    #../modules/hardware/scrutiny.nix # Disk health monitoring
+    ../modules/hardware/flipperzero.nix # Flipper Zero support
     ../modules/hardware/yubikey.nix # Yubikey and smartcard support
     ../modules/hardware/udisks2.nix # Disk automounting
     #../modules/hardware/binfmt.nix # Enable cross-compilation

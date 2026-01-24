@@ -52,10 +52,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dsd-fme = { url = "github:lwvmobile/dsd-fme"; };
+
+    #niri = { url = "github:YaLTeR/niri"; };
+    niri = { url = "github:sodiboo/niri-flake"; };
+
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, ...  }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

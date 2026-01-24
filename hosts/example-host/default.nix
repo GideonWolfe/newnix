@@ -13,6 +13,7 @@
     #../../system/profiles/minimal.nix
     
     # Or any other arbitrary module we are testing
+    ../../system/modules/ui/niri.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -22,6 +23,7 @@
     # Gideon's personal accounts
     #../../users/gideon/personal.nix
     # Or any other arbitrary HM config we are testing
+    ../../home/sessions/niri/niri.nix
   ];
 
   # Give the machine a unique hostname

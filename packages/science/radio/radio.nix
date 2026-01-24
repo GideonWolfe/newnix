@@ -24,7 +24,7 @@ in {
     pkgs.welle-io # DAB/DAB+ decoding (internet radio)
     adsb_deku
     pkgs.unixcw # play a text file as morse code
-    #inputs.dsd-fme.packages.${pkgs.system}.default
+    inputs.dsd-fme.packages.${pkgs.system}.default
     pkgs.fldigi
     pkgs.js8call
     pkgs.freedv # digital voice for HF radio
