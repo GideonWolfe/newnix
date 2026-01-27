@@ -57,10 +57,11 @@
     #niri = { url = "github:YaLTeR/niri"; };
     niri = { url = "github:sodiboo/niri-flake"; };
 
+    clawdbot = { url = "github:clawdbot/nix-clawdbot"; };
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, ...  }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, clawdbot, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

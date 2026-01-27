@@ -7,6 +7,7 @@
         #########
         ../roles/base.nix # sets up low level system config
         ../roles/desktop.nix # everything needed to give base desktop experience
+        ../roles/local-ai.nix # everything needed to give local AI experience
         ../roles/monitoring.nix # Monitor system logs and metrics through my server
 
         ############
@@ -58,9 +59,8 @@
         ../../packages/audio/audio.nix
         ../../packages/video/video.nix
 
-        # AI tools for interacting with and running local LLMs
+        # AI tools for interacting with LLMs
         ../../packages/ai/ai.nix
-        ../../packages/ai/ai-local.nix
 
         # Music stuff
         ../../packages/music/music.nix
