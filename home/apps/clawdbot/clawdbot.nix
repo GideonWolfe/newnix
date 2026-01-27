@@ -1,10 +1,15 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, osConfig ? {}, inputs, ... }:
 
 let
-  localaiEnabled = config.virtualisation.oci-containers.containers ? localai;
+  # Check if LocalAI container is defined in the system config
+  localaiEnabled = osConfig.virtualisation.oci-containers.containers ? localai or false;
   localaiBaseUrl = "http://localhost:6767/v1";
 in
 {
+  imports = [
+    inputs.clawdbot.homeManagerModules.default
+  ];
+
   programs.clawdbot = {
     enable = true;
 

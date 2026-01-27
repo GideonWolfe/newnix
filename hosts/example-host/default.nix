@@ -1,5 +1,5 @@
 { lib, ... }:
-
+  
 {
   imports = [
     # This host uses my default user configuration
@@ -13,7 +13,8 @@
     #../../system/profiles/minimal.nix
     
     # Or any other arbitrary module we are testing
-    ../../system/modules/services/radio/hamclock/hamclock.nix
+    #../../system/modules/services/radio/hamclock/hamclock.nix
+    ../../system/roles/local-ai.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -24,6 +25,7 @@
     #../../users/gideon/personal.nix
     # Or any other arbitrary HM config we are testing
     #../../home/sessions/niri/niri.nix
+    ../../home/apps/clawdbot/clawdbot.nix
   ];
 
   # Give the machine a unique hostname
@@ -39,7 +41,7 @@
     # Enable graphics for GUI testing
     graphics = true;
     # Disk size for the VM
-    diskSize = 16384; # 16GB for desktop apps
+    diskSize = 26384; # 16GB for desktop apps
   };
 
 }
