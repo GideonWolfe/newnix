@@ -3,7 +3,8 @@
 
 with config.lib.stylix.colors;
 let
-	rgba = r: g: b: a: ''(${r}, ${g}, ${b}, ${a})'';
+	# Convert RGBA components to strings explicitly to satisfy INI generation
+	rgba = r: g: b: a: "(${builtins.toString r}, ${builtins.toString g}, ${builtins.toString b}, ${builtins.toString a})";
 
 	background = rgba base00-rgb-r base00-rgb-g base00-rgb-b 255;
 	foreground = rgba base05-rgb-r base05-rgb-g base05-rgb-b 255;

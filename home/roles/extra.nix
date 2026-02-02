@@ -11,7 +11,6 @@
     ../apps/imv/imv.nix
     ../apps/zathura/zathura.nix
     ../apps/foliate/foliate.nix
-    ../apps/halloy/halloy.nix
     ../apps/gnuplot/gnuplot.nix
     ../apps/cava/cava.nix
     ../apps/cavalier/cavalier.nix

@@ -12,6 +12,10 @@
     ./configs/contacts/contacts.nix
     # Email accounts and sync settings
     ./configs/email/email.nix
+    # IRC servers and accounts for various clients
+    ./configs/irc/halloy.nix
+    # RSS feeds and servers
+    ./configs/rss/newsboat.nix
     # Creates default gideon thunderbird profile
     ./configs/email/thunderbird.nix
   ];

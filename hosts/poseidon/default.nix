@@ -2,16 +2,17 @@
   
 {
   imports = [
+    
     # Host-specific hardware setup (disk layout, initrd modules, etc.)
     ./hardware-configuration.nix
+    # Boot loader configuration for EFI systems
+    ../../system/modules/system/systemd-boot.nix
 
     # This host uses my default user configuration
     ../../users/gideon/default.nix
 
     # Apply a system profile that matches this host
     ../../system/profiles/minimal-desktop.nix
-    # Boot loader configuration for EFI systems
-    ../../system/modules/system/systemd-boot.nix
     
     # Augment with roles as needed
     ../../system/roles/hardware.nix
@@ -28,8 +29,11 @@
     # The desktop with desktop environment and apps
     ../../home/roles/desktop.nix
     ../../home/roles/extra.nix
+    # Host-specific UI scaling settings
+    ./ui.nix
     # Gideon's personal accounts
     #../../users/gideon/personal.nix
+    ../../users/gideon/configs/git/git.nix
     # Or any other arbitrary HM config we are testing
     #../../home/sessions/niri/niri.nix
   ];
