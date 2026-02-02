@@ -1,9 +1,8 @@
 # This role can be cleanly imported into any configuration that I want to monitor with my main monitoring stack
-{ inputs, ... }:
+{ inputs, config, ... }:
 {
   # imports = [
   # ];
-
 
   # Enable prometheus and the prometheus node exporter on the system
   services.prometheus = {
@@ -14,18 +13,17 @@
         port = 9100;
         enabledCollectors = [
           "systemd"
-          "processes" 
+          "processes"
         ];
       };
     };
   };
 
-
   # Configure Alloy to send the data to my central monitoring server
   services.alloy.enable = true;
   # TODO possibly break these out into individual files?
   # make the alloy config file, there is no module support yet
-  environment.etc."alloy/config.alloy" = { 
+  environment.etc."alloy/config.alloy" = {
     text = ''
       // Prometheus remote write endpoint
       prometheus.remote_write "default" {
@@ -81,5 +79,5 @@
     '';
   };
 
-
 }
+
