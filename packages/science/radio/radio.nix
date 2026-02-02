@@ -38,5 +38,7 @@ in {
     pkgs.aldo # learn morse code
     pkgs.gpredict-unstable
     pkgs.contact # Meshtastic TUI
+    pkgs.nanovna-saver # GUI for NanoVNA devices
+    pkgs.nanovna-qt # GUI for NanoVNA devices
   ];
 }

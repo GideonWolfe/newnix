@@ -60,5 +60,6 @@
     ../apps/khard/khard.nix
     ../apps/khal/khal.nix
     ../apps/calcure/calcure.nix
+    ../apps/nanovna-saver/nanovna-saver.nix
   ];
 }

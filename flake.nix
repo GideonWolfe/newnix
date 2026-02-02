@@ -113,6 +113,17 @@
         profiles.system.path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.uconsole;
       };
       
+      ############
+      # Poseidon #
+      ############
+      # System definition
+      nixosConfigurations.poseidon = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/poseidon
+        ];
+      };
 
       ###################
       # Test Proxmox VM #
