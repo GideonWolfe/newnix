@@ -103,12 +103,10 @@
         ];
       };
       # Build targets
-      packages.x86_64-linux = {
-        # buld with nix build .#uconsole-image
-        # WARNING: will result in resource intensive cross-compilation
-        uconsole-image = self.nixosConfigurations.uconsole.config.system.build.sdImage;
-        uconsole-nixos = self.nixosConfigurations.uconsole.config.system.build.toplevel;
-      };
+      # buld with nix build .#uconsole-image
+      # WARNING: will result in resource intensive cross-compilation
+      packages.x86_64-linux.uconsole-image = self.nixosConfigurations.uconsole.config.system.build.sdImage;
+      packages.x86_64-linux.uconsole-nixos = self.nixosConfigurations.uconsole.config.system.build.toplevel;
       # Remotely deploy changes (so we don't have to bake images each time)
       deploy.nodes.uconsole = {
         hostname = "192.168.0.29";
@@ -126,6 +124,10 @@
           ./hosts/poseidon
         ];
       };
+
+      # Build target and convenience alias: nix build .#poseidon
+      packages.x86_64-linux.poseidon = self.nixosConfigurations.poseidon.config.system.build.toplevel;
+      poseidon = self.packages.x86_64-linux.poseidon;
 
       ###################
       # Test Proxmox VM #

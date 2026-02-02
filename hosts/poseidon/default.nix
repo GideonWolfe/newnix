@@ -2,11 +2,16 @@
   
 {
   imports = [
+    # Host-specific hardware setup (disk layout, initrd modules, etc.)
+    ./hardware-configuration.nix
+
     # This host uses my default user configuration
     ../../users/gideon/default.nix
 
     # Apply a system profile that matches this host
     ../../system/profiles/minimal-desktop.nix
+    # Boot loader configuration for EFI systems
+    ../../system/modules/system/systemd-boot.nix
     
     # Augment with roles as needed
     ../../system/roles/hardware.nix
