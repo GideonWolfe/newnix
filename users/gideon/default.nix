@@ -41,6 +41,9 @@
     imports = [
       # Import my core HM configs (shell stuff mostly) on every system
       ../../home/roles/core.nix
+      # Import Git and SSH settings, no secrets here but needed alot
+      ./configs/ssh/ssh.nix
+      ./configs/git/git.nix
     ];
   };
 }
