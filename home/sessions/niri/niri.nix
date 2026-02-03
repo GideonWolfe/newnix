@@ -1,6 +1,6 @@
 { pkgs, lib, inputs, config, ... }:
 let
-  niriPkg = inputs.niri.packages.${pkgs.system}.niri-unstable;
+  niriPkg = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
 in {
   imports = [ inputs.niri.homeModules.niri ];
 

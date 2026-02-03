@@ -11,11 +11,17 @@
   programs.ssh = {
 
     enable = true;
+    enableDefaultConfig = false;
 
     #addKeysToAgent = "yes";
     # Should prevent being prompted for yubikey every 5 seconds with nixos-anywhere
 
     matchBlocks = {
+
+      "*" = {
+        forwardAgent = false;
+        forwardX11 = false;
+      };
 
       # GitHub SSH Auth
       github = {

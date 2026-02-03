@@ -5,7 +5,7 @@ with config.lib.stylix.colors;
 {
 
   programs.spicetify =
-    let spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+    let spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
     in {
       enable = true;
       # https://github.com/Gerg-L/spicetify-nix/blob/master/docs/EXTENSIONS.md

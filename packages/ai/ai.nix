@@ -9,7 +9,7 @@
     pkgs.tenere # llm TUI
     pkgs.llm # LLM CLI
     pkgs.tgpt # LLM CLI
-    inputs.nix-ai-tools.packages.${pkgs.system}.crush
+    inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.crush
     pkgs.aichat # LLM TUI
     pkgs.shell-gpt # CLI for ChatGPT
     pkgs.newelle

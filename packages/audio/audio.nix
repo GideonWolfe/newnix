@@ -76,7 +76,7 @@
     pkgs.projectm-sdl-cpp # more visualizers
     pkgs.cavalier # cava based visualizers
     pkgs.scope-tui # TUI oscilloscope/vectorscope.spectroscope also a music visualizer
-    inputs.xyosc.packages.${pkgs.system}.default # another visualizer
+    inputs.xyosc.packages.${pkgs.stdenv.hostPlatform.system}.default # another visualizer
 
   ];
 }
