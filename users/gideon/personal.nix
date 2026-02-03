@@ -1,9 +1,13 @@
-{ pkgs, inputs, ... }:
+{ ... }:
 # This module can be enabled on a per-system basis
 # It extends my basic user to my "personal" user, adding personal accounts
 # Secrets role MUST be enabled on system
 {
-  imports = [
+  # System-level import: secrets (e.g., sops/agenix) live at the system layer.
+  imports = [ ./configs/secrets/gideon_secrets.nix ];
+
+  # Home-Manager imports for the user session.
+  home-manager.users.gideon.imports = [
     # Calendar accounts and sync settings
     ./configs/calendar/calendar.nix
     # Make calcure see them

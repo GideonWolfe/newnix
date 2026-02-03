@@ -10,6 +10,8 @@
 
     # This host uses my default user configuration
     ../../users/gideon/default.nix
+    # This host uses my personal secrets and accounts
+    ../../users/gideon/personal.nix
 
     # Apply a system profile that matches this host
     ../../system/profiles/minimal-desktop.nix

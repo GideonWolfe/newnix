@@ -7,9 +7,11 @@ in {
     inputs.niri.homeModules.niri 
     inputs.niri.homeModules.stylix 
     # Niri specific configs for waybar
-    ./niri-waybar.nix 
+    #./niri-waybar.nix 
     # Mako since Niri doesn't ship a notification service
     ../global/ui/mako/mako.nix
+    # Dank Material Shell
+    ../global/ui/dms/dms.nix
   ];
 
   # Keep upstream overlay so pkgs.niri-unstable exists
