@@ -33,9 +33,8 @@
     ./ui.nix
     # Gideon's personal accounts
     #../../users/gideon/personal.nix
-    ../../users/gideon/configs/git/git.nix
     # Or any other arbitrary HM config we are testing
-    #../../home/sessions/niri/niri.nix
+    ../../home/sessions/niri/niri.nix
   ];
 
   # Give the machine a unique hostname

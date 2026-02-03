@@ -18,11 +18,6 @@
     # userEmail = "wolfegideon@gmail.com";
 
     settings = {
-      # added thru gideon HM files
-      # user = {
-      #   name = "Gideon Wolfe";
-      #   email = "wolfegideon@gmail.com";
-      # };
       alias = {
         lg =
           "log --graph --abbrev-commit --decorate --format=format:'%C(bold cyan)%h%C(reset) ->%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(green)(%ar)%C(reset) %C(dim white)- %an%C(reset)'";
@@ -48,4 +43,7 @@
 
     };
   };
+
+  # we always want lazygit ;)
+  home.packages = [ pkgs.lazygit ];
 }

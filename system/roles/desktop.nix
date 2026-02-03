@@ -14,6 +14,7 @@
     ../modules/ui/greeter.nix
     # Hyprland for our main window manager
     ../modules/ui/hyprland.nix
+    ../modules/ui/niri.nix
     # Other desktop glue
     ../modules/ui/xdg-portals.nix
 

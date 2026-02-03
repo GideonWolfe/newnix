@@ -60,10 +60,15 @@
 
     #niri = { url = "github:YaLTeR/niri"; };
     niri = { url = "github:sodiboo/niri-flake"; };
+    # Dank Material Shell
+    dms = { 
+      url = "github:AvengeMedia/DankMaterialShell/stable"; 
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, ...  }@inputs:
+  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

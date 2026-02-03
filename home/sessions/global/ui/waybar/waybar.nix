@@ -38,14 +38,8 @@ with config.lib.stylix.colors.withHashtag;
         #];
         modules-left = [
           "group/systemMenu"
-          "sway/workspaces"
-          "hyprland/workspaces"
-          # "sway/mode"
-          #"hyprland/window"
-          "hyprland/submap"
         ];
         modules-center = [
-          #"sway/window"
           "clock"
         ];
         modules-right = [
@@ -81,7 +75,7 @@ with config.lib.stylix.colors.withHashtag;
           format = "<span color='${base08}'>  </span>";
           on-click =
             "$HOME/nix/configs/modules/scripts/user/desktop/power/poweroff.sh";
-          #tooltip = true;
+          #tooltip = true;;
           tooltip-format = "<span color='${base08}'>Power Off </span>";
         };
         "custom/reboot" = {
