@@ -17,5 +17,8 @@ in {
   # Start waybar with Niri, keeping the core module WM-agnostic
   programs.niri.settings.spawn-at-startup = lib.mkAfter [
     { command = [ waybarCmd ]; }
+    # Other shells might handle notifications, so we don't want to start within niri globally
+    # But if we're using waybar, we do need mako for notifications
+    { command = [ "${pkgs.mako}/bin/mako" ]; }
   ];
 }

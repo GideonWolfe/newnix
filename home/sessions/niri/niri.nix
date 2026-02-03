@@ -30,8 +30,6 @@ in {
 
       # Startup commands (runs after session start)
       spawn-at-startup = [
-        # Spawn notification daemon
-        { command = [ "${pkgs.mako}/bin/mako" ]; }
         # Set wallpaper
         { command = [ "${lib.getExe pkgs.swww}" "img" "${osConfig.stylix.image}" ]; }
       ];
@@ -45,7 +43,7 @@ in {
         keyboard.xkb.layout = "us";
         # Make the mouse follow our focused window
         warp-mouse-to-focus = {
-          enable = true;
+          enable = false; # interfering with scrolling on Workspaces
           mode = "center-xy";
         };
         # Mouse movement settings

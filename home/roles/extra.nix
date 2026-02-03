@@ -51,7 +51,7 @@
     ../apps/aichat/aichat.nix
     ../apps/mods/mods.nix
     ../apps/f3d/f3d.nix
-    ../apps/flameshot/flameshot.nix
+    #../apps/flameshot/flameshot.nix # doesn't work on wayland, deprecating
     ../apps/fzf/fzf.nix
     ../apps/glava/rc.nix
     ../apps/glava/shaders.nix
