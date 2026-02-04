@@ -11,7 +11,13 @@ with config.lib.stylix.colors.withHashtag;
 		# Let our custom spicetify theme handle this
 		spicetify.enable = false;
 		# Tell Stylix to use our default profile
-		firefox = { profileNames = [ "default" ]; };
+		firefox = { 
+			profileNames = [ "default" ]; 
+			colorTheme.enable = true;
+			colors = {
+				enable = true;
+			};
+		};
 		# Enable QT theming since it's disabled by default
 		qt.enable = true;
 	};

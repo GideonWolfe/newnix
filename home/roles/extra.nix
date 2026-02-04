@@ -18,7 +18,8 @@
     ../apps/spicetify/spicetify.nix
     ../apps/fastfetch/fastfetch.nix
     ../apps/vscode/vscode.nix
-    ../apps/blender/blender-theme.nix
+    # Deprecating as stylix now has blender theme
+    #../apps/blender/blender-theme.nix
     ../apps/obsidian/obsidian-stylix-css.nix
     ../apps/element/element.nix
     ../apps/ghidra/ghidra.nix

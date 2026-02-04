@@ -3,10 +3,10 @@
 with config.lib.stylix.colors.withHashtag;
 
 {
-  imports = [
-    ./userChrome.nix
-    ./userContent.nix
-  ];
+  # imports = [
+  #   ./userChrome.nix
+  #   ./userContent.nix
+  # ];
   programs.firefox = {
     enable = true;
 
@@ -289,6 +289,11 @@ with config.lib.stylix.colors.withHashtag;
         #	duckDuckGo = {};
         #};
         #};
+
+        extensions = {
+          # Required when defining extension settings to avoid accidental overrides
+          force = true;
+        };
 
         # Have to configure NUR, not sure if I want to do that
         #extensions = [

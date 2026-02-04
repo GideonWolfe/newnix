@@ -39,10 +39,10 @@
     };
 
     # Configure neovim with Nix!
-    # nixvim = {
-    #   url = "github:nix-community/nixvim/nixos-25.11";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Secret Management
     sops-nix = {
@@ -84,7 +84,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, xyosc, nix-ai-tools, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, deploy-rs, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, xyosc, nix-ai-tools, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

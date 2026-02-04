@@ -7,40 +7,16 @@ with config.lib.stylix.colors.withHashtag;
         :root {
             --in-content-page-background: ${base00} !important;
             --in-content-page-color: ${base05} !important;
-
             --in-content-text-color: var(--in-content-page-color);
             --in-content-box-background-odd: ${base01};
             --in-content-box-info-background: ${base00};
-            --in-content-border-color: ${base0D};
-            --in-content-border-invalid: ${base08};
-            --in-content-primary-button-text-color: ${base05};
-            --in-content-primary-button-background: ${base0D};
-            --in-content-primary-button-background-hover: ${base0B};
-            --in-content-primary-button-background-active: ${base0C};
-            --in-content-danger-button-background: ${base08};
-            --in-content-danger-button-background-hover: ${base13};
-            --in-content-danger-button-background-active: ${base12};
-            --in-content-table-background: ${base01};
-            --card-outline-color: ${base0B} !important;
-            --dialog-warning-text-color: ${base08};
-
             --in-content-box-border-color: ${base0F};
-            --in-content-box-info-background: ${base00};
+            --in-content-border-color: ${base0F};
+            --in-content-border-invalid: ${base08};
             --in-content-item-hover: color-mix(in srgb, var(--in-content-primary-button-background) 20%, transparent);
             --in-content-item-hover-text: var(--in-content-page-color);
             --in-content-item-selected: var(--in-content-primary-button-background);
             --in-content-item-selected-text: var(--in-content-primary-button-text-color);
-            --in-content-border-invalid: ${base08};
-            --in-content-border-color: ${base0F};
-            --in-content-button-text-color: var(--in-content-text-color);
-            --in-content-button-text-color-hover: var(--in-content-text-color);
-            --in-content-button-text-color-active: var(--in-content-button-text-color-hover);
-            --in-content-button-background: ${base01};
-            --in-content-button-background-hover: ${base00};
-            --in-content-button-background-active: color-mix(in srgb, currentColor 21%, transparent);
-            --in-content-button-border-color: transparent;
-            --in-content-button-border-color-hover: transparent;
-            --in-content-button-border-color-active: var(--in-content-button-border-color-hover);
             --in-content-primary-button-text-color: ${base00};
             --in-content-primary-button-text-color-hover: var(--in-content-primary-button-text-color);
             --in-content-primary-button-text-color-active: var(--in-content-primary-button-text-color);
@@ -53,15 +29,24 @@ with config.lib.stylix.colors.withHashtag;
             --in-content-danger-button-background: ${base08};
             --in-content-danger-button-background-hover: ${base12};
             --in-content-danger-button-background-active: ${base09};
-            --focus-outline-color: ${base09};
-            --in-content-focus-outline-color: var(--focus-outline-color);
+            --in-content-button-text-color: var(--in-content-text-color);
+            --in-content-button-text-color-hover: var(--in-content-text-color);
+            --in-content-button-text-color-active: var(--in-content-button-text-color-hover);
+            --in-content-button-background: ${base01};
+            --in-content-button-background-hover: ${base00};
+            --in-content-button-background-active: color-mix(in srgb, currentColor 21%, transparent);
+            --in-content-button-border-color: transparent;
+            --in-content-button-border-color-hover: transparent;
+            --in-content-button-border-color-active: var(--in-content-button-border-color-hover);
             --in-content-table-background: ${base00};
             --in-content-table-border-color: var(--in-content-box-border-color);
             --in-content-table-header-background: var(--in-content-primary-button-background);
             --in-content-table-header-color: var(--in-content-primary-button-text-color);
-
+            --card-outline-color: ${base0B} !important;
+            --dialog-warning-text-color: ${base08};
+            --focus-outline-color: ${base09};
+            --in-content-focus-outline-color: var(--focus-outline-color);
             --background-color-box: ${base00} !important;
-
         }
 
         /* get rid of blinding white loading screen for tabs */
@@ -82,6 +67,7 @@ with config.lib.stylix.colors.withHashtag;
             /* Non-private window background color */
             #appcontent, #appcontent tabpanels, browser[type="content-primary"], browser[type="content"] > html, browser[type="content"] > html > body {
                 background-color: ${base00} !important;
+            }
         }
 
 
@@ -91,7 +77,7 @@ with config.lib.stylix.colors.withHashtag;
             background-color: ${base00} !important;
             -moz-appearance: none !important;
             border: 1px solid ${base0D};
-            border-radius: 2;
+            border-radius: 2px;
         }	
 
         /*--------------- TOOLBAR ----------------*/
@@ -291,40 +277,24 @@ with config.lib.stylix.colors.withHashtag;
 
         /* Speaker icon on tab playing media  */
         /* TODO not sure what activemedia-blocked does, may want to style differently  */
-        .tab-icon-overlay {
-            &:not([crashed]) {
-            &:is([soundplaying], [activemedia-blocked]) {
-                background-color: ${base0B} !important;
-                fill: ${base00} !important;
-            }
-            }
+        .tab-icon-overlay:not([crashed]):is([soundplaying],[activemedia-blocked]) {
+            background-color: ${base0B} !important;
+            fill: ${base00} !important;
         }
         /* Speaker icon on tab playing media hovering */
-        .tab-icon-overlay {
-            &:not([crashed]) {
-            &:is([soundplaying], [activemedia-blocked]):hover {
-                background-color: ${base09} !important;
-                fill: ${base00} !important;
-            }
-            }
+        .tab-icon-overlay:not([crashed]):is([soundplaying],[activemedia-blocked]):hover {
+            background-color: ${base09} !important;
+            fill: ${base00} !important;
         }
         /* Speaker icon on tab muted media  */
-        .tab-icon-overlay {
-            &:not([crashed]) {
-            &:is([muted], [activemedia-blocked]) {
-                background-color: ${base08} !important;
-                fill: ${base00} !important;
-            }
-            }
+        .tab-icon-overlay:not([crashed]):is([muted],[activemedia-blocked]) {
+            background-color: ${base08} !important;
+            fill: ${base00} !important;
         }
         /* Speaker icon on tab muted media hovering */
-        .tab-icon-overlay {
-            &:not([crashed]) {
-            &:is([muted], [activemedia-blocked]):hover {
-                background-color: ${base0D} !important;
-                fill: ${base00} !important;
-            }
-            }
+        .tab-icon-overlay:not([crashed]):is([muted],[activemedia-blocked]):hover {
+            background-color: ${base0D} !important;
+            fill: ${base00} !important;
         }
 
         /*-----------------------------------------*/

@@ -58,6 +58,7 @@
     evtest # event tester like wev but picks up things wev doesn't?
     ydotool # (wayland xdotool)
     wl-clipboard # wayland xclip
+    wl-mirror # mirror wayland outptuts
     wdisplays
     wayland-utils
     slurp # select region in wayland compositor (like slop for X)

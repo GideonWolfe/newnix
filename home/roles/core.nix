@@ -5,8 +5,9 @@
   imports =
     # Only inmport nixvim module and config if the input is available
     lib.optionals (inputs ? nixvim) [
-      inputs.nixvim.homeManagerModules.nixvim
-      ../apps/nixvim/nixvim.nix
+      inputs.nixvim.homeModules.nixvim
+      # we might want to import a lighter config on a per host basis
+      #../apps/nixvim/nixvim.nix
     ]
     ++ [
       # Shells and terminal helpers

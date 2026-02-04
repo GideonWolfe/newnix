@@ -38,6 +38,8 @@ with config.lib.stylix.colors.withHashtag;
             emojiLauncher.enable = true; 
             nixMonitor.enable = true;
             powerUsagePlugin.enable = true;
+            # Niri specific UI to mirror displays
+            displayMirror.enable = true; 
             # Niri specific UI to change display res, brightness, etc
             displayManager.enable = true; 
             # Niri specific UI to change windows
@@ -335,7 +337,7 @@ with config.lib.stylix.colors.withHashtag;
             dockAutoHide = false;
             dockGroupByApp = true;
             dockOpenOnOverview = true;
-            dockPosition = 0;
+            dockPosition = 1;
             dockSpacing = 3;
             dockBottomGap = 0;
             dockMargin = 0;
@@ -430,8 +432,8 @@ with config.lib.stylix.colors.withHashtag;
                     id = "default";
                     name = "Main Bar";
                     enabled = true;
-                    # 1 = bottom, 2, left
-                    position = 1;
+                    # 0 = top, 1 = bottom, 2, left
+                    position = 0;
                     screenPreferences = [
                         "all"
                     ];
