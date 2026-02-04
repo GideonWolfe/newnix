@@ -56,9 +56,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # cool visualizer
+    xyosc = { url = "github:make-42/xyosc"; };
+
     dsd-fme = { url = "github:lwvmobile/dsd-fme"; };
 
-    #niri = { url = "github:YaLTeR/niri"; };
+    # provides some AI tools like crush (maybe redundant later)
+    nix-ai-tools.url = "github:numtide/nix-ai-tools";
+
     niri = { url = "github:sodiboo/niri-flake"; };
 
     # Dank Material Shell
@@ -79,7 +84,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, xyosc, nix-ai-tools, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

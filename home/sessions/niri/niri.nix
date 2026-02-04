@@ -313,21 +313,25 @@ in {
       # };
 
       # Window rules: match windows and tweak behavior/colors/floating.
-      # window-rules = [
-      #   {
-      #     matches = [ { app-id = "^firefox$"; } ];
-      #     block-out-from = "screencast";
-      #   }
-      #   {
-      #     matches = [ { title = "^Picture in Picture$"; } ];
-      #     open-floating = true;
-      #     default-floating-position = { relative-to = "top-right"; x = -32; y = 32; };
-      #   }
-      #   {
-      #     matches = [ { app-id = "^signal$"; } ];
-      #     border.active.color = "#89b4fa";
-      #   }
-      # ];
+      window-rules = [
+        # Special rule for Kando menus
+        {
+          matches = [ { title = "Kando Menu"; } ];
+          open-floating = true;
+          focus-ring.enable = true;
+          border.enable = false;
+          shadow.enable = false;
+        }
+        # {
+        #   matches = [ { title = "^Picture in Picture$"; } ];
+        #   open-floating = true;
+        #   default-floating-position = { relative-to = "top-right"; x = -32; y = 32; };
+        # }
+        # {
+        #   matches = [ { app-id = "^signal$"; } ];
+        #   border.active.color = "#89b4fa";
+        # }
+      ];
     };
   };
 }

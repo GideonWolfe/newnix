@@ -10,6 +10,7 @@ in
     ##########
     pkgs.signal-desktop
     pkgs.gurk-rs # signal TUI
-    pkgs.flare-signal # GNOME Signal GUI
+    # TODO this is taking forever to compile?
+    #pkgs.flare-signal # GNOME Signal GUI
   ];
 }

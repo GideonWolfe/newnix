@@ -6,10 +6,10 @@
 
   # Enable prometheus and the prometheus node exporter on the system
   services.prometheus = {
-    enable = config.custom.features.monitoring.enable;
+    enable = true;
     exporters = {
       node = {
-        enable = config.custom.features.monitoring.enable;
+        enable = true;
         port = 9100;
         enabledCollectors = [
           "systemd"

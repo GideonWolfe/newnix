@@ -9,6 +9,7 @@ in
     # Discord #
     ###########
     pkgs.vesktop
-    pkgs.dissent # GTK Discord client
+    # takes forever to build
+    #pkgs.dissent # GTK Discord client
   ];
 }

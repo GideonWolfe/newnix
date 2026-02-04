@@ -22,7 +22,8 @@
     # Players #
     ###########
     jftui # Jellyfin TUI
-    jellyfin-media-player # official desktop client
+    # Possibly using insecure QT library
+    #jellyfin-media-player # official desktop client
     delfin # GTK Jellyfin client
 
     ###############

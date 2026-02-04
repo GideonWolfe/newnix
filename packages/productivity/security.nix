@@ -11,6 +11,7 @@
     pkgs.keepassxc
     pkgs.seahorse
     pkgs.bitwarden-desktop # connects to vaultwarden
+    pkgs.rbw # CLI for bitwarden (used by dank material shell bitwarden plugin)
     pkgs.authenticator # GNOME 2FA client
     
 

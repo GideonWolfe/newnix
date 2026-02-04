@@ -13,7 +13,8 @@
     coltrane # Music calculation GUI/TUI
     transcribe # music player optimized for transcribing music
     glicol-cli # TUI for glicol (coding music)
-    frescobaldi # Lillypond GUI for writing scores
+    # BUG: has CVE preventing build
+    #frescobaldi # Lillypond GUI for writing scores
     kdePackages.minuet # Learn music theory
     solfege # Learn music theory
 

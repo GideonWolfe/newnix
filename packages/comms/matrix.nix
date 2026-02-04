@@ -9,7 +9,8 @@ in
     # Matrix #
     ##########
     pkgs.element-desktop # "official" Matrix GUI
-    pkgs.fractal # GNOME Matrix GUI
+    # TODO this is taking forever to compile?
+    #pkgs.fractal # GNOME Matrix GUI
     #gomuks # Matrix TUI #BUG: has a CSV
   ];
 }

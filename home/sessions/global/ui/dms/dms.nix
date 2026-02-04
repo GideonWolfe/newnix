@@ -336,7 +336,7 @@ with config.lib.stylix.colors.withHashtag;
             dockGroupByApp = true;
             dockOpenOnOverview = true;
             dockPosition = 0;
-            dockSpacing = 4;
+            dockSpacing = 3;
             dockBottomGap = 0;
             dockMargin = 0;
             dockIconSize = 40;
@@ -482,14 +482,14 @@ with config.lib.stylix.colors.withHashtag;
                         # don't really need now? maybe for udiskie
                         #"systemTray"
                     ];
-                    spacing = 4;
+                    spacing = 0;
                     innerPadding = 4;
                     bottomGap = 0;
                     transparency = 1;
                     widgetTransparency = 1;
-                    squareCorners = false;
+                    squareCorners = true;
                     noBackground = false;
-                    gothCornersEnabled = true;
+                    gothCornersEnabled = false;
                     gothCornerRadiusOverride = false;
                     gothCornerRadiusValue = 12;
                     borderEnabled = true;
