@@ -17,6 +17,7 @@ in {
   # Keep upstream overlay so pkgs.niri-unstable exists
   nixpkgs.overlays = [ inputs.niri.overlays.niri ];
 
+  # https://github.com/sodiboo/niri-flake/blob/main/docs.md
   programs.niri = {
     enable = true;
     package = lib.mkDefault niriPkg;
@@ -67,6 +68,16 @@ in {
         # workspace-auto-back-and-forth = true;
       };
 
+      # TODO not implemented in flake options
+      # recent-windows = {
+      #   highlight = {
+      #       active-color = "${green}ff";
+      #       urgent-color = "${red}ff";
+      #       padding = 30;
+      #       corner-radius = 3;
+      #   };
+      # };
+
       # Desktop layout
       layout = {
         gaps = 16;
@@ -91,10 +102,11 @@ in {
         focus-ring = {
           active = {
             gradient = { 
-              from = "${base0A}";
-              to = "${base0E}"; 
-              angle=45;
+              from = "${blue}";
+              to = "${orange}"; 
+              angle=90;
               relative-to="workspace-view";
+              "in"="oklch longer hue";
             };
           };
         };
