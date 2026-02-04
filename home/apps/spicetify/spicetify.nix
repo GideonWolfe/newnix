@@ -16,7 +16,8 @@ with config.lib.stylix.colors;
         songStats
       ];
       enabledCustomApps = [
-        spicePkgs.apps.ncsVisualizer #BUG: this just loads forever
+        spicePkgs.apps.ncsVisualizer 
+        spicePkgs.apps.historyInSidebar
       ];
       #theme = spicePkgs.themes.catppuccin;
       #colorScheme = "mocha";

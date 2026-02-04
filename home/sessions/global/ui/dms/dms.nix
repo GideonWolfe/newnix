@@ -17,7 +17,7 @@ with config.lib.stylix.colors.withHashtag;
         systemd.restartIfChanged = true;
         # Pulling in dgop from unstable until its in stable
         dgop.package = inputs.dgop.packages.${pkgs.system}.default;
-        enableSystemMonitoring = true; # avoid dgop dependency not in pkgs
+        enableSystemMonitoring = true;
         #enableDynamicTheming = true;
         enableAudioWavelength = true;
         #enableCalendarEvents = true; # TODO: make dependent on khal/calendars being configured
@@ -156,7 +156,7 @@ with config.lib.stylix.colors.withHashtag;
                 {
                     id = "colorPicker";
                     enabled = true;
-                    width = 50;
+                    width = 25;
                 }
                 {
                     id = "nightMode";
@@ -443,14 +443,25 @@ with config.lib.stylix.colors.withHashtag;
                     ];
                     centerWidgets = [
                         "music"
+                        {
+                            id = "separator";
+                            enabled = true;
+                        }
                         "clock"
+                        {
+                            id = "separator";
+                            enabled = true;
+                        }
                         "weather"
                     ];
                     rightWidgets = [
+                        "notificationButton"
+                        "idleInhibitor"
                         "clipboard"
+                        "colorPicker"
                         #"cpuUsage"
                         #"memUsage"
-                        "notificationButton"
+                        "separator"
                         "battery"
                         "controlCenterButton"
                         # TODO kinda buggy lol
@@ -458,20 +469,18 @@ with config.lib.stylix.colors.withHashtag;
                         #     id = "nixMonitor";
                         #     enabled = true;
                         # }
-                        {
-                            id = "colorPicker";
-                            enabled = true;
-                        }
-                        {
-                            id = "idleInhibitor";
-                            enabled = true;
-                        }
+                        # {
+                        #     id = "colorPicker";
+                        #     enabled = true;
+                        # }
                         # TODO extract to niri specific dms module later
-                        {
-                            id = "displayManager";
-                            enabled = true;
-                        }
-                        "systemTray"
+                        # {
+                        #     id = "displayManager";
+                        #     enabled = true;
+                        # }
+                        "displayManager"
+                        # don't really need now? maybe for udiskie
+                        #"systemTray"
                     ];
                     spacing = 4;
                     innerPadding = 4;
@@ -494,7 +503,7 @@ with config.lib.stylix.colors.withHashtag;
                     visible = true;
                     popupGapsAuto = true;
                     popupGapsManual = 4;
-                    widgetOutlineEnabled= true;
+                    widgetOutlineEnabled= false;
                     widgetOutlineOpacity= 0.50;
                     widgetOutlineColor= "primary";
                 }
@@ -623,9 +632,10 @@ with config.lib.stylix.colors.withHashtag;
             # Alternate surface for subtle differentiation
             surfaceVariant = base00;
             # Container surface, slightly different from surface
-            surfaceContainer = base00;
+            surfaceContainer = base01;
             # Elevated container for layered interfaces
-            surfaceContainerHigh = base01;
+            # used by: basically all cards/panels in menus
+            surfaceContainerHigh = base00;
             # Highest elevation container for top-level 
             surfaceContainerHighest = base02;
             # Primary text color on surface backgrounds

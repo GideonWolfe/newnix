@@ -14,16 +14,14 @@
     ../../users/gideon/personal.nix
 
     # Apply a system profile that matches this host
-    ../../system/profiles/minimal-desktop.nix
+    # This will enable the necessary roles and packages
+    ../../system/profiles/light-workstation.nix
     
-    # Augment with roles as needed
+    # Augment with extra roles as needed
     ../../system/roles/hardware.nix
     
     # Or any other arbitrary module we are testing
     #../../system/modules/services/radio/hamclock/hamclock.nix
-
-    # Radio packages
-    ../../packages/science/radio/radio.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -33,8 +31,6 @@
     ../../home/roles/extra.nix
     # Host-specific UI scaling settings
     ./ui.nix
-    # Gideon's personal accounts
-    #../../users/gideon/personal.nix
     # Or any other arbitrary HM config we are testing
     ../../home/sessions/niri/niri.nix
   ];
