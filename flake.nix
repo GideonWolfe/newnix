@@ -7,7 +7,7 @@
     nixpkgs = { url = "github:NixOS/nixpkgs/nixos-25.11"; };
 
     # Unstable packages
-    #nixpkgs-unstable = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
+    nixpkgs-unstable = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
 
     # User configuration manager
     home-manager = {
@@ -70,10 +70,16 @@
       url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # System monitoring functionality for DMS
+    # TODO: this will be in 26.05, so this can be removed as flake input
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
   };
 
-  outputs = { self, nixpkgs, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, deploy-rs, wallpapers, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

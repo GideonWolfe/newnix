@@ -19,6 +19,8 @@
     ../modules/hardware/flipperzero.nix # Flipper Zero support
     ../modules/hardware/yubikey.nix # Yubikey and smartcard support
     ../modules/hardware/udisks2.nix # Disk automounting
+    ../modules/networking/kdeconnect.nix # KDE Connect support
+    ../modules/networking/localsend.nix # LocalSend support
     #../modules/hardware/binfmt.nix # Enable cross-compilation
 
     ############

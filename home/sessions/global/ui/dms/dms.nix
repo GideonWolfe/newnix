@@ -5,6 +5,8 @@ with config.lib.stylix.colors.withHashtag;
     imports = [ 
         # Basic DMS home manager module
         inputs.dms.homeModules.dank-material-shell
+        # Niri integration module (not using rn?)
+        #inputs.dms.homeModules.niri
         # Make plugins available decleratively
         inputs.dms-plugin-registry.modules.default
      ];
@@ -13,7 +15,9 @@ with config.lib.stylix.colors.withHashtag;
         enable = true;
         systemd.enable = true;
         systemd.restartIfChanged = true;
-        enableSystemMonitoring = false; # avoid dgop dependency not in pkgs
+        # Pulling in dgop from unstable until its in stable
+        dgop.package = inputs.dgop.packages.${pkgs.system}.default;
+        enableSystemMonitoring = true; # avoid dgop dependency not in pkgs
         #enableDynamicTheming = true;
         enableAudioWavelength = true;
         #enableCalendarEvents = true; # TODO: make dependent on khal/calendars being configured
@@ -44,6 +48,7 @@ with config.lib.stylix.colors.withHashtag;
             dankLauncherKeys.enable = true;
             dankKDEConnect.enable = true;
             dankDesktopWeather.enable = true;
+            aiAssistant.enable = true;
         };
 
 
