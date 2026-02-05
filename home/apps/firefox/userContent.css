@@ -18,6 +18,7 @@
   --base0E: @base0E@;/* mauve */
   --base0F: @base0F@;/* flamingo */
 
+
   /* Global page toolbar colors. mostly affects PDF reader */
   --toolbar-bg-color: var(--base01) !important;
   --toolbar-icon-bg-color: var(--base0B) !important;
@@ -40,6 +41,7 @@
   /* ring when clicking into certain dialog boxes */
   --focus-ring-color: var(--base0D) !important;
 
+
   /* toolbar of popout sidebar in PDF reader */
   --sidebar-toolbar-bg-color: var(--base01) !important;
   /* toolbar dropdown menu backgrounds in PDF reader */
@@ -56,6 +58,7 @@
 
   /* colors of menu tree items ie. nav menu in PDF reader */
   --treeitem-color: var(--base09) !important;
+  /* --treeitem-bg-color: var(--base00) !important; */
   --treeitem-selected-color: var(--base0E) !important;
   --treeitem-hover-color: var(--base0B) !important;
 

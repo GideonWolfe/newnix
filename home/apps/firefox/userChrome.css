@@ -40,7 +40,21 @@ by Miguel Avila
   --base0F: @base0F@;/* flamingo */
 
 
+
   /* Collection of global variables */
+
+  /* screen color in button for screenshot menu */
+  --screenshots-icon-background-color: var(--base0D) !important;
+  /* Shows up in background of hovered buttons, ie on screenshot menu */
+  --color-accent-primary: var(--base0D) !important;
+  --color-accent-primary-hover: color-mix( in srgb, var(--color-accent-primary), transparent 80% ) !important; 
+
+  /* color around some UI elements when focused (ie. screenshot buttons) */
+  --focus-outline-color: var(--base0B) !important;
+
+  /* background of page when vieweing captured screenshot */
+  --background-color-canvas: var(--base01) !important;
+
   /* color of text in URL bar */
   --toolbar-field-color: var(--base0A) !important;
   /* color of background of URL bar */
@@ -83,7 +97,12 @@ by Miguel Avila
   --tab-group-color-gray-invert: #99a6b4 !important;
   --tab-group-color-gray-pale: var(--base04) !important;
   --tab-group-label-text-dark: var(--base05) !important;
+  /* color of animation in tab when loading */
+  --tab-loading-fill: var(--base0A) !important;
 }
+
+/* get rid of blinding white loading screen for tabs */
+.browserContainer { background-color: var(--base00) !important; }
 
 /* Tabs colors  */
 #tabbrowser-tabs:not([movingtab])
@@ -168,6 +187,34 @@ by Miguel Avila
     fill: var(--base0B) !important; 
 }
 
+/* Shield icon */
+#tracking-protection-icon-box {
+    color: var(--base0C) !important;
+}
+#urlbar-input-container[pageproxystate="valid"] #tracking-protection-icon-box:not([hasException])[active] > #tracking-protection-icon{
+    color: var(--base08) !important;
+}
+
+/* settings button for when permissions are used */
+#permissions-granted-icon {
+    color: var(--base09) !important;
+}
+
+/* color of url loading bar at bottom left */
+#statuspanel-label {
+    background-color: var(--base00) !important;
+    color: var(--base0E) !important;
+    border-color: var(--base0D) !important;
+}
+
+/* Hover tooltip style, only themes some ie. refresh button*/
+tooltip {
+    color: var(--base05) !important;
+    background-color: var(--base00) !important;
+    -moz-appearance: none !important;
+    border: 1px solid var(--base0D);
+    border-radius: 2px;
+}
 
 /* Downloads button coloring */
 /* #downloads-button{ */
@@ -237,10 +284,80 @@ input {
   display: none !important;
 }
 
+/* Ctrl+F menu */
+.findbar {
+  background-color: var(--base00);
+  -moz-appearance: none !important;
+}
+.findbar-container {
+  background-color: var(--base01) !important;
+}
+
+/* bg/border of find bar */
+.browserContainer > findbar {
+  background-color: var(--base00) !important;
+  border-top-color: var(base0E) !important;
+
+}
+
+/* Search box when no results found */
+.findbar-textbox[status="notfound"] {
+  background-color: var(--base00) !important;
+  color: var(--base08) !important;
+}
+
+/* Arrow buttons when no search entered */
+.findbar-find-previous[disabled="true"] > .toolbarbutton-icon,
+.findbar-find-next[disabled="true"] > .toolbarbutton-icon {
+  fill: var(--base08) !important;
+}
+/* Arrows when results found */
+.findbar-find-previous {
+  fill: var(--base0A) !important;
+}
+.findbar-find-next {
+  fill: var(--base0B) !important;
+}
+
+/* Close Icon */
+findbar > .close-icon{
+  background-color: var(--base00) !important;
+  pointer-events: auto;
+}
+.close-icon.findbar-closebutton {
+  fill: var(--base08) !important;
+}
+
+/* Color of "Phrase not Found" */
+.findbar-find-status{
+  color: var(--base08);
+}
+
+/* Replace checkboxes with buttons */
+findbar .checkbox-check {
+  display: none !important;
+}
+findbar checkbox {
+  background: var(--base00);
+  border: 1px solid var(--base0D);
+  border-radius: 2;
+  padding: 2px 4px;
+  margin: -2px 4px !important;
+}
+findbar checkbox[checked="true"] {
+    background: var(--base00);
+    color: var(--base0B);
+    transition: 0.1s ease-in-out;
+}
+.found-matches {
+    color: var(--base0B);
+}
+
 /* #nav-bar:not([tabs-hidden='true']) { */
 /*   box-shadow: none; */
 /* } */
 
+/* look of pinned tabs */
 #tabbrowser-tabs[haspinnedtabs]:not([positionpinnedtabs])
   > #tabbrowser-arrowscrollbox
   > .tabbrowser-tab[first-visible-unpinned-tab] {
@@ -348,4 +465,44 @@ toolbarbutton.bookmark-item:not(.subviewbutton) {
 #context_selectAllTabs,
 #context_closeTabOptions {
   display: none !important;
+}
+
+
+/* button colors for context menu */
+#context-back {
+    color: var(--base09) !important;
+}
+#context-forward {
+    color: var(--base0B) !important;
+}
+#context-reload {
+    color: var(--base0D) !important;
+}
+#context-stop {
+    color: var(--base08) !important;
+}
+#context-bookmarkpage {
+    color: var(--base0A) !important;
+}
+
+
+/* Context menu colors */
+menupopup, panel {
+	--panel-background: var(--base00) !important;
+	--panel-color: var(--base05) !important;
+	--panel-border-color: var(--base0E) !important;
+}
+
+
+/* Screenshot page menu */
+#full-page, #visible-page {
+	-moz-context-properties: fill, stroke;
+	fill: currentColor;
+	stroke: var(--screenshots-icon-background-color);
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: 46px 46px;
+	min-width: 90px;
+	padding: 46px 5px 5px;
+	margin: 2px;
 }
