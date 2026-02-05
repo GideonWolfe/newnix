@@ -433,7 +433,7 @@ with config.lib.stylix.colors.withHashtag;
                     name = "Main Bar";
                     enabled = true;
                     # 0 = top, 1 = bottom, 2, left
-                    position = 0;
+                    position = 1;
                     screenPreferences = [
                         "all"
                     ];

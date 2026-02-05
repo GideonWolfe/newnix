@@ -20,7 +20,7 @@ let
     }
 
     body {
-        background: ${base00};
+        background: ${base01};
     }
 
     .container {

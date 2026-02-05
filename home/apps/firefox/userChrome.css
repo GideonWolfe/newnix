@@ -1,0 +1,351 @@
+/* 
+┌─┐┬┌┬┐┌─┐┬  ┌─┐
+└─┐││││├─┘│  ├┤ 
+└─┘┴┴ ┴┴  ┴─┘└─┘
+┌─┐┌─┐─┐ ┬      
+├┤ │ │┌┴┬┘      
+└  └─┘┴ └─
+
+by Miguel Avila
+
+*/
+
+/*
+ 
+┌─┐┌─┐┌┐┌┌─┐┬┌─┐┬ ┬┬─┐┌─┐┌┬┐┬┌─┐┌┐┌
+│  │ ││││├┤ ││ ┬│ │├┬┘├─┤ │ ││ ││││
+└─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘
+
+*/
+
+:root {
+  --sfwindow: @base01@;
+  --sfsecondary: @base00@;
+  /* base16 colors for easy access (templated by Stylix) */
+  --base00: @base00@;/* base */
+  --base01: @base01@;/* mantle */
+  --base02: @base02@;/* surface0 */
+  --base03: @base03@;/* surface1 */
+  --base04: @base04@;/* surface2 */
+  --base05: @base05@;/* text */
+  --base06: @base06@;/* rosewater */
+  --base07: @base07@;/* lavender */
+  --base08: @base08@;/* red */
+  --base09: @base09@;/* peach */
+  --base0A: @base0A@;/* yellow */
+  --base0B: @base0B@;/* green */
+  --base0C: @base0C@;/* teal */
+  --base0D: @base0D@;/* blue */
+  --base0E: @base0E@;/* mauve */
+  --base0F: @base0F@;/* flamingo */
+
+
+  /* Collection of global variables */
+  /* color of text in URL bar */
+  --toolbar-field-color: var(--base0A) !important;
+  /* color of background of URL bar */
+  --toolbar-field-background-color: var(--base00) !important;
+  /* default color of toolbar buttons (most are ovveridden) */
+  --toolbar-icon-fill: var(--base0E) !important;
+  --toolbar-icon-fill-attention: var(--base09) !important;
+
+  /* testing these instead of CSS rule */
+  --download-progress-fill-color: var(--base0D) !important;
+  --download-progress-paused-color: var(--base0A) !important;
+  --download-progress-flare-color: var(--base0B) !important;
+
+  /* Tab Groups */
+  --tab-group-color-blue: var(--base0D) !important;
+  --tab-group-color-blue-invert: var(--color-blue-20) !important;
+  --tab-group-color-blue-pale: var(--base0D) !important;
+  --tab-group-color-purple: var(--base0E) !important;
+  --tab-group-color-purple-invert: var(--color-purple-20) !important;
+  --tab-group-color-purple-pale: var(--base0E) !important;
+  --tab-group-color-cyan: var(--base0C) !important;
+  --tab-group-color-cyan-invert: var(--color-cyan-20) !important;
+  --tab-group-color-cyan-pale: var(--base0C) !important;
+  --tab-group-color-orange: var(--base09) !important;
+  --tab-group-color-orange-invert: var(--color-orange-20) !important;
+  --tab-group-color-orange-pale: var(--base09) !important;
+  --tab-group-color-yellow: var(--base0A) !important;
+  --tab-group-color-yellow-invert: var(--color-yellow-20) !important;
+  --tab-group-color-yellow-pale: var(--base0A) !important;
+  --tab-group-color-pink: var(--base0F) !important;
+  --tab-group-color-pink-invert: var(--color-pink-20) !important;
+  --tab-group-color-pink-pale: var(--base0F) !important;
+  --tab-group-color-green: var(--base0B) !important;
+  --tab-group-color-green-invert: var(--color-green-20) !important;
+  --tab-group-color-green-pale: var(--base0B) !important;
+  --tab-group-color-red: var(--base08) !important;
+  --tab-group-color-red-invert: var(--color-red-20) !important;
+  --tab-group-color-red-pale: var(--base08) !important;
+  --tab-group-color-gray: var(--base03) !important;
+  --tab-group-color-gray-invert: #99a6b4 !important;
+  --tab-group-color-gray-pale: var(--base04) !important;
+  --tab-group-label-text-dark: var(--base05) !important;
+}
+
+/* Tabs colors  */
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[multiselected='true'],
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[selected='true'] {
+  background-image: none !important;
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
+/* background of hovered tabs */
+.tabbrowser-tab:hover {
+    color: var(--base0E) !important;
+}
+
+/* Tab Close Button */
+.tabbrowser-tab .tab-close-button {
+    color: var(--base08) !important;
+}
+
+/* Inactive tabs color */
+#navigator-toolbox {
+  background-color: var(--sfwindow) !important;
+  color: var(--base04) !important;
+}
+
+/* label of tab groups */
+.tab-group-label {
+	color: var(--tab-group-color) !important;
+	background-color: var(--base00) !important;
+	border: solid 2px var(--tab-group-color)!important;
+}
+
+/* Toolbar back/forward button coloring */
+#forward-button{
+  fill: var(--base0B) !important;
+}
+#back-button {
+  fill: var(--base08) !important;
+}
+
+/* Toolbar Reader view button */
+#reader-mode-button-icon { 
+    color: var(--base09) !important 
+}
+#reader-mode-button[readeractive] > .urlbar-icon {
+    fill: var(--base08) !important;
+}
+
+/* Hamburger Menu icon in toolbar */
+#PanelUI-menu-button {
+    fill: var(--base0E) !important;
+}
+/* Extensions icon in toolbar */
+#unified-extensions-button{
+    fill: var(--base0F) !important;
+}
+/* Account icon in toolbar */
+#fxa-toolbar-menu-button{
+    fill: var(--base08) !important;
+}
+
+/* List all tabs dropdown button */
+#alltabs-button { color: var(--base0D) !important; }
+
+/* Refresh and cancel load icon in toolbar */
+#reload-button{
+    fill: var(--base0D) !important;
+}
+#stop{
+    fill: var(--base08) !important;
+}
+
+/* Browser home button */
+#home-button { 
+    fill: var(--base0B) !important; 
+}
+
+
+/* Downloads button coloring */
+/* #downloads-button{ */
+/*     color: var(--base0E) !important; */
+/*     accent-color: var(--base0E) !important; */
+/* }	 */
+/* /* Downloads progress inner circle coloring */ */
+/* #downloads-indicator-progress-inner{ */
+/*     --toolbarbutton-icon-fill-attention: var(--base0B) !important; */
+/* }	 */
+/* /* Downloads dropdown progress bar coloring */ */
+/* .downloadProgress::-moz-progress-bar { */
+/*     --download-progress-fill-color: var(--base09) !important; */
+/* } */
+
+/* close button red color*/
+.titlebar-close{
+    color: var(--base08) !important;
+}
+
+/* Window colors  */
+:root {
+  /*--toolbar-bgcolor: var(--sfsecondary) !important; */
+  --toolbar-bgcolor: var(--sfwindow) !important;
+  --tabs-border-color: var(--sfsecondary) !important;
+  --lwt-sidebar-background-color: var(--sfwindow) !important;
+  --lwt-toolbar-field-focus: var(--sfsecondary) !important;
+}
+
+/* Sidebar color  */
+#sidebar-box,
+.sidebar-placesTree {
+  background-color: var(--sfwindow) !important;
+}
+
+/* New Tab Button */
+#tabs-newtab-button, #vertical-tabs-newtab-button, #TabsToolbar #new-tab-button {
+	fill: var(--base0D) !important;
+}
+
+/* all tabs down caret symbol */
+#alltabs-button { fill: var(--base0F) !important; }
+
+input {
+	background-color: var(--base00) !important;
+	border-top-color: var(--base09) !important;
+	border-right-color: var(--base09) !important;
+	border-bottom-color: var(--base09) !important;
+	border-left-color: var(--base09) !important;
+}
+
+/* 
+
+┌┬┐┌─┐┬  ┌─┐┌┬┐┌─┐            
+ ││├┤ │  ├┤  │ ├┤             
+─┴┘└─┘┴─┘└─┘ ┴ └─┘            
+┌─┐┌─┐┌┬┐┌─┐┌─┐┌┐┌┌─┐┌┐┌┌┬┐┌─┐
+│  │ ││││├─┘│ ││││├┤ │││ │ └─┐
+└─┘└─┘┴ ┴┴  └─┘┘└┘└─┘┘└┘ ┴ └─┘
+
+*/
+
+/* Tabs elements  */
+
+/* Hide Favicons on unpinned tabs */
+.tabbrowser-tab:not([pinned]) .tab-icon-image {
+  display: none !important;
+}
+
+/* #nav-bar:not([tabs-hidden='true']) { */
+/*   box-shadow: none; */
+/* } */
+
+#tabbrowser-tabs[haspinnedtabs]:not([positionpinnedtabs])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab[first-visible-unpinned-tab] {
+  margin-inline-start: 0 !important;
+}
+
+:root {
+  --toolbarbutton-border-radius: 0 !important;
+  --tab-border-radius: 0 !important;
+  --tab-block-margin: 0 !important;
+}
+
+.tab-background {
+  border-right: 0px solid rgba(0, 0, 0, 0) !important;
+  margin-left: -4px !important;
+}
+
+.tabbrowser-tab:is([visuallyselected='true'], [multiselected])
+  > .tab-stack
+  > .tab-background {
+  box-shadow: none !important;
+}
+
+.tabbrowser-tab[last-visible-tab='true'] {
+  padding-inline-end: 0 !important;
+}
+
+#tabs-newtab-button {
+  padding-left: 0 !important;
+}
+
+/* Url Bar  */
+/* #urlbar-input-container { */
+/*   background-color: var(--sfsecondary) !important; */
+/*   border: 1px solid rgba(0, 0, 0, 0) !important; */
+/* } */
+
+#urlbar-container {
+  margin-left: 0 !important;
+}
+
+#urlbar[focused='true'] > #urlbar-background {
+  box-shadow: none !important;
+}
+
+#navigator-toolbox {
+  border: none !important;
+}
+
+/* Zoom buttons on URL bar */
+#urlbar-zoom-button {
+    background-color: var(--base00)!important;
+    color: var(--base0A) !important;
+}
+#urlbar-zoom-button:hover {
+    background-color: var(--base0A)!important;
+    color: var(--base00) !important;
+    /* background-color: rgba(var(--base0A), 0.2) !important; */
+}
+
+/* Bookmarks bar  */
+.bookmark-item .toolbarbutton-icon {
+  display: none;
+}
+toolbarbutton.bookmark-item:not(.subviewbutton) {
+  min-width: 1.6em;
+}
+
+/* Toolbar  */
+#tracking-protection-icon-container,
+#star-button-box,
+#pageActionButton,
+#pageActionSeparator,
+.tab-secondary-label {
+  display: none !important;
+}
+
+/* .urlbarView-url { */
+/*   color: #dedede !important; */
+/* } */
+
+/* Disable elements  */
+#context-savepage,
+#context-pocket,
+#context-sendpagetodevice,
+#context-selectall,
+#context-viewsource,
+#context-inspect-a11y,
+#context-sendlinktodevice,
+#context-openlinkinusercontext-menu,
+#context-bookmarklink,
+#context-savelink,
+#context-savelinktopocket,
+#context-sendlinktodevice,
+#context-searchselect,
+#context-sendimage,
+#context-print-selection {
+  display: none !important;
+}
+
+#context_bookmarkTab,
+#context_moveTabOptions,
+#context_sendTabToDevice,
+#context_reopenInContainer,
+#context_selectAllTabs,
+#context_closeTabOptions {
+  display: none !important;
+}

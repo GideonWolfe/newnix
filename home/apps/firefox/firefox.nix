@@ -2,6 +2,47 @@
 
 with config.lib.stylix.colors.withHashtag;
 
+# Hack that lets me inject variables into the CSS at build time
+let
+  colors = config.lib.stylix.colors.withHashtag;
+  userChromeCss = pkgs.replaceVars ./userChrome.css {
+    base00 = colors.base00;
+    base01 = colors.base01;
+    base02 = colors.base02;
+    base03 = colors.base03;
+    base04 = colors.base04;
+    base05 = colors.base05;
+    base06 = colors.base06;
+    base07 = colors.base07;
+    base08 = colors.base08;
+    base09 = colors.base09;
+    base0A = colors.base0A;
+    base0B = colors.base0B;
+    base0C = colors.base0C;
+    base0D = colors.base0D;
+    base0E = colors.base0E;
+    base0F = colors.base0F;
+  };
+  userContentCss = pkgs.replaceVars ./userContent.css {
+    base00 = colors.base00;
+    base01 = colors.base01;
+    base02 = colors.base02;
+    base03 = colors.base03;
+    base04 = colors.base04;
+    base05 = colors.base05;
+    base06 = colors.base06;
+    base07 = colors.base07;
+    base08 = colors.base08;
+    base09 = colors.base09;
+    base0A = colors.base0A;
+    base0B = colors.base0B;
+    base0C = colors.base0C;
+    base0D = colors.base0D;
+    base0E = colors.base0E;
+    base0F = colors.base0F;
+  };
+in
+
 {
   # imports = [
   #   ./userChrome.nix
@@ -117,12 +158,12 @@ with config.lib.stylix.colors.withHashtag;
           "default_area" = "menupanel";
         };
         # Hoarder
-        "addon@hoarder.app" = {
-          "installation_mode" = "force_installed";
-          "install_url" =
-            "https://addons.mozilla.org/firefox/downloads/latest/hoarder-app/latest.xpi";
-          "default_area" = "menupanel";
-        };
+        # "addon@hoarder.app" = {
+        #   "installation_mode" = "force_installed";
+        #   "install_url" =
+        #     "https://addons.mozilla.org/firefox/downloads/latest/hoarder-app/latest.xpi";
+        #   "default_area" = "menupanel";
+        # };
         # SponsorBlock
         "sponsorBlocker@ajay.app" = {
           "installation_mode" = "force_installed";
@@ -289,6 +330,9 @@ with config.lib.stylix.colors.withHashtag;
         #	duckDuckGo = {};
         #};
         #};
+
+        userChrome = builtins.readFile userChromeCss;
+        userContent = builtins.readFile userContentCss;
 
         extensions = {
           # Required when defining extension settings to avoid accidental overrides
