@@ -90,6 +90,26 @@
         "type": "github"
       }
     },
+    "danksearch": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1769716328,
+        "narHash": "sha256-oLMtrA9bFwhj+qsbrtSUJKrqIUp4jtccB0AAaLFXnII=",
+        "owner": "AvengeMedia",
+        "repo": "danksearch",
+        "rev": "650f372015dfa58110d561bdd0a5c093e7bdf660",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "danksearch",
+        "type": "github"
+      }
+    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -502,6 +522,22 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1769302137,
+        "narHash": "sha256-QEDtctEkOsbx8nlFh4yqPEOtr4tif6KTqWwJ37IM2ds=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "a351494b0e35fd7c0b7a1aae82f0afddf4907aa8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1711163522,
@@ -728,6 +764,7 @@
     },
     "root": {
       "inputs": {
+        "danksearch": "danksearch",
         "deploy-rs": "deploy-rs",
         "dgop": "dgop",
         "disko": "disko",
@@ -737,6 +774,7 @@
         "home-manager": "home-manager",
         "niri": "niri",
         "nix-ai-tools": "nix-ai-tools",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",

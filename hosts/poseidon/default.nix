@@ -1,10 +1,14 @@
-{ lib, ... }:
+{ lib, inputs, ... }:
   
 {
   imports = [
     
     # Host-specific hardware setup (disk layout, initrd modules, etc.)
     ./hardware-configuration.nix
+
+    # Also grab the tweaks from nix-hardware to optimize this system
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t490
+
     # Boot loader configuration for EFI systems
     ../../system/modules/system/systemd-boot.nix
 
@@ -36,6 +40,9 @@
     # NixVim configuration (belongs in HM, not system modules)
     ../../home/apps/nixvim/nixvim-light.nix
   ];
+
+  # Plymouth fills up the /boot partition lol
+  boot.plymouth.enable = lib.mkForce false;
 
   # Give the machine a unique hostname
   networking.hostName = "poseidon";

@@ -9,6 +9,9 @@
     # Unstable packages
     nixpkgs-unstable = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
 
+    # Hardware support configurations
+    nixos-hardware = { url = "github:NixOS/nixos-hardware/master"; };
+
     # User configuration manager
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -75,16 +78,20 @@
       url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # System monitoring functionality for DMS
-    # TODO: this will be in 26.05, so this can be removed as flake input
+    # Extra DMS functionality
+    # TODO: these will be in 26.05, so this can be removed as flake input
     dgop = {
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    danksearch = {
+      url = "github:AvengeMedia/danksearch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, deploy-rs, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, xyosc, nix-ai-tools, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

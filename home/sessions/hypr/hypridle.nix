@@ -2,6 +2,8 @@
   # Enable hypridle
   services.hypridle = {
     enable = true;
+    # Only start this service when in a Hyprland session
+    systemdTarget = "hyprland-session.target";
     settings = {
       listener = [
         # warning before screen lock

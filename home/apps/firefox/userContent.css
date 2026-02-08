@@ -25,6 +25,10 @@
   --toolbar-icon-hover-bg-color: var(--base0A) !important;
   --toolbar-border-color: var(--base0E) !important;
 
+  /* apparently different? used in JSON API response toolbar */
+  --toolbarbutton-background: var(--base00) !important; 
+  --toolbarbutton-hover-background: color-mix( in srgb, var(base0D), transparent 80% ) !important; 
+
   /* Color of icon when it is toggled on ie. toolbar icons in PDF viewer */
   --toggled-btn-color: var(--base09) !important;
   /* background of dropdown menus ie. page fit button in PDF viewer */
@@ -69,6 +73,19 @@
   /* PDF tool signature tool */
   --signature-bg: var(--base00) !important;
 
+  /* JSON API response page colors */
+  --object-color: var(--base0D) !important;
+  --string-color: var(--base0E) !important;
+  --number-color: var(--base0B) !important;
+  --comment-node-color: var(--base04) !important;
+  /* filter JSON button(?) */
+  --theme-text-color-alt: var(--base0A) !important;
+  --theme-text-color: var(--base06) !important;
+  --theme-body-color: var(--base05) !important;
+  --theme-link-color: var(--base0D) !important;
+  --theme-body-background: var(--base01) !important;
+  --theme-focus-outline-color: var(--base0D) !important;
+  --tab-line-selected-color: var(--base0B) !important;
 
 }
 
@@ -146,6 +163,12 @@ input[type="range"]::-moz-range-progress {
 /*   color: var(--base01) !important;  */
 /*   border: 1px solid var(--base0E) !important;  */
 /* } */
+input {
+	color: var(--base05) !important;
+	background-color: var(--base01) !important;
+	border-color: var(--base0E) !important;
+}
+
 
 /* UI square that stays after a comment is left in a PDF */
 .annotationCommentButton {
@@ -218,4 +241,20 @@ input[type="range"]::-moz-range-progress {
     --editor-toolbar-fg-color: var(--base09) !important;
     --editor-toolbar-hover-bg-color: color-mix( in srgb, var(--editor-toolbar-fg-color), transparent 80% ) !important; 
     --editor-toolbar-border-color: var(--base09) !important;
+}
+
+
+/* API response pages */
+.panelContent {
+    background: var(--base01) !important;
+}
+.treeTable .treeRow.selected :where(:not(.objectBox-jsonml)), .treeTable .treeRow.selected .treeLabelCell::after {
+    color: var(--base00) !important;
+}
+/* JSON/raw data/HEADERS strip */
+.tabs .tabs-navigation .tabs-menu {
+	background-color: var(--base01) !important;
+}
+.tabs .tabs-menu-item {
+	color: var(--base0B);
 }

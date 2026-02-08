@@ -51,6 +51,13 @@
         popups = 8;
       };
     };
+
+    icons = {
+      enable = true;
+      package = pkgs.libsForQt5.breeze-icons;
+      dark = "breeze-dark";
+      light = "breeze";
+    };
     
     # System-level targets only
     targets = {

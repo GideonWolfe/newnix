@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 with config.lib.stylix.colors; {
-  # Enable hypridle
+  # Enable hyprlock
+  # There is no service here, it just generates the config, and you call hyprlock manually or from an idle manager
+  # Since there's no service, we don't need any conditions for when to enable/disable
   programs.hyprlock = lib.mkForce {
     enable = true;
     settings = {

@@ -366,6 +366,7 @@ findbar checkbox[checked="true"] {
 
 :root {
   --toolbarbutton-border-radius: 0 !important;
+  --toolbarbutton-hover-background: color-mix( in srgb, var(--color-accent-primary), transparent 80% ) !important;
   --tab-border-radius: 0 !important;
   --tab-block-margin: 0 !important;
 }
@@ -403,8 +404,20 @@ findbar checkbox[checked="true"] {
   box-shadow: none !important;
 }
 
+/* Border between browser and page content */
 #navigator-toolbox {
   border: none !important;
+  /* border-bottom: 1px solid var(--base0E) !important; */
+}
+
+/* Suggested links in URL dropdown */
+/* title of page */
+.urlbarView-title {
+    color: var(--base0D) !important;
+}
+/* actual link */
+#urlbar-results :is(.urlbarView-tags, .urlbarView-action, .urlbarView-url) {
+  color: var(--base0B) !important;
 }
 
 /* Zoom buttons on URL bar */

@@ -9,12 +9,15 @@ with config.lib.stylix.colors.withHashtag;
         #inputs.dms.homeModules.niri
         # Make plugins available decleratively
         inputs.dms-plugin-registry.modules.default
+        # search service for dms
+        inputs.danksearch.homeModules.default
      ];
+
 
     programs.dank-material-shell = {
         enable = true;
         systemd.enable = true;
-        systemd.restartIfChanged = true;
+        systemd.restartIfChanged = true; # doesn't seem to be working?
         # Pulling in dgop from unstable until its in stable
         dgop.package = inputs.dgop.packages.${pkgs.system}.default;
         enableSystemMonitoring = true;
@@ -33,7 +36,6 @@ with config.lib.stylix.colors.withHashtag;
                 enable = true;
                 settings = { preferredSource = "spotify"; };
             };
-            # calculator.enable = true;
             # dockerManager.enable = true;
             emojiLauncher.enable = true; 
             nixMonitor.enable = true;
@@ -46,11 +48,14 @@ with config.lib.stylix.colors.withHashtag;
             niriWindows.enable = true; 
             alarmClock.enable = true;
             commandRunner.enable = true;
+            calculator.enable = true;
             dankBitwarden.enable = true;
             dankLauncherKeys.enable = true;
             dankKDEConnect.enable = true;
+            dankGifSearch.enable = true;
             dankDesktopWeather.enable = true;
             aiAssistant.enable = true;
+            webSearch.enable = true;
         };
 
 
@@ -148,12 +153,17 @@ with config.lib.stylix.colors.withHashtag;
                     enabled = true;
                     width = 50;
                 }
+                # {
+                #     id = "diskUsage";
+                #     enabled = true;
+                #     width = 50;
+                #     instanceId = "ml7895cb6zpw62o2h3leyuoeplfq39";# this value is idk??
+                #     mountPath = "/";
+                # }
                 {
-                    id = "diskUsage";
+                    id = "displayMirror";
                     enabled = true;
                     width = 50;
-                    instanceId = "ml7895cb6zpw62o2h3leyuoeplfq39";# this value is idk??
-                    mountPath = "/";
                 }
                 {
                     id = "colorPicker";
@@ -432,8 +442,8 @@ with config.lib.stylix.colors.withHashtag;
                     id = "default";
                     name = "Main Bar";
                     enabled = true;
-                    # 0 = top, 1 = bottom, 2, left
-                    position = 1;
+                    # 0 = top, 1=bottom, 2=left, 3=right
+                    position = 0;
                     screenPreferences = [
                         "all"
                     ];
@@ -658,4 +668,6 @@ with config.lib.stylix.colors.withHashtag;
             success = green;
         };
     };
+    # Enable dsearch for DMS (system wide searching)
+    programs.dsearch.enable = true;
 }
