@@ -1,260 +1,317 @@
 
 :root {
   /* base16 colors for easy access (templated by Stylix) */
-  --base00: @base00@;/* base */
-  --base01: @base01@;/* mantle */
-  --base02: @base02@;/* surface0 */
-  --base03: @base03@;/* surface1 */
-  --base04: @base04@;/* surface2 */
-  --base05: @base05@;/* text */
-  --base06: @base06@;/* rosewater */
-  --base07: @base07@;/* lavender */
-  --base08: @base08@;/* red */
-  --base09: @base09@;/* peach */
-  --base0A: @base0A@;/* yellow */
-  --base0B: @base0B@;/* green */
-  --base0C: @base0C@;/* teal */
-  --base0D: @base0D@;/* blue */
-  --base0E: @base0E@;/* mauve */
-  --base0F: @base0F@;/* flamingo */
+  --base00: @base00@ !important;/* base */
+  --base01: @base01@ !important;/* mantle */
+  --base02: @base02@ !important;/* surface0 */
+  --base03: @base03@ !important;/* surface1 */
+  --base04: @base04@ !important;/* surface2 */
+  --base05: @base05@ !important;/* text */
+  --base06: @base06@ !important;/* rosewater */
+  --base07: @base07@ !important;/* lavender */
+  --base08: @base08@ !important;/* red */
+  --base09: @base09@ !important;/* peach */
+  --base0A: @base0A@ !important;/* yellow */
+  --base0B: @base0B@ !important;/* green */
+  --base0C: @base0C@ !important;/* teal */
+  --base0D: @base0D@ !important;/* blue */
+  --base0E: @base0E@ !important;/* mauve */
+  --base0F: @base0F@ !important;/* flamingo */
 
+  /* Firefox theme variable mapping (single palette, no light/dark) */
+  --theme-body-background: var(--base01) !important;
+  --theme-body-color: var(--base05) !important;
+  --theme-text-color-alt: var(--base04) !important;
+  --theme-text-color-strong: var(--base06) !important;
+  --theme-link-color: var(--base0D) !important;
+  --theme-focus-outline-color: var(--base0D) !important;
+  --theme-highlight-blue: var(--base0D) !important;
+  --theme-highlight-red: var(--base08) !important;
+  --theme-highlight-green: var(--base0B) !important;
+  --theme-highlight-purple: var(--base0E) !important;
+  --theme-highlight-yellow: var(--base0A) !important;
+  --theme-highlight-orange: var(--base09) !important;
+  --theme-highlight-pink: var(--base0F) !important;
+  --theme-graphs-purple: var(--base0E) !important;
+  --theme-graphs-yellow: var(--base0A) !important;
+  --theme-graphs-orange: var(--base09) !important;
+  --theme-graphs-grey: var(--base04) !important;
+  --theme-graphs-full-red: var(--base08) !important;
 
-  /* Global page toolbar colors. mostly affects PDF reader */
-  --toolbar-bg-color: var(--base01) !important;
-  --toolbar-icon-bg-color: var(--base0B) !important;
-  --toolbar-icon-hover-bg-color: var(--base0A) !important;
-  --toolbar-border-color: var(--base0E) !important;
+  --theme-selection-background: var(--theme-highlight-blue) !important;
+  --theme-selection-color: var(--theme-popup-background) !important;
 
-  /* apparently different? used in JSON API response toolbar */
-  --toolbarbutton-background: var(--base00) !important; 
-  --toolbarbutton-hover-background: color-mix( in srgb, var(base0D), transparent 80% ) !important; 
+  --theme-toolbar-background: var(--base01) !important;
+  --theme-toolbar-color: var(--theme-body-color) !important;
+  --theme-toolbar-hover: var(--base02) !important;
+  --theme-toolbar-hover-color: var(--theme-text-color-strong) !important;
+  --theme-toolbar-selected-background: var(--base02) !important;
+  --theme-toolbar-selected-color: var(--theme-link-color) !important;
+  --theme-toolbar-separator: var(--base03) !important;
+
+  --toolbarbutton-background: var(--theme-toolbar-background) !important;
+  --toolbarbutton-hover-background: color-mix(in srgb, var(--theme-toolbar-hover) 80%, var(--theme-link-color) 20%) !important;
+  --toolbarbutton-hover-color: var(--theme-toolbar-selected-color) !important;
+  --toolbarbutton-checked-background: var(--theme-toolbar-selected-background) !important;
+  --toolbarbutton-checked-color: var(--theme-toolbar-selected-color) !important;
+
+  --theme-button-background: var(--base01) !important;
+  --theme-button-active-background: var(--base02) !important;
+
+  --theme-popup-background: var(--base00) !important;
+  --theme-popup-color: var(--theme-body-color) !important;
+  --theme-popup-border-color: var(--base0E) !important;
+  --theme-popup-hover-background: color-mix(in srgb, var(--theme-highlight-blue) 12%, var(--theme-popup-background) 88%) !important;
+  --theme-popup-hover-color: var(--theme-popup-color) !important;
+
+  --theme-select-background: var(--base00) !important;
+  --theme-select-color: var(--theme-body-color) !important;
+
+  --theme-splitter-color: var(--base03) !important;
+  --theme-emphasized-splitter-color: var(--base04) !important;
+
+  --theme-search-results-background: var(--theme-highlight-orange) !important;
+  --theme-search-results-color: var(--base00) !important;
+  --theme-search-results-border-color: var(--theme-highlight-orange) !important;
+
+  --theme-icon-color: var(--theme-body-color) !important;
+  --theme-icon-hover-color: var(--theme-link-color) !important;
+  --theme-icon-dimmed-color: var(--theme-graphs-grey) !important;
+  --theme-icon-disabled-color: var(--theme-splitter-color) !important;
+  --theme-icon-checked-color: var(--theme-highlight-green) !important;
+  --theme-icon-error-color: var(--theme-highlight-red) !important;
+  --theme-icon-warning-color: var(--theme-highlight-yellow) !important;
+
+  /* Global page toolbar colors. Mostly affects PDF reader */
+  --toolbar-bg-color: var(--theme-toolbar-background) !important;
+  --toolbar-icon-bg-color: var(--theme-highlight-green) !important;
+  --toolbar-icon-hover-bg-color: var(--theme-highlight-yellow) !important;
+  --toolbar-border-color: var(--theme-highlight-purple) !important;
+
+  /* Toolbar button colors used by JSON API response toolbar */
 
   /* Color of icon when it is toggled on ie. toolbar icons in PDF viewer */
-  --toggled-btn-color: var(--base09) !important;
+  --toggled-btn-color: var(--theme-highlight-orange) !important;
   /* background of dropdown menus ie. page fit button in PDF viewer */
-  --dropdown-btn-bg-color: var(--base00) !important;
+  --dropdown-btn-bg-color: var(--theme-popup-background) !important;
 
   /* Colors some text, ie. page count on PDF reader */
-  --main-color: var(--base05) !important;
+  --main-color: var(--theme-body-color) !important;
   /* Colors some backgrounds, ie. slide view background in PDF reader */
-  --body-bg-color: var(--base01) !important;
+  --body-bg-color: var(--theme-body-background) !important;
 
-  --link-fg-color: var(--base0D) !important;
-  --link-hover-fg-color: var(--base09) !important;
+  --link-fg-color: var(--theme-link-color) !important;
+  --link-hover-fg-color: var(--theme-highlight-orange) !important;
 
-  /* ring when clicking into certain dialog boxes */
-  --focus-ring-color: var(--base0D) !important;
+  /* Ring when clicking into certain dialog boxes */
+  --focus-ring-color: var(--theme-focus-outline-color) !important;
 
-
-  /* toolbar of popout sidebar in PDF reader */
-  --sidebar-toolbar-bg-color: var(--base01) !important;
-  /* toolbar dropdown menu backgrounds in PDF reader */
-  --sidebar-bg-color: var(--base00) !important;
-  --sidebar-border-color: var(--base0B) !important;
+  /* Toolbar of popout sidebar in PDF reader */
+  --sidebar-toolbar-bg-color: var(--theme-toolbar-background) !important;
+  /* Toolbar dropdown menu backgrounds in PDF reader */
+  --sidebar-bg-color: var(--theme-popup-background) !important;
+  --sidebar-border-color: var(--theme-highlight-green) !important;
   /* If you click and drag the edges of one of these menus */
-  --resizer-hover-bg-color: var(--base0E) !important;
+  --resizer-hover-bg-color: var(--theme-highlight-purple) !important;
 
-  /* Dropdown menus in PDF reader like font, highlights,, etc */
-  --doorhanger-bg-color: var(--base00) !important;
-  --doorhanger-border-color: var(--base0A) !important;
-  --doorhanger-hover-color: var(--base0E) !important;
-  --doorhanger-separator-color: var(--base09) !important;
+  /* Dropdown menus in PDF reader like font, highlights, etc */
+  --doorhanger-bg-color: var(--theme-popup-background) !important;
+  --doorhanger-border-color: var(--theme-highlight-yellow) !important;
+  --doorhanger-hover-color: var(--theme-highlight-purple) !important;
+  --doorhanger-separator-color: var(--theme-highlight-orange) !important;
 
-  /* colors of menu tree items ie. nav menu in PDF reader */
-  --treeitem-color: var(--base09) !important;
-  /* --treeitem-bg-color: var(--base00) !important; */
-  --treeitem-selected-color: var(--base0E) !important;
-  --treeitem-hover-color: var(--base0B) !important;
+  /* Colors of menu tree items ie. nav menu in PDF reader */
+  --treeitem-color: var(--theme-highlight-orange) !important;
+  --treeitem-selected-color: var(--theme-highlight-purple) !important;
+  --treeitem-hover-color: var(--theme-highlight-green) !important;
 
-  --field-bg-color: var(--base00) !important;
-  --field-border-color: var(--base0B) !important;
-  --field-color: var(--base05) !important;
+  --field-bg-color: var(--theme-popup-background) !important;
+  --field-border-color: var(--theme-highlight-green) !important;
+  --field-color: var(--theme-body-color) !important;
 
-  /* PDF tool signature tool */
-  --signature-bg: var(--base00) !important;
 
-  /* JSON API response page colors */
-  --object-color: var(--base0D) !important;
-  --string-color: var(--base0E) !important;
-  --number-color: var(--base0B) !important;
-  --comment-node-color: var(--base04) !important;
-  /* filter JSON button(?) */
-  --theme-text-color-alt: var(--base0A) !important;
-  --theme-text-color: var(--base06) !important;
-  --theme-body-color: var(--base05) !important;
-  --theme-link-color: var(--base0D) !important;
-  --theme-body-background: var(--base01) !important;
-  --theme-focus-outline-color: var(--base0D) !important;
-  --tab-line-selected-color: var(--base0B) !important;
+  /* Code symbol colors */
+  --object-color: var(--theme-highlight-blue) !important;
+  --string-color: var(--theme-highlight-purple) !important;
+  --number-color: var(--theme-highlight-green) !important;
+  --comment-node-color: var(--theme-graphs-grey) !important;
+
+  /* Filter JSON button */
+  --tab-line-selected-color: var(--theme-highlight-green) !important;
 
 }
 
 /* toggle buttons, used in PDF tool dropdown menus */
 .toggle-button {
-  --toggle-dot-background-color-on-pressed: var(--base0B) !important;
-  --toggle-dot-background-color: var(--base0E) !important;
-  --toggle-background-color-pressed: var(--base02) !important;
-  --toggle-background-color: var(--base02) !important;
+  --toggle-dot-background-color-on-pressed: var(--theme-highlight-green) !important;
+  --toggle-dot-background-color: var(--theme-highlight-purple) !important;
+  --toggle-background-color-pressed: var(--theme-toolbar-hover) !important;
+  --toggle-background-color: var(--theme-toolbar-hover) !important;
 
-  /* --toggle-border-color-active: var(--base09) !important; */
-  --toggle-border-color: var(--base0E) !important;
-  /* --toggle-border-color-active: var(--base0B) !important; */
-  --toggle-background-color-pressed-hover: var(--base02) !important;
-  --toggle-background-color-pressed-active: var(--base02) !important;
+  /* --toggle-border-color-active: var(--theme-highlight-orange) !important; */
+  --toggle-border-color: var(--theme-highlight-purple) !important;
+  /* --toggle-border-color-active: var(--theme-highlight-green) !important; */
+  --toggle-background-color-pressed-hover: var(--theme-toolbar-hover) !important;
+  --toggle-background-color-pressed-active: var(--theme-toolbar-hover) !important;
 }
+/* Checkboxes */
 .toggle-button[aria-pressed="true"] {
-	border-color: var(--base0B) !important;
-}
-
-
-  /* Turns main page background dark */
-.pdfViewer {
-	background: var(--base01) !important;
-}
-
-/* Specific tweaks for the comment menus for the PDF reader */
-#editorCommentsSidebar, .commentPopup, .sidebar {
-    /* Actual PDF comment itself */
-  --comment-bg-color: var(--base00) !important;
-  --comment-count-bg-color: var(--base08) !important;
-  --comment-fg-color: var(--base05) !important;
-  --comment-active-bg-color: var(--base02) !important;
-  --comment-focus-outline-color: var(--base09) !important;
-  --comment-border-color: var(--base0D) !important;
-  --comment-date-fg-color: var(--base0F) !important;
-  --divider-color: var(--base09) !important;
-
-  --comment-button-bg: var(--base00) !important;
-
-  /* middle chunk of comment dropdown menu in PDF reader */
-  --comment-bg-color: var(--base00) !important;
-  --comment-border-color: var(--base0E) !important;
-  /* color of "learn more" link on  comment dropdown in PDF reader */
-  --link-fg-color: var(--base0D) !important;
-  --link-hover-fg-color: var(--base0B) !important;
-
-  --button-comment-color: var(--base08) !important;
-
-  --sidebar-bg-color: var(--base00) !important;
-  --sidebar-border-color: var(--base0A) !important;
-}
-#commentManagerDialog {
-    border-color: var(--base0A) !important;
-}
-/* text color of main text in comment dropdown in PDF reader */
-.sidebarCommentText {
-  color: var(--base05) !important;
-}
-/* Shows count of comments in comment dropdown in PDF reader */
-#editorCommentsSidebarCount {
-  color: var(--base00) !important;
+	border-color: var(--theme-highlight-green) !important;
 }
 
 
 /* Style settings for all slider UIs */
 input[type="range"]::-moz-range-track {
-  background-color: var(--base0B) !important; 
+  background-color: var(--theme-highlight-green) !important; 
 }
 input[type="range"]::-moz-range-progress {
-  background-color: var(--base0D) !important; 
+  background-color: var(--theme-highlight-blue) !important; 
 }
-/* TODO the whole slider breaks if this is set */
-/* input[type="range"]::-moz-range-thumb { */
-/*   color: var(--base01) !important;  */
-/*   border: 1px solid var(--base0E) !important;  */
-/* } */
+/* Input text boxes */
 input {
-	color: var(--base05) !important;
-	background-color: var(--base01) !important;
-	border-color: var(--base0E) !important;
+	color: var(--theme-body-color) !important;
+	background-color: var(--theme-body-background) !important;
+	border-color: var(--theme-highlight-purple) !important;
 }
 
 
+
+
+
+
+/***********************/
+/* API response pages */
+/***********************/
+.panelContent {
+    background: var(--theme-body-background) !important;
+}
+/* JSON/raw data/HEADERS strip, doesn't have BG by default */
+.tabs .tabs-navigation .tabs-menu {
+	background-color: var(--theme-body-background) !important;
+}
+.tabs .tabs-menu-item a {
+	color: var(--theme-body-color) !important;
+}
+.theme-dark .devtools-filterinput {
+	background-color: var(--theme-body-background) !important;
+}
+
+
+/***************/
+/* PDF reader */
+/***************/
+:root {
+  /* PDF tool signature tool */
+  --signature-bg: var(--theme-popup-background) !important;
+}
+  /* Turns main page background dark */
+.pdfViewer {
+	background: var(--theme-body-background) !important;
+}
+.pdfSidebarNotification::after {
+	background-color: var(--theme-highlight-orange) !important;
+}
 /* UI square that stays after a comment is left in a PDF */
 .annotationCommentButton {
-  --comment-button-fg: var(--base0D) !important;
-  --comment-button-bg: var(--base00) !important;
+  --comment-button-fg: var(--theme-link-color) !important;
+  --comment-button-bg: var(--theme-popup-background) !important;
   --comment-button-border-color: var(--comment-button-fg) !important;
-  --comment-button-hover-fg: var(--base0B) !important;
-  --comment-button-hover-bg: var(--base00) !important;
+  --comment-button-hover-fg: var(--theme-highlight-green) !important;
+  --comment-button-hover-bg: var(--theme-popup-background) !important;
   --comment-button-hover-border-color: var(--comment-button-hover-fg) !important;
-  --comment-button-selected-bg: var(--base09) !important;
-  --comment-button-selected-fg: var(--base00) !important;
-  --comment-button-active-bg: var(--base09) !important;
-  --comment-button-active-fg: var(--base00) !important;
+  --comment-button-selected-bg: var(--theme-highlight-orange) !important;
+  --comment-button-selected-fg: var(--theme-popup-background) !important;
+  --comment-button-active-bg: var(--theme-highlight-orange) !important;
+  --comment-button-active-fg: var(--theme-popup-background) !important;
 }
+/* the popup that appears when you hihglight stuff in the PDF tool */
+.editToolbar {
+    --editor-toolbar-bg-color: var(--theme-popup-background) !important;
+    --editor-toolbar-fg-color: var(--theme-highlight-orange) !important;
+    --editor-toolbar-hover-bg-color: color-mix(in srgb, var(--editor-toolbar-fg-color) 20%, transparent) !important; 
+    --editor-toolbar-border-color: var(--theme-highlight-orange) !important;
+}
+/* Specific tweaks for the comment menus for the PDF reader */
+#editorCommentsSidebar, .commentPopup, .sidebar {
+    /* Actual PDF comment itself */
+  --comment-bg-color: var(--theme-popup-background) !important;
+  --comment-count-bg-color: var(--theme-highlight-red) !important;
+  --comment-fg-color: var(--theme-body-color) !important;
+  --comment-active-bg-color: var(--theme-toolbar-hover) !important;
+  --comment-focus-outline-color: var(--theme-highlight-orange) !important;
+  --comment-date-fg-color: var(--theme-highlight-pink) !important;
+  --comment-indicator-hover-fg-color: var(--theme-highlight-blue) !important;
+  --comment-indicator-selected-fg-color: var(--theme-highlight-green) !important;
+  --comment-button-bg: var(--theme-popup-background) !important;
+  /* --divider-color: var(--theme-highlight-orange) !important; */
 
-/* used in UI elements, like the main container BG of the signature dialogue in the PDF tool */
+  --button-comment-color: var(--theme-highlight-red) !important;
+  /* hover bg Color of "X" button on comment dropdown in PDF reader */
+  --button-comment-hover-bg: color-mix(in srgb, var(--theme-highlight-red) 20%, transparent) !important;
+  --button-comment-active-bg: color-mix(in srgb, var(--theme-highlight-orange) 20%, transparent) !important;
+
+  /* Middle chunk of comment dropdown menu in PDF reader */
+  --comment-border-color: var(--theme-highlight-purple) !important;
+
+  /* Color of "learn more" link on comment dropdown in PDF reader */
+  --link-fg-color: var(--theme-link-color) !important;
+  --link-hover-fg-color: var(--theme-highlight-green) !important;
+
+  --sidebar-bg-color: var(--theme-popup-background) !important;
+  --sidebar-border-color: var(--theme-highlight-yellow) !important;
+
+}
+#commentManagerDialog {
+    border-color: var(--theme-highlight-yellow) !important;
+}
+/* text color of main text in comment dropdown in PDF reader */
+.sidebarCommentText {
+  color: var(--theme-body-color) !important;
+}
+/* Shows count of comments in comment dropdown in PDF reader */
+#editorCommentsSidebarCount {
+  color: var(--theme-popup-background) !important;
+}
+/* used in UI elements, like the main container BG of the signature and comment dialogue in the PDF tool */
 .dialog {
-  --dialog-bg-color: var(--base00) !important;
-  --dialog-border-color: var(--base0A) !important;
-  --text-primary-color: var(--base05) !important;
-  --input-text-bg-color: var(--base00) !important;
-  --input-text-fg-color: var(--base0D) !important;
+  --dialog-bg-color: var(--theme-popup-background) !important;
+  --dialog-border-color: var(--theme-highlight-yellow) !important;
+  --text-primary-color: var(--theme-body-color) !important;
+  --input-text-bg-color: var(--theme-popup-background) !important;
+  --input-text-fg-color: var(--theme-link-color) !important;
 
-  --button-primary-bg-color: var(--base01) !important;
-  --button-primary-hover-bg-color: var(--base00) !important;
-  --button-primary-active-bg-color: var(--base00) !important;
-  --button-primary-active-fg-color: var(--base0E) !important;
+  --button-primary-bg-color: var(--theme-toolbar-background) !important;
+  --button-primary-hover-bg-color: var(--theme-popup-background) !important;
+  --button-primary-active-bg-color: var(--theme-popup-background) !important;
+  --button-primary-active-fg-color: var(--theme-highlight-purple) !important;
   --button-primary-active-border-color: var(--button-primary-active-fg-color) !important;
-  --button-primary-hover-border-color: var(--base0B) !important;
-  --button-primary-border-color: var(--base0D) !important;
+  --button-primary-hover-border-color: var(--theme-highlight-green) !important;
+  --button-primary-border-color: var(--theme-link-color) !important;
  /* ie. cancel button when adding signature in PDF tool */
-  --button-secondary-border-color: var(--base05) !important;
-  --button-secondary-hover-border-color: var(--base09) !important;
+  --button-secondary-border-color: var(--theme-body-color) !important;
+  --button-secondary-hover-border-color: var(--theme-highlight-orange) !important;
 
-  --textarea-bg-color: var(--base00) !important;
-  --textarea-fg-color: var(--base05) !important;
-}
-/* annoying.. handles the stuff INSIDE the dialog */
-.signatureDialog {
-	--primary-color: var(--base05) !important;
-	--border-color: var(--base0A) !important;
-	--open-link-fg: var(--link-fg-color) !important;
-	--open-link-hover-fg: var(--link-hover-fg-color) !important;
+  --textarea-bg-color: var(--theme-popup-background) !important;
+  --textarea-fg-color: var(--theme-body-color) !important;
 }
 #addSignatureDialog {
-  --clear-signature-button-border-color: var(--base08) !important;
+  --clear-signature-button-bg-hover: var(--theme-popup-background) !important;
+  --clear-signature-button-bg-active: var(--theme-popup-background) !important;
+  --clear-signature-button-bg-focus: var(--theme-popup-background) !important;
+  --clear-signature-button-bg-disabled: var(--theme-popup-background) !important;
+  --clear-signature-button-active-color: var(--theme-highlight-red) !important;
+  --clear-signature-button-disabled-color: var(--theme-text-color-alt) !important;
+  --clear-signature-button-border-color: var(--theme-highlight-red) !important;
   --clear-signature-button-border-width: 1px !important;
-  --clear-signature-button-bg-hover: var(--base00) !important;
-  --clear-signature-button-active-color: var(--base00) !important;
-  --clear-signature-button-bg-active: var(--base00) !important;
-  --clear-signature-button-bg-focus: var(--base00) !important;
-  --clear-signature-button-bg-disabled: var(--base00) !important;
-  --clear-signature-button-disabled-color: var(--base04) !important;
-  --tab-top-line-active-color: var(--base0B) !important;
-  --tab-top-line-hover-color: var(--base09) !important;
-  --tab-text-hover-color: var(--base0D) !important;
-  --tab-bg-hover: var(--base00) !important;
-  --tab-bg-active-hover-color: var(--base00) !important;
-  --tab-top-line-inactive-color: var(--base0E) !important;
-  --signature-placeholder-color: var(--base03) !important;
+  --tab-top-line-active-color: var(--theme-highlight-green) !important;
+  --tab-top-line-hover-color: var(--theme-highlight-orange) !important;
+  --tab-text-hover-color: var(--theme-link-color) !important;
+  --tab-bg-hover: var(--theme-popup-background) !important;
+  --tab-bg-active-hover-color: var(--theme-popup-background) !important;
+  --tab-top-line-inactive-color: var(--theme-highlight-purple) !important;
+/*   --signature-placeholder-color: var(--theme-splitter-color) !important; */
 }
 #addSignatureDoorHanger {
-    --button-signature-hover-bg: color-mix( in srgb, var(--base0B), transparent 80% ) !important; 
-    --signature-hover-bg: color-mix( in srgb, var(--base0B), transparent 80% ) !important; 
-}
-
-/* the popup that appears when you hihglight stuff in the PDF tool */
-& .editToolbar {
-    --editor-toolbar-bg-color: var(--base00) !important;
-    --editor-toolbar-fg-color: var(--base09) !important;
-    --editor-toolbar-hover-bg-color: color-mix( in srgb, var(--editor-toolbar-fg-color), transparent 80% ) !important; 
-    --editor-toolbar-border-color: var(--base09) !important;
-}
-
-
-/* API response pages */
-.panelContent {
-    background: var(--base01) !important;
-}
-.treeTable .treeRow.selected :where(:not(.objectBox-jsonml)), .treeTable .treeRow.selected .treeLabelCell::after {
-    color: var(--base00) !important;
-}
-/* JSON/raw data/HEADERS strip */
-.tabs .tabs-navigation .tabs-menu {
-	background-color: var(--base01) !important;
-}
-.tabs .tabs-menu-item {
-	color: var(--base0B);
+    --button-signature-hover-bg: color-mix(in srgb, var(--theme-highlight-green) 20%, transparent) !important; 
+    --signature-hover-bg: color-mix(in srgb, var(--theme-highlight-green) 20%, transparent) !important; 
 }

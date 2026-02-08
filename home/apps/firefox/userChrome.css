@@ -430,6 +430,10 @@ findbar checkbox[checked="true"] {
     color: var(--base00) !important;
     /* background-color: rgba(var(--base0A), 0.2) !important; */
 }
+#urlbar {
+    /* color of dropdown item when clicked on */
+    --urlbarView-highlight-background: color-mix( in srgb, var(--base0D), transparent 80% ) !important; 
+}
 
 /* Bookmarks bar  */
 .bookmark-item .toolbarbutton-icon {
@@ -518,4 +522,8 @@ menupopup, panel {
 	min-width: 90px;
 	padding: 46px 5px 5px;
 	margin: 2px;
+}
+
+.searchmode-switcher {
+    display: none !important;
 }
