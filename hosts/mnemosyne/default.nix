@@ -42,6 +42,9 @@
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
 
+  # Need this to make wayland work with the integrated GPU
+  hardware.graphics.enable = true;
+
   # Give the machine a unique hostname
   networking.hostName = "mnemosyne";
 
