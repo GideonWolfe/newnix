@@ -26,6 +26,11 @@
 
     # Hyprland stack
     ../sessions/hypr/hyprland.nix
+    # TODO this should be able to be imported without consequence
+    # Just finalizing how Niri handles DMS and other imports
+    # For now import niri manually in the host config
+    # Niri
+    #../sessions/niri/niri.nix
 
     # Browser
     ../apps/firefox/firefox.nix
