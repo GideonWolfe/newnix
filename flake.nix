@@ -161,6 +161,16 @@
       # Test Proxmox VM #
       ###################
 
+      #########################
+      # Mnemosyne (Local NAS) #
+      #########################
+      nixosConfigurations.mnemosyne = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/mnemosyne
+        ];
+      };
 
 
       # deploy-rs global settings

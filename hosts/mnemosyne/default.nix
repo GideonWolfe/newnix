@@ -20,6 +20,12 @@
     
     # Augment with extra roles as needed
     ../../system/roles/hardware.nix # This is a local system with physical access
+
+
+    #############
+    # NAS Stuff #
+    #############
+
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
