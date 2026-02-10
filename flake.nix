@@ -174,6 +174,7 @@
       deploy.nodes.mnemosyne = {
         hostname = "192.168.0.137";
         profiles.system.path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.mnemosyne;
+        profiles.system.user = "root";
       };
 
 
@@ -181,7 +182,7 @@
       deploy = {
         sshUser = "gideon";
         #sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk" "-p" "2736"];
-        #sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk"];
+        sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk"];
         user = "root";
         fastConnection = true;
         interactiveSudo = true;
