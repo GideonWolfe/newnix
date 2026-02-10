@@ -25,6 +25,8 @@
     simple-mtpfs # mount cell phone filesystems
     dosfstools # drivers for DOS filesystems
     uefitool # GUI for manipulating and viewing UEFI firmware files
+    gptfdisk # GPT partitioning CLI tool, used for wiping new disks
+    nfs-utils # NFS commands like showmount and exportfs
 
     # Backup CLI
     restic

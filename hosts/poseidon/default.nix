@@ -26,6 +26,7 @@
     
     # Or any other arbitrary module we are testing
     #../../system/modules/services/radio/hamclock/hamclock.nix
+    ../../system/roles/home-machine.nix # This machine lives at home, so it should have access to the NAS and NFS shares
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

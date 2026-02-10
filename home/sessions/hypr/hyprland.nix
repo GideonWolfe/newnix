@@ -7,7 +7,7 @@ with config.lib.stylix.colors;
   # Import helper programs
   imports = [
     ./hypridle.nix # Idle daemon
-    ./hyprpanel.nix # Desktop shell
+    #./hyprpanel.nix # Desktop shell # DMS for now
     ./hyprlock.nix # Lock screen
     ./hyprpaper.nix # wallpaper daemon
   ];

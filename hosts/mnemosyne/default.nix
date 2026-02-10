@@ -25,6 +25,12 @@
     #############
     # NAS Stuff #
     #############
+    # HDD monitoring with smartd and scrutiny
+    ../../system/roles/hdds.nix 
+    # Services and tools to create and manage ZFS pools
+    ./zfs/zfs.nix
+    # Allow our datasets to be shared over NFS
+    ./nfs/nfs.nix
 
   ];
 
@@ -48,10 +54,6 @@
   hardware.firmware = [ pkgs.linux-firmware ];
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
-
-  environment.systemPackages = with pkgs; [
-    switch-to-configuration-ng
-  ];
 
   # Give the machine a unique hostname
   networking.hostName = "mnemosyne";
