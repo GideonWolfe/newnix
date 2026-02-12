@@ -4,6 +4,7 @@
   # Configure the ZFS exporter for prometheus
   services.prometheus.exporters.zfs = {
     enable = true;
+    pools = [ "tank" ]; 
     #extraFlags = [];
   };
 
@@ -13,7 +14,7 @@
     prometheus.scrape "zfs_exporter" {
       // TODO finalize this
       targets = [
-        {"__address__" = "localhost:9231", "job" = "zfs", "instance" = "${config.networking.hostName}:9231"},
+        {"__address__" = "localhost:${toString config.services.prometheus.exporters.zfs.port}", "job" = "zfs", "instance" = "${config.networking.hostName}:${toString config.services.prometheus.exporters.node.port}"},
       ]
       scrape_interval = "30s"
       forward_to = [prometheus.remote_write.default.receiver]
