@@ -30,6 +30,8 @@
     ############
     # General system utilities
     ../../packages/utilities/system.nix 
+    ../../packages/utilities/files.nix 
+    ../../packages/utilities/nix.nix 
     # Command line utilities
     ../../packages/utilities/cli.nix
     # System monitors

@@ -3,29 +3,25 @@
 {
   virtualisation.oci-containers.containers.jellyfin = {
     image = "linuxserver/jellyfin:latest";
-    ports = [ "4204:8096" ];
+    # Exposed on port 8096 of the host
+    ports = [ "8096:8096" ];
     autoStart = true;
+    # Ensure it runs as a regular user
     environment = {
       PUID = "1000";
       PGID = "100";
     };
+    # Important volumes
     volumes = [
-      "/home/overseer/server/services/media/jellyfin/data/:/config"
-      "/pool/data/media/tv/:/data/tvshows"
-      "/pool/data/media/movies/:/data/movies"
+      # This is virtual disk attached by proxmox
+      "/data/jellyfin/data/:/config"
+      # This is the LAN NAS
+      "/nas/tank/media/tv/:/data/tvshows"
+      "/nas/tank/media/movies/:/data/movies"
+      "/nas/tank/media/music/:/data/music"
+      # jellyfin.org/docs/general/administration/backup-and-restore/
+      # When I trigger a backup from the Jellyfin UI, it will save to the NAS
+      "/nas/tank/app-backups/jellyfin/:/config/data/backups"
     ];
-    extraOptions = [
-      "--network=traefik_proxy"
-      # output of getent group render | cut -d: -f3
-      "--group-add=303"
-      "--device=/dev/dri/renderD128:/dev/dri/renderD128"
-    ];
-    labels = {
-      "traefik.enable" = "true";
-      "traefik.docker.network" = "traefik_proxy";
-      "traefik.http.routers.jellyfin.rule" = "Host(`jellyfin.gideonwolfe.xyz`)";
-      "traefik.http.routers.jellyfin.entrypoints" = "http,https";
-      "traefik.http.routers.jellyfin.tls.certresolver" = "myresolver";
-    };
   };
 }

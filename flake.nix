@@ -158,8 +158,29 @@
       poseidon = self.packages.x86_64-linux.poseidon;
 
       ###################
-      # Test Proxmox VM #
+      # Base Proxmox VM #
       ###################
+      # Base config for proxmox VM without any specific role
+      # Can be used to generate image that can be deployed on proxmox
+      # Then a more specific VM role can be layered on top and deployed to the running base VM
+      # Alternatively, the specific VM role can be deployed directly 
+      # with nixos-anywhere if the VM just boots a NixOS ISO
+      nixosConfigurations.proxmox-base = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+        ];
+      };
+      # Media VM
+      nixosConfigurations.proxmox-base = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+          ./hosts/proxmox/vms/media_vm
+        ];
+      };
 
       #########################
       # Mnemosyne (Local NAS) #

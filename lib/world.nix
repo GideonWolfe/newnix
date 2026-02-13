@@ -157,14 +157,6 @@
               publicKey = "PENDING_KEY_GENERATION";
               vpnIp = "10.100.0.4";
             };
-            alpha = {
-              publicKey = "PENDING_KEY_GENERATION";
-              vpnIp = "10.100.0.5";
-            };
-            beta = {
-              publicKey = "Vf/9UVNxgtkOwpUFRf0Qpm4UCa2WXPRQw0deBaXEdDI="; # athena doesn't reference it yet
-              vpnIp = "10.100.0.9";
-            };
           };
           description = "WireGuard client configurations";
         };
@@ -178,31 +170,38 @@
         };
       };
 
-      # K3s cluster configuration
-      cluster = {
+      mnemosyne = {
         ip = lib.mkOption {
           type = lib.types.str;
-          default = "192.168.0.50";
-          description = "The virtual IP (VIP) of the k3s cluster";
-        };
-
-        alpha = {
-          ip = lib.mkOption {
-            type = lib.types.str;
-            default = "192.168.0.163";
-            description = "The IP address of the alpha node";
-          };
-        };
-
-        beta = {
-          ip = lib.mkOption {
-            type = lib.types.str;
-            default = "192.168.0.116";
-            description = "The IP address of the beta node";
-          };
+          default = "192.168.0.137";
+          description = "The local IP of my NAS";
         };
       };
 
+      proxmox = {
+        vms = {
+          media_vm = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.0.10";
+              description = "The IP address of the media VM";
+            };
+          };
+        };
+      };
+    };
+
+    # Some global settings for various services
+    # They could be running on any host
+    # But we can keep the ports consistent
+    services = {
+      sonarr = {
+        port = lib.mkOption {
+          type = lib.types.port;
+          default = 8989;
+          description = "Host port for Sonarr service";
+        };
+      };
     };
 
     locations = {

@@ -17,16 +17,13 @@
     # This host uses my personal secrets and accounts
     ../../users/gideon/personal.nix
 
-    # Apply a system profile that matches this host
     # This will enable the necessary roles and packages
     ../../system/profiles/light-workstation.nix
     
-    # Augment with extra roles as needed
+    # Physical machine
     ../../system/roles/hardware.nix
-    
-    # Or any other arbitrary module we are testing
-    #../../system/modules/services/radio/hamclock/hamclock.nix
-    ../../system/roles/home-machine.nix # This machine lives at home, so it should have access to the NAS and NFS shares
+    # This machine mounts the NAS's NFS shares for easy access
+    ../../system/modules/networking/mnemosyne-nfs.nix 
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

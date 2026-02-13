@@ -54,9 +54,12 @@
 
     icons = {
       enable = true;
-      package = pkgs.libsForQt5.breeze-icons;
-      dark = "breeze-dark";
-      light = "breeze";
+      #package = pkgs.libsForQt5.breeze-icons;
+      # dark = "breeze-dark";
+      # light = "breeze";
+      package = pkgs.adwaita-icon-theme;
+      dark = "Adwaita";
+      light = "Adwaita";
     };
     
     # System-level targets only

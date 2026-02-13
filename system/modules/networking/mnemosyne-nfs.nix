@@ -1,14 +1,12 @@
-# This role is for any machine that lives at my house
-# Using this, it is able to mount the NFS shares on my NAS for easy access
-{ inputs, ... }:
+# This module configures a mountpoint for mounting my Local NAS
+{ inputs, config, ... }:
 {
   # Provide support for mounting NFS systems
   boot.supportedFilesystems = [ "nfs" ];
 
   # Defines the mounting for the NFS share
   fileSystems."/nas/tank" = {
-    # TODO: this IP should be a variable, or maybe just an SSH hostname?
-    device = "192.168.0.137:/tank";
+    device = "${config.custom.world.hosts.mnemosyne.ip}:/tank";
     fsType = "nfs";
     options = [ 
       "noauto" # Don't automatically mount at boot

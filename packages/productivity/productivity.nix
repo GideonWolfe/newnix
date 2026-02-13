@@ -28,6 +28,7 @@
     pkgs.transmission_4-gtk # torrent client
     pkgs.webtorrent_desktop # stream torrents from the web
     pkgs.tartube-yt-dlp # GUI for youtube-dlp
+    pkgs.parabolic # GUI for youtube-dlp
 
     #######################
     # Encoding / Decoding #

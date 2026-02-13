@@ -25,6 +25,8 @@
     #############
     # NAS Stuff #
     #############
+    # CPU modules and stuff for NAS hardware
+    ../../system/modules/hardware/ugreen-nas.nix # This is the UGREEN NAS box, so it needs the hardware tweaks for that
     # HDD monitoring with smartd and scrutiny
     ../../system/roles/hdds.nix 
     # Services and tools to create and manage ZFS pools
@@ -47,13 +49,6 @@
 
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
-
-  # Need this to make wayland work with the integrated GPU
-  hardware.graphics.enable = true;
-  hardware.enableRedistributableFirmware = true;
-  hardware.firmware = [ pkgs.linux-firmware ];
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
 
   # Give the machine a unique hostname
   networking.hostName = "mnemosyne";
