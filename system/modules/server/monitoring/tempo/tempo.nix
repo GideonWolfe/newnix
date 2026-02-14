@@ -12,7 +12,7 @@
 
     settings = {
       server = {
-        http_listen_port = config.custom.world.hosts.monitor.tempo.port;
+        http_listen_port = config.custom.world.services.tempo.port;
         grpc_listen_port = 9096; # Explicitly set to avoid conflict with Loki on 9095
       };
 
@@ -171,7 +171,7 @@
           path = "./generator/wal";
           remote_write = [
             {
-              url = "${config.custom.world.hosts.monitor.prometheus.protocol}://localhost:${toString config.custom.world.hosts.monitor.prometheus.port}/api/v1/write";
+              url = "${config.custom.world.services.prometheus.protocol}://localhost:${toString config.custom.world.services.prometheus.port}/api/v1/write";
             }
           ];
         };
@@ -191,7 +191,7 @@
 
   # Open firewall ports for Tempo
   networking.firewall.allowedTCPPorts = [
-    config.custom.world.hosts.monitor.tempo.port # HTTP API (3200)
+    config.custom.world.services.tempo.port # HTTP API (3200)
     9096 # gRPC API (default, keeping for external access)
     14268 # Jaeger HTTP
     14250 # Jaeger gRPC
@@ -201,7 +201,7 @@
 
   # Traefik routing for Tempo
   services.traefik.dynamicConfigOptions.http.routers.tempo = {
-    rule = "Host(`${config.custom.world.hosts.monitor.tempo.domain}`)";
+    rule = "Host(`${config.custom.world.services.tempo.domain}`)";
     service = "tempo";
     entryPoints = [
       "http"
@@ -216,7 +216,7 @@
       passHostHeader = true;
       servers = [
         {
-          url = "http://${config.custom.world.hosts.monitor.ip}:${toString config.custom.world.hosts.monitor.tempo.port}";
+          url = "http://${config.custom.world.services.tempo.ip}:${toString config.custom.world.services.tempo.port}";
         }
       ];
     };

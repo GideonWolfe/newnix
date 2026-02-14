@@ -7,7 +7,7 @@
 }:
 {
 
-  networking.firewall.allowedTCPPorts = [ config.custom.world.hosts.monitor.grafana.port ]; # 3000 for Grafana
+  networking.firewall.allowedTCPPorts = [ config.custom.world.services.grafana.port ]; # 3000 for Grafana
 
   services.grafana = {
     enable = true;
@@ -15,7 +15,7 @@
     # Not available yet, so done manually above
     #openFirewall = true;
 
-    dataDir = config.custom.world.hosts.monitor.grafana.dataDir;
+    dataDir = config.custom.world.services.grafana.dataDir;
 
     # ONLY AVAILABLE IN UNSTABLE :()
     #declarativePlugins = with pkgs.grafanaPlugins; [
@@ -34,9 +34,9 @@
       };
 
       server = {
-        domain = config.custom.world.hosts.monitor.grafana.domain;
-        http_port = config.custom.world.hosts.monitor.grafana.port;
-        protocol = config.custom.world.hosts.monitor.grafana.protocol;
+        domain = config.custom.world.services.grafana.domain;
+        http_port = config.custom.world.services.grafana.port;
+        protocol = config.custom.world.services.grafana.protocol;
         http_addr = "0.0.0.0"; # Bind to all interfaces, not just localhost
       };
 
@@ -65,19 +65,19 @@
               name = "Prometheus";
               type = "prometheus";
               uid = "prometheus";
-              url = "${config.custom.world.hosts.monitor.prometheus.protocol}://localhost:${toString config.custom.world.hosts.monitor.prometheus.port}";
+              url = "${config.custom.world.services.prometheus.protocol}://localhost:${toString config.custom.world.services.prometheus.port}";
             }
             {
               name = "Loki";
               type = "loki";
               uid = "loki";
-              url = "${config.custom.world.hosts.monitor.loki.protocol}://localhost:${toString config.custom.world.hosts.monitor.loki.port}";
+              url = "${config.custom.world.services.loki.protocol}://localhost:${toString config.custom.world.services.loki.port}";
             }
             {
               name = "Tempo";
               type = "tempo";
               uid = "tempo";
-              url = "${config.custom.world.hosts.monitor.tempo.protocol}://localhost:${toString config.custom.world.hosts.monitor.tempo.port}";
+              url = "${config.custom.world.services.tempo.protocol}://localhost:${toString config.custom.world.services.tempo.port}";
               jsonData = {
                 tracesToLogs = {
                   datasourceUid = "loki";
@@ -123,7 +123,7 @@
       "http"
       "https"
     ];
-    rule = "Host(`${config.custom.world.hosts.monitor.grafana.domain}`)";
+    rule = "Host(`${config.custom.world.services.grafana.domain}`)";
     service = "grafana";
     tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
     tls.certResolver = "myresolver";
@@ -132,7 +132,7 @@
   services.traefik.dynamicConfigOptions.http.services.grafana = {
     loadBalancer = {
       passHostHeader = true;
-      servers = [ { url = "http://${config.custom.world.hosts.monitor.ip}:3000"; } ];
+      servers = [ { url = "http://${config.custom.world.services.grafana.ip}:${toString config.custom.world.services.grafana.port}"; } ];
     };
   };
 }

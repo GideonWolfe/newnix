@@ -11,8 +11,8 @@
     # Apply a system profile that matches this host
     ../../system/profiles/minimal.nix
 
-    # Or any other arbitrary module we are testing
-    #../../system/modules/services/radio/hamclock/hamclock.nix
+    # Monitoring server stack
+    ../../system/modules/server/monitoring/monitoring.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

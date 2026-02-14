@@ -2,6 +2,8 @@
     imports = [
         ../../../system/modules/server/media/sonarr/sonarr.nix
         ../../../system/modules/server/media/sonarr/sonarr-monitoring.nix
+
+        ../../../system/modules/server/media/jellyfin/jellyfin.nix
     ];
 
     # Unique hostname for this MV

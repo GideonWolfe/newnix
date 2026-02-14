@@ -4,6 +4,7 @@
 { lib, config, ... }:
 
 {
+    # https://github.com/onedr0p/exportarr
     services.prometheus.exporters.exportarr-sonarr = {
         enable = true;
         # Whether the service is running as a docker container or a native nix service,
@@ -28,7 +29,7 @@
         // Scrape Sonarr metrics from the exportarr-sonarr exporter
         prometheus.scrape "exportarr_sonarr" {
             targets = [
-                {"__address__" = "localhost:${toString config.services.prometheus.exporters.exportarr-sonarr.port}", "job" = "exportarr-sonarr", "instance" = "${config.networking.hostName}:${toString config.services.prometheus.exporters.node.port}"},
+                {"__address__" = "localhost:${toString config.services.prometheus.exporters.exportarr-sonarr.port}", "job" = "exportarr-sonarr", "instance" = "${config.networking.hostName}:${toString config.services.prometheus.exporters.exportarr-sonarr.port}"},
             ]
             scrape_interval = "30s"
             forward_to = [prometheus.remote_write.default.receiver]

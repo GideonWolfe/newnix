@@ -28,15 +28,16 @@
       // Prometheus remote write endpoint
       prometheus.remote_write "default" {
         endpoint {
-          // no port because traefik handles routing and TLS
-          url = "http://${config.custom.world.hosts.monitor.prometheus.domain}/api/v1/write"
+          // Traefik handles routing/TLS; no explicit port
+          url = "${config.custom.world.services.prometheus.protocol}://${config.custom.world.services.prometheus.domain}/api/v1/write"
         }
       }
 
       // Loki remote write endpoint
       loki.write "default" {
         endpoint {
-          url = "http://${config.custom.world.hosts.monitor.loki.domain}/loki/api/v1/push"
+          // Traefik handles routing/TLS; no explicit port
+          url = "${config.custom.world.services.loki.protocol}://${config.custom.world.services.loki.domain}/loki/api/v1/push"
         }
       }
 

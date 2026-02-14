@@ -15,7 +15,7 @@
       auth_enabled = false;
 
       server = {
-        http_listen_port = config.custom.world.hosts.monitor.loki.port;
+        http_listen_port = config.custom.world.services.loki.port;
       };
 
       common = {
@@ -53,11 +53,11 @@
   };
 
   # Open firewall for Loki
-  networking.firewall.allowedTCPPorts = [ config.custom.world.hosts.monitor.loki.port ];
+  networking.firewall.allowedTCPPorts = [ config.custom.world.services.loki.port ];
 
   # Traefik routing for Loki
   services.traefik.dynamicConfigOptions.http.routers.loki = {
-    rule = "Host(`${config.custom.world.hosts.monitor.loki.domain}`)";
+    rule = "Host(`${config.custom.world.services.loki.domain}`)";
     service = "loki";
     entryPoints = [
       "http"
@@ -72,7 +72,7 @@
       passHostHeader = true;
       servers = [
         {
-          url = "http://${config.custom.world.hosts.monitor.ip}:${toString config.custom.world.hosts.monitor.loki.port}";
+          url = "http://${config.custom.world.services.loki.ip}:${toString config.custom.world.services.loki.port}";
         }
       ];
     };

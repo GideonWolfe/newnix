@@ -3,8 +3,7 @@
 {
   virtualisation.oci-containers.containers.jellyfin = {
     image = "linuxserver/jellyfin:latest";
-    # Exposed on port 8096 of the host
-    ports = [ "8096:8096" ];
+    ports = [ "${config.custom.world.services.jellyfin.port}:8096" ];
     autoStart = true;
     # Ensure it runs as a regular user
     environment = {
@@ -14,7 +13,7 @@
     # Important volumes
     volumes = [
       # This is virtual disk attached by proxmox
-      "/data/jellyfin/data/:/config"
+      "/data/jellyfin/config/:/config"
       # This is the LAN NAS
       "/nas/tank/media/tv/:/data/tvshows"
       "/nas/tank/media/movies/:/data/movies"
