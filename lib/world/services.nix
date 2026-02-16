@@ -121,11 +121,18 @@ in
       domain = "jellyfin.gideonwolfe.xyz";
       protocol = "https";
     };
+    seerr = mkService {
+      name = "Seerr";
+      ip = config.custom.world.hosts.media.ip;
+      port = 5055;
+      domain = "jellyseerr.gideonwolfe.xyz";
+      protocol = "https";
+    };
     navidrome = mkService {
       name = "Navidrome";
       ip = config.custom.world.hosts.media.ip;
       port = 4533;
-      domain = "navidrome.gideonwolfe.xyz";
+      domain = "nd.gideonwolfe.xyz";
       protocol = "https";
     };
   };

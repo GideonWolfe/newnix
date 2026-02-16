@@ -7,7 +7,6 @@
         #########
         ../roles/base.nix # sets up low level system config
         ../roles/desktop.nix # everything needed to give base desktop experience
-        #../roles/local-ai.nix # everything needed to give local AI experience
         ../roles/monitoring.nix # Monitor system logs and metrics through my server
 
         ############

@@ -66,6 +66,17 @@
               type = "prometheus";
               uid = "prometheus";
               url = "${config.custom.world.services.prometheus.protocol}://localhost:${toString config.custom.world.services.prometheus.port}";
+
+              # TODO testing
+              jsonData = {
+                basicAuth = true;
+                basicAuthUser = "${config.sops.secrets."prometheus/push_user".value}";
+                #basicAuthPassword = "${config.sops.secrets."prometheus/push_password".value}";
+              };
+              secureJsonData = {
+                basicAuthPassword = "$__file{${config.sops.secrets."prometheus/push_password".path}}";
+              };
+
             }
             {
               name = "Loki";

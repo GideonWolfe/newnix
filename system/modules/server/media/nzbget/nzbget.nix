@@ -10,11 +10,9 @@
       PGID = "100";
     };
     volumes = [
-      #"/pool/data/services/media/nzbget/data:/config"
-      "/home/overseer/server/services/media/nzbget/data/:/config"
+      "/data/nzbget/config/:/config"
       "${config.custom.world.hosts.media.downloadsDir}:/downloads"
     ];
-    extraOptions = [ "--network=traefik_proxy" ];
   };
 
 }

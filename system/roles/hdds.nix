@@ -8,6 +8,5 @@
     ###########
     ../modules/hardware/smartd.nix # HDD/SSD S.M.A.R.T monitoring
     ../modules/hardware/scrutiny.nix # Disk health monitoring
-
   ];
 }

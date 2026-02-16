@@ -173,7 +173,7 @@
         ];
       };
       # Media VM
-      nixosConfigurations.proxmox-base = lib.nixosSystem {
+      nixosConfigurations.media-vm = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [

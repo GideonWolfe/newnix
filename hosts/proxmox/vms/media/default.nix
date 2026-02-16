@@ -1,9 +1,26 @@
 {
     imports = [
-        ../../../system/modules/server/media/sonarr/sonarr.nix
-        ../../../system/modules/server/media/sonarr/sonarr-monitoring.nix
+        # TV Database
+        #../../../system/modules/server/media/sonarr/sonarr.nix
+        #../../../system/modules/server/media/sonarr/sonarr-monitoring.nix
 
-        ../../../system/modules/server/media/jellyfin/jellyfin.nix
+        # Movie Database
+        #../../../system/modules/server/media/radarr/radarr.nix
+        #../../../system/modules/server/media/radarr/radarr-monitoring.nix
+
+        # Push optimized settings to them
+        #../../../system/modules/server/media/recyclarr/recyclarr.nix
+
+        # Centralized indexer manager
+        #../../../system/modules/server/media/prowlarr/prowlarr.nix
+
+        # Download client
+        ../../../system/modules/server/media/nzbget/nzbget.nix
+
+        # Frontends
+        #../../../system/modules/server/media/jellyfin/jellyfin.nix
+        #../../../system/modules/server/media/seerr/seerr.nix
+        #../../../system/modules/server/media/navidrome/navidrome.nix
     ];
 
     # Unique hostname for this MV
