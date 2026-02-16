@@ -19,7 +19,7 @@
         ../../packages/science/biology/biology.nix
         ../../packages/science/chemistry/chemistry.nix
         ../../packages/science/data/data.nix
-        ../../packages/science/engineering/engineering.nix
+        ../../packages/science/engineering/electronics.nix
         ../../packages/science/engineering/cad.nix
         ../../packages/science/geography/geography.nix
         ../../packages/science/math/math.nix

@@ -21,6 +21,22 @@
       "10, monitor:DP-1, default:true"
     ];
   };
+  # Niri monitor settings to mirror the Hyprland layout
+  programs.niri.settings.outputs = lib.mkForce {
+    "DP-3" = {
+      position = { x = 0; y = 0; };
+      scale = 1.0;
+    };
+    "DP-2" = {
+      position = { x = 2560; y = -25; };
+      scale = 1.0;
+    };
+    "DP-1" = {
+      position = { x = 5120; y = -335; };
+      scale = 1.0;
+      transform = { rotation = 270; };
+    };
+  };
   # Override the scale settings for hyprpanel
   programs.hyprpanel.settings.theme = lib.mkForce {
       bar = {
@@ -64,4 +80,5 @@
       middle = [ "media" ];
       right = [ "volume" "clock" "notifications" ];
     };
+  };
 }

@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   # Configure Alloy to send the data to my central monitoring server
   services.alloy.enable = true;

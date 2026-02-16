@@ -5,7 +5,7 @@
     # Modules #
     ###########
     # Import global world data
-    ../../lib/world/
+    ../../lib/world
     # Basic nix settings
     ../modules/system/nix.nix
     # Timezone

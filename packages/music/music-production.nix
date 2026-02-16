@@ -21,7 +21,7 @@
     # Guitar processing
     rakarrack # Multi-effects processor emulating pedalboard
     guitarix # Guitar amp engine
-    gxpluginx-lv2 # Guitarix plugins
+    gxplugins-lv2 # Guitarix plugins
     tonelib-metal # Metal guitar tones
     tonelib-gfx
     tonelib-jam

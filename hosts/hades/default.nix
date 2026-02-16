@@ -16,10 +16,12 @@
 
     # Apply a system profile that matches this host
     # This will enable the necessary roles and packages
-    ../../system/profiles/full-workstation.nix
+    ../../system/profiles/light-workstation.nix
     
     # Augment with extra roles as needed
     ../../system/roles/hardware.nix
+    # Mount the NAS since we're on my LAN
+    ../../system/modules/networking/mnemosyne-nfs.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

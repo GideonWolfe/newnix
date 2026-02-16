@@ -2,7 +2,7 @@
 
 let
   asciiMol = pkgs.python312Packages.callPackage ../custom/asciiMol.nix { };
-  plascad = pkgs.callPackage ../custom/plascad.nix { };
+  plascad = pkgs.callPackage ../../custom/plascad.nix { };
   #ugene = pkgs.callPackage ../custom/ugene.nix { }; # BUG: failing build
 in {
   environment.systemPackages = [

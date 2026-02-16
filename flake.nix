@@ -153,6 +153,18 @@
         ];
       };
 
+      #########
+      # Hades #
+      #########
+      # System definition
+      nixosConfigurations.hades = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/hades
+        ];
+      };
+
       # Build target and convenience alias: nix build .#poseidon
       packages.x86_64-linux.poseidon = self.nixosConfigurations.poseidon.config.system.build.toplevel;
       poseidon = self.packages.x86_64-linux.poseidon;
