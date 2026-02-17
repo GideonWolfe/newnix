@@ -17,13 +17,16 @@
     # Basic security services
     ../modules/system/security.nix
     # Set up SOPS for the system
-    ../modules/system/sops.nix
+    #../modules/system/sops.nix
+    ../modules/system/sops_v2.nix
     # Theme the system
     ../modules/system/stylix.nix
     # Enable fish shell
     ../modules/system/shell.nix
     # Enable appimage support
     ../modules/system/appimage.nix
+    # Virtualization support
+    ../modules/system/virtualization.nix
 
     ############
     # Packages #

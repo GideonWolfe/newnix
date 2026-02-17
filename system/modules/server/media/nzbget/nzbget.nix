@@ -1,8 +1,10 @@
+{config, ...}:
 {
   virtualisation.oci-containers.containers.nzbget = {
     image = "linuxserver/nzbget:latest";
     ports = [ "${builtins.toString config.custom.world.services.nzbget.port}:6789" ];
     autoStart = true;
+    extraOptions = [ "--network=media" ];
     environment = {
       NZBGET_USER = "test";
       NZBGET_PASS = "test";

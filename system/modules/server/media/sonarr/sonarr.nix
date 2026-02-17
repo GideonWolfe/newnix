@@ -6,6 +6,7 @@
     image = "linuxserver/sonarr:4.0.16";
     ports = [ "${builtins.toString config.custom.world.services.sonarr.port}:8989" ];
     autoStart = true;
+    extraOptions = [ "--network=media" ];
     environment = {
       PUID = "1000";
       PGID = "100";

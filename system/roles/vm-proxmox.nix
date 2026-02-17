@@ -1,5 +1,5 @@
 # Role designed to be imported by hosts running in proxmox
-{ inputs, modulesPath, ... }:
+{ inputs, modulesPath, lib, ... }:
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
@@ -16,6 +16,9 @@
     interval = "weekly";
   };
 
+  # Ensure generated qcow images have enough room on first boot
+  virtualisation.diskSize = lib.mkDefault 30720; # MiB (≈30 GiB)
+
   #########
   # Disks #
   #########
@@ -27,56 +30,55 @@
     fsType = "ext4";
   };
 
-  # Mount the EFI System Partition
-  # TODO: might not be needed depending on bootloader setpu
+  # Mount the EFI System Partition so grub-install sees the ESP
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/ESP";
     fsType = "vfat";
   };
 
-  # Define and mount an additional data disk at /data
-  # To be used if attaching additional disk to VM
-  # Possibly should be added at a per-host level
-  # Automatically format and mount the data disk
-  # fileSystems."/data" = {
-  #   device = "/dev/sdb";
-  #   fsType = "ext4";
-  #   autoFormat = true;  # Automatically format if not formatted
-  #   options = [ "defaults" ];
-  # };
+  # Optional data disk using stable by-id path; set disk serial in Proxmox (e.g., "data")
+  fileSystems."/data" = {
+    # You have to order the new data disk as SECOND so it will be scsi1 instead of scsi0
+    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1";
+    fsType = "ext4";
+    autoFormat = true; # avoid mkfs on existing disks during switch
+    options = [
+      "defaults"
+      "nofail"                  # do not fail boot if disk absent
+      "noauto"                  # don't try to mount automatically on switch
+      "x-systemd.automount"     # mount on first access instead
+      "x-systemd.device-timeout=1s"
+    ];
+    neededForBoot = false;
+  };
 
   ##############
   # Bootloader #
   ##############
-  # TODO: fix
   boot = {
     growPartition = true;
-    #kernelModules = [ "kvm-amd" ];
-    kernelParams = lib.mkForce [ ];
+    kernelParams = [ ];
 
     loader = {
-
-      efi.canTouchEfiVariables = lib.mkForce false;
-      efi.efiSysMountPoint = "/boot";
+      # GRUB in EFI-removable mode so OVMF can boot without NVRAM entries
+      systemd-boot.enable = false;
       grub = {
         enable = true;
         device = "nodev";
-        #device = "/dev/disk/by-label/ESP";
         efiSupport = true;
         efiInstallAsRemovable = true;
       };
-      systemd-boot.enable = lib.mkForce false;
-      # wait for 3 seconds to select the boot entry
-      # timeout = lib.mkForce 3;
+      efi = {
+        canTouchEfiVariables = false;
+        efiSysMountPoint = "/boot";
+      };
     };
-
 
     initrd = {
       availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
       kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
     };
 
-    # clear /tmp on boot to get a stateless /tmp directory.
     tmp.cleanOnBoot = true;
   };
 

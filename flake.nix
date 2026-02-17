@@ -53,6 +53,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Image builder for qcow/proxmox/etc.
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Deployment tool
     deploy-rs = {
       url = "github:serokell/deploy-rs";
@@ -91,7 +97,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, wallpapers, nixvim, stylix, sops-nix, nixos-generators, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -184,13 +190,26 @@
           ./hosts/proxmox
         ];
       };
+      packages.x86_64-linux.proxmox-test-vm = self.nixosConfigurations.proxmox-base.config.system.build.vm;
+
+      # Build a reusable qcow2 image for Proxmox based on the base host config
+      packages.x86_64-linux.proxmox-base-qcow = nixos-generators.nixosGenerate {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+          # Ensure HM modules receive inputs just like normal builds
+          { home-manager.extraSpecialArgs = { inherit inputs; }; }
+        ];
+        format = "qcow-efi";
+      };
       # Media VM
       nixosConfigurations.media-vm = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/proxmox
-          ./hosts/proxmox/vms/media_vm
+          ./hosts/proxmox/vms/media
         ];
       };
 
