@@ -3,14 +3,25 @@
 let
   recyclarrConfigDir = "/data/recyclarr2/config";
   recyclarrConfigFile = pkgs.writeText "recyclarr.yml" ''
-sonarr:
-  tv:
-    base_url: !secret sonarr_url
-    api_key: !secret sonarr_apikey
+  sonarr:
+    tv:
+      base_url: !secret sonarr_url
+      api_key: !secret sonarr_apikey
 '';
 in
 {
-  # Seed secrets.yml from the SOPS template if missing
+  
+
+  # Define a SOPS template for the Recyclarr secrets.yml
+  # Uses the Sonarr API key SOPS secret
+  sops.templates."recyclarr-secrets.yml".content = ''
+    sonarr_url: ${config.custom.world.services.sonarr.protocol}://sonarr:${builtins.toString config.custom.world.services.sonarr.port}
+    sonarr_apikey: ${config.sops.placeholder."sonarr/apikey"}
+  '';
+
+
+  # Seed secrets.yml and recyclarr.yml
+  # Chown necessary because recyclarr wants to create files as root
   systemd.services.recyclarr-seed-secrets = {
     description = "Seed recyclarr secrets.yml";
     wantedBy = [ "multi-user.target" ];
@@ -34,16 +45,5 @@ in
   systemd.services.docker-recyclarr = {
     requires = [ "recyclarr-seed-secrets.service" ];
     after = [ "recyclarr-seed-secrets.service" ];
-  };
-
-  virtualisation.oci-containers.containers.recyclarr = {
-    # https://hub.docker.com/r/recyclarr/recyclarr/tags
-    image = "recyclarr/recyclarr:7.5.2";
-    autoStart = true;
-    extraOptions = [ "--network=media" ];
-    user= "1000:100";
-    volumes = [
-      "${recyclarrConfigDir}:/config/"
-    ];
   };
 }

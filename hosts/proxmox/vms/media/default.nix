@@ -4,26 +4,29 @@
         # Get our secret definitions
         ./secrets/secrets_media.nix
         # TV Database
-        ../../../../system/modules/server/media/sonarr/sonarr.nix
-        #../../../../system/modules/server/media/sonarr/sonarr-monitoring.nix
+        ./services/sonarr/sonarr.nix
+        ./services/sonarr/sonarr-setup.nix
+        #./services/sonarr/sonarr-monitoring.nix
 
         # Movie Database
-        #../../../../system/modules/server/media/radarr/radarr.nix
-        #../../../../system/modules/server/media/radarr/radarr-monitoring.nix
+        #./services/radarr/radarr.nix
+        #./services/radarr/radarr-monitoring.nix
 
         # Push optimized settings to them
-        ../../../../system/modules/server/media/recyclarr/recyclarr.nix
+        ./services/recyclarr/recyclarr.nix
+        ./services/recyclarr/recyclarr-setup.nix
 
         # Centralized indexer manager
-        #../../../../system/modules/server/media/prowlarr/prowlarr.nix
+        #./services/prowlarr/prowlarr.nix
 
         # Download client
-        ../../../../system/modules/server/media/nzbget/nzbget.nix
+        ./services/nzbget/nzbget.nix
+        ./services/nzbget/nzbget-setup.nix
 
         # Frontends
-        #../../../../system/modules/server/media/jellyfin/jellyfin.nix
-        #../../../../system/modules/server/media/seerr/seerr.nix
-        #../../../../system/modules/server/media/navidrome/navidrome.nix
+        #./services/jellyfin/jellyfin/jellyfin.nix
+        #./services/seerr/seerr.nix
+        #./services/navidrome/navidrome.nix
     ];
 
     # Ensure media docker network exists on this host only

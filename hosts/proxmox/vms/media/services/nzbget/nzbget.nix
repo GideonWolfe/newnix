@@ -15,5 +15,4 @@
       "${config.custom.world.hosts.media.downloadsDir}:/downloads"
     ];
   };
-
 }

@@ -16,11 +16,7 @@
         port = config.custom.world.services.sonarr.port;
         openFirewall = true; # might not be necessary since it's local?
         environment = {
-            # TODO do something here
-            # This probably has to be manually configured via sonarr first
-            # Then we can make it into a secret...
-            #API_KEY = config.sops.services.sonarr.apiKey # TODO
-            #API_KEY_FILE = config.sops.services.sonarr.apiKey.path # TODO
+            API_KEY_FILE = config.sops.secrets."sonarr/apikey".path
         };
     };
 

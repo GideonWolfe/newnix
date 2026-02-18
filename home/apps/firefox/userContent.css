@@ -342,3 +342,6 @@ input {
 .res-voteEnhancements-highlightScores span.score {
   color: var(--base0E) !important;
 }
+.entry.res-selected, .entry.res-selected .md-container {
+	background-color: var(--base03) !important;
+}
