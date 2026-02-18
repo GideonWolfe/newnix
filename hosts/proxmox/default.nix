@@ -26,32 +26,6 @@
   # Point at the router
   networking.defaultGateway = "192.168.0.1";
   networking.nameservers = [ "192.168.0.1" ];
-  # Don't let the router automatically assign an IP
-  #networking.interfaces.enp1s0.useDHCP = false;
-
-  #services.openssh.hostKeys = []; # prevent duplicate host key issues when cloning VMs
-  # system.activationScripts.removeSshHostKeys.text = ''
-  #   rm -f /etc/ssh/ssh_host_*
-  # '';
-
-  # Avoid cloning identical entropy: drop saved random seed before first boot so new seed is written
-  # system.activationScripts.clearRandomSeed.text = ''
-  #   rm -f /var/lib/systemd/random-seed
-  # '';
-
-  # Regenerate SSH host keys on first boot (per-VM) and only once
-  # systemd.services.first-boot-regen-ssh-host-keys = {
-  #   description = "Regenerate SSH host keys on first boot";
-  #   wantedBy = [ "multi-user.target" ];
-  #   before = [ "sshd.service" ];
-  #   unitConfig.ConditionPathExists = "!/etc/ssh/.ssh_host_keys_regenerated";
-  #   serviceConfig.Type = "oneshot";
-  #   script = ''
-  #     rm -f /etc/ssh/ssh_host_* || true
-  #     /run/current-system/sw/bin/ssh-keygen -A
-  #     touch /etc/ssh/.ssh_host_keys_regenerated
-  #   '';
-  # };
 
   #########################
   # Proxmox image settings #

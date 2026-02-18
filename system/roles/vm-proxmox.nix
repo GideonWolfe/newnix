@@ -36,21 +36,6 @@
   #   fsType = "vfat";
   # };
 
-  # Optional data disk using stable by-id path; set disk serial in Proxmox (e.g., "data")
-  fileSystems."/data" = {
-    # You have to order the new data disk as SECOND so it will be scsi1 instead of scsi0
-    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1";
-    fsType = "ext4";
-    autoFormat = true; # avoid mkfs on existing disks during switch
-    options = [
-      "defaults"
-      "nofail"                  # do not fail boot if disk absent
-      "noauto"                  # don't try to mount automatically on switch
-      "x-systemd.automount"     # mount on first access instead
-      "x-systemd.device-timeout=1s"
-    ];
-    neededForBoot = false;
-  };
 
   ##############
   # Bootloader #

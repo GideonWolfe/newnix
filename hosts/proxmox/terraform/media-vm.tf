@@ -1,6 +1,6 @@
-resource "proxmox_vm_qemu" "testy2" {
+resource "proxmox_vm_qemu" "media_vm" {
   # Set up the info for proxmox
-  name = "testy2"
+  name = "media-vm"
   target_node = "pve1"
   vmid = 1003
   clone = "proxmox-base"
@@ -28,15 +28,17 @@ resource "proxmox_vm_qemu" "testy2" {
   }
 
   disks {
-    # scsi {
-    #   scsi0 {
-    #     disk {
-    #         size    = "30G"
-    #         storage = "datapool"
-    #         format  = "raw"    # ZFS (zfspool) does not support qcow2
-    #     }
-    #   }
-    # }
+    # Extra disk we will use for data
+    scsi {
+      scsi0 {
+        disk {
+            size    = "23G"
+            storage = "datapool"
+            format  = "raw"    # ZFS (zfspool) does not support qcow2
+        }
+      }
+    }
+    # Main boot disk copied from template
     virtio {
       virtio0 {
         disk {

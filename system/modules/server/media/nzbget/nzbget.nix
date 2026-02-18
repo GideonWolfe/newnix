@@ -5,9 +5,8 @@
     ports = [ "${builtins.toString config.custom.world.services.nzbget.port}:6789" ];
     autoStart = true;
     extraOptions = [ "--network=media" ];
+    environmentFiles = [ config.sops.secrets."nzbget/env".path ];
     environment = {
-      NZBGET_USER = "test";
-      NZBGET_PASS = "test";
       PUID = "1000";
       PGID = "100";
     };
