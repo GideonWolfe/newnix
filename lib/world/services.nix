@@ -11,7 +11,7 @@ let
     {
       ip = lib.mkOption {
         type = lib.types.str;
-        default = lib.mkDefault ip;
+        default = ip;
         description = "IP for ${name} service";
       };
 

@@ -12,7 +12,7 @@
         #../../../../system/modules/server/media/radarr/radarr-monitoring.nix
 
         # Push optimized settings to them
-        #../../../../system/modules/server/media/recyclarr/recyclarr.nix
+        ../../../../system/modules/server/media/recyclarr/recyclarr.nix
 
         # Centralized indexer manager
         #../../../../system/modules/server/media/prowlarr/prowlarr.nix
