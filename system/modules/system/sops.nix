@@ -39,38 +39,17 @@
     };
   };
 
-  # Create a helper service to display the AGE public key for this host
-  systemd.services.sops-age-key-display = {
-    description = "Display SOPS AGE public key for host configuration";
+  systemd.services.sops-age-keygen = {
+    description = "Ensure SOPS AGE key exists";
     wantedBy = [ "multi-user.target" ];
-    # Remove the problematic after dependency since sops-nix.service doesn't exist
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = let
-        displayScript = pkgs.writeShellScript "display-age-key" ''
-          # Wait a bit to ensure the AGE key has been generated
-          sleep 2
-          if [ -f "/var/lib/sops-nix/key.txt" ]; then
-            echo "============================================="
-            echo "SOPS AGE Public Key for ${config.networking.hostName}"
-            echo "============================================="
-            echo "Public Key: $(${pkgs.age}/bin/age-keygen -y /var/lib/sops-nix/key.txt)"
-            echo ""
-            echo "Add this to your .sops.yaml:"
-            echo "============================================="
-            echo "keys:"
-            echo "  - &hosts:"
-            echo "      - &${config.networking.hostName} $(${pkgs.age}/bin/age-keygen -y /var/lib/sops-nix/key.txt)"
-            echo ""
-            echo "Then add ${config.networking.hostName} to the appropriate creation_rules"
-            echo "============================================="
-          else
-            echo "AGE key file not found at /var/lib/sops-nix/key.txt"
-            echo "This might be normal on first boot - try: systemctl restart sops-age-key-display"
-          fi
-        '';
-      in "${displayScript}";
-    };
+    serviceConfig.Type = "oneshot";
+    script = ''
+      mkdir -p /var/lib/sops-nix
+      if [ ! -f /var/lib/sops-nix/key.txt ]; then
+        ${pkgs.age}/bin/age-keygen -o /var/lib/sops-nix/key.txt
+      fi
+    '';
   };
+
+
 }

@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "testy" {
   vmid = 1002
   clone = "proxmox-base"
   full_clone = true
+  skip_ipv6 = true
 
   # Give the VM some hardware/resource config
   bios = "seabios"
@@ -13,10 +14,18 @@ resource "proxmox_vm_qemu" "testy" {
   os_type = "ubuntu"
   memory = 4096
 
+  # Give the VM CPU
   cpu {
     type = "host"
     sockets = 1
     cores = 2
+  }
+
+  # Connect the VM to the default NIC
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+    id     = 0        # first NIC
   }
 
 
@@ -30,6 +39,7 @@ resource "proxmox_vm_qemu" "testy" {
     #     }
     #   }
     # }
+    # Carry over the OS disk from the template
     virtio {
       virtio0 {
         disk {
@@ -40,10 +50,4 @@ resource "proxmox_vm_qemu" "testy" {
       }
     }
   }
-
-#   disks {
-#     id = 0
-#     storage = "datapool"
-#     size = "20G"
-#   }
 }

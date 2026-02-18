@@ -12,6 +12,7 @@ resource "proxmox_vm_qemu" "testy2" {
   scsihw = "virtio-scsi-single"
   os_type = "ubuntu"
   memory = 4096
+  skip_ipv6 = true
 
   cpu {
     type = "host"
@@ -19,6 +20,12 @@ resource "proxmox_vm_qemu" "testy2" {
     cores = 2
   }
 
+  # Connect the VM to the default NIC
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+    id     = 0        # first NIC
+  }
 
   disks {
     # scsi {
@@ -40,10 +47,4 @@ resource "proxmox_vm_qemu" "testy2" {
       }
     }
   }
-
-#   disks {
-#     id = 0
-#     storage = "datapool"
-#     size = "20G"
-#   }
 }

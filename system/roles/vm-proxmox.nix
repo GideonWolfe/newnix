@@ -70,8 +70,8 @@
     };
 
     initrd = {
-      availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" "virtio_serial" ];
-      kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" "virtio_serial" ];
+      availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
+      kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
     };
 
     tmp.cleanOnBoot = true;
