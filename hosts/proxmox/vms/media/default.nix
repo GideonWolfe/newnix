@@ -1,6 +1,8 @@
 { config, ... }:
 {
     imports = [
+        # Get our secret definitions
+        ./secrets/secrets_media.nix
         # TV Database
         ../../../../system/modules/server/media/sonarr/sonarr.nix
         #../../../../system/modules/server/media/sonarr/sonarr-monitoring.nix
