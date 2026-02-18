@@ -9,7 +9,7 @@ in {
     # Niri specific configs for waybar
     #./niri-waybar.nix 
     # Mako since Niri doesn't ship a notification service
-    ../global/ui/mako/mako.nix
+    #../global/ui/mako/mako.nix
     # Dank Material Shell
     ../global/ui/dms/dms.nix
   ];

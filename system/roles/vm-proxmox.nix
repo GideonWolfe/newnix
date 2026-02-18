@@ -17,7 +17,7 @@
   };
 
   # Ensure generated qcow images have enough room on first boot
-  virtualisation.diskSize = lib.mkDefault 30720; # MiB (≈30 GiB)
+  #virtualisation.diskSize = lib.mkDefault 30720; # MiB (≈30 GiB)
 
   #########
   # Disks #
@@ -30,11 +30,11 @@
     fsType = "ext4";
   };
 
-  # Mount the EFI System Partition so grub-install sees the ESP
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-label/ESP";
-    fsType = "vfat";
-  };
+  # Only mount /boot when using systemd-boot/EFI; skipped for legacy grub
+  # fileSystems."/boot" = lib.mkIf config.boot.loader.systemd-boot.enable {
+  #   device = "/dev/disk/by-label/ESP";
+  #   fsType = "vfat";
+  # };
 
   # Optional data disk using stable by-id path; set disk serial in Proxmox (e.g., "data")
   fileSystems."/data" = {
@@ -60,23 +60,18 @@
     kernelParams = [ ];
 
     loader = {
-      # GRUB in EFI-removable mode so OVMF can boot without NVRAM entries
+      # Simplest/most portable: legacy BIOS + grub on disk MBR
       systemd-boot.enable = false;
       grub = {
         enable = true;
-        device = "nodev";
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-      };
-      efi = {
-        canTouchEfiVariables = false;
-        efiSysMountPoint = "/boot";
+        device = "/dev/vda"; # whole disk for BIOS/MBR
+        efiSupport = false;
       };
     };
 
     initrd = {
-      availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" ];
-      kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
+      availableKernelModules = [ "9p" "9pnet_virtio" "ata_piix" "uhci_hcd" "virtio_blk" "virtio_mmio" "virtio_net" "virtio_pci" "virtio_scsi" "virtio_serial" ];
+      kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" "virtio_serial" ];
     };
 
     tmp.cleanOnBoot = true;

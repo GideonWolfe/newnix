@@ -315,3 +315,30 @@ input {
     --button-signature-hover-bg: color-mix(in srgb, var(--theme-highlight-green) 20%, transparent) !important; 
     --signature-hover-bg: color-mix(in srgb, var(--theme-highlight-green) 20%, transparent) !important; 
 }
+
+
+/* Fixes for Reddit Enhancement Suite */
+&.res-commentBoxes .comment,
+&.res-commentBoxes .comment .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment .comment {
+    background-color: var(--base00) !important;
+}
+
+&.res-commentBoxes .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment,
+&.res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment .comment {
+    background-color: var(--base01) !important;
+}
+&.res-commentBoxes .comment .comment {
+    background-color: var(--base00) !important;
+}
+.res-commentBoxes .comment {
+  border: 1px solid var(--base02) !important;
+}
+.res-voteEnhancements-highlightScores span.score {
+  color: var(--base0E) !important;
+}

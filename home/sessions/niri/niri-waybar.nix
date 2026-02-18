@@ -4,7 +4,10 @@ let
   waybarCmd = lib.getExe (config.programs.waybar.package or pkgs.waybar);
 in {
   # Base waybar settings and theme
-  imports = [ ../global/ui/waybar/waybar.nix ];
+  imports = [ 
+    ../global/ui/waybar/waybar.nix
+    ../global/ui/mako/mako.nix
+  ];
 
   # Override the left modules to add niri-specific ones
   programs.waybar.settings.mainBar.modules-left = lib.mkAfter [

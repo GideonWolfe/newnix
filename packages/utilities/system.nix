@@ -10,6 +10,8 @@
     xdg-utils
 
 
+    opentofu # Terraform provider (used for provisioning Proxmox VMs)
+
     ###########
     # Viewers #
     ###########
