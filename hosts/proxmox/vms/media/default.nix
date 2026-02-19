@@ -28,6 +28,7 @@
         ./services/slskd/slskd-setup.nix
         # SoulSync
         ./services/soulsync/soulsync.nix
+        ./services/soulsync/soulsync-setup.nix
 
         # Frontends
         #./services/jellyfin/jellyfin/jellyfin.nix

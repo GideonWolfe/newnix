@@ -18,7 +18,7 @@
     volumes = [
       "/data/soulsync/config/:/app/config"
       "/data/soulsync/data/:/app/data" # database lives here
-      "/data/soulsync/stagint/:/app/Staging"
+      "/data/soulsync/staging/:/app/Staging"
       "${config.custom.world.hosts.media.downloadsDir}:/app/downloads"
       #TODO: is this mount needed?
       "/nas/tank/media/music/:/app/Transfer" #put music library in read only mode for now
