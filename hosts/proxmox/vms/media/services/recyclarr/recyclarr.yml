@@ -1,0 +1,10 @@
+sonarr:
+  tv:
+    base_url: !secret sonarr_url
+    api_key: !secret sonarr_apikey
+    include:
+      - template: anime-sonarr-v4
+radarr:
+  movies:
+    base_url: !secret radarr_url
+    api_key: !secret radarr_apikey

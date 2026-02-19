@@ -1,16 +1,20 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  config,
+  ...
+}:
 
 let
   recyclarrConfigDir = "/data/recyclarr2/config";
-  recyclarrConfigFile = pkgs.writeText "recyclarr.yml" ''
-  sonarr:
-    tv:
-      base_url: !secret sonarr_url
-      api_key: !secret sonarr_apikey
-'';
+  #   recyclarrConfigFile = pkgs.writeText "recyclarr.yml" ''
+  #   sonarr:
+  #     tv:
+  #       base_url: !secret sonarr_url
+  #       api_key: !secret sonarr_apikey
+  # '';
+  recyclarrConfigFile = builtins.readFile ./recyclarr.yml;
 in
 {
-  
 
   # Define a SOPS template for the Recyclarr secrets.yml
   # Uses the Sonarr API key SOPS secret
@@ -18,7 +22,6 @@ in
     sonarr_url: ${config.custom.world.services.sonarr.protocol}://sonarr:${builtins.toString config.custom.world.services.sonarr.port}
     sonarr_apikey: ${config.sops.placeholder."sonarr/apikey"}
   '';
-
 
   # Seed secrets.yml and recyclarr.yml
   # Chown necessary because recyclarr wants to create files as root
@@ -31,7 +34,9 @@ in
       set -e
       mkdir -p ${recyclarrConfigDir}
       if [ ! -f ${recyclarrConfigDir}/secrets.yml ]; then
-        install -m 600 ${config.sops.templates."recyclarr-secrets.yml".path} ${recyclarrConfigDir}/secrets.yml
+        install -m 600 ${
+          config.sops.templates."recyclarr-secrets.yml".path
+        } ${recyclarrConfigDir}/secrets.yml
       fi
       if [ ! -f ${recyclarrConfigDir}/recyclarr.yml ]; then
         install -m 600 ${recyclarrConfigFile} ${recyclarrConfigDir}/recyclarr.yml
