@@ -40,6 +40,7 @@ in
     };
     navidrome = {
       base_url = "https://nd.gideonwolfe.xyz";
+      #base_url = "${config.custom.world.services.navidrome.protocol}://${config.custom.world.services.navidrome.domain}";
       username = "${config.sops.placeholder."navidrome/username"}";
       password = "${config.sops.placeholder."navidrome/password"}";
       auto_detect = true;
