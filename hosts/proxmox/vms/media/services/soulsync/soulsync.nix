@@ -12,15 +12,16 @@
       PUID = "1000";
       PGID = "100";
     };
-    autostart = true;
+    autoStart = true;
+    #user= "1000:100";
     # https://github.com/Nezreka/SoulSync?tab=readme-ov-file#step-4-docker-path-mapping
     volumes = [
       "/data/soulsync/config/:/app/config"
       "/data/soulsync/data/:/app/data" # database lives here
       "/data/soulsync/stagint/:/app/Staging"
-      "${config.custom.world.hosts.media.downloadsdir}:/app/downloads" # shared dir between all apps
+      "${config.custom.world.hosts.media.downloadsDir}:/app/downloads"
       #TODO: is this mount needed?
-      "/nas/tank/media/music/:/app/Transfer:ro" #put music library in read only mode for now
+      "/nas/tank/media/music/:/app/Transfer" #put music library in read only mode for now
     ];
   };
 }

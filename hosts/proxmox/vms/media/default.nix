@@ -4,8 +4,8 @@
         # Get our secret definitions
         ./secrets/secrets_media.nix
         # TV Database
-        ./services/sonarr/sonarr.nix
-        ./services/sonarr/sonarr-setup.nix
+        #./services/sonarr/sonarr.nix
+        #./services/sonarr/sonarr-setup.nix
         #./services/sonarr/sonarr-monitoring.nix
 
         # Movie Database
@@ -13,15 +13,21 @@
         #./services/radarr/radarr-monitoring.nix
 
         # Push optimized settings to them
-        ./services/recyclarr/recyclarr.nix
-        ./services/recyclarr/recyclarr-setup.nix
+        #./services/recyclarr/recyclarr.nix
+        #./services/recyclarr/recyclarr-setup.nix
 
         # Centralized indexer manager
         #./services/prowlarr/prowlarr.nix
 
         # Download client
-        ./services/nzbget/nzbget.nix
-        ./services/nzbget/nzbget-setup.nix
+        #./services/nzbget/nzbget.nix
+        #./services/nzbget/nzbget-setup.nix
+
+        # SoulSeek
+        ./services/slskd/slskd.nix
+        ./services/slskd/slskd-setup.nix
+        # SoulSync
+        ./services/soulsync/soulsync.nix
 
         # Frontends
         #./services/jellyfin/jellyfin/jellyfin.nix
