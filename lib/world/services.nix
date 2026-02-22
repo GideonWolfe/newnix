@@ -135,5 +135,19 @@ in
       domain = "nd.gideonwolfe.xyz";
       protocol = "https";
     };
+    slskd = mkService {
+      name = "SoulSeek Daemon";
+      ip = config.custom.world.hosts.media.ip;
+      port = 5030;
+      domain = "";
+      protocol = "http";
+    };
+    soulsync-webui = mkService {
+      name = "SoulSync";
+      ip = config.custom.world.hosts.media.ip;
+      port = 8008;
+      domain = "";
+      protocol = "http";
+    };
   };
 }
