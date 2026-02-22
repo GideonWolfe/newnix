@@ -23,7 +23,8 @@
     # Physical machine
     ../../system/roles/hardware.nix
     # This machine mounts the NAS's NFS shares for easy access
-    ../../system/modules/networking/mnemosyne-nfs.nix 
+        #../../system/modules/networking/mnemosyne-nfs.nix 
+    ../../system/roles/home-lan.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

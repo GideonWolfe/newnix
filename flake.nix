@@ -59,6 +59,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Terraform Generator
+    terranix = { url = "github:terranix/terranix"; };
+
     # cool visualizer
     xyosc = { url = "github:make-42/xyosc"; };
 
@@ -91,7 +94,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, terranix, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -214,6 +217,14 @@
         profiles.system.user = "root";
       };
 
+      # Terraform
+      packages.x86_64-linux.terranix_proxmox = terranix.lib.terranixConfiguration {
+        inherit system;
+        modules = [
+          ./hosts/proxmox/terraform/terranix/provider.nix
+          ./hosts/proxmox/terraform/terranix/media-vm.nix
+        ];
+      };
 
       # deploy-rs global settings
       deploy = {

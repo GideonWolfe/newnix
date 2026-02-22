@@ -137,6 +137,22 @@ with config.lib.stylix.colors.withHashtag;
         body = "cd (mktemp -d) && nix run /home/${config.home.username}/nix/.#sisyphus-vm";
       };
 
+      # Update Proxmox VMS
+      media-update = {
+        body = ''
+          nixos-rebuild switch \
+          --flake /home/${config.home.username}/test/newnix/.#media-vm \
+          --target-host ${osConfig.custom.world.hosts.media.ip} \
+          --sudo \
+          --ask-password
+        '';
+      };
+
+      winbox = {
+        body =
+          "command WinBox";
+      };
+
       # Better Youtube-dl opts
       ytdl = {
         body = ''

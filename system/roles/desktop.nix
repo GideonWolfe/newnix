@@ -17,6 +17,7 @@
     ../modules/ui/niri.nix
     # Other desktop glue
     ../modules/ui/xdg-portals.nix
+    ../modules/ui/xwayland.nix
 
     ############
     # Packages #
