@@ -149,5 +149,12 @@ in
       domain = "";
       protocol = "http";
     };
+    netbox = mkService {
+      name = "NetBox";
+      ip = config.custom.world.hosts.media.ip;
+      port = 9001;
+      domain = "";
+      protocol = "http";
+    };
   };
 }

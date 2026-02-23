@@ -6,6 +6,7 @@ let
     terraformWorkingDir = "/home/gideon/infra/";
     # Specific directories that will be used for different terraform modules
     terraformProxmoxDir = "${terraformWorkingDir}/home/proxmox";
+    terraformNetboxDir = "${terraformWorkingDir}/netbox";
 in
 {
     # Define the secrets that Terraform needs to authenticate with proxmox

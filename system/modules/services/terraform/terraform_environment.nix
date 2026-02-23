@@ -17,6 +17,13 @@ let
       set -euo pipefail
       nix build /home/gideon/test/newnix/.#terranix_proxmox -o ${terraformProxmoxDir}/config.tf.json
     '';
+    generateTerraformNetbox = pkgs.writeShellScriptBin "generate-terraform-netbox" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      nix build /home/gideon/test/newnix/.#terranix_netbox -o ${terraformNetboxDir}/config.tf.json
+    '';
+
+    terraformNetboxDir = "${terraformWorkingDir}/netbox";
 in
 {
 
@@ -31,6 +38,7 @@ in
       # Create the main working directory and subdirectories for different terraform modules
       mkdir -p ${terraformProxmoxDir}
       mkdir -p ${terraformNetworkDir}
+      mkdir -p ${terraformNetboxDir}
       # Make sure I'm the owner
       chown -R 1000:100 ${terraformWorkingDir}
       chmod 755 ${terraformWorkingDir}
@@ -61,5 +69,6 @@ in
   # Step 2: Make a command available that will generate the terraform configuration files in the staging area when I run it
   environment.systemPackages = [
     generateTerraformProxmox
+    generateTerraformNetbox
   ];
 }

@@ -24,16 +24,20 @@
         #./services/nzbget/nzbget-setup.nix
 
         # SoulSeek
-        ./services/slskd/slskd.nix
-        ./services/slskd/slskd-setup.nix
+        #./services/slskd/slskd.nix
+        #./services/slskd/slskd-setup.nix
         # SoulSync
-        ./services/soulsync/soulsync.nix
-        ./services/soulsync/soulsync-setup.nix
+        #./services/soulsync/soulsync.nix
+        #./services/soulsync/soulsync-setup.nix
 
         # Frontends
         #./services/jellyfin/jellyfin/jellyfin.nix
         #./services/seerr/seerr.nix
         #./services/navidrome/navidrome.nix
+
+        #TESTING
+        ../../../../system/modules/server/netbox/netbox.nix
+
     ];
 
     # Ensure media docker network exists on this host only

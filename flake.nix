@@ -224,6 +224,26 @@
           ./hosts/proxmox/terranix/provider.nix
           ./hosts/proxmox/terranix/vm-media.nix
           ./hosts/proxmox/terranix/vm-ingress.nix
+          ./hosts/proxmox/terranix/vm-netbox-test.nix
+        ];
+      };
+
+      packages.x86_64-linux.terranix_netbox = terranix.lib.terranixConfiguration {
+        inherit system;
+        modules = [
+          ./system/modules/server/netbox/terranix/provider.nix
+          ./system/modules/server/netbox/terranix/sites/home.nix
+          ./system/modules/server/netbox/terranix/sites/offsite.nix
+          ./system/modules/server/netbox/terranix/clusters/home.nix
+          ./system/modules/server/netbox/terranix/rack_roles/compute.nix
+          ./system/modules/server/netbox/terranix/rack_roles/network.nix
+          ./system/modules/server/netbox/terranix/racks/home-compute-rack.nix
+          ./system/modules/server/netbox/terranix/racks/home-network-rack.nix
+          ./system/modules/server/netbox/terranix/manufacturers/mikrotik.nix
+          ./system/modules/server/netbox/terranix/device_types/mikrotik_rb5009.nix
+          ./system/modules/server/netbox/terranix/device_roles/router.nix
+          ./system/modules/server/netbox/terranix/devices/mikrotik_rb5009.nix
+          ./system/modules/server/netbox/terranix/vms/vm-media.nix
         ];
       };
 

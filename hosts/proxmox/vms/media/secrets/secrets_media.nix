@@ -8,6 +8,8 @@
             "eweka/password" = { owner = "gideon"; };
             "newshosting/username" = { owner = "gideon"; };
             "newshosting/password" = { owner = "gideon"; };
+            # JUST FOR TESTING NETBOX
+            "netbox/secretkey" = { path = "/var/lib/netbox/secretkey.txt"; owner = "netbox"; };
         };
     };
 }
