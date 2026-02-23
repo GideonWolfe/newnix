@@ -221,8 +221,9 @@
       packages.x86_64-linux.terranix_proxmox = terranix.lib.terranixConfiguration {
         inherit system;
         modules = [
-          ./hosts/proxmox/terraform/terranix/provider.nix
-          ./hosts/proxmox/terraform/terranix/media-vm.nix
+          ./hosts/proxmox/terranix/provider.nix
+          ./hosts/proxmox/terranix/vm-media.nix
+          ./hosts/proxmox/terranix/vm-ingress.nix
         ];
       };
 

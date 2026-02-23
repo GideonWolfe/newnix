@@ -22,6 +22,9 @@
     ../../system/roles/hardware.nix
     # Mount the NAS since we're on my LAN
     ../../system/modules/networking/mnemosyne-nfs.nix
+
+    # TESTING
+    ../../system/modules/services/terraform
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

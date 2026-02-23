@@ -2,6 +2,8 @@
 {
   options.custom.world = {
     hosts = {
+      
+      # Monitoring server, where all metrics and logs from across my infra are sent
       monitor = {
         ip = lib.mkOption {
           type = lib.types.str;
@@ -49,6 +51,15 @@
               type = lib.types.str;
               default = "192.168.0.10";
               description = "The IP address of the media VM";
+            };
+          };
+        };
+        nodes = {
+          pve1 = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.0.223";
+              description = "The IP address of PVE1 proxmox node";
             };
           };
         };

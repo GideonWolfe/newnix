@@ -1,16 +1,16 @@
 {
-  resource.proxmox_vm_qemu.media_vm = {
-    name = "media-vm";
+  resource.proxmox_vm_qemu.ingress_vm = {
+    name = "ingress-vm";
     target_node = "pve1";
-    vmid = 1003;
-    clone = "proxmox-base";
+    vmid = 1002;
+    clone = "nixos-base";
     full_clone = true;
 
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    memory = 4096;
+    memory = 2048;
     skip_ipv6 = true;
 
     cpu = {
@@ -31,7 +31,7 @@
       scsi = {
         scsi0 = {
           disk = {
-            size = "23G";
+            size = "10G";
             storage = "datapool";
             format = "raw";
           };
