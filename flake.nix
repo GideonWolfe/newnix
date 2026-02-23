@@ -242,10 +242,35 @@
           ./system/modules/server/netbox/terranix/racks/home-compute-rack.nix
           ./system/modules/server/netbox/terranix/racks/home-network-rack.nix
           ./system/modules/server/netbox/terranix/manufacturers/mikrotik.nix
+          ./system/modules/server/netbox/terranix/manufacturers/lenovo.nix
+          ./system/modules/server/netbox/terranix/manufacturers/western_digital.nix
+          ./system/modules/server/netbox/terranix/manufacturers/ugreen.nix
           ./system/modules/server/netbox/terranix/device_types/mikrotik_rb5009.nix
+          ./system/modules/server/netbox/terranix/device_types/mikrotik_css318.nix
+          ./system/modules/server/netbox/terranix/device_types/lenovo_m900.nix
+          ./system/modules/server/netbox/terranix/device_types/ugreen_dxp4800plus.nix
           ./system/modules/server/netbox/terranix/device_roles/router.nix
+          ./system/modules/server/netbox/terranix/device_roles/switch.nix
+          ./system/modules/server/netbox/terranix/device_roles/compute.nix
           ./system/modules/server/netbox/terranix/devices/mikrotik_rb5009.nix
+          ./system/modules/server/netbox/terranix/devices/mikrotik_css318.nix
+          ./system/modules/server/netbox/terranix/devices/lenovo_m900_1.nix
+          ./system/modules/server/netbox/terranix/devices/lenovo_m900_2.nix
+          ./system/modules/server/netbox/terranix/devices/lenovo_m900_3.nix
+          ./system/modules/server/netbox/terranix/devices/ugreen_dxp4800plus.nix
           ./system/modules/server/netbox/terranix/vms/vm-media.nix
+          ./system/modules/server/netbox/terranix/vms/vm-ingress.nix
+          ./system/modules/server/netbox/terranix/services/jellyfin.nix
+          ./system/modules/server/netbox/terranix/services/navidrome.nix
+          ./system/modules/server/netbox/terranix/services/slskd.nix
+          ./system/modules/server/netbox/terranix/services/soulsync.nix
+          ./system/modules/server/netbox/terranix/services/soulsync.nix
+          ./system/modules/server/netbox/terranix/services/nzbget.nix
+          ./system/modules/server/netbox/terranix/services/radarr.nix
+          ./system/modules/server/netbox/terranix/services/sonarr.nix
+          ./system/modules/server/netbox/terranix/services/prowlarr.nix
+          ./system/modules/server/netbox/terranix/services/recyclarr.nix
+          ./system/modules/server/netbox/terranix/services/seerr.nix
         ];
       };
 

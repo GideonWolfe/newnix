@@ -53,6 +53,13 @@
               description = "The IP address of the media VM";
             };
           };
+          ingress_vm = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.0.20";
+              description = "The IP address of the ingress VM";
+            };
+          };
         };
         nodes = {
           pve1 = {
