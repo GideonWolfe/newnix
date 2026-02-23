@@ -231,6 +231,8 @@
       packages.x86_64-linux.terranix_netbox = terranix.lib.terranixConfiguration {
         inherit system;
         modules = [
+          # Give access to all our variables in our TF configs
+          ./lib/world/default.nix
           ./system/modules/server/netbox/terranix/provider.nix
           ./system/modules/server/netbox/terranix/sites/home.nix
           ./system/modules/server/netbox/terranix/sites/offsite.nix
