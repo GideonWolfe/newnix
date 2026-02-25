@@ -30,4 +30,21 @@ in
         owner = "gideon";
     };
 
+    # Define the secrets that Terraform needs to authenticate with netbox
+    sops.secrets."netbox/api_token" = {
+        sopsFile = ./secrets_terraform.yaml;
+    };
+    # Put these secrets in a SOPS template file
+    sops.templates."terranix-netbox-creds.json" = {
+        # Template of the file
+        content = builtins.toJSON {
+            netbox_api_token = config.sops.placeholder."netbox/api_token";
+            netbox_server_url = "http://${builtins.toString config.custom.world.services.netbox.ip}:${builtins.toString config.custom.world.services.netbox.port}";
+        };
+        # Where to put the generated file
+        path = "${terraformNetboxDir}/terraform.tfvars.json";
+        # Make sure I own it
+        owner = "gideon";
+    };
+
 }

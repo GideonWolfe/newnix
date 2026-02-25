@@ -80,7 +80,7 @@
     resource."netbox_device_interface"."ugreen_dxp4800plus_ether1" = {
         name = "ether1";
         device_id = "\${netbox_device.ugreen_dxp4800plus.id}";
-        type = "1000base-t";
+        type = "10gbase-t";
     };
     resource."netbox_device_interface"."ugreen_dxp4800plus_ether2" = {
         name = "ether2";

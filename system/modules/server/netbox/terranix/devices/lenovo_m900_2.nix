@@ -27,4 +27,36 @@
         device_id = "\${netbox_device.lenovo_m900_2.id}";
         type = "1000base-t";
     };
+
+
+    # Assign an IP to this machine
+    resource."netbox_ip_address"."lenovo_m900_2_ip1" = {
+        ip_address = "${builtins.toString config.custom.world.hosts.proxmox.nodes.pve2.ip}/24";
+        device_interface_id = "\${netbox_device_interface.lenovo_m900_2_ether1.id}";
+        status = "active";
+    };
+    # Make it the primary address
+    resource."netbox_device_primary_ip"."lenovo_m900_2_ip_primary" = {
+        device_id = "\${netbox_device.lenovo_m900_2.id}";
+        ip_address_id = "\${netbox_ip_address.lenovo_m900_2_ip1.id}";
+    };
+
+    # Define a cable connecting to the switch
+    resource."netbox_cable"."lenovo_m900_2_ether1_cable" = {
+        # Starting at the local device ethernet port
+        a_termination = {
+            object_type = "dcim.interface";
+            object_id = "\${netbox_device_interface.lenovo_m900_2_ether1.id}";
+        };
+        # Ending at the switch's port 6
+        b_termination = {
+            object_type = "dcim.interface";
+            object_id = "\${netbox_device_interface.mikrotik_css318_port2.id}";
+        };
+        status = "connected";
+        label = "Lenovo M900 #2 Ethernet to Switch Port 2";
+        type = "cat6a";
+        length = 6;
+        length_unit = "in";
+    };
 }

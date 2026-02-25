@@ -133,5 +133,12 @@
         type = "10gbase-x-sfpp";
     };
 
+    # Connect the switch to the router via port 16
+    resource."netbox_cable"."mikrotik_css318_port16_to_router_ether1" = {
+        termination_a_id = "\${netbox_device_interface.mikrotik_css318_port16.id}";
+        termination_b_id = "\${netbox_device_interface.mikrotik_rb5009_ether2.id}";
+        type = "cat6a";
+    };
+
 
 }

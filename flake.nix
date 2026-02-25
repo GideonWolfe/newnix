@@ -247,13 +247,16 @@
           ./system/modules/server/netbox/terranix/manufacturers/ugreen.nix
           ./system/modules/server/netbox/terranix/device_types/mikrotik_rb5009.nix
           ./system/modules/server/netbox/terranix/device_types/mikrotik_css318.nix
+          ./system/modules/server/netbox/terranix/device_types/mikrotik_hapax2.nix
           ./system/modules/server/netbox/terranix/device_types/lenovo_m900.nix
           ./system/modules/server/netbox/terranix/device_types/ugreen_dxp4800plus.nix
           ./system/modules/server/netbox/terranix/device_roles/router.nix
           ./system/modules/server/netbox/terranix/device_roles/switch.nix
+          ./system/modules/server/netbox/terranix/device_roles/access_point.nix
           ./system/modules/server/netbox/terranix/device_roles/compute.nix
           ./system/modules/server/netbox/terranix/devices/mikrotik_rb5009.nix
           ./system/modules/server/netbox/terranix/devices/mikrotik_css318.nix
+          ./system/modules/server/netbox/terranix/devices/mikrotik_hapax2.nix
           ./system/modules/server/netbox/terranix/devices/lenovo_m900_1.nix
           ./system/modules/server/netbox/terranix/devices/lenovo_m900_2.nix
           ./system/modules/server/netbox/terranix/devices/lenovo_m900_3.nix

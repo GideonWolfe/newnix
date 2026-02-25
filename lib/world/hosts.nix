@@ -69,6 +69,20 @@
               description = "The IP address of PVE1 proxmox node";
             };
           };
+          pve2 = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.0.204"; #TODO replace
+              description = "The IP address of PVE2 proxmox node";
+            };
+          };
+          pve3 = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.0.223"; #TODO replace
+              description = "The IP address of PVE3 proxmox node";
+            };
+          };
         };
       };
     };
