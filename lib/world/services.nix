@@ -156,5 +156,12 @@ in
       domain = "";
       protocol = "http";
     };
+    paperless = mkService {
+      name = "Paperless-ngx";
+      ip = config.custom.world.hosts.app1.ip;
+      port = 4232;
+      domain = "";
+      protocol = "http";
+    };
   };
 }
