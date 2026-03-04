@@ -25,6 +25,9 @@
     # This machine mounts the NAS's NFS shares for easy access
         #../../system/modules/networking/mnemosyne-nfs.nix 
     ../../system/roles/home-lan.nix
+
+
+    ../../system/modules/services/terraform
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

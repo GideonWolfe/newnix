@@ -228,6 +228,17 @@
         ];
       };
 
+      packages.x86_64-linux.terranix_routeros = terranix.lib.terranixConfiguration {
+        inherit system;
+        modules = [
+          ./lib/world/default.nix
+          ./hosts/network/terranix/provider.nix
+          ./hosts/network/terranix/router/dhcp_leases.nix
+          ./hosts/network/terranix/router/port_forwards.nix
+          ./hosts/network/terranix/router/wireguard.nix
+        ];
+      };
+
       packages.x86_64-linux.terranix_netbox = terranix.lib.terranixConfiguration {
         inherit system;
         modules = [

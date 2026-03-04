@@ -11,6 +11,7 @@ let
     # Specific directories that will be used for different terraform modules
     terraformProxmoxDir = "${terraformWorkingDir}/home/proxmox";
     terraformNetworkDir = "${terraformWorkingDir}/home/network";
+    terraformNetboxDir = "${terraformWorkingDir}/netbox";
     # Build the generator once and reuse the absolute path so systemd can find it
     generateTerraformProxmox = pkgs.writeShellScriptBin "generate-terraform-proxmox" ''
       #!/usr/bin/env bash
@@ -22,8 +23,12 @@ let
       set -euo pipefail
       nix build /home/gideon/test/newnix/.#terranix_netbox -o ${terraformNetboxDir}/config.tf.json
     '';
+    generateTerraformRouterOS = pkgs.writeShellScriptBin "generate-terraform-routeros" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      nix build /home/gideon/test/newnix/.#terranix_routeros -o ${terraformNetworkDir}/config.tf.json
+    '';
 
-    terraformNetboxDir = "${terraformWorkingDir}/netbox";
 in
 {
 
@@ -70,5 +75,6 @@ in
   environment.systemPackages = [
     generateTerraformProxmox
     generateTerraformNetbox
+    generateTerraformRouterOS
   ];
 }

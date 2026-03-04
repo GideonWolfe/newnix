@@ -7,6 +7,7 @@ let
     # Specific directories that will be used for different terraform modules
     terraformProxmoxDir = "${terraformWorkingDir}/home/proxmox";
     terraformNetboxDir = "${terraformWorkingDir}/netbox";
+    terraformNetworkDir = "${terraformWorkingDir}/home/network";
 in
 {
     # Define the secrets that Terraform needs to authenticate with proxmox
@@ -47,4 +48,36 @@ in
         owner = "gideon";
     };
 
+
+    # Define the secrets that Terraform needs to authenticate with routerOS
+    sops.secrets."router/username" = {
+        sopsFile = ./secrets_terraform.yaml;
+    };
+    sops.secrets."router/password" = {
+        sopsFile = ./secrets_terraform.yaml;
+    };
+    sops.secrets."router/wireguard_private_key" = {
+        sopsFile = ./secrets_terraform.yaml;
+    };
+    sops.secrets."ap/username" = {
+        sopsFile = ./secrets_terraform.yaml;
+    };
+    sops.secrets."ap/password" = {
+        sopsFile = ./secrets_terraform.yaml;
+    };
+    # Put these secrets in a SOPS template file
+    sops.templates."terranix-routeros-creds.json" = {
+        # Template of the file
+        content = builtins.toJSON {
+            router_username = config.sops.placeholder."router/username";
+            router_password = config.sops.placeholder."router/password";
+            router_wireguard_private_key = config.sops.placeholder."router/wireguard_private_key";
+            ap_username = config.sops.placeholder."ap/username";
+            ap_password = config.sops.placeholder."ap/password";
+        };
+        # Where to put the generated file
+        path = "${terraformNetworkDir}/terraform.tfvars.json";
+        # Make sure I own it
+        owner = "gideon";
+    };
 }
