@@ -32,6 +32,15 @@
         };
       };
 
+      mnemosyne = {
+        ip = lib.mkOption {
+          type = lib.types.str;
+          #default = "192.168.0.137";
+          default = "192.168.88.205";
+          description = "The local IP of my NAS";
+        };
+      };
+
       router = {
         ip = lib.mkOption {
           type = lib.types.str;
@@ -86,58 +95,61 @@
         };
       };
 
-      mnemosyne = {
-        ip = lib.mkOption {
-          type = lib.types.str;
-          default = "192.168.0.137";
-          description = "The local IP of my NAS";
-        };
-      };
 
       proxmox = {
         vms = {
-          media_vm = {
-            ip = lib.mkOption {
-              type = lib.types.str;
-              default = "192.168.0.10";
-              description = "The IP address of the media VM";
-            };
-          };
           ingress_vm = {
             ip = lib.mkOption {
               type = lib.types.str;
-              default = "192.168.0.20";
+              default = "192.168.88.100";
               description = "The IP address of the ingress VM";
+            };
+          };
+          media_vm = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.88.101";
+              description = "The IP address of the media VM";
+            };
+          };
+          app1_vm = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.88.102";
+              description = "The IP address of the app1 VM";
             };
           };
         };
         nodes = {
+          pvenet = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.88.7";
+              description = "The IP address of PVE network node";
+            };
+          };
           pve1 = {
             ip = lib.mkOption {
               type = lib.types.str;
-              default = "192.168.0.223";
+              #default = "192.168.0.223";
+              default = "192.168.88.8";
               description = "The IP address of PVE1 proxmox node";
             };
           };
           pve2 = {
             ip = lib.mkOption {
               type = lib.types.str;
-              default = "192.168.0.204"; #TODO replace
+              #default = "192.168.0.204"; #TODO replace
+              default = "192.168.88.9";
               description = "The IP address of PVE2 proxmox node";
             };
           };
           pve3 = {
             ip = lib.mkOption {
               type = lib.types.str;
-              default = "192.168.0.225"; #TODO replace
+              #default = "192.168.0.225"; #TODO replace
+              default = "192.168.88.10";
               description = "The IP address of PVE3 proxmox node";
-            };
-          };
-          pvenet = {
-            ip = lib.mkOption {
-              type = lib.types.str;
-              default = "192.168.88.7";
-              description = "The IP address of PVE network node";
             };
           };
         };

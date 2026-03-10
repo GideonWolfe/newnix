@@ -47,6 +47,14 @@
     ../../home/apps/nixvim/nixvim-light.nix
   ];
 
+  # networking.interfaces.enp1s0.useDHCP = false;
+  # networking.interfaces.enp1s0.ipv4.addresses = [
+  #     {
+  #         address = "${config.custom.world.hosts.mnemosyne.ip}";
+  #         prefixLength = 24;
+  #     }
+  # ];
+
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
 

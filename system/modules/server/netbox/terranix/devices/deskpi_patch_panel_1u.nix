@@ -214,6 +214,22 @@
         length_unit = "in";
     };
 
+    resource."netbox_cable"."patch_panel_1u_ether2_rear_to_patch_panel_halfu_ether11_rear" = {
+        a_termination = {
+            object_type = "dcim.rearport";
+            object_id = "\${netbox_device_rear_port.deskpi_patch_panel_1u_ether2_rear.id}";
+        };
+        b_termination = {
+            object_type = "dcim.rearport";
+            object_id = "\${netbox_device_rear_port.deskpi_patch_panel_halfu_ether11_rear.id}";
+        };
+        status = "connected";
+        label = "Patch Panel 1U Port 2 Rear to Patch Panel HalfU Port 11 Rear";
+        type = "cat6a";
+        length = 6;
+        length_unit = "in";
+    };
+
     resource."netbox_cable"."patch_panel_1u_ether3_rear_to_patch_panel_halfu_ether10_rear" = {
         a_termination = {
             object_type = "dcim.rearport";

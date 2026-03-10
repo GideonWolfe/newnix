@@ -82,4 +82,21 @@
     };
 
 
+    # Add a cable from the routers ether2 port to the Access Points' ether1 port
+    resource."netbox_cable"."rb5009_ether2_to_hapax2_ether1" = {
+        a_termination = {
+            object_type = "dcim.interface";
+            object_id = "\${netbox_device_interface.mikrotik_rb5009_ether2.id}";
+        };
+        b_termination = {
+            object_type = "dcim.interface";
+            object_id = "\${netbox_device_interface.mikrotik_hapax2_ether1.id}";
+        };
+        status = "connected";
+        label = "Router uplink to Access Point";
+        type = "cat6a";
+        length = 6;
+        length_unit = "in";
+    };
+
 }

@@ -12,7 +12,7 @@
     # TODO change to VM NIC name
     networking.interfaces.enp1s0.ipv4.addresses = [
         {
-            address = "${config.world.proxmox.vms.app1_vm.ip}";
+            address = "${config.custom.world.hosts.proxmox.vms.app1_vm.ip}";
             prefixLength = 24;
         }
     ];
