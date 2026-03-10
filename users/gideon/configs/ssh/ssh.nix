@@ -46,6 +46,15 @@
         port = 2736;
         proxyJump = "homeserver";
       };
+
+
+      # NAS (LAN)
+      mnemosyne = {
+        hostname = "${osConfig.custom.world.hosts.mnemosyne.ip}";
+        port = 2736;
+        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
+
     };
 
   };

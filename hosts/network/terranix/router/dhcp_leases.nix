@@ -9,6 +9,14 @@
     comment = "Poseidon (Thinkpad T490)";
   };
 
+  resource."routeros_ip_dhcp_server_lease"."hades" = {
+    mac_address = "";
+    address = "${config.custom.world.hosts.hades.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "Hades";
+  };
+
   resource."routeros_ip_dhcp_server_lease"."athena" = {
     mac_address = "D8:43:AE:90:5A:D1";
     #address = "192.168.88.202";
@@ -26,4 +34,13 @@
     provider = "routeros.router";
     comment = "Pixel 9A";
   };
+
+  resource."routeros_ip_dhcp_server_lease"."pvenet" = {
+    mac_address = "7C:83:34:B9:A4:AF";
+    address = "${config.custom.world.hosts.proxmox.nodes.pvenet.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "Network Rack PVE Node";
+  };
+
 }

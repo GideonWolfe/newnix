@@ -40,5 +40,6 @@ in {
     pkgs.contact # Meshtastic TUI
     pkgs.nanovna-saver # GUI for NanoVNA devices
     pkgs.nanovna-qt # GUI for NanoVNA devices
+    pkgs.xnec2c # Antenna simulation software
   ];
 }

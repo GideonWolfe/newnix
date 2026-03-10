@@ -17,6 +17,13 @@
           description = "IP of Poseidon on the LAN";
         };
       };
+      hades = {
+        ip = lib.mkOption {
+          type = lib.types.str;
+          default = "192.168.88.203";
+          description = "IP of Hades on the LAN";
+        };
+      };
       pixel9a = {
         ip = lib.mkOption {
           type = lib.types.str;
@@ -124,6 +131,13 @@
               type = lib.types.str;
               default = "192.168.0.223"; #TODO replace
               description = "The IP address of PVE3 proxmox node";
+            };
+          };
+          pvenet = {
+            ip = lib.mkOption {
+              type = lib.types.str;
+              default = "192.168.88.7";
+              description = "The IP address of PVE network node";
             };
           };
         };
