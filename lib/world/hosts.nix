@@ -129,7 +129,7 @@
           pve3 = {
             ip = lib.mkOption {
               type = lib.types.str;
-              default = "192.168.0.223"; #TODO replace
+              default = "192.168.0.225"; #TODO replace
               description = "The IP address of PVE3 proxmox node";
             };
           };

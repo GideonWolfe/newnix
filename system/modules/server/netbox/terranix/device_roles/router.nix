@@ -2,6 +2,6 @@
 {
     resource."netbox_device_role"."router" = {
         name = "Router";
-        color_hex = "ffffff";
+        color_hex = "e91e63";
     };
 }

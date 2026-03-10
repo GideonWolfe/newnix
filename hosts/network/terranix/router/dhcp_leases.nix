@@ -1,4 +1,4 @@
-{config, ... }:
+{ config, ... }:
 {
   resource."routeros_ip_dhcp_server_lease"."poseidon" = {
     mac_address = "6C:6E:07:05:36:6E";
@@ -10,7 +10,7 @@
   };
 
   resource."routeros_ip_dhcp_server_lease"."hades" = {
-    mac_address = "";
+    mac_address = "2C:f0:5D:59:89:6A";
     address = "${config.custom.world.hosts.hades.ip}";
     server = "defconf";
     provider = "routeros.router";
@@ -43,4 +43,28 @@
     comment = "Network Rack PVE Node";
   };
 
+  resource."routeros_ip_dhcp_server_lease"."pve1" = {
+    mac_address = "00:23:24:c9:76:48";
+    address = "${config.custom.world.hosts.proxmox.nodes.pve1.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "Compute Rack PVE Node 1";
+  };
+
+  resource."routeros_ip_dhcp_server_lease"."pve2" = {
+    mac_address = "00:23:24:b5:5b:81";
+    address = "${config.custom.world.hosts.proxmox.nodes.pve2.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "Compute Rack PVE Node 2";
+  };
+
+  resource."routeros_ip_dhcp_server_lease"."pve3" = {
+    mac_address = "00:23:24:a8:4d:d3";
+    address = "${config.custom.world.hosts.proxmox.nodes.pve3.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "Compute Rack PVE Node 3";
+  };
 }
+

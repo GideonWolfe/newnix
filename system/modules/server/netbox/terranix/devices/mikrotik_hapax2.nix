@@ -7,7 +7,7 @@
         site_id = "\${netbox_site.home.id}";
         role_id = "\${netbox_device_role.access_point.id}";
         rack_id = "\${netbox_rack.home_network_rack.id}";
-        rack_position = 3;
+        rack_position = 4;
         rack_face = "front";
         status = "active";
         comments = "[Product Page](https://mikrotik.com/product/hap_ax2)";

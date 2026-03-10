@@ -7,9 +7,9 @@
         site_id = "\${netbox_site.home.id}";
         role_id = "\${netbox_device_role.router.id}";
         rack_id = "\${netbox_rack.home_network_rack.id}";
-        rack_position = 4;
+        rack_position = 3.5;
         rack_face = "front";
-        status = "planned";
+        status = "active";
         comments = "[MikroTik RB5009UG+S+IN Datasheet](https://mikrotik.com/product/rb5009ug_s_in)";
     };
 
