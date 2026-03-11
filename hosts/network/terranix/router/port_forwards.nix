@@ -4,7 +4,7 @@
         action       = "dst-nat";
         protocol     = "tcp";
         dst_port     = "80";
-        in_interface = "bridge";
+        in_interface_list = "WAN";
         to_addresses = "\${routeros_ip_dhcp_server_lease.athena.address}";
         to_ports     = "80";
         comment      = "Port forward HTTP to Athena";
@@ -15,7 +15,7 @@
         action       = "dst-nat";
         protocol     = "tcp";
         dst_port     = "443";
-        in_interface = "bridge";
+        in_interface_list = "WAN";
         to_addresses = "\${routeros_ip_dhcp_server_lease.athena.address}";
         to_ports     = "443";
         comment      = "Port forward HTTPS to Athena";

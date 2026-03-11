@@ -40,36 +40,36 @@
     comment = "Mnemosyne (NAS)";
   };
 
-  resource."routeros_ip_dhcp_server_lease"."pvenet" = {
-    mac_address = "7C:83:34:B9:A4:AF";
-    address = "${config.custom.world.hosts.proxmox.nodes.pvenet.ip}";
-    server = "defconf";
-    provider = "routeros.router";
-    comment = "Network Rack PVE Node";
-  };
-
-  resource."routeros_ip_dhcp_server_lease"."pve1" = {
-    mac_address = "00:23:24:c9:76:48";
-    address = "${config.custom.world.hosts.proxmox.nodes.pve1.ip}";
-    server = "defconf";
-    provider = "routeros.router";
-    comment = "Compute Rack PVE Node 1";
-  };
-
-  resource."routeros_ip_dhcp_server_lease"."pve2" = {
-    mac_address = "00:23:24:b5:5b:81";
-    address = "${config.custom.world.hosts.proxmox.nodes.pve2.ip}";
-    server = "defconf";
-    provider = "routeros.router";
-    comment = "Compute Rack PVE Node 2";
-  };
-
-  resource."routeros_ip_dhcp_server_lease"."pve3" = {
-    mac_address = "00:23:24:a8:4d:d3";
-    address = "${config.custom.world.hosts.proxmox.nodes.pve3.ip}";
-    server = "defconf";
-    provider = "routeros.router";
-    comment = "Compute Rack PVE Node 3";
-  };
+  # resource."routeros_ip_dhcp_server_lease"."pvenet" = {
+  #   mac_address = "7C:83:34:B9:A4:AF";
+  #   address = "${config.custom.world.hosts.proxmox.nodes.pvenet.ip}";
+  #   server = "defconf";
+  #   provider = "routeros.router";
+  #   comment = "Network Rack PVE Node";
+  # };
+  #
+  # resource."routeros_ip_dhcp_server_lease"."pve1" = {
+  #   mac_address = "00:23:24:c9:76:48";
+  #   address = "${config.custom.world.hosts.proxmox.nodes.pve1.ip}";
+  #   server = "defconf";
+  #   provider = "routeros.router";
+  #   comment = "Compute Rack PVE Node 1";
+  # };
+  #
+  # resource."routeros_ip_dhcp_server_lease"."pve2" = {
+  #   mac_address = "00:23:24:b5:5b:81";
+  #   address = "${config.custom.world.hosts.proxmox.nodes.pve2.ip}";
+  #   server = "defconf";
+  #   provider = "routeros.router";
+  #   comment = "Compute Rack PVE Node 2";
+  # };
+  #
+  # resource."routeros_ip_dhcp_server_lease"."pve3" = {
+  #   mac_address = "00:23:24:a8:4d:d3";
+  #   address = "${config.custom.world.hosts.proxmox.nodes.pve3.ip}";
+  #   server = "defconf";
+  #   provider = "routeros.router";
+  #   comment = "Compute Rack PVE Node 3";
+  # };
 }
 

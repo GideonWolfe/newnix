@@ -235,6 +235,7 @@
           ./hosts/network/terranix/provider.nix
           ./hosts/network/terranix/router/dhcp_leases.nix
           ./hosts/network/terranix/router/port_forwards.nix
+          ./hosts/network/terranix/router/dns.nix
           ./hosts/network/terranix/router/wireguard.nix
         ];
       };
