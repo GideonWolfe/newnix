@@ -1,4 +1,4 @@
-{ lib, inputs, ... }:
+{ lib, inputs, config, ... }:
   
 {
   imports = [
@@ -24,8 +24,8 @@
   ];
 
   # Point at the router
-  networking.defaultGateway = "192.168.0.1";
-  networking.nameservers = [ "192.168.0.1" ];
+  networking.defaultGateway = "${config.custom.world.hosts.router.ip}";
+  networking.nameservers = [ "${config.custom.world.hosts.router.ip}" ];
 
   #########################
   # Proxmox image settings #

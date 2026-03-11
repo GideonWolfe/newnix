@@ -223,8 +223,8 @@
         modules = [
           ./hosts/proxmox/terranix/provider.nix
           ./hosts/proxmox/terranix/vm-media.nix
-          ./hosts/proxmox/terranix/vm-ingress.nix
-          ./hosts/proxmox/terranix/vm-netbox-test.nix
+          #./hosts/proxmox/terranix/vm-ingress.nix
+          #./hosts/proxmox/terranix/vm-netbox-test.nix
         ];
       };
 

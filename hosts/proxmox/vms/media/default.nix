@@ -20,8 +20,8 @@
         #./services/prowlarr/prowlarr.nix
 
         # Download client
-        #./services/nzbget/nzbget.nix
-        #./services/nzbget/nzbget-setup.nix
+        ./services/nzbget/nzbget.nix
+        ./services/nzbget/nzbget-setup.nix
 
         # SoulSeek
         #./services/slskd/slskd.nix
@@ -36,7 +36,7 @@
         #./services/navidrome/navidrome.nix
 
         #TESTING
-        ../../../../system/modules/server/netbox/netbox.nix
+        #../../../../system/modules/server/netbox/netbox.nix
 
     ];
 
@@ -61,7 +61,8 @@
     networking.interfaces.ens18.useDHCP = false;
     networking.interfaces.ens18.ipv4.addresses = [
         {
-            address = "${config.custom.world.hosts.media.ip}";
+            #address = "${config.custom.world.hosts.proxmox.vms.media_vm.ip}";
+            address = "${config.custom.world.hosts.proxmox.vms.media_vm.ip}";
             prefixLength = 24;
         }
     ];

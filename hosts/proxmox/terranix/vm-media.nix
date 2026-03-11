@@ -3,7 +3,7 @@
     name = "media-vm";
     target_node = "pve1";
     vmid = 1003;
-    clone = "nixos-base";
+    clone = "proxmox-base";
     full_clone = true;
 
     bios = "seabios";

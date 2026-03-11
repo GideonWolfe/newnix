@@ -81,77 +81,77 @@ in
     ###############
     sonarr = mkService {
       name = "Sonarr";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 8989;
       domain = "";
       protocol = "http";
     };
     radarr = mkService {
       name = "Radarr";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 7878;
       domain = "";
       protocol = "http";
     };
     prowlarr = mkService {
       name = "Prowlarr";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 9696;
       domain = "";
       protocol = "http";
     };
     recyclarr = mkService {
       name = "Recyclarr";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 4533;
       domain = "";
       protocol = "http";
     };
     nzbget = mkService {
       name = "NZBGet";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 6789;
       domain = "";
       protocol = "http";
     };
     jellyfin = mkService {
       name = "Jellyfin";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 8096;
       domain = "jellyfin.gideonwolfe.xyz";
       protocol = "https";
     };
     seerr = mkService {
       name = "Seerr";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 5055;
       domain = "jellyseerr.gideonwolfe.xyz";
       protocol = "https";
     };
     navidrome = mkService {
       name = "Navidrome";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 4533;
       domain = "nd.gideonwolfe.xyz";
       protocol = "https";
     };
     slskd = mkService {
       name = "SoulSeek Daemon";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 5030;
       domain = "";
       protocol = "http";
     };
     soulsync-webui = mkService {
       name = "SoulSync";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 8008;
       domain = "";
       protocol = "http";
     };
     netbox = mkService {
       name = "NetBox";
-      ip = config.custom.world.hosts.media.ip;
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 9001;
       domain = "";
       protocol = "http";

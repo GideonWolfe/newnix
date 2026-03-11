@@ -21,7 +21,8 @@
     # Augment with extra roles as needed
     ../../system/roles/hardware.nix
     # Mount the NAS since we're on my LAN
-    ../../system/modules/networking/mnemosyne-nfs.nix
+        #../../system/modules/networking/mnemosyne-nfs.nix
+    ../../system/roles/home-lan.nix
 
     # TESTING
     ../../system/modules/services/terraform

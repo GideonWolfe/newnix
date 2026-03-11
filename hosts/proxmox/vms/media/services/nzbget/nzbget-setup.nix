@@ -2,7 +2,7 @@
 
 let
   nzbgetConfigDir = "/data/nzbget/config";
-  downloadsDir = config.custom.world.hosts.media.downloadsDir;
+  downloadsDir = config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir;
 in
 {
 

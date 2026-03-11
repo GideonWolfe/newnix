@@ -71,21 +71,6 @@
         };
       };
 
-      # Whatever machine is hosting my media stack
-      # Usually a Proxmox VM, but could be a physical server
-      media = {
-        ip = lib.mkOption {
-          type = lib.types.str;
-          default = "192.168.0.10";
-          description = "The IP of the media server/VM";
-        };
-
-        downloadsDir = lib.mkOption {
-          type = lib.types.str;
-          default = "/data/downloads";
-          description = "Base directory for media downloads shared by Sonarr, Radarr, NZBGet, etc.";
-        };
-      };
 
       homeserver = {
         ip = lib.mkOption {
@@ -110,6 +95,11 @@
               type = lib.types.str;
               default = "192.168.88.101";
               description = "The IP address of the media VM";
+            };
+            downloadsDir = lib.mkOption {
+              type = lib.types.str;
+              default = "/data/downloads";
+              description = "Base directory for media downloads shared by Sonarr, Radarr, NZBGet, etc.";
             };
           };
           app1_vm = {

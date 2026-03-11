@@ -12,7 +12,7 @@
     };
     volumes = [
       "/data/nzbget/config/:/config"
-      "${config.custom.world.hosts.media.downloadsDir}:/downloads"
+      "${config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir}:/downloads"
     ];
   };
 }

@@ -99,6 +99,9 @@
   --main-color: var(--theme-body-color) !important;
   /* Colors some backgrounds, ie. slide view background in PDF reader */
   --body-bg-color: var(--theme-body-background) !important;
+  /* TODO vereify: should color background of warning unsafe page ahead */
+  --background-color-canvas: var(--theme-body-background) !important;
+  --color-accent-primary: var(--theme-highlight-green) !important;
 
   --link-fg-color: var(--theme-link-color) !important;
   --link-hover-fg-color: var(--theme-highlight-orange) !important;
@@ -138,6 +141,9 @@
 
   /* Filter JSON button */
   --tab-line-selected-color: var(--theme-highlight-green) !important;
+
+  /* used in Warning Potential Security Risk Ahead page */
+  --warning-color: var(--theme-highlight-yellow) !important;
 
 }
 
