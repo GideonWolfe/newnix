@@ -60,6 +60,14 @@
           };
         };
       };
+      access_point = {
+        ip = lib.mkOption {
+          type = lib.types.str;
+          #default = "192.168.0.137";
+          default = "192.168.88.2";
+          description = "The local IP of my hAP ax2";
+        };
+      };
 
       
       # Monitoring server, where all metrics and logs from across my infra are sent

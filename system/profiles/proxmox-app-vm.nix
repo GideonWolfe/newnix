@@ -7,5 +7,6 @@
         #########
         ../roles/base.nix # sets up low level system config
         ../roles/vm-proxmox.nix # proxmox VM role
+        ../roles/monitoring.nix # monitoring role to export metrics to my prometheus server
     ];
 }

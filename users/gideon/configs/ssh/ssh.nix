@@ -48,11 +48,34 @@
       };
 
 
+      router = {
+        hostname = "${osConfig.custom.world.hosts.router.ip}";
+      };
+      access_point = {
+        hostname = "${osConfig.custom.world.hosts.access_point.ip}";
+      };
       # NAS (LAN)
       mnemosyne = {
         hostname = "${osConfig.custom.world.hosts.mnemosyne.ip}";
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
+
+      pvenet = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pvenet.ip}";
+        user = "root";
+      };
+      pve1 = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve1.ip}";
+        user = "root";
+      };
+      pve2 = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve2.ip}";
+        user = "root";
+      };
+      pve3 = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve3.ip}";
+        user = "root";
       };
 
     };
