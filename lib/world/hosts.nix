@@ -9,6 +9,7 @@ in
       poseidon   = {
         ip = mkIp "192.168.88.202";
         wireguard.ip = mkIp "10.0.0.1";
+        wireguard.public_key = mkIp ""; # fill in after: wg pubkey < /root/wireguard/poseidon-wg0-private.key
       };
       hades      = { ip = mkIp "192.168.88.203"; };
       pixel9a    = { ip = mkIp "192.168.88.204"; };
