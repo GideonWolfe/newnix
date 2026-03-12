@@ -2,16 +2,12 @@
 {
     # Open firewall for WireGuard
     networking.firewall.allowedUDPPorts = [
-      config.custom.world.hosts.wireguard.port
+      config.custom.world.hosts.router.wireguard.port
     ];
 
     # Configure WireGuard interface
     networking.wireguard.interfaces.wg0 = {
-      # Client IP and subnet (auto-derived from world config)
-      ips = [ "${config.custom.world.hosts.wireguard.clients.${config.networking.hostName}.vpnIp}/24" ];
-      
-      # Listen on the same port as configured in world
-      listenPort = config.custom.world.hosts.router.wireguard.port;
+      ips = [ "${config.custom.world.hosts.${config.networking.hostName}.wireguard.ip}/24" ];
 
       # Always generate private key automatically
       generatePrivateKeyFile = true;
@@ -22,12 +18,15 @@
         # Server public key from world config
         publicKey = config.custom.world.hosts.router.wireguard.public_key;
 
-        # Route only server traffic through VPN
-        allowedIPs = [ config.custom.world.hosts.wireguard.vpnServerIp ];
+        allowedIPs = [
+          # Route LAN traffic through the VPN
+          config.custom.world.hosts.router.subnet
+          # Route VPN subnet traffic through the VPN
+          config.custom.world.hosts.router.wireguard.subnet
+        ];
 
-        # TODO change port
         # Server endpoint constructed from IP and port
-        endpoint = "${config.custom.world.hosts.router.ip}:${toString config.custom.world.hosts.wireguard.port}";
+        endpoint = "24.168.123.112:${toString config.custom.world.hosts.router.wireguard.port}";
 
         # Keep NAT tables alive
         persistentKeepalive = 25;
