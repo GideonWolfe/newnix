@@ -14,6 +14,12 @@ with config.lib.stylix.colors.withHashtag;
      ];
 
 
+    # Ensure the DMS service is only pulled in by Niri (not Hyprland)
+    systemd.user.services."dank-material-shell" = {
+        Unit.PartOf = [ "niri.service" ];
+        Install.WantedBy = lib.mkForce [ "niri.service" ];
+    };
+
     programs.dank-material-shell = {
         enable = true;
         systemd.enable = true;
@@ -124,12 +130,6 @@ with config.lib.stylix.colors.withHashtag;
                     width = 50;
                 }
                 {
-
-        # Ensure the DMS service is only pulled in by Niri (not Hyprland)
-        systemd.user.services."dank-material-shell" = {
-            Unit.PartOf = [ "niri.service" ];
-            Install.WantedBy = lib.mkForce [ "niri.service" ];
-        };
                     id = "brightnessSlider";
                     enabled = true;
                     width = 50;

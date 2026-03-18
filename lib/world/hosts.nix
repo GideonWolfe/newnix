@@ -9,10 +9,14 @@ in
       poseidon   = {
         ip = mkIp "192.168.88.202";
         wireguard.ip = mkIp "10.0.0.1";
-        wireguard.public_key = mkIp ""; # fill in after: wg pubkey < /root/wireguard/poseidon-wg0-private.key
+        wireguard.public_key = mkIp "RKr0FtPL+VnOal/gy8kkwHx+IJbzimoEgZ5KO8X18XE=";
       };
       hades      = { ip = mkIp "192.168.88.203"; };
-      pixel9a    = { ip = mkIp "192.168.88.204"; };
+      pixel9a    = {
+        ip = mkIp "192.168.88.204";
+        wireguard.ip = mkIp "10.0.0.2";
+        wireguard.public_key = mkIp "yVjPDm5jjI9rqTG9m1zapHl6gzqxbXBfJaq1IlO4Z14=";
+      };
       mnemosyne  = { ip = mkIp "192.168.88.205"; };
       access_point = { ip = mkIp "192.168.88.2"; };
       monitor    = { ip = mkIp "165.227.70.3"; };
