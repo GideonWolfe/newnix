@@ -14,7 +14,8 @@ in {
     pkgs.seaview # DNA alignment and phylogeny gui
     pkgs.gatk # lots of biology utilities
     #asciiMol
-    plascad
+    # TODO won't build
+    #plascad
     #ugene
 
   ];

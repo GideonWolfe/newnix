@@ -6,7 +6,7 @@
     # Modules #
     ###########
     # Steam, of course    
-    ../modules/services/steam.nix
+    ../modules/services/gaming/steam.nix
 
     ############
     # Packages #

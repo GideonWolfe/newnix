@@ -25,7 +25,8 @@
     tonelib-metal # Metal guitar tones
     tonelib-gfx
     tonelib-jam
-    proteus # Capture guitar sound and train ML model on it
+    # BUG build fails
+    #proteus # Capture guitar sound and train ML model on it
     tuxguitar # GUI for writing tabs
     powertabeditor # Tab editor for guitar
     

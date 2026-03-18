@@ -5,7 +5,7 @@
       pkgs.protontricks
       pkgs.lutris
       pkgs.itch
-      pkgs.nexusmods-app-unfree
+      #pkgs.nexusmods-app-unfree
       pkgs.mangohud
       pkgs.jstest-gtk #joystick tester
       pkgs.cutechess # chess engine
