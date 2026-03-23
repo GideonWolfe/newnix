@@ -16,7 +16,7 @@ with config.lib.stylix.colors.withHashtag;
       gp = "git push";
       dc = "docker-compose";
       scope-tui =
-        "scope-tui --no-ui --scale 0.15 --channels 3 pulse pipewire.monitor";
+        "scope-tui --no-ui --scale 0.15 --palette-color magenta,cyan,green --channels 3 pulse pipewire.monitor";
       pkg = "nix-shell -p";
     };
 

@@ -1,151 +1,39 @@
 { pkgs, lib, config, ... }:
 
-with config.lib.stylix.colors.withHashtag;
-
 let
-  # Generate the CSS content with Stylix colors
-  cssContent = ''
-    @font-face {
-        font-family: "Roboto Mono";
-        src: url("./fonts/font.ttf");
-    }
+  # Helper to build a full URL from a service's protocol and domain
+  mkUrl = svc: "${svc.protocol}://${svc.domain}";
 
-    :root {
-        --font: "Roboto Mono";
-        --branch: 1px solid ${base0B};
-    }
+  services = config.custom.world.services;
+  colors = config.lib.stylix.colors.withHashtag;
 
-    html {
-        font-size: 14px;
-    }
+  # Use replaceVars to inject world service URLs into the HTML at build time
+  indexHtml = pkgs.replaceVars ./data/index.html {
+    jellyfinUrl = mkUrl services.jellyfin;
+    seerrUrl = mkUrl services.seerr;
+    navidromeUrl = mkUrl services.navidrome;
+  };
 
-    body {
-        background: ${base01};
-    }
+  # Use replaceVars to inject Stylix colors into the CSS at build time
+  styleCss = pkgs.replaceVars ./data/style.css {
+    base00 = colors.base00;
+    base01 = colors.base01;
+    base09 = colors.base09;
+    base0A = colors.base0A;
+    base0B = colors.base0B;
+    base0C = colors.base0C;
+    base0D = colors.base0D;
+    base0E = colors.base0E;
+  };
 
-    .container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .prompt {
-        font-family: var(--font);
-        color: ${base0C};
-    }
-
-    .prompt~.prompt {
-        padding: 1.5rem 0 0.3125rem;
-    }
-
-    span {
-        color: ${base0A};
-    }
-
-    h1 {
-        display: inline;
-        font-family: var(--font);
-        font-size: 1rem;
-        font-weight: normal;
-        color: ${base0D};
-    }
-
-    .tree > ul {
-        margin: 0;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    ul {
-        list-style: none;
-        padding-left: 2.5rem;
-        white-space:nowrap;
-    }
-
-    li {
-        position: relative;
-    }
-
-    li::before, li::after {
-        content: "";
-        position: absolute;
-        left: -0.75rem;
-    }
-
-    li::before {
-        border-top: var(--branch);
-        top: 0.75rem;
-        width: 0.5rem;
-    }
-
-    li::after {
-        border-left: var(--branch);
-        height: 100%;
-        top: 0.25rem;
-    }
-
-    li:last-child::after {
-        height: 0.5rem;
-    }
-
-    a {
-        font-family: var(--font);
-        font-size: 1rem;
-        color: ${base0B};
-        text-decoration: none;
-        outline: none;
-    }
-
-    a:hover {
-        color: ${base09};
-        background: ${base00};
-    }
-
-    form h1 {
-        padding-left: 0.125rem;
-    }
-
-    input {
-        font-family: var(--font);
-        font-size: 1rem;
-        color: ${base0E};
-        background-color: ${base00};
-        border-width: 1px;
-        border-color: ${base0D};
-        border-style: solid;
-        padding-top: 4px;
-        padding-bottom: 4px;
-    }
-
-    .column {
-      flex: 50%;
-      padding: 5px;
-    }
-
-    .row {
-      display: flex;
-    }
-
-    .row:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-  '';
-
-  # Create startpage data with generated CSS
+  # Create startpage data with templated HTML and CSS
   startpageData = pkgs.stdenv.mkDerivation {
     name = "startpage-data";
     src = ./data;
     installPhase = ''
-            mkdir -p $out
-            # Copy only the HTML file
-            cp index.html $out/
-            # Generate the CSS file
-            cat > $out/style.css << 'EOF'
-      ${cssContent}
-      EOF
+      mkdir -p $out
+      cp ${indexHtml} $out/index.html
+      cp ${styleCss} $out/style.css
     '';
   };
 in {

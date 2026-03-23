@@ -19,6 +19,7 @@
     #kdePackages.step # physics simulator
     openrocket # 3D rocket simulator/modeler
     leocad # 3D CAD modeler for legos
+    openscad
 
     # 3D printing
     #bambu-studio
