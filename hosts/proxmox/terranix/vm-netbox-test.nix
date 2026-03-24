@@ -3,7 +3,7 @@
     name = "netbox-test-vm";
     target_node = "pve1";
     vmid = 1004;
-    clone = "nixos-base";
+    clone = "proxmox-base";
     full_clone = true;
 
     bios = "seabios";

@@ -34,6 +34,7 @@
             size = "23G";
             storage = "datapool";
             format = "raw";
+            replicate = true;
           };
         };
       };
@@ -43,6 +44,7 @@
             size = "30G";
             storage = "datapool";
             format = "raw";
+            replicate = true;
           };
         };
       };
