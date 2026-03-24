@@ -32,6 +32,17 @@
     provider = "routeros.router";
   };
 
+  # Accept WireGuard UDP from LAN clients connecting via the WAN IP (hairpin/NAT loopback)
+  resource."routeros_ip_firewall_filter"."wg0_lan_input" = {
+    chain = "input";
+    action = "accept";
+    protocol = "udp";
+    dst_port = "${builtins.toString config.custom.world.hosts.router.wireguard.port}";
+    in_interface_list = "LAN";
+    comment = "Allow WireGuard UDP from LAN (hairpin)";
+    provider = "routeros.router";
+  };
+
   # Allow the router itself to be reached from WireGuard peers (e.g. ping 10.0.0.254)
   resource."routeros_ip_firewall_filter"."wg0_input" = {
     chain = "input";
