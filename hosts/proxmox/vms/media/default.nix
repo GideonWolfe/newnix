@@ -2,38 +2,36 @@
 {
     imports = [
         # Get our secret definitions
-        ./secrets/secrets_media.nix
+        ../../../../system/modules/server/media/secrets/secrets_media.nix
         # TV Database
-        #./services/sonarr/sonarr.nix
-        #./services/sonarr/sonarr-setup.nix
-        #./services/sonarr/sonarr-monitoring.nix
+        #../../../../system/modules/server/media/services/sonarr/sonarr.nix
+        #../../../../system/modules/server/media/services/sonarr/sonarr-setup.nix
+        #../../../../system/modules/server/media/services/sonarr/sonarr-monitoring.nix
 
         # Movie Database
-        #./services/radarr/radarr.nix
-        #./services/radarr/radarr-monitoring.nix
-
+        #../../../../system/modules/server/media/services/radarr/radarr.nix
+        #../../../../system/modules/server/media/services/radarr/radarr-monitoring.nix
         # Push optimized settings to them
-        #./services/recyclarr/recyclarr.nix
-        #./services/recyclarr/recyclarr-setup.nix
+        #../../../../system/modules/server/media/services/recyclarr/recyclarr.nix
+        #../../../../system/modules/server/media/services/recyclarr/recyclarr-setup.nix
 
         # Centralized indexer manager
-        #./services/prowlarr/prowlarr.nix
-
+        #../../../../system/modules/server/media/services/prowlarr/prowlarr.nix
         # Download client
-        ./services/nzbget/nzbget.nix
-        ./services/nzbget/nzbget-setup.nix
+        ../../../../system/modules/server/media/services/nzbget/nzbget.nix
+        ../../../../system/modules/server/media/services/nzbget/nzbget-setup.nix
 
         # SoulSeek
-        #./services/slskd/slskd.nix
-        #./services/slskd/slskd-setup.nix
+        #../../../../system/modules/server/media/services/slskd/slskd.nix
+        #../../../../system/modules/server/media/services/slskd/slskd-setup.nix
         # SoulSync
-        #./services/soulsync/soulsync.nix
-        #./services/soulsync/soulsync-setup.nix
+        #../../../../system/modules/server/media/services/soulsync/soulsync.nix
+        #../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
 
         # Frontends
-        #./services/jellyfin/jellyfin/jellyfin.nix
-        #./services/seerr/seerr.nix
-        #./services/navidrome/navidrome.nix
+        #../../../../system/modules/server/media/services/jellyfin/jellyfin.nix
+        #../../../../system/modules/server/media/services/seerr/seerr.nix
+        #../../../../system/modules/server/media/services/navidrome/navidrome.nix
 
         #TESTING
         #../../../../system/modules/server/netbox/netbox.nix
