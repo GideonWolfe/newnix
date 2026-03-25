@@ -149,6 +149,8 @@ in
       domain = "";
       protocol = "http";
     };
+    
+    # Other Apps
     netbox = mkService {
       name = "NetBox";
       ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
@@ -162,6 +164,11 @@ in
       port = 4232;
       domain = "";
       protocol = "http";
+    };
+    kiwix = mkService {
+      name = "Kiwix";
+      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      port = 4302;
     };
   };
 }

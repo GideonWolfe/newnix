@@ -1,10 +1,10 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, osConfig, ... }:
 
 let
   # Helper to build a full URL from a service's protocol and domain
   mkUrl = svc: "${svc.protocol}://${svc.domain}";
 
-  services = config.custom.world.services;
+  services = osConfig.custom.world.services;
   colors = config.lib.stylix.colors.withHashtag;
 
   # Use replaceVars to inject world service URLs into the HTML at build time

@@ -1,3 +1,4 @@
+{config, ... }:
 {
 
     # Define the router

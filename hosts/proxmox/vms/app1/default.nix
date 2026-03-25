@@ -1,19 +1,34 @@
+{config, ...}:
 {
     imports = [
-        ./services/mealie
-        ./services/booklore
-        ./services/romm
+        ../../../../system/modules/server/apps/kiwix/kiwix.nix
+        #./services/romm
     ];
 
-    # Unique hostname for this MV
+    # Unique hostname for this VM
     networking.hostName = "app1-vm";
     
     # Assign an IP ourselves
-    # TODO change to VM NIC name
-    networking.interfaces.enp1s0.ipv4.addresses = [
+    networking.interfaces.ens18.ipv4.addresses = [
         {
             address = "${config.custom.world.hosts.proxmox.vms.app1_vm.ip}";
             prefixLength = 24;
         }
     ];
+
+    # Now that we've spun up a VM using terraform,
+    # We can guarantee that the scsi disk will be there
+    fileSystems."/data" = {
+        device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
+        fsType = "ext4";
+        autoFormat = true; # avoid mkfs on existing disks during switch
+        options = [
+            "defaults"
+            "nofail"                  # do not fail boot if disk absent
+            "noauto"                  # don't try to mount automatically on switch
+            "x-systemd.automount"     # mount on first access instead
+            "x-systemd.device-timeout=1s"
+        ];
+        neededForBoot = false;
+    };
 }

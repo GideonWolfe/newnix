@@ -1,8 +1,8 @@
 {
-  resource.proxmox_vm_qemu.netbox_test_vm = {
-    name = "netbox-test-vm";
+  resource.proxmox_vm_qemu.app1_vm = {
+    name = "app1-vm";
     target_node = "pve1";
-    vmid = 1004;
+    vmid = 1001;
     clone = "proxmox-base";
     full_clone = true;
 
@@ -10,7 +10,7 @@
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    memory = 2048;
+    memory = 4096;
     skip_ipv6 = true;
 
     cpu = {
@@ -31,9 +31,10 @@
       scsi = {
         scsi0 = {
           disk = {
-            size = "10G";
+            size = "20G";
             storage = "datapool";
             format = "raw";
+            replicate = true;
           };
         };
       };
@@ -43,6 +44,7 @@
             size = "30G";
             storage = "datapool";
             format = "raw";
+            replicate = true;
           };
         };
       };

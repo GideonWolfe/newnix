@@ -1,9 +1,9 @@
 {
   resource.proxmox_vm_qemu.ingress_vm = {
     name = "ingress-vm";
-    target_node = "pve1";
-    vmid = 1002;
-    clone = "nixos-base";
+    target_node = "pve2";
+    vmid = 1000;
+    clone = "proxmox-base";
     full_clone = true;
 
     bios = "seabios";

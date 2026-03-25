@@ -52,14 +52,14 @@ in
         vms = {
           ingress_vm = { ip = mkIp "192.168.88.100"; };
           media_vm = {
-            ip = mkIp "192.168.88.101";
+            ip = mkIp "192.168.88.102";
             downloadsDir = lib.mkOption {
               type = lib.types.str;
               default = "/data/downloads";
               description = "Base directory for media downloads shared by Sonarr, Radarr, NZBGet, etc.";
             };
           };
-          app1_vm = { ip = mkIp "192.168.88.102"; };
+          app1_vm = { ip = mkIp "192.168.88.101"; };
         };
         nodes = {
           pvenet = { ip = mkIp "192.168.88.7"; };
