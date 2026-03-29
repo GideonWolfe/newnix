@@ -21,6 +21,7 @@
     # Automatically import my SSH key for this user
     openssh.authorizedKeys.keys = [
       (lib.strings.removeSuffix "\n" (builtins.readFile ./configs/ssh/gideon_ssh_sk.pub))
+      (lib.strings.removeSuffix "\n" (builtins.readFile ./configs/ssh/gideon_backup_ssh_sk.pub))
     ];
   };
 
