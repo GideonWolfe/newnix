@@ -28,6 +28,7 @@
         hostname = "github.com";
         identityFile = [
           "${config.home.homeDirectory}/.ssh/gideon_ssh_sk"
+          "${config.home.homeDirectory}/.ssh/gideon_backup_ssh_sk"
           #"/home/gideon/nix/configs/users/gideon/configs/ssh/keys/github-nixos-tester"
         ];
         user = "git";
