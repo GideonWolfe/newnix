@@ -1,8 +1,8 @@
 { lib, inputs, ... }:
-  
+
 {
   imports = [
-    
+
     # Host-specific hardware setup (disk layout, initrd modules, etc.)
     ./hardware-configuration.nix
 
@@ -19,15 +19,16 @@
 
     # This will enable the necessary roles and packages
     ../../system/profiles/light-workstation.nix
-    
+
     # Physical machine
     ../../system/roles/hardware.nix
     # This machine mounts the NAS's NFS shares for easy access
-        #../../system/modules/networking/mnemosyne-nfs.nix 
+    #../../system/modules/networking/mnemosyne-nfs.nix
     ../../system/roles/home-lan.nix
 
-
     ../../system/modules/services/terraform
+
+    ../../system/modules/networking/wireguard/wg-home.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
