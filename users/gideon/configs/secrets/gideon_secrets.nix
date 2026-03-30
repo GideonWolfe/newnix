@@ -55,5 +55,10 @@
       path = "/home/gideon/.ssh/gideon_ssh_sk";
       owner = "gideon";
     };
+    "ssh/gideon_backup_ssh_sk/private_key" = {
+      sopsFile = ./gideon_secrets.yaml;
+      path = "/home/gideon/.ssh/gideon_backup_ssh_sk";
+      owner = "gideon";
+    };
   };
 }
