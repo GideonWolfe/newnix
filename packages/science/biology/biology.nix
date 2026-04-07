@@ -3,6 +3,7 @@
 let
   asciiMol = pkgs.python312Packages.callPackage ../custom/asciiMol.nix { };
   plascad = pkgs.callPackage ../../custom/plascad.nix { };
+  proteinview = pkgs.callPackage ../../custom/proteinview.nix { };
   #ugene = pkgs.callPackage ../custom/ugene.nix { }; # BUG: failing build
 in {
   environment.systemPackages = [
@@ -17,6 +18,7 @@ in {
     # TODO won't build
     #plascad
     #ugene
+    proteinview
 
   ];
 }

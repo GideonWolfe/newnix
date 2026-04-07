@@ -42,6 +42,9 @@
     ../../home/sessions/niri/niri.nix
     # NixVim configuration (belongs in HM, not system modules)
     ../../home/apps/nixvim/nixvim-light.nix
+
+    # testing openscad
+    ../../home/apps/openscad/openscad.nix
   ];
 
   # Plymouth fills up the /boot partition lol
