@@ -7,6 +7,11 @@
     source = ./gideon_ssh_sk.pub;
     target = "${config.home.homeDirectory}/.ssh/gideon_ssh_sk.pub";
   };
+  home.file.gideon_backup_ssh_sk_pub = {
+    enable = true;
+    source = ./gideon_backup_ssh_sk.pub;
+    target = "${config.home.homeDirectory}/.ssh/gideon_backup_ssh_sk.pub";
+  };
 
   programs.ssh = {
 

@@ -24,6 +24,7 @@
     ############
     # Desktop utilities
     ../../packages/utilities/desktop.nix
+    ../../packages/utilities/fonts.nix
     # Audio utilities
     ../../packages/audio/utils.nix
     # Video utilities
