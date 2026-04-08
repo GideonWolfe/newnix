@@ -43,6 +43,9 @@
     libnotify # provides notify-send and other utils
     fishPlugins.done # sends notification after cmd ends
 
+    # Clocks
+    gnome-clocks
+
     ###############
     # Screenshots #
     ###############

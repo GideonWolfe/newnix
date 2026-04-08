@@ -14,6 +14,8 @@
     ../modules/system/timezone.nix
     # Network Manger
     ../modules/networking/network-manager.nix
+    # SSH server config and hardening
+    ../modules/networking/ssh.nix
     # Home manager setup
     ../modules/system/home-manager.nix
     # Basic security services
