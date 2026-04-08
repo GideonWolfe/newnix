@@ -234,7 +234,8 @@
           #./hosts/proxmox/terranix/vm-media.nix
           #./hosts/proxmox/terranix/vm-network.nix
           #./hosts/proxmox/terranix/vm-ingress.nix
-          ./hosts/proxmox/terranix/vm-app1.nix
+          #./hosts/proxmox/terranix/vm-app1.nix
+          ./hosts/proxmox/terranix/vm-test.nix
         ];
       };
 
