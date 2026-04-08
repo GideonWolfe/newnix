@@ -28,20 +28,18 @@
     ];
 
     disks = {
-      scsi = {
-        scsi0 = {
+      virtio = {
+        virtio0 = {
           disk = {
-            size = "23G";
+            size = "30G";
             storage = "datapool";
             format = "raw";
             replicate = true;
           };
         };
-      };
-      virtio = {
-        virtio0 = {
+        virtio1 = {
           disk = {
-            size = "30G";
+            size = "23G";
             storage = "datapool";
             format = "raw";
             replicate = true;

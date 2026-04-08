@@ -67,9 +67,9 @@
 
 
     # Now that we've spun up a VM using terraform,
-    # We can guarantee that the scsi disk will be there
+    # We can guarantee that the data disk will be there (virtio1 = /dev/vdb)
     fileSystems."/data" = {
-        device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
+        device = "/dev/vdb";
         fsType = "ext4";
         autoFormat = true; # avoid mkfs on existing disks during switch
         options = [
