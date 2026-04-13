@@ -17,9 +17,10 @@
     ];
 
     # Now that we've spun up a VM using terraform,
-    # We can guarantee that the data disk will be there (virtio1 = /dev/vdb)
+    # We can guarantee that the data disk will be there
+    # Uses the stable serial-based path set in Terranix (serial = "data")
     fileSystems."/data" = {
-        device = "/dev/vdb";
+        device = "/dev/disk/by-id/virtio-data";
         fsType = "ext4";
         autoFormat = true; # avoid mkfs on existing disks during switch
         options = [

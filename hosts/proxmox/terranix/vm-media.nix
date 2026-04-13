@@ -2,9 +2,10 @@
   resource.proxmox_vm_qemu.media_vm = {
     name = "media-vm";
     target_node = "pve1";
-    vmid = 1003;
+    vmid = 102;
     clone = "proxmox-base";
     full_clone = true;
+    tags = "prod,app";
 
     bios = "seabios";
     agent = 1;
@@ -35,6 +36,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            serial = "rootdisk";
           };
         };
         virtio1 = {
@@ -43,6 +45,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            serial = "data";
           };
         };
       };

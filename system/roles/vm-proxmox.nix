@@ -23,18 +23,8 @@
   # Disks #
   #########
 
-  # Define root FS, this is the disk we already generated
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    autoResize = true;
-    fsType = "ext4";
-  };
-
-  # Only mount /boot when using systemd-boot/EFI; skipped for legacy grub
-  # fileSystems."/boot" = lib.mkIf config.boot.loader.systemd-boot.enable {
-  #   device = "/dev/disk/by-label/ESP";
-  #   fsType = "vfat";
-  # };
+  # Root FS — uses the "nixos" label baked into the image by make-disk-image.nix.
+  # No override needed; proxmox-image.nix already sets this to /dev/disk/by-label/nixos.
 
 
   ##############
@@ -49,7 +39,7 @@
       systemd-boot.enable = false;
       grub = {
         enable = true;
-        device = "/dev/vda"; # whole disk for BIOS/MBR
+        device = "/dev/disk/by-id/virtio-rootdisk"; # stable serial-based path
         efiSupport = false;
       };
     };

@@ -35,6 +35,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            serial = "rootdisk";
           };
         };
         virtio1 = {
@@ -43,6 +44,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            serial = "data";
           };
         };
       };
