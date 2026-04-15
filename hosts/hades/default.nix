@@ -27,6 +27,7 @@
 
     # TESTING
     ../../system/modules/services/terraform
+    ../../system/modules/server/apps/homepage/homepage.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

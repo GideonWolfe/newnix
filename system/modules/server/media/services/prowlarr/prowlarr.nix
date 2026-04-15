@@ -5,6 +5,7 @@
     image = "linuxserver/prowlarr:2.3.0";
     ports = [ "${builtins.toString config.custom.world.services.prowlarr.port}:9696" ];
     autoStart = true;
+    extraOptions = [ "--network=media" ];
     volumes = [
       "/data/prowlarr/config/:/config/"
     ];

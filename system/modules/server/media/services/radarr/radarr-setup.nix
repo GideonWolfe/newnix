@@ -23,8 +23,6 @@ in
         <SslPort>9898</SslPort>
         <LaunchBrowser>True</LaunchBrowser>
         <ApiKey>${config.sops.placeholder."radarr/apikey"}</ApiKey>
-        <AuthenticationMethod>Basic</AuthenticationMethod>
-        <AuthenticationRequired>Enabled</AuthenticationRequired>
         <Branch>main</Branch>
         <LogLevel>info</LogLevel>
         <SslCertPath></SslCertPath>
@@ -49,6 +47,7 @@ in
       if [ ! -f ${radarrConfigDir}/config.xml ]; then
         install -m 600 ${config.sops.templates."radarr-config.xml".path} ${radarrConfigDir}/config.xml
       fi
+      chown -R 1000:100 ${radarrConfigDir}
     '';
   };
 

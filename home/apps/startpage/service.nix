@@ -11,6 +11,7 @@ let
   indexHtml = pkgs.replaceVars ./data/index.html {
     jellyfinUrl = mkUrl services.jellyfin;
     seerrUrl = mkUrl services.seerr;
+    sonarrUrl = "http://${services.sonarr.ip}:${builtins.toString services.sonarr.port}";
     navidromeUrl = mkUrl services.navidrome;
   };
 

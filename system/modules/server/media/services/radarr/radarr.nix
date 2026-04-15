@@ -10,6 +10,7 @@
       PUID = "1000";
       PGID = "100";
     };
+    extraOptions = [ "--network=media" ];
     volumes = [
       "/data/radarr/config/:/config/"
       "/nas/tank/media/movies/:/movies/"

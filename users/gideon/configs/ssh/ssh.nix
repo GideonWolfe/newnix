@@ -54,12 +54,14 @@
       };
 
 
+      # Home Network Devices
       router = {
         hostname = "${osConfig.custom.world.hosts.router.ip}";
       };
       access_point = {
         hostname = "${osConfig.custom.world.hosts.access_point.ip}";
       };
+
       # NAS (LAN)
       mnemosyne = {
         hostname = "${osConfig.custom.world.hosts.mnemosyne.ip}";
@@ -67,6 +69,7 @@
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
+      # Physical Proxmox Hosts
       pvenet = {
         hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pvenet.ip}";
         user = "root";
@@ -82,6 +85,13 @@
       pve3 = {
         hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve3.ip}";
         user = "root";
+      };
+
+      # Proxmox VMs
+      vm-media = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.media_vm.ip}";
+        port = 2736;
+        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
     };

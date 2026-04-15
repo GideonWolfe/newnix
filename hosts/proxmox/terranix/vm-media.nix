@@ -41,7 +41,7 @@
         };
         virtio1 = {
           disk = {
-            size = "23G";
+            size = "200G";
             storage = "datapool";
             format = "raw";
             replicate = true;

@@ -5,6 +5,7 @@
     vmid = 1000;
     clone = "proxmox-base";
     full_clone = true;
+    tags = "prod,network";
 
     bios = "seabios";
     agent = 1;

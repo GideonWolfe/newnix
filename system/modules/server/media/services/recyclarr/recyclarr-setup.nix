@@ -5,14 +5,8 @@
 }:
 
 let
-  recyclarrConfigDir = "/data/recyclarr2/config";
-  #   recyclarrConfigFile = pkgs.writeText "recyclarr.yml" ''
-  #   sonarr:
-  #     tv:
-  #       base_url: !secret sonarr_url
-  #       api_key: !secret sonarr_apikey
-  # '';
-  recyclarrConfigFile = builtins.readFile ./recyclarr.yml;
+  recyclarrConfigDir = "/data/recyclarr/config";
+  recyclarrConfigFile = ./recyclarr.yml;
 in
 {
 
@@ -21,6 +15,8 @@ in
   sops.templates."recyclarr-secrets.yml".content = ''
     sonarr_url: ${config.custom.world.services.sonarr.protocol}://sonarr:${builtins.toString config.custom.world.services.sonarr.port}
     sonarr_apikey: ${config.sops.placeholder."sonarr/apikey"}
+    radarr_url: ${config.custom.world.services.radarr.protocol}://radarr:${builtins.toString config.custom.world.services.radarr.port}
+    radarr_apikey: ${config.sops.placeholder."radarr/apikey"}
   '';
 
   # Seed secrets.yml and recyclarr.yml
@@ -38,9 +34,7 @@ in
           config.sops.templates."recyclarr-secrets.yml".path
         } ${recyclarrConfigDir}/secrets.yml
       fi
-      if [ ! -f ${recyclarrConfigDir}/recyclarr.yml ]; then
-        install -m 600 ${recyclarrConfigFile} ${recyclarrConfigDir}/recyclarr.yml
-      fi
+      install -m 600 ${recyclarrConfigFile} ${recyclarrConfigDir}/recyclarr.yml
       chown -R 1000:100 ${recyclarrConfigDir}
       chmod 755 ${recyclarrConfigDir}
     '';

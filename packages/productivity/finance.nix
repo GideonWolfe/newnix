@@ -1,5 +1,8 @@
 { config, lib, pkgs, inputs, ... }:
 
+let
+  gloomberb = pkgs.callPackage ../custom/gloomberg.nix { };
+in
 {
   environment.systemPackages = [
 
@@ -11,5 +14,6 @@
     pkgs.tickrs
     pkgs.gnucash # basic accounting software
     pkgs.wealthfolio # local finance/portfolio tracker
+    gloomberb # Bloomberg-style terminal portfolio tracker
   ];
 }

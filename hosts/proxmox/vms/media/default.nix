@@ -4,19 +4,22 @@
         # Get our secret definitions
         ../../../../system/modules/server/media/secrets/secrets_media.nix
         # TV Database
-        #../../../../system/modules/server/media/services/sonarr/sonarr.nix
-        #../../../../system/modules/server/media/services/sonarr/sonarr-setup.nix
+        ../../../../system/modules/server/media/services/sonarr/sonarr.nix
+        ../../../../system/modules/server/media/services/sonarr/sonarr-setup.nix
         #../../../../system/modules/server/media/services/sonarr/sonarr-monitoring.nix
 
         # Movie Database
-        #../../../../system/modules/server/media/services/radarr/radarr.nix
+        ../../../../system/modules/server/media/services/radarr/radarr.nix
+        ../../../../system/modules/server/media/services/radarr/radarr-setup.nix
         #../../../../system/modules/server/media/services/radarr/radarr-monitoring.nix
+
         # Push optimized settings to them
-        #../../../../system/modules/server/media/services/recyclarr/recyclarr.nix
-        #../../../../system/modules/server/media/services/recyclarr/recyclarr-setup.nix
+        ../../../../system/modules/server/media/services/recyclarr/recyclarr.nix
+        ../../../../system/modules/server/media/services/recyclarr/recyclarr-setup.nix
 
         # Centralized indexer manager
-        #../../../../system/modules/server/media/services/prowlarr/prowlarr.nix
+        ../../../../system/modules/server/media/services/prowlarr/prowlarr.nix
+
         # Download client
         ../../../../system/modules/server/media/services/nzbget/nzbget.nix
         ../../../../system/modules/server/media/services/nzbget/nzbget-setup.nix
@@ -29,13 +32,9 @@
         #../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
 
         # Frontends
-        #../../../../system/modules/server/media/services/jellyfin/jellyfin.nix
+        ../../../../system/modules/server/media/services/jellyfin/jellyfin.nix
         #../../../../system/modules/server/media/services/seerr/seerr.nix
         #../../../../system/modules/server/media/services/navidrome/navidrome.nix
-
-        #TESTING
-        #../../../../system/modules/server/netbox/netbox.nix
-
     ];
 
     # Ensure media docker network exists on this host only
@@ -73,11 +72,10 @@
         device = "/dev/disk/by-id/virtio-data";
         fsType = "ext4";
         autoFormat = true; # avoid mkfs on existing disks during switch
+        autoResize = true; # Automatically grow the FS if we changed the disk size in proxmox
         options = [
             "defaults"
             "nofail"                  # do not fail boot if disk absent
-            "noauto"                  # don't try to mount automatically on switch
-            "x-systemd.automount"     # mount on first access instead
             "x-systemd.device-timeout=1s"
         ];
         neededForBoot = false;
