@@ -25,16 +25,16 @@
         ../../../../system/modules/server/media/services/nzbget/nzbget-setup.nix
 
         # SoulSeek
-        #../../../../system/modules/server/media/services/slskd/slskd.nix
-        #../../../../system/modules/server/media/services/slskd/slskd-setup.nix
+        ../../../../system/modules/server/media/services/slskd/slskd.nix
+        ../../../../system/modules/server/media/services/slskd/slskd-setup.nix
         # SoulSync
-        #../../../../system/modules/server/media/services/soulsync/soulsync.nix
-        #../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
+        ../../../../system/modules/server/media/services/soulsync/soulsync.nix
+        ../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
 
         # Frontends
         ../../../../system/modules/server/media/services/jellyfin/jellyfin.nix
         #../../../../system/modules/server/media/services/seerr/seerr.nix
-        #../../../../system/modules/server/media/services/navidrome/navidrome.nix
+        ../../../../system/modules/server/media/services/navidrome/navidrome.nix
     ];
 
     # Ensure media docker network exists on this host only

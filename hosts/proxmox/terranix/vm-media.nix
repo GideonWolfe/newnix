@@ -11,7 +11,7 @@
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    memory = 4096;
+    memory = 8192;
     skip_ipv6 = true;
 
     cpu = {

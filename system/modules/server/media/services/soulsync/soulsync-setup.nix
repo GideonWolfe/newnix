@@ -23,30 +23,30 @@ in
       client_secret = "SpotifyClientSecret";
       redirect_uri = "http://127.0.0.1:8888/callback";
     };
-    tidal = {
-      client_id = "TidalClientID";
-      client_secret = "TidalClientSecret";
-      redirect_uri = "http://127.0.0.1:8889/tidal/callback";
-    };
-    plex = {
-      base_url = "http://192.168.86.36:32400";
-      token = "PLEX_API_TOKEN";
-      auto_detect = true;
-    };
-    jellyfin = {
-      base_url = "http://localhost:8096";
-      api_key = "JELLYFIN_API_KEY";
-      auto_detect = true;
-    };
+    # tidal = {
+    #   client_id = "TidalClientID";
+    #   client_secret = "TidalClientSecret";
+    #   redirect_uri = "http://127.0.0.1:8889/tidal/callback";
+    # };
+    # plex = {
+    #   base_url = "http://192.168.86.36:32400";
+    #   token = "PLEX_API_TOKEN";
+    #   auto_detect = true;
+    # };
+    # jellyfin = {
+    #   base_url = "http://localhost:8096";
+    #   api_key = "JELLYFIN_API_KEY";
+    #   auto_detect = true;
+    # };
     navidrome = {
-      base_url = "https://nd.gideonwolfe.xyz";
-      #base_url = "${config.custom.world.services.navidrome.protocol}://${config.custom.world.services.navidrome.domain}";
+      #base_url = "https://nd.gideonwolfe.xyz";
+      base_url = "http://navidrome:${builtins.toString config.custom.world.services.navidrome.port}";
       username = "${config.sops.placeholder."navidrome/username"}";
       password = "${config.sops.placeholder."navidrome/password"}";
       auto_detect = true;
     };
     soulseek = {
-      slskd_url = "http://slskd:5030";
+      slskd_url = "http://slskd:${builtins.toString config.custom.world.services.slskd.port}";
       api_key = "${config.sops.placeholder."slskd/apikey"}";
       download_path = "/app/downloads";
       transfer_path = "/app/Transfer";
@@ -61,26 +61,26 @@ in
       path = "database/music_library.db";
       max_workers = 5;
     };
-    metadata_enhancement = {
-      enabled = true;
-      embed_album_art = true;
-    };
-    file_organization = {
-      enabled = true;
-      _template_variables = "Available: $artist, $albumartist, $album, $title, $track, $year, $playlist";
-      templates = {
-        album_path = "$albumartist/$albumartist - $album/$track - $title";
-        single_path = "$artist/$artist - $title/$title";
-        compilation_path = "Compilations/$album/$track - $artist - $title";
-        playlist_path = "$playlist/$artist - $title";
-      };
-    };
-    playlist_sync = {
-      create_backup = true;
-    };
-    listenbrainz = {
-      token = "LISTENBRAINZ_TOKEN";
-    };
+    # metadata_enhancement = {
+    #   enabled = true;
+    #   embed_album_art = true;
+    # };
+    # file_organization = {
+    #   enabled = true;
+    #   _template_variables = "Available: $artist, $albumartist, $album, $title, $track, $year, $playlist";
+    #   templates = {
+    #     album_path = "$albumartist/$albumartist - $album/$track - $title";
+    #     single_path = "$artist/$artist - $title/$title";
+    #     compilation_path = "Compilations/$album/$track - $artist - $title";
+    #     playlist_path = "$playlist/$artist - $title";
+    #   };
+    # };
+    # playlist_sync = {
+    #   create_backup = true;
+    # };
+    # listenbrainz = {
+    #   token = "LISTENBRAINZ_TOKEN";
+    # };
   };
 
   ##########
@@ -96,9 +96,7 @@ in
     script = ''
       set -e
       mkdir -p ${soulsyncConfigDir}
-      if [ ! -f ${soulsyncConfigDir}/config.json ]; then
-        install -m 600 ${config.sops.templates."soulsync-config.json".path} ${soulsyncConfigDir}/config.json
-      fi
+      install -m 600 ${config.sops.templates."soulsync-config.json".path} ${soulsyncConfigDir}/config.json
       # Ensure the config remains readable by the host user and container
       chown -R 1000:100 ${soulsyncConfigDir}
       chmod 0640 ${soulsyncConfigDir}/config.json

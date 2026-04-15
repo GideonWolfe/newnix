@@ -29,11 +29,11 @@ in
           columns = 4;
           icon = "mdi-download";
         };
-        # Music = {
-        #   style = "row";
-        #   columns = 3;
-        #   icon = "mdi-music";
-        # };
+        Music = {
+          style = "row";
+          columns = 3;
+          icon = "mdi-music";
+        };
         # Applications = {
         #   style = "row";
         #   columns = 3;
@@ -131,10 +131,6 @@ in
               href = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
               description = "Prowlarr";
           }; }
-        #   { Recyclarr = {
-        #       href = "${svc.recyclarr.protocol}://${svc.recyclarr.ip}:${builtins.toString svc.recyclarr.port}";
-        #       description = "Recyclarr";
-        #   }; }
           { NZBGet = {
               href = "${svc.nzbget.protocol}://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
               description = "NZBGet";
@@ -145,22 +141,22 @@ in
       #################
       # Music         #
       #################
-    #   {
-    #     Music = [
-    #       { Navidrome = {
-    #           href = "${svc.navidrome.protocol}://${svc.navidrome.domain}";
-    #           description = "Navidrome";
-    #       }; }
-    #       { SoulSeek = {
-    #           href = "${svc.slskd.protocol}://${svc.slskd.ip}:${builtins.toString svc.slskd.port}";
-    #           description = "SoulSeek";
-    #       }; }
-    #       { SoulSync = {
-    #           href = "${svc.soulsync-webui.protocol}://${svc.soulsync-webui.ip}:${builtins.toString svc.soulsync-webui.port}";
-    #           description = "SoulSync";
-    #       }; }
-    #     ];
-    #   }
+      {
+        Music = [
+          { Navidrome = {
+              href = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
+              description = "Navidrome";
+          }; }
+          { Slskd = {
+              href = "${svc.slskd.protocol}://${svc.slskd.ip}:${builtins.toString svc.slskd.port}";
+              description = "SoulSeek Daemon";
+          }; }
+          { SoulSync = {
+              href = "${svc.soulsync-webui.protocol}://${svc.soulsync-webui.ip}:${builtins.toString svc.soulsync-webui.port}";
+              description = "SoulSync";
+          }; }
+        ];
+      }
 
       #################
       # Applications  #
