@@ -29,7 +29,8 @@
         ../../../../system/modules/server/media/services/slskd/slskd-setup.nix
         # SoulSync
         ../../../../system/modules/server/media/services/soulsync/soulsync.nix
-        ../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
+        # eh don't even bother, it ignored my JSON anyways and is being updated too fast
+        #../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
 
         # Frontends
         ../../../../system/modules/server/media/services/jellyfin/jellyfin.nix

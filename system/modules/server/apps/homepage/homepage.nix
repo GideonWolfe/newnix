@@ -7,6 +7,7 @@ in
     enable = true;
     listenPort = 8082;
     openFirewall = true;
+    allowedHosts = "*";
 
     settings = {
       title = "Dashboard";
@@ -61,14 +62,42 @@ in
     bookmarks = [
       {
         Development = [
-          { GitHub       = [{ abbr = "GH"; href = "https://github.com/"; }]; }
-          { NixOS-Search = [{ abbr = "NX"; href = "https://search.nixos.org/"; }]; }
+          {
+            GitHub = [
+              {
+                abbr = "GH";
+                href = "https://github.com/";
+              }
+            ];
+          }
+          {
+            NixOS-Search = [
+              {
+                abbr = "NX";
+                href = "https://search.nixos.org/";
+              }
+            ];
+          }
         ];
       }
       {
         Social = [
-          { Reddit  = [{ abbr = "RD"; href = "https://reddit.com/"; }]; }
-          { YouTube = [{ abbr = "YT"; href = "https://youtube.com/"; }]; }
+          {
+            Reddit = [
+              {
+                abbr = "RD";
+                href = "https://reddit.com/";
+              }
+            ];
+          }
+          {
+            YouTube = [
+              {
+                abbr = "YT";
+                href = "https://youtube.com/";
+              }
+            ];
+          }
         ];
       }
     ];
@@ -77,40 +106,44 @@ in
       #################
       # Monitoring    #
       #################
-    #   {
-    #     Monitoring = [
-    #       { Grafana = {
-    #           href = "${svc.grafana.protocol}://${svc.grafana.domain}";
-    #           description = "Grafana";
-    #       }; }
-    #       { Prometheus = {
-    #           href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
-    #           description = "Prometheus";
-    #       }; }
-    #       { Loki = {
-    #           href = "${svc.loki.protocol}://${svc.loki.domain}";
-    #           description = "Loki";
-    #       }; }
-    #       { Tempo = {
-    #           href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
-    #           description = "Tempo";
-    #       }; }
-    #     ];
-    #   }
+      #   {
+      #     Monitoring = [
+      #       { Grafana = {
+      #           href = "${svc.grafana.protocol}://${svc.grafana.domain}";
+      #           description = "Grafana";
+      #       }; }
+      #       { Prometheus = {
+      #           href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
+      #           description = "Prometheus";
+      #       }; }
+      #       { Loki = {
+      #           href = "${svc.loki.protocol}://${svc.loki.domain}";
+      #           description = "Loki";
+      #       }; }
+      #       { Tempo = {
+      #           href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
+      #           description = "Tempo";
+      #       }; }
+      #     ];
+      #   }
 
       #################
       # Media         #
       #################
       {
         Media = [
-          { Jellyfin = {
-              href = "${svc.jellyfin.protocol}://${svc.jellyfin.domain}";
-              description = "Jellyfin";
-          }; }
-          # { Jellyseerr = {
-          #     href = "${svc.seerr.protocol}://${svc.seerr.domain}";
-          #     description = "Jellyseerr";
-          # }; }
+          {
+            Jellyfin = {
+              href = "http://${svc.jellyfin.ip}:${builtins.toString svc.jellyfin.port}";
+              description = "Media Server";
+            };
+          }
+          {
+            Jellyseerr = {
+              href = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
+              description = "Media Requests";
+            };
+          }
         ];
       }
 
@@ -119,22 +152,30 @@ in
       #################
       {
         "Media Management" = [
-          { Sonarr = {
+          {
+            Sonarr = {
               href = "${svc.sonarr.protocol}://${svc.sonarr.ip}:${builtins.toString svc.sonarr.port}";
-              description = "Sonarr";
-          }; }
-          { Radarr = {
+              description = "Movie Library";
+            };
+          }
+          {
+            Radarr = {
               href = "${svc.radarr.protocol}://${svc.radarr.ip}:${builtins.toString svc.radarr.port}";
-              description = "Radarr";
-          }; }
-          { Prowlarr = {
+              description = "TV Library";
+            };
+          }
+          {
+            Prowlarr = {
               href = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
-              description = "Prowlarr";
-          }; }
-          { NZBGet = {
+              description = "Indexers";
+            };
+          }
+          {
+            NZBGet = {
               href = "${svc.nzbget.protocol}://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
-              description = "NZBGet";
-          }; }
+              description = "NZB Downloader";
+            };
+          }
         ];
       }
 
@@ -143,40 +184,46 @@ in
       #################
       {
         Music = [
-          { Navidrome = {
+          {
+            Navidrome = {
               href = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
-              description = "Navidrome";
-          }; }
-          { Slskd = {
+              description = "Music Server";
+            };
+          }
+          {
+            Slskd = {
               href = "${svc.slskd.protocol}://${svc.slskd.ip}:${builtins.toString svc.slskd.port}";
               description = "SoulSeek Daemon";
-          }; }
-          { SoulSync = {
+            };
+          }
+          {
+            SoulSync = {
               href = "${svc.soulsync-webui.protocol}://${svc.soulsync-webui.ip}:${builtins.toString svc.soulsync-webui.port}";
-              description = "SoulSync";
-          }; }
+              description = "Music Library Manager";
+            };
+          }
         ];
       }
 
       #################
       # Applications  #
       #################
-    #   {
-    #     Applications = [
-    #       { NetBox = {
-    #           href = "${svc.netbox.protocol}://${svc.netbox.ip}:${builtins.toString svc.netbox.port}";
-    #           description = "NetBox";
-    #       }; }
-    #       { Paperless = {
-    #           href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
-    #           description = "Paperless-ngx";
-    #       }; }
-    #       { Kiwix = {
-    #           href = "${svc.kiwix.protocol}://${svc.kiwix.ip}:${builtins.toString svc.kiwix.port}";
-    #           description = "Kiwix";
-    #       }; }
-    #     ];
-    #   }
+      #   {
+      #     Applications = [
+      #       { NetBox = {
+      #           href = "${svc.netbox.protocol}://${svc.netbox.ip}:${builtins.toString svc.netbox.port}";
+      #           description = "NetBox";
+      #       }; }
+      #       { Paperless = {
+      #           href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
+      #           description = "Paperless-ngx";
+      #       }; }
+      #       { Kiwix = {
+      #           href = "${svc.kiwix.protocol}://${svc.kiwix.ip}:${builtins.toString svc.kiwix.port}";
+      #           description = "Kiwix";
+      #       }; }
+      #     ];
+      #   }
     ];
   };
 }
