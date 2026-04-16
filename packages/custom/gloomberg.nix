@@ -24,7 +24,7 @@ in stdenv.mkDerivation {
   nativeBuildInputs = [ autoPatchelfHook ];
 
   dontUnpack = true;
-  #dontStrip = true;
+  dontStrip = true;
 
   installPhase = ''
     runHook preInstall
