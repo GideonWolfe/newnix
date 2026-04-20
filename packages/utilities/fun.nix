@@ -1,26 +1,31 @@
 { config, lib, pkgs, ... }:
-
+let
+  drift = pkgs.callPackage ../custom/drift.nix {};
+  mingle = pkgs.callPackage ../custom/mingle.nix {};
+in
 {
-	environment.systemPackages = with pkgs; [
+	environment.systemPackages = [
 		# screensavers
-		unimatrix
-		asciiquarium
-		pipes
-		sl
-		lavat
+		pkgs.unimatrix
+		pkgs.asciiquarium
+		pkgs.pipes
+		pkgs.sl
+		pkgs.lavat
 		# generate ascii text
-		toilet
-		figlet
-		cowsay
-		charasay
-		dwt1-shell-color-scripts
-		lolcat
-		calligraphy # GTK app to preview/generate ASCII
+		pkgs.toilet
+		pkgs.figlet
+		pkgs.cowsay
+		pkgs.charasay
+		pkgs.dwt1-shell-color-scripts
+		pkgs.lolcat
+		pkgs.calligraphy # GTK app to preview/generate ASCII
 		# Misc
-		thokr # typing speedtest in TUI
+		pkgs.thokr # typing speedtest in TUI
         # games
-        sgt-puzzles
-        astrolog # astrology software
-		owofetch
+        pkgs.sgt-puzzles
+        pkgs.astrolog # astrology software
+		pkgs.owofetch
+		drift
+		mingle
 	];
 }
