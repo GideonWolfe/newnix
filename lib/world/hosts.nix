@@ -51,6 +51,7 @@ in
       proxmox = {
         vms = {
           ingress_vm = { ip = mkIp "192.168.88.100"; };
+          app1_vm = { ip = mkIp "192.168.88.101"; };
           media_vm = {
             ip = mkIp "192.168.88.102";
             downloadsDir = lib.mkOption {
@@ -59,7 +60,7 @@ in
               description = "Base directory for media downloads shared by Sonarr, Radarr, NZBGet, etc.";
             };
           };
-          app1_vm = { ip = mkIp "192.168.88.101"; };
+          test_vm = { ip = mkIp "192.168.88.103"; };
         };
         nodes = {
           pvenet = { ip = mkIp "192.168.88.7"; };

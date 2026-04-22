@@ -2,7 +2,6 @@
 
 let
   nzbgetConfigDir = "/data/nzbget/config";
-  downloadsDir = config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir;
 in
 {
 
@@ -61,10 +60,13 @@ in
     wantedBy = [ "multi-user.target" ];
     before = [ "docker-nzbget.service" ];
     serviceConfig.Type = "oneshot";
-    script = ''
+    script = let
+      downloadsDir = config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir;
+    in ''
       set -e
       mkdir -p ${nzbgetConfigDir}
-      mkdir -p ${downloadsDir}
+      # Ensure NZBGet's required subdirectories exist (cleanup can remove them after completed downloads)
+      mkdir -p ${downloadsDir}/{tmp,queue,intermediate,completed,nzb,scripts}
       chown -R 1000:100 ${downloadsDir}
       if [ ! -f ${nzbgetConfigDir}/nzbget.conf ]; then
         # Append the secret-backed server block to the working base config

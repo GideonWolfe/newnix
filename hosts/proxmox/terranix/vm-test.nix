@@ -1,10 +1,11 @@
 {
   resource.proxmox_vm_qemu.test_vm = {
     name = "test-vm";
-    target_node = "pve1";
-    vmid = 9989;
+    target_node = "pve2";
+    vmid = 103;
     clone = "proxmox-base";
     full_clone = true;
+    tags = "test,app";
 
     bios = "seabios";
     agent = 1;
@@ -31,7 +32,7 @@
       virtio = {
         virtio0 = {
           disk = {
-            size = "30G";
+            size = "40G";
             storage = "datapool";
             format = "raw";
             replicate = true;
@@ -40,7 +41,7 @@
         };
         virtio1 = {
           disk = {
-            size = "20G";
+            size = "30G";
             storage = "datapool";
             format = "raw";
             replicate = true;

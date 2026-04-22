@@ -1,10 +1,13 @@
 {config, ...}:
+let
+  downloadsDir = config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir;
+in
 {
   virtualisation.oci-containers.containers.nzbget = {
     image = "linuxserver/nzbget:latest";
     ports = [ "${builtins.toString config.custom.world.services.nzbget.port}:6789" ];
     autoStart = true;
-    extraOptions = [ "--network=media" ];
+    extraOptions = [ "--network=media" "--ulimit" "nofile=65535:65535" ];
     environmentFiles = [ config.sops.secrets."nzbget/env".path ];
     environment = {
       PUID = "1000";
@@ -12,7 +15,7 @@
     };
     volumes = [
       "/data/nzbget/config/:/config"
-      "${config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir}:/downloads"
+      "${downloadsDir}:/downloads"
     ];
   };
 }

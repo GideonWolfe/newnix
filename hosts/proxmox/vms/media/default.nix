@@ -82,4 +82,10 @@
         neededForBoot = false;
     };
 
+    # Make the data disk owned by the media user so containers
+    # (and their PUID/PGID init scripts) can create subdirectories freely.
+    systemd.tmpfiles.rules = [
+        "d /data 0755 1000 100 -"
+    ];
+
 }
