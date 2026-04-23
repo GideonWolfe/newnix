@@ -7,7 +7,7 @@ in
     image = "linuxserver/nzbget:latest";
     ports = [ "${builtins.toString config.custom.world.services.nzbget.port}:6789" ];
     autoStart = true;
-    extraOptions = [ "--network=media" "--ulimit" "nofile=65535:65535" ];
+    extraOptions = [ "--network=media" ];
     environmentFiles = [ config.sops.secrets."nzbget/env".path ];
     environment = {
       PUID = "1000";

@@ -56,8 +56,13 @@ in
             ip = mkIp "192.168.88.102";
             downloadsDir = lib.mkOption {
               type = lib.types.str;
-              default = "/data/downloads";
+              default = "/data/downloads/nzbget";
               description = "Base directory for media downloads shared by Sonarr, Radarr, NZBGet, etc.";
+            };
+            musicDownloadsDir = lib.mkOption {
+              type = lib.types.str;
+              default = "/data/downloads/soulseek";
+              description = "Base directory for music downloads shared by SoulSync/Slskd.";
             };
           };
           test_vm = { ip = mkIp "192.168.88.103"; };
