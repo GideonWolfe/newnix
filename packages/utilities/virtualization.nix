@@ -9,5 +9,6 @@
     nemu # TUI for qemu
     bottles # Wine prefix manager GUI
     distrobox # container manager for dev environments
+    distroshelf # GUI for distrobox
   ];
 }

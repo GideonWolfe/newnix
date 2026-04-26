@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let dedoc = pkgs.callPackage ../custom/dedoc.nix { };
 in {
@@ -108,6 +108,7 @@ in {
     ##########
     pkgs.pencil # Prototyping tool (like figma)
     #pkgs.akira # Prototyping / design tool
+    pkgs.elastic # design spring animations
 
 
     # web dev
@@ -115,5 +116,7 @@ in {
 
     # nix LSP
     pkgs.nil
+
+    pkgs.devenv
   ];
 }

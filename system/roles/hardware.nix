@@ -27,5 +27,6 @@
     # Packages #
     ############
     ../../packages/utilities/hardware.nix
+    ../../packages/utilities/virtualization.nix
   ];
 }

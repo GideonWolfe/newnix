@@ -121,6 +121,12 @@ in
       domain = "jellyfin.gideonwolfe.xyz";
       protocol = "https";
     };
+    bazarr = mkService {
+      name = "Bazarr";
+      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      port = 6768;
+      protocol = "http";
+    };
     seerr = mkService {
       name = "Seerr";
       ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;

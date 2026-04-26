@@ -16,5 +16,7 @@
     # Converters #
     ##############
     handbrake # GUI command is ghb
+
+    managarr # TUI for radarr/sonarr
   ];
 }
