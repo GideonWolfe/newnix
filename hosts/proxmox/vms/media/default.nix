@@ -34,7 +34,8 @@
 
         # Frontends
         ../../../../system/modules/server/media/services/jellyfin/jellyfin.nix
-        #../../../../system/modules/server/media/services/seerr/seerr.nix
+        ../../../../system/modules/server/media/services/seerr/seerr.nix
+        ../../../../system/modules/server/media/services/seerr/seerr-setup.nix
         ../../../../system/modules/server/media/services/navidrome/navidrome.nix
     ];
 
@@ -85,7 +86,16 @@
     # Make the data disk owned by the media user so containers
     # (and their PUID/PGID init scripts) can create subdirectories freely.
     systemd.tmpfiles.rules = [
-        "d /data 0755 1000 100 -"
+        "d /data                              0755 1000 100 -"
+        "d /data/downloads                    0775 1000 100 -"
+        "d /data/downloads/nzbget             0775 1000 100 -"
+        "d /data/downloads/nzbget/completed   0775 1000 100 -"
+        "d /data/downloads/nzbget/completed/tv     0775 1000 100 -"
+        "d /data/downloads/nzbget/completed/movies 0775 1000 100 -"
+        "d /data/downloads/soulseek           0775 1000 100 -"
+        # Self-heal ownership if anything drifts (optional)
+        "Z /data/downloads                    - 1000 100 -"
     ];
+
 
 }

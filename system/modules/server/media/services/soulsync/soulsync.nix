@@ -19,9 +19,8 @@
       "/data/soulsync/config/:/app/config"
       "/data/soulsync/data/:/app/data" # database lives here
       "/data/soulsync/staging/:/app/Staging"
-      "${config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir}:/app/downloads"
-      #TODO: is this mount needed?
-      "/nas/tank/media/music/:/app/Transfer" #put music library in read only mode for now
+      "${config.custom.world.hosts.proxmox.vms.media_vm.musicDownloadsDir}:/app/downloads"
+      "/nas/tank/media/music/:/app/Transfer"
     ];
   };
 }
