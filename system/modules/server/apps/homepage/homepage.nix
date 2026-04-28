@@ -139,7 +139,7 @@ in
             };
           }
           {
-            Jellyseerr = {
+            Seerr = {
               href = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
               description = "Media Requests";
             };
@@ -168,6 +168,12 @@ in
             Prowlarr = {
               href = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
               description = "Indexers";
+            };
+          }
+          {
+            Bazarr = {
+              href = "${svc.bazarr.protocol}://${svc.bazarr.ip}:${builtins.toString svc.bazarr.port}";
+              description = "Subtitles";
             };
           }
           {

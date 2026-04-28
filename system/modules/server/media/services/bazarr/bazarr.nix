@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers.bazarr = {
     image = "linuxserver/bazarr:latest";
-    ports = [ "${builtins.toString config.custom.world.services.bazarr.port}:6768" ];
+    ports = [ "${builtins.toString config.custom.world.services.bazarr.port}:6767" ];
     autoStart = true;
     environment = {
       PUID = "1000";
