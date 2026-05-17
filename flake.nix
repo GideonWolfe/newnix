@@ -92,9 +92,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # liixini's GLSL shader collection for niri (not a flake, just .glsl files)
+    liixini-shaders = {
+      url = "github:liixini/shaders";
+      flake = false;
+    };
+
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, terranix, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, ...  }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, terranix, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, liixini-shaders, ...  }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";

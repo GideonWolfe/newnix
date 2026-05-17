@@ -467,6 +467,22 @@
         "type": "github"
       }
     },
+    "liixini-shaders": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778609903,
+        "narHash": "sha256-U1iROqm1GaOYMLfYuIVqk+7+Lwug6aiDhsuLzlsQBAo=",
+        "owner": "liixini",
+        "repo": "shaders",
+        "rev": "51983687400ed6eb7eec130e538b29b2d685cee6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "liixini",
+        "repo": "shaders",
+        "type": "github"
+      }
+    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -808,6 +824,7 @@
         "dms-plugin-registry": "dms-plugin-registry",
         "dsd-fme": "dsd-fme",
         "home-manager": "home-manager",
+        "liixini-shaders": "liixini-shaders",
         "niri": "niri",
         "nix-ai-tools": "nix-ai-tools",
         "nixos-hardware": "nixos-hardware",

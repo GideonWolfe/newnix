@@ -2,6 +2,11 @@
 with config.lib.stylix.colors.withHashtag;
 let
   niriPkg = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
+
+  # liixini's GLSL shader collection, wrapped for use with niri-flake's
+  # `custom-shader` option. See ./shaders.nix for details and the list of
+  # available shader names.
+  shaders = import ./shaders.nix { inherit lib inputs; };
 in {
   imports = [ 
     inputs.niri.homeModules.niri 
@@ -154,6 +159,54 @@ in {
         backdrop-color = "${base01}";
       };
 
+      # Window animations using liixini's GLSL shader collection.
+      # Change the strings below to try other effects; see ./shaders.nix for
+      # the full list of available shader names.
+      #
+      # NOTE: liixini's shaders do their own easing internally (sin/cos warps
+      # on `niri_clamped_progress`), so use `linear` here. Anything else
+      # double-eases and you get a chaotic, spasming animation.
+      animations = {
+        window-open = {
+          custom-shader = shaders.open "polar-function";
+          kind.easing = {
+            duration-ms = 500;
+            curve = "linear";
+          };
+        };
+        window-close = {
+          custom-shader = shaders.close "perlin";
+          kind.easing = {
+            duration-ms = 500;
+            curve = "linear";
+          };
+        };
+
+        # Camera-pan animation when focus jumps to an off-screen window or a
+        # touchpad swipe releases. Spring is recommended here — it reacts to
+        # gesture velocity and feels smoother than a fixed-duration easing.
+        # Defaults match the niri wiki:
+        #   https://github.com/niri-wm/niri/wiki/Configuration:-Animations#horizontal-view-movement
+        horizontal-view-movement = {
+          kind.spring = {
+            damping-ratio = 1.0;
+            stiffness = 800;
+            epsilon = 0.0001;
+          };
+        };
+
+        window-movement.kind.spring = {
+          damping-ratio = 1.0;
+          stiffness = 800;
+          epsilon = 0.0001;
+        };
+        window-resize.kind.spring = {
+          damping-ratio = 1.0;
+          stiffness = 800;
+          epsilon = 0.0001;
+        };
+
+      };
 
       hotkey-overlay = {
           skip-at-startup = true;
