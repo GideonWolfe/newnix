@@ -1,5 +1,5 @@
 {
-  services.traefik.entryPoints = {
+  services.traefik.staticConfigOptions.entryPoints = {
 
     http = {
       address = ":80";
@@ -14,11 +14,6 @@
     # HTTPS entrypoint for services
     https = {
       address = ":443";
-      forwardedHeaders.insecure = true;
-    };
-
-    experimental = {
-      address = ":1111";
       forwardedHeaders.insecure = true;
     };
 

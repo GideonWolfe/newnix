@@ -13,6 +13,8 @@
 
     # One file per service
     ./services/jellyfin.nix
+    #./services/navidrome.nix
+    #./services/seerr.nix
   ];
 
   # Open the FW for Traefik

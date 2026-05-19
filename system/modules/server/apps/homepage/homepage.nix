@@ -106,26 +106,30 @@ in
       #################
       # Monitoring    #
       #################
-      #   {
-      #     Monitoring = [
-      #       { Grafana = {
-      #           href = "${svc.grafana.protocol}://${svc.grafana.domain}";
-      #           description = "Grafana";
-      #       }; }
-      #       { Prometheus = {
-      #           href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
-      #           description = "Prometheus";
-      #       }; }
-      #       { Loki = {
-      #           href = "${svc.loki.protocol}://${svc.loki.domain}";
-      #           description = "Loki";
-      #       }; }
-      #       { Tempo = {
-      #           href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
-      #           description = "Tempo";
-      #       }; }
-      #     ];
-      #   }
+        {
+          Monitoring = [
+            { Traefik = {
+                href = "${svc.traefik.protocol}://${svc.traefik.ip}:${builtins.toString svc.traefik.port}";
+                description = "Traefik";
+            }; }
+            # { Grafana = {
+            #     href = "${svc.grafana.protocol}://${svc.grafana.domain}";
+            #     description = "Grafana";
+            # }; }
+            # { Prometheus = {
+            #     href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
+            #     description = "Prometheus";
+            # }; }
+            # { Loki = {
+            #     href = "${svc.loki.protocol}://${svc.loki.domain}";
+            #     description = "Loki";
+            # }; }
+            # { Tempo = {
+            #     href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
+            #     description = "Tempo";
+            # }; }
+          ];
+        }
 
       #################
       # Media         #

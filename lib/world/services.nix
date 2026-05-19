@@ -82,7 +82,7 @@ in
     traefik = mkService {
       name = "Traefik";
       ip = config.custom.world.hosts.proxmox.vms.ingress_vm.ip;
-      port = 80;
+      port = 8080;
       domain = "";
       protocol = "http";
     };
@@ -118,10 +118,13 @@ in
       domain = "";
       protocol = "http";
     };
+    # NOTE: recyclarr is a CLI/cron tool with no web UI; no port is exposed.
+    # The previous 4533 entry collided with navidrome. Kept here only so other
+    # modules can still reference the service IP, with a sentinel port of 0.
     recyclarr = mkService {
       name = "Recyclarr";
       ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
-      port = 4533;
+      port = 0;
       domain = "";
       protocol = "http";
     };
@@ -184,7 +187,7 @@ in
     };
     paperless = mkService {
       name = "Paperless-ngx";
-      ip = config.custom.world.hosts.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
       port = 4232;
       domain = "";
       protocol = "http";

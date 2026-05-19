@@ -1,8 +1,9 @@
+{ config, ... }:
 {
 
     # Define the router
     services.traefik.dynamicConfigOptions.http.routers.navidrome = {
-        entryPoints = [ "https" "http" ];
+        entryPoints = [ "https" ];
         rule = "Host(`${config.custom.world.services.navidrome.domain}`)";
         service = "navidrome";
         tls.domains = [{ main = "*.gideonwolfe.xyz"; }];

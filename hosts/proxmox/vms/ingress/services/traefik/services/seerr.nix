@@ -1,8 +1,9 @@
+{ config, ... }:
 {
 
     # Define the router
     services.traefik.dynamicConfigOptions.http.routers.seerr = {
-        entryPoints = [ "https" "http" ];
+        entryPoints = [ "https" ];
         rule = "Host(`${config.custom.world.services.seerr.domain}`)";
         service = "seerr";
         tls.domains = [{ main = "*.gideonwolfe.xyz"; }];

@@ -1,4 +1,5 @@
 # Allows me to get SSL certs for my services
+{ config, ... }:
 {
     services.traefik.staticConfigOptions.certificatesResolvers.myresolver.acme = {
         email = "gideon@gideonwolfe.xyz";

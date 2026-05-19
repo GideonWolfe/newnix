@@ -216,6 +216,15 @@
         ];
       };
 
+      # Ingress VM
+      nixosConfigurations.ingress-vm = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+          ./hosts/proxmox/vms/ingress
+        ];
+      };
       #########################
       # Mnemosyne (Local NAS) #
       #########################
@@ -239,7 +248,7 @@
           ./hosts/proxmox/terranix/provider.nix
           ./hosts/proxmox/terranix/vm-media.nix
           #./hosts/proxmox/terranix/vm-network.nix
-          #./hosts/proxmox/terranix/vm-ingress.nix
+          ./hosts/proxmox/terranix/vm-ingress.nix
           #./hosts/proxmox/terranix/vm-app1.nix
           #./hosts/proxmox/terranix/vm-test.nix
         ];

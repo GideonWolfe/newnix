@@ -3,7 +3,7 @@
 
     # Define the router
     services.traefik.dynamicConfigOptions.http.routers.jellyfin = {
-        entryPoints = [ "https" "http" ];
+        entryPoints = [ "https" ];
         rule = "Host(`${config.custom.world.services.jellyfin.domain}`)";
         service = "jellyfin";
         tls.domains = [{ main = "*.gideonwolfe.xyz"; }];
