@@ -13,7 +13,7 @@
     services.traefik.dynamicConfigOptions.http.services.seerr = {
         loadBalancer = {
             passHostHeader = true;
-            servers = [{ url = "http://${config.custom.world.services.seerr.ip}:${config.custom.world.services.seerr.port}"; }];
+            servers = [{ url = "http://${config.custom.world.services.seerr.ip}:${builtins.toString config.custom.world.services.seerr.port}"; }];
         };
     };
 }

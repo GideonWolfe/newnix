@@ -76,6 +76,24 @@ in
       protocol = "http";
     };
 
+    ################
+    # Home Network #
+    ################
+    traefik = mkService {
+      name = "Traefik";
+      ip = config.custom.world.hosts.proxmox.vms.ingress_vm.ip;
+      port = 80;
+      domain = "";
+      protocol = "http";
+    };
+    crowdsec = mkService {
+      name = "CrowdSec";
+      ip = config.custom.world.hosts.proxmox.vms.ingress_vm.ip;
+      port = 4223;
+      domain = "";
+      protocol = "http";
+    };
+
     ###############
     # Media Stack #
     ###############

@@ -5,6 +5,7 @@
         defaultSopsFile = lib.mkForce ./secrets_ingress.yaml;
         secrets = {
             "traefik/env" = {};
+            "crowdsec/api_key" = {};
         };
     };
 }

@@ -13,7 +13,8 @@
       logLevel = "DEBUG";
       crowdsecLapiKeyFile = "${config.sops.secrets."crowdsec/api_key".path}";
       crowdsecMode = "live";
-      crowdsecLapiHost = "192.168.0.158:4223";
+      #crowdsecLapiHost = "192.168.0.158:4223";
+      crowdsecLapiHost = "${config.custom.world.services.crowdsec.ip}:${builtins.toString config.custom.world.services.crowdsec.port}"; # Use the service IP and port from our world config
     };
   };
 

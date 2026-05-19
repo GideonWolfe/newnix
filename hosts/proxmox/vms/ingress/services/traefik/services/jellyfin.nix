@@ -14,7 +14,7 @@
     services.traefik.dynamicConfigOptions.http.services.jellyfin = {
         loadBalancer = {
             passHostHeader = true;
-            servers = [{ url = "http://${config.custom.world.services.jellyfin.ip}:${config.custom.world.services.jellyfin.port}"; }];
+            servers = [{ url = "http://${config.custom.world.services.jellyfin.ip}:${builtins.toString config.custom.world.services.jellyfin.port}"; }];
         };
     };
 }

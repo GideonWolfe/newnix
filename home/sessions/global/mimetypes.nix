@@ -83,13 +83,18 @@ with config.lib.stylix.colors.withHashtag;
       "font/woff" = [ "org.gnome.font-viewer.desktop" ];
       "font/woff2" = [ "org.gnome.font-viewer.desktop" ];
 
-      # TODO: "unable to find terminal required for this application"
+      # Games
+      "application/x-gameboy-rom" = [ "skyemu.desktop" ];
+      "application/x-gba-rom" = [ "skyemu.desktop" ];
+      "application/x-gameboy-color-rom" = [ "skyemu.desktop" ];
+      "application/x-n64-rom" = [ "ca.parallel_launcher.ParallelLauncher.desktop" ];
+
       # Text
-      #"text/css" = ["nvim.desktop"];
-      #"text/javascript" = ["nvim.desktop"];
-      #"text/json" = ["nvim.desktop"];
-      #"text/csv" = ["nvim.desktop"];
-      "text/plain" = [ "nvim.desktop" ];
+      "text/css" = ["code.desktop"];
+      "text/javascript" = ["code.desktop"];
+      "text/json" = ["code.desktop"];
+      "text/csv" = ["code.desktop"];
+      "text/plain" = [ "org.gnome.gitlab.somas.Apostrophe.desktop" ];
     };
 
   };

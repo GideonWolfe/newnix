@@ -2,7 +2,7 @@
   resource.proxmox_vm_qemu.ingress_vm = {
     name = "ingress-vm";
     target_node = "pve2";
-    vmid = 1000;
+    vmid = 100;
     clone = "proxmox-base";
     full_clone = true;
     tags = "prod,network";
@@ -32,7 +32,7 @@
       virtio = {
         virtio0 = {
           disk = {
-            size = "30G";
+            size = "50G";
             storage = "datapool";
             format = "raw";
             replicate = true;
@@ -41,7 +41,7 @@
         };
         virtio1 = {
           disk = {
-            size = "10G";
+            size = "50G";
             storage = "datapool";
             format = "raw";
             replicate = true;

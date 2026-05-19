@@ -15,5 +15,8 @@
       pkgs.adwsteamgtk
       pkgs.cartridges # GTK game launcher that can detect other launchers
       pkgs.protonplus # GTK app to manage proton/wine installations  
+      pkgs.skyemu # Emulator for GB,GBC,GBA,DS
+      pkgs.parallel-launcher # n64 emulator
+      pkgs.gopher64 # n64 emulator
   ];
 }

@@ -13,7 +13,7 @@
     services.traefik.dynamicConfigOptions.http.services.navidrome = {
         loadBalancer = {
             passHostHeader = true;
-            servers = [{ url = "http://${config.custom.world.services.navidrome.ip}:${config.custom.world.services.navidrome.port}"; }];
+            servers = [{ url = "http://${config.custom.world.services.navidrome.ip}:${builtins.toString config.custom.world.services.navidrome.port}"; }];
         };
     };
 }

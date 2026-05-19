@@ -32,7 +32,7 @@
       virtio = {
         virtio0 = {
           disk = {
-            size = "30G";
+            size = "50G";
             storage = "datapool";
             format = "raw";
             replicate = true;

@@ -19,6 +19,12 @@ creation_rules:
           - *media-vm
         pgp:
           - *gideon
+  - path_regex: secrets_ingress.yaml$
+    key_groups:
+      - age:
+          - *media-vm
+        pgp:
+          - *gideon
   - path_regex: secrets_terraform.yaml$
     key_groups:
       - age:
