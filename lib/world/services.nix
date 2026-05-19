@@ -152,7 +152,7 @@ in
       name = "Seerr";
       ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
       port = 5055;
-      domain = "jellyseerr.gideonwolfe.xyz";
+      domain = "seerr.gideonwolfe.xyz";
       protocol = "https";
     };
     navidrome = mkService {

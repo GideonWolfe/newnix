@@ -1,7 +1,8 @@
+{ config, ... }:
 {
   virtualisation.oci-containers.containers.crowdsec = {
     image = "crowdsecurity/crowdsec";
-    ports = [ "4223:8080" ];
+    ports = [ "${builtins.toString config.custom.world.services.crowdsec.port}:8080" ];
     autoStart = true;
     environment = {
       PGID = "1000";

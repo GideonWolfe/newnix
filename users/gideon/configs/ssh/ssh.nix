@@ -93,6 +93,11 @@
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
+      vm-ingress = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.ingress_vm.ip}";
+        port = 2736;
+        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
 
     };
 

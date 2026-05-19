@@ -1,6 +1,8 @@
 { config, lib, ... }:
 let
   svc = config.custom.world.services;
+  hosts = config.custom.world.hosts;
+  pve = hosts.proxmox.nodes;
 in
 {
   services.homepage-dashboard = {
@@ -34,6 +36,11 @@ in
           style = "row";
           columns = 3;
           icon = "mdi-music";
+        };
+        Infrastructure = {
+          style = "row";
+          columns = 5;
+          icon = "mdi-server";
         };
         # Applications = {
         #   style = "row";
@@ -111,6 +118,10 @@ in
             { Traefik = {
                 href = "${svc.traefik.protocol}://${svc.traefik.ip}:${builtins.toString svc.traefik.port}";
                 description = "Traefik";
+            }; }
+            { Crowdsec = {
+                href = "https://app.crowdsec.net";
+                description = "CrowdSec Console";
             }; }
             # { Grafana = {
             #     href = "${svc.grafana.protocol}://${svc.grafana.domain}";
@@ -210,6 +221,44 @@ in
             SoulSync = {
               href = "${svc.soulsync-webui.protocol}://${svc.soulsync-webui.ip}:${builtins.toString svc.soulsync-webui.port}";
               description = "Music Library Manager";
+            };
+          }
+        ];
+      }
+
+      #################
+      # Infrastructure#
+      #################
+      {
+        Infrastructure = [
+          {
+            "PVE Node Net" = {
+              href = "https://${pve.pvenet.ip}:8006";
+              description = "pvenet";
+            };
+          }
+          {
+            "PVE Node 1" = {
+              href = "https://${pve.pve1.ip}:8006";
+              description = "pve1";
+            };
+          }
+          {
+            "PVE Node 2" = {
+              href = "https://${pve.pve2.ip}:8006";
+              description = "pve2";
+            };
+          }
+          {
+            "PVE Node 3" = {
+              href = "https://${pve.pve3.ip}:8006";
+              description = "pve3";
+            };
+          }
+          {
+            "Router" = {
+              href = "http://${hosts.router.ip}";
+              description = "Router Dashboard";
             };
           }
         ];
