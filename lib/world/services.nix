@@ -200,7 +200,14 @@ in
     romm = mkService {
       name = "RomM";
       ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      domain = "retro86.gideonwolfe.xyz";
       port = 4240;
+    };
+    mealie = mkService {
+      name = "Mealie";
+      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      domain = "mealie.gideonwolfe.xyz";
+      port = 4217;
     };
   };
 }

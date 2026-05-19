@@ -281,6 +281,10 @@ in
                 href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
                 description = "Emulation Library";
             }; }
+            { Mealie = {
+                href = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
+                description = "Recipe Manager";
+            }; }
           ];
         }
     ];

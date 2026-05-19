@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers.mealie = {
     image = "ghcr.io/mealie-recipes/mealie:latest";
-    ports = [ "${config.custom.world.services.mealie.port}:9000" ];
+    ports = [ "${builtins.toString config.custom.world.services.mealie.port}:9000" ];
     autoStart = true;
     environment = {
       PUID = "1000";
@@ -14,7 +14,7 @@
       WEB_CONCURRENCY = "1";
     };
     volumes = [
-      ":/app/data" #TODO
+      "/data/mealie/data:/app/data"
     ];
     environmentFiles = [ config.sops.secrets."mealie/env".path ];
   };

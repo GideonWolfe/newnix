@@ -15,6 +15,8 @@
     ./services/jellyfin.nix
     ./services/navidrome.nix
     ./services/seerr.nix
+    ./services/romm.nix
+    ./services/mealie.nix
   ];
 
   # Open the FW for Traefik

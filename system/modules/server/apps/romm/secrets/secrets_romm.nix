@@ -1,16 +1,15 @@
 {lib, config, ...}:
 {
     sops = {
-        defaultSopsFile = lib.mkForce ./secrets_romm.yaml;
         secrets = {
-            "romm-db/db_user" = {};
-            "romm-db/db_pass" = {};
-            "romm/auth_secret_key" = {};
-            "screenscraper/username" = {};
-            "screenscraper/password" = {};
-            "steamgriddb/api_key" = {};
-            "igdb/client_id" = {};
-            "igdb/client_secret" = {};
+            "romm-db/db_user" = {sopsFile = ./secrets_romm.yaml;};
+            "romm-db/db_pass" = {sopsFile = ./secrets_romm.yaml;};
+            "romm/auth_secret_key" = {sopsFile = ./secrets_romm.yaml;};
+            "screenscraper/username" = {sopsFile = ./secrets_romm.yaml;};
+            "screenscraper/password" = {sopsFile = ./secrets_romm.yaml;};
+            "steamgriddb/api_key" = {sopsFile = ./secrets_romm.yaml;};
+            "igdb/client_id" = {sopsFile = ./secrets_romm.yaml;};
+            "igdb/client_secret" = {sopsFile = ./secrets_romm.yaml;};
         };
     };
 
