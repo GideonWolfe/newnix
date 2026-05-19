@@ -32,6 +32,20 @@
       max-scroll-amount = "0%";
     };
 
-    # workspace-auto-back-and-forth = true;
+    # When you press Mod+N while already on workspace N, cycle back to the
+    # workspace you came from. niri tracks the actual workspace (not its
+    # index), so reordering workspaces does not break this.
+    workspace-auto-back-and-forth = true;
+  };
+
+  # Cursor visibility. `cursor` is a top-level niri setting, but it's
+  # input-adjacent in spirit so it lives here next to mouse/touchpad config.
+  programs.niri.settings.cursor = {
+    # Hide while you're typing so the pointer doesn't sit on top of the
+    # caret in your terminal/editor.
+    hide-when-typing = true;
+    # Also fade the cursor out after 5s of inactivity (helps with video /
+    # long-form reading).
+    hide-after-inactive-ms = 5000;
   };
 }

@@ -18,6 +18,9 @@ with config.lib.stylix.colors.withHashtag;
       border = {
         enable = true;
         width = 2;
+        # Subtle stylix-derived color for unfocused windows so they don't
+        # fight the focus-ring gradient for attention.
+        inactive.color = "${base02}";
       };
 
       # Give Windows a shadow
@@ -36,6 +39,10 @@ with config.lib.stylix.colors.withHashtag;
             "in" = "oklch longer hue";
           };
         };
+        # Muted ring on the last-focused window of *other* monitors.
+        # Without this we'd inherit niri's default, which clashes with the
+        # stylix palette on multi-monitor setups.
+        inactive.color = "${base02}";
       };
 
       # Indicator above tabbed window columns

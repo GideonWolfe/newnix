@@ -30,13 +30,14 @@ in
       };
     };
 
-    window-close = {
-      custom-shader = shaders.close "perlin";
-      kind.easing = {
-        duration-ms = 500;
-        curve = "linear";
-      };
-    };
+    # Don't want to wait for windows to close
+    # window-close = {
+    #   custom-shader = shaders.close "perlin";
+    #   kind.easing = {
+    #     duration-ms = 500;
+    #     curve = "linear";
+    #   };
+    # };
 
     # Camera-pan animation when focus jumps to an off-screen window or a
     # touchpad swipe releases. A spring reacts to gesture velocity and feels

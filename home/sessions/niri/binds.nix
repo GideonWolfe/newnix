@@ -12,9 +12,12 @@
     # Close focused window
     "Mod+Shift+Q".action.close-window = [ ];
     # App launcher
-    "Mod+D".action.spawn = "wofi --show run";
+    "Mod+D".action.spawn = "dms ipc call spotlight toggle";
     # Quick exit
     "Mod+Shift+E".action.quit = [ ];
+    # On-demand hotkey overlay. We `skip-at-startup`, so this is the only
+    # way to bring it up.
+    "Mod+Shift+Slash".action.show-hotkey-overlay = [ ];
 
     # ----- Window state toggles --------------------------------------------
 
@@ -118,8 +121,8 @@
     "Mod+BracketLeft".action.consume-or-expel-window-left = [ ];
     "Mod+BracketRight".action.consume-or-expel-window-right = [ ];
 
-    # Toggle tabbed/stack display for current column
-    "Mod+Space".action.toggle-column-tabbed-display = [ ];
+    # Toggle tabbed/stack display for current column. 
+    "Mod+T".action.toggle-column-tabbed-display = [ ];
 
     # Quick overview / workspace switcher
     "Mod+Tab".action.toggle-overview = [ ];
@@ -158,7 +161,12 @@
 
     # ----- Screenshots ------------------------------------------------------
 
-    # Screenshot via hyprshot -> swappy; use spawn-sh for the pipe
-    "Print".action.spawn-sh = "hyprshot -m output --raw | swappy -f -";
+    # Niri ships its own interactive screenshot UI (region picker + editor),
+    # writing to `programs.niri.settings.screenshot-path`. This replaces the
+    # hyprshot + swappy pipeline; one less dependency and the picker is
+    # aware of niri-specific surfaces (e.g. layer-shell, blocked-out windows).
+    "Print".action.screenshot = [ ];              # interactive selection UI
+    "Ctrl+Print".action.screenshot-screen = [ ];  # full focused output
+    "Alt+Print".action.screenshot-window = [ ];   # just the focused window
   };
 }
