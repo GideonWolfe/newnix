@@ -124,7 +124,7 @@ in
     bazarr = mkService {
       name = "Bazarr";
       ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
-      port = 6768;
+      port = 6767;
       protocol = "http";
     };
     seerr = mkService {

@@ -20,6 +20,9 @@
         # Centralized indexer manager
         ../../../../system/modules/server/media/services/prowlarr/prowlarr.nix
 
+        # Subtitles
+        ../../../../system/modules/server/media/services/bazarr/bazarr.nix
+
         # Download client
         ../../../../system/modules/server/media/services/nzbget/nzbget.nix
         ../../../../system/modules/server/media/services/nzbget/nzbget-setup.nix
