@@ -197,5 +197,10 @@ in
       ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
       port = 4302;
     };
+    romm = mkService {
+      name = "RomM";
+      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      port = 4240;
+    };
   };
 }

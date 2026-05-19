@@ -42,11 +42,11 @@ in
           columns = 5;
           icon = "mdi-server";
         };
-        # Applications = {
-        #   style = "row";
-        #   columns = 3;
-        #   icon = "mdi-apps";
-        # };
+        Applications = {
+          style = "row";
+          columns = 3;
+          icon = "mdi-apps";
+        };
       };
     };
 
@@ -267,22 +267,22 @@ in
       #################
       # Applications  #
       #################
-      #   {
-      #     Applications = [
-      #       { NetBox = {
-      #           href = "${svc.netbox.protocol}://${svc.netbox.ip}:${builtins.toString svc.netbox.port}";
-      #           description = "NetBox";
-      #       }; }
-      #       { Paperless = {
-      #           href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
-      #           description = "Paperless-ngx";
-      #       }; }
-      #       { Kiwix = {
-      #           href = "${svc.kiwix.protocol}://${svc.kiwix.ip}:${builtins.toString svc.kiwix.port}";
-      #           description = "Kiwix";
-      #       }; }
-      #     ];
-      #   }
+        {
+          Applications = [
+            # { NetBox = {
+            #     href = "${svc.netbox.protocol}://${svc.netbox.ip}:${builtins.toString svc.netbox.port}";
+            #     description = "NetBox";
+            # }; }
+            # { Paperless = {
+            #     href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
+            #     description = "Paperless-ngx";
+            # }; }
+            { Romm = {
+                href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
+                description = "Emulation Library";
+            }; }
+          ];
+        }
     ];
   };
 }

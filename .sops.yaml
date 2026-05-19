@@ -5,7 +5,7 @@ keys:
       - &poseidon age10exe2vqxqapa87r7xxyrzessgk9efjac05s3znsl66xzfm6pqgpqp6793w
       - &hades age1nkjg6grfv5hjxfpav4k2w3y4t7p7j2gk34huu7cjrkrvrdun05mst0rtal
       - &media-vm age1kvm6wlwsklcll42rvljumnau0ty3dzyzajt30f7863rxyjjmzg7qznzk36
-      - &app1-vm age179mg3498e9dhqf6u2juqm8rtpr3c7gj3jyqzy0ncvz3vf4wwvalq8nt047
+      - &app1-vm age17k7eemufe96ehktyxz55uy8rp27pdxmg00yf49j69np70r9xmgrqrg4c5j
       - &ingress-vm age1d5pt3hh8ssv5qk77t204undqg3n9lt5y0vavhutuf9fqnewsjq9qs573rd
 creation_rules:
   - path_regex: gideon_secrets.yaml$
@@ -18,6 +18,18 @@ creation_rules:
     key_groups:
       - age:
           - *media-vm
+        pgp:
+          - *gideon
+  - path_regex: secrets_romm.yaml$
+    key_groups:
+      - age:
+          - *app1-vm
+        pgp:
+          - *gideon
+  - path_regex: secrets_mealie.yaml$
+    key_groups:
+      - age:
+          - *app1-vm
         pgp:
           - *gideon
   - path_regex: secrets_ingress.yaml$

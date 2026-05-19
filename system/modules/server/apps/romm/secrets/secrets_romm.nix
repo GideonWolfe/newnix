@@ -9,6 +9,8 @@
             "screenscraper/username" = {};
             "screenscraper/password" = {};
             "steamgriddb/api_key" = {};
+            "igdb/client_id" = {};
+            "igdb/client_secret" = {};
         };
     };
 
@@ -20,6 +22,8 @@
         SCREENSCRAPER_USER=${config.sops.placeholder."screenscraper/username"}
         SCREENSCRAPER_PASSWORD=${config.sops.placeholder."screenscraper/password"}
         STEAMGRIDDB_API_KEY=${config.sops.placeholder."steamgriddb/api_key"}
+        IGDB_CLIENT_ID=${config.sops.placeholder."igdb/client_id"}
+        IGDB_CLIENT_SECRET=${config.sops.placeholder."igdb/client_secret"}
     '';
 
     sops.templates."romm-db-env".content = ''

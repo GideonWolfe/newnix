@@ -1,8 +1,8 @@
 {config, ...}:
 {
     imports = [
-        ../../../../system/modules/server/apps/kiwix/kiwix.nix
-        #./services/romm
+        #../../../../system/modules/server/apps/kiwix/kiwix.nix
+        ../../../../system/modules/server/apps/romm/romm.nix
     ];
 
     # Unique hostname for this VM

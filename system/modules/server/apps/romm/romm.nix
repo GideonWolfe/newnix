@@ -10,16 +10,45 @@ let
   rommBiosLibrary = "/romm/library/bios";
 in
 {
+  imports = [
+    # SOPS secret declarations for RomM and its database
+    ./secrets/secrets_romm.nix
+  ];
+
+  # Ensure the romm docker network exists on this host
+  systemd.services.docker-create-romm-network = {
+    description = "Create romm docker bridge network";
+    after = [ "docker.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      # Keep the unit "active (exited)" after success so units that depend on
+      # it (the romm containers) see the dependency as satisfied.
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.docker}/bin/docker network inspect romm-network >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network create romm-network
+    '';
+  };
+
+  # Make the auto-generated container units wait for the network to exist.
+  systemd.services.docker-romm.after = [ "docker-create-romm-network.service" ];
+  systemd.services.docker-romm.requires = [ "docker-create-romm-network.service" ];
+  systemd.services.docker-romm-db.after = [ "docker-create-romm-network.service" ];
+  systemd.services.docker-romm-db.requires = [ "docker-create-romm-network.service" ];
+
   virtualisation.oci-containers.containers.romm = {
-    image = "rommapp/romm:4.6.1";
+    image = "rommapp/romm:4.8.1";
     ports = [ "${builtins.toString config.custom.world.services.romm.port}:8080" ];
     autoStart = true;
-    # https://docs.romm.app/4.5.0/Getting-Started/Environment-Variables/
+    # https://docs.romm.app/latest/Getting-Started/Environment-Variables/
     environment = {
-      PUID = "1000";
-      PGID = "100";
       DB_HOST = "romm-db";
       DB_NAME = "romm";
+      # Free metadata provider, no API key required
+      # https://docs.romm.app/latest/Getting-Started/Metadata-Providers/#hasheous
+      HASHEOUS_API_ENABLED = "true";
     };
     volumes = [
       "/data/romm/resources:/romm/resources"
@@ -44,24 +73,25 @@ in
       # https://github.com/Abdess/retrobios/releases/tag/v2026.04.02
       "${biosDir}:${rommBiosLibrary}" # GameBoy
     ];
-    extraOptions = [ "--network=romm-network" ];
+    extraOptions = [
+      "--network=romm-network"
+    ];
     dependsOn = [ "romm-db" ];
-    environmentFiles = [ config.sops.secrets."romm/env".path ];
+    environmentFiles = [ config.sops.templates."romm-env".path ];
   };
 
   virtualisation.oci-containers.containers.romm-db = {
     image = "mariadb:latest";
     autoStart = true;
     environment = {
-      PUID = "1000";
-      PGID = "100";
       MARIADB_DATABASE = "romm";
     };
     volumes = [
       "/data/romm/romm_database:/var/lib/mysql"
     ];
-    # TODO ensure this is actually created
-    extraOptions = [ "--network=romm-network" ];
-    environmentFiles = [ config.sops.secrets."romm-db/env".path ];
+    extraOptions = [
+      "--network=romm-network"
+    ];
+    environmentFiles = [ config.sops.templates."romm-db-env".path ];
   };
 }
