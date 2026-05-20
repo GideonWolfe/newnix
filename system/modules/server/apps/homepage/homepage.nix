@@ -3,6 +3,8 @@ let
   svc = config.custom.world.services;
   hosts = config.custom.world.hosts;
   pve = hosts.proxmox.nodes;
+  # Pull base16 palette from stylix (no `#` prefix, suitable for CSS rgb()/hex)
+  c = config.lib.stylix.colors.withHashtag;
 in
 {
   services.homepage-dashboard = {
@@ -10,6 +12,69 @@ in
     listenPort = 8082;
     openFirewall = true;
     allowedHosts = "*";
+
+    # Override Homepage's Tailwind theme CSS variables with stylix base16
+    # colors. Homepage's `color` / `theme` settings only accept a fixed list
+    # of names, so we drop straight into the CSS variables it uses.
+    customCSS = ''
+      :root,
+      html.dark,
+      html.light,
+      html.dark body,
+      html.light body {
+        /* Backgrounds */
+        --bg-color: ${c.base00};
+        --bg-color-secondary: ${c.base01};
+
+        /* Text */
+        --text-color: ${c.base05};
+        --text-color-secondary: ${c.base04};
+
+        /* Tailwind "theme" palette used by Homepage cards/widgets.
+           Homepage references shades 50/100/200/...900 of its theme
+           color. We map them to the base16 ramp so cards, hover states
+           and borders all follow the stylix theme. */
+        --color-theme-50:  ${c.base07};
+        --color-theme-100: ${c.base06};
+        --color-theme-200: ${c.base05};
+        --color-theme-300: ${c.base04};
+        --color-theme-400: ${c.base03};
+        --color-theme-500: ${c.base02};
+        --color-theme-600: ${c.base01};
+        --color-theme-700: ${c.base01};
+        --color-theme-800: ${c.base00};
+        --color-theme-900: ${c.base00};
+      }
+
+      body, .dark body {
+        background-color: ${c.base00} !important;
+        color: ${c.base05} !important;
+      }
+
+      /* Service / bookmark cards */
+      #information-widgets,
+      .services-group .service-card,
+      .bookmark-text,
+      .bookmark {
+        background-color: ${c.base01} !important;
+        color: ${c.base05} !important;
+      }
+
+      /* Accents (links, icons, group headings) */
+      a, .service-name, h1, h2, h3,
+      .services-group > h2,
+      .bookmarks-group > h2 {
+        color: ${c.base0D} !important;
+      }
+
+      /* Hover / active accents */
+      a:hover,
+      .service-card:hover,
+      .bookmark:hover {
+        color: ${c.base0E} !important;
+        border-color: ${c.base0D} !important;
+      }
+    '';
 
     settings = {
       title = "Dashboard";

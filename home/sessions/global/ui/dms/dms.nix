@@ -172,11 +172,6 @@ with config.lib.stylix.colors.withHashtag;
                     width = 50;
                 }
                 {
-                    id = "colorPicker";
-                    enabled = true;
-                    width = 25;
-                }
-                {
                     id = "nightMode";
                     enabled = true;
                     width = 25;
@@ -487,18 +482,14 @@ with config.lib.stylix.colors.withHashtag;
                         #     id = "nixMonitor";
                         #     enabled = true;
                         # }
-                        # {
-                        #     id = "colorPicker";
-                        #     enabled = true;
-                        # }
-                        # TODO extract to niri specific dms module later
-                        # {
-                        #     id = "displayManager";
-                        #     enabled = true;
-                        # }
-                        "displayManager"
                         # don't really need now? maybe for udiskie
                         #"systemTray"
+                        {
+                            id = "dankKDEConnect";
+                            enabled = true;
+                        }
+                        "displayManager"
+
                     ];
                     spacing = 0;
                     innerPadding = 4;

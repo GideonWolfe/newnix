@@ -11,9 +11,10 @@
     #kicad # PCB designer
     kicad-small # PCB designer
     blender # 3D modeler, animator, and designer
-    sweethome3d.application # Interior design GUI
-    sweethome3d.textures-editor
-    sweethome3d.furniture-editor
+    # BUG: this is breaking flatpak https://discourse.nixos.org/t/installing-sweethome3d-makes-flatpak-run-segfault/48177
+    # sweethome3d.application # Interior design GUI
+    # sweethome3d.textures-editor
+    # sweethome3d.furniture-editor
     candle # GRBLE/Gcode visualizer (for Cnc I think)
     mujoco # general purpose physics sim/modeler
     #kdePackages.step # physics simulator
