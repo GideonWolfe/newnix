@@ -98,6 +98,11 @@
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
+      vm-app1 = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.app1_vm.ip}";
+        port = 2736;
+        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
 
     };
 

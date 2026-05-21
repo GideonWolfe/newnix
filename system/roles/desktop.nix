@@ -18,6 +18,7 @@
     # Other desktop glue
     ../modules/ui/xdg-portals.nix
     ../modules/ui/xwayland.nix
+    ../modules/system/flatpak.nix
 
     ############
     # Packages #

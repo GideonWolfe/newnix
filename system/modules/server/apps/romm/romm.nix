@@ -3,7 +3,7 @@ let
   # Where my game files are stored on my NAS
   gamesDir = "/nas/tank/media/games/emulation/games";
   # Where my bios files are stored on my NAS. 
-  biosDir = "/nas/tank/media/games/emulation/bios";
+  biosDir = "/nas/tank/media/games/emulation/bios/romm/bios";
   # Where in the container RomM expects the game files to be stored. 
   rommRomLibrary = "/romm/library/roms";
   # Where in the container RomM expects the bios files to be stored. 
@@ -13,6 +13,8 @@ in
   imports = [
     # SOPS secret declarations for RomM and its database
     ./secrets/secrets_romm.nix
+    # Restic backup of RomM data to the NAS
+    ./romm_backup.nix
   ];
 
   # Ensure the romm docker network exists on this host

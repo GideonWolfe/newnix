@@ -5,6 +5,7 @@
             "romm-db/db_user" = {sopsFile = ./secrets_romm.yaml;};
             "romm-db/db_pass" = {sopsFile = ./secrets_romm.yaml;};
             "romm/auth_secret_key" = {sopsFile = ./secrets_romm.yaml;};
+            "romm/restic_password" = {sopsFile = ./secrets_romm.yaml;};
             "screenscraper/username" = {sopsFile = ./secrets_romm.yaml;};
             "screenscraper/password" = {sopsFile = ./secrets_romm.yaml;};
             "steamgriddb/api_key" = {sopsFile = ./secrets_romm.yaml;};

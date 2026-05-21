@@ -29,7 +29,6 @@
     ../modules/system/shell.nix
     # Enable appimage support
     ../modules/system/appimage.nix
-    ../modules/system/flatpak.nix
     # Virtualization support
     ../modules/system/virtualization.nix
 
