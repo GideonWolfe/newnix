@@ -209,5 +209,19 @@ in
       domain = "mealie.gideonwolfe.xyz";
       port = 4217;
     };
+    calibre-web-automated = mkService {
+      name = "Calibre-Web-Automated";
+      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      domain = "";
+      port = 8083;
+      protocol = "http";
+    };
+    scrutiny = mkService {
+      name = "Scrutiny";
+      ip = config.custom.world.hosts.mnemosyne.ip;
+      port = 5232;
+      domain = "";
+      protocol = "http";
+    };
   };
 }

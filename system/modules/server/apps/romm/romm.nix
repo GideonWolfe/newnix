@@ -70,6 +70,7 @@ in
       "${gamesDir}/gw:${rommRomLibrary}/g-and-w" # game and watch
       "${gamesDir}/ngpc:${rommRomLibrary}/neo-geo-pocket-color" # Neo Geo Pocket Color
       "${gamesDir}/sms:${rommRomLibrary}/sms" # Sega Master System
+      "${gamesDir}/xbox:${rommRomLibrary}/xbox" # Xbox
 
       # We already have a specially made bios directory for RomM from 
       # https://github.com/Abdess/retrobios/releases/tag/v2026.04.02

@@ -4,6 +4,7 @@
         #../../../../system/modules/server/apps/kiwix/kiwix.nix
         ../../../../system/modules/server/apps/romm/romm.nix
         ../../../../system/modules/server/apps/mealie
+        ../../../../system/modules/server/apps/calibre-web-automated
     ];
 
     # Unique hostname for this VM

@@ -219,9 +219,9 @@ in
             };
           }
           {
-            Seerr = {
-              href = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
-              description = "Media Requests";
+            Calibre = {
+              href = "http://${svc.calibre-web-automated.ip}:${builtins.toString svc.calibre-web-automated.port}";
+              description = "Ebook Library";
             };
           }
         ];
@@ -260,6 +260,12 @@ in
             NZBGet = {
               href = "${svc.nzbget.protocol}://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
               description = "NZB Downloader";
+            };
+          }
+          {
+            Seerr = {
+              href = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
+              description = "Media Requests";
             };
           }
         ];
@@ -324,6 +330,12 @@ in
             "Router" = {
               href = "http://${hosts.router.ip}";
               description = "Router Dashboard";
+            };
+          }
+          {
+            "Scrutiny" = {
+              href = "${svc.scrutiny.protocol}://${svc.scrutiny.ip}:${builtins.toString svc.scrutiny.port}";
+              description = "Disk Health (mnemosyne)";
             };
           }
         ];
