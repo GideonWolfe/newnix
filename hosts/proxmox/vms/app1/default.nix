@@ -1,12 +1,12 @@
 {config, ...}:
 {
-    #imports = [
+    imports = [
         #../../../../system/modules/server/apps/kiwix/kiwix.nix
-        # ../../../../system/modules/server/apps/romm/romm.nix
-        # ../../../../system/modules/server/apps/mealie
-        # ../../../../system/modules/server/apps/calibre-web-automated
-        # ../../../../system/modules/server/apps/pinchflat
-    #];
+        ../../../../system/modules/server/apps/romm/romm.nix
+        ../../../../system/modules/server/apps/mealie
+        ../../../../system/modules/server/apps/calibre-web-automated
+        ../../../../system/modules/server/apps/pinchflat
+    ];
 
     # Unique hostname for this VM
     networking.hostName = "vm-app1";
@@ -35,4 +35,16 @@
         ];
         neededForBoot = false;
     };
+
+    # Fresh ext4 from `autoFormat = true` has a root:root root inode, which
+    # means `/data` is unwritable for normal users until someone chowns it.
+    # Adjust the mountpoint's ownership to `gideon:users` (UID 1000 / GID 100)
+    # so `xcp` / `rsync` / `cp` from the NAS work without sudo on a fresh VM.
+    #
+    # `d` is non-recursive: it only touches the mountpoint directory itself,
+    # NOT its contents — so anything you've already copied in keeps its
+    # original ownership. (Use `Z` if you ever want recursive self-heal.)
+    systemd.tmpfiles.rules = [
+        "d /data 0755 1000 100 -"
+    ];
 }
