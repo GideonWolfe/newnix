@@ -18,4 +18,12 @@
     ];
     environmentFiles = [ config.sops.secrets."mealie/env".path ];
   };
+
+  # Pre-create the bind-mount targets with 1000:100 ownership so docker
+  # (which runs as root) doesn't create them as root on first start.
+  # PUID=1000/PGID=100 above will then match the host-side ownership.
+  systemd.tmpfiles.rules = [
+    "d /data/mealie       0755 1000 100 - -"
+    "d /data/mealie/data  0755 1000 100 - -"
+  ];
 }

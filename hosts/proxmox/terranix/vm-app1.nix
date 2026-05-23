@@ -3,7 +3,7 @@
     name = "app1-vm";
     target_node = "pve2";
     vmid = 101;
-    clone = "proxmox-base";
+    clone = "nixos-base";
     full_clone = true;
     tags = "prod,app";
 

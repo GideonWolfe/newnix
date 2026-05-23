@@ -3,7 +3,7 @@
     name = "ingress-vm";
     target_node = "pve2";
     vmid = 100;
-    clone = "proxmox-base";
+    clone = "nixos-base";
     full_clone = true;
     tags = "prod,network";
 

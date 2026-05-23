@@ -18,10 +18,13 @@
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
-  home-manager.users.gideon.imports = [
+  #home-manager.users.gideon.imports = [
     # Only the basic configs
-    ../../home/roles/core.nix
-  ];
+  #  ../../home/roles/core.nix
+  #];
+
+  # Dropping some stuff to save space
+  programs.appimage.enable = lib.mkForce false; # not needed on servers
 
   # Point at the router
   networking.defaultGateway = "${config.custom.world.hosts.router.ip}";
@@ -35,7 +38,7 @@
     # Simpler, legacy BIOS image (matches vm-proxmox role using grub/MBR)
     partitionTableType = "legacy";
     qemuConf = {
-      name = "proxmox-base";
+      name = "nixos-base";
       bios = "seabios";
       cores = 2;
       memory = 4096;
@@ -66,10 +69,10 @@
   #      Rule of thumb: diskSize_GiB >= closure_GiB * 1.25 + 1.
   #   2. Be no larger than the smallest VM you ever want to clone from
   #      this template (terraform can grow zvols, never shrink them).
-  # Smallest planned VM is ingress-vm at 16 G, so 16384 MiB hits both:
-  # plenty of room for an ~8-10 GiB closure, and matches the smallest
-  # target so we never accidentally clone to something too small.
-  virtualisation.diskSize = 16384; # 16 GiB
+  # Currently sized to comfortably hold the full base+home-manager closure
+  # (~14 GiB measured). If you trim the closure (drop stylix / HM / etc.
+  # from server VMs), this can come down.
+  virtualisation.diskSize = 24576; # 24 GiB
 
   system.stateVersion = "25.11";
 }

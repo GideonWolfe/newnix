@@ -3,7 +3,7 @@
     name = "network-vm";
     target_node = "pve2";
     vmid = 1001;
-    clone = "proxmox-base";
+    clone = "nixos-base";
     full_clone = true;
 
     bios = "seabios";

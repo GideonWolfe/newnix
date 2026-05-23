@@ -33,6 +33,7 @@
     xcp # better cp
     pstree # process tree
     ov # terminal pager
+    pv # pipe viewer (progress bar for long-running commands)
 
 
     espeak # pipe script output to voice

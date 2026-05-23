@@ -97,4 +97,17 @@ in
     ];
     environmentFiles = [ config.sops.templates."romm-db-env".path ];
   };
+
+  # Pre-create the bind-mount targets with 1000:100 ownership so docker
+  # (which runs as root) doesn't create them as root on first start.
+  # romm_database is intentionally omitted: mariadb's entrypoint expects
+  # to chown that path itself to its in-container mysql user (999:999),
+  # so we let docker create it as root and mariadb fix it up on init.
+  systemd.tmpfiles.rules = [
+    "d /data/romm            0755 1000 100 - -"
+    "d /data/romm/resources  0755 1000 100 - -"
+    "d /data/romm/redis_data 0755 1000 100 - -"
+    "d /data/romm/assets     0755 1000 100 - -"
+    "d /data/romm/config     0755 1000 100 - -"
+  ];
 }
