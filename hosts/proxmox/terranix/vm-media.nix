@@ -80,5 +80,11 @@
         };
       };
     };
+
+    # See vm-ingress.nix for rationale — silences Telmate's cosmetic
+    # `startup_shutdown { -1 -> null }` non-diff.
+    lifecycle = {
+      ignore_changes = [ "startup_shutdown" ];
+    };
   };
 }

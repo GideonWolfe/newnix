@@ -57,5 +57,16 @@
         };
       };
     };
+
+    # Silence cosmetic drift from the Telmate provider. The provider stores
+    # `-1` as an internal sentinel for "unset", Proxmox returns `null`, and
+    # the resulting `startup_shutdown { order = -1 -> null }` shows up on
+    # every plan even though nothing on the VM has actually changed.
+    # See https://github.com/Telmate/terraform-provider-proxmox/issues for
+    # the broader pattern. Add additional attributes here if more cosmetic
+    # drift appears (e.g. `define_connection_info`, `qemu_os`).
+    lifecycle = {
+      ignore_changes = [ "startup_shutdown" ];
+    };
   };
 }
