@@ -1,12 +1,12 @@
 {config, ...}:
 {
-    imports = [
+    #imports = [
         #../../../../system/modules/server/apps/kiwix/kiwix.nix
-        ../../../../system/modules/server/apps/romm/romm.nix
-        ../../../../system/modules/server/apps/mealie
-        ../../../../system/modules/server/apps/calibre-web-automated
-        ../../../../system/modules/server/apps/pinchflat
-    ];
+        # ../../../../system/modules/server/apps/romm/romm.nix
+        # ../../../../system/modules/server/apps/mealie
+        # ../../../../system/modules/server/apps/calibre-web-automated
+        # ../../../../system/modules/server/apps/pinchflat
+    #];
 
     # Unique hostname for this VM
     networking.hostName = "vm-app1";
