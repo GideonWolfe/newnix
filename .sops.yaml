@@ -5,7 +5,7 @@ keys:
       - &poseidon age10exe2vqxqapa87r7xxyrzessgk9efjac05s3znsl66xzfm6pqgpqp6793w
       - &hades age1nkjg6grfv5hjxfpav4k2w3y4t7p7j2gk34huu7cjrkrvrdun05mst0rtal
       - &media-vm age1kvm6wlwsklcll42rvljumnau0ty3dzyzajt30f7863rxyjjmzg7qznzk36
-      - &app1-vm age17k7eemufe96ehktyxz55uy8rp27pdxmg00yf49j69np70r9xmgrqrg4c5j
+      - &app1-vm age1s0vx87d873wfpvvpvqed9l9zgg6extunk5wkefsp3q5q0ace4cfqd7c2c8
       - &ingress-vm age1d5pt3hh8ssv5qk77t204undqg3n9lt5y0vavhutuf9fqnewsjq9qs573rd
 creation_rules:
   - path_regex: gideon_secrets.yaml$
