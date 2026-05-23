@@ -3,8 +3,8 @@
     name = "vm-media";
     target_node = "pve1";
     vmid = 102;
-    clone = "proxmox-base";
-    #clone = "nixos-base";
+    #clone = "proxmox-base";
+    clone = "nixos-base";
     full_clone = true;
     tags = "prod,app";
 

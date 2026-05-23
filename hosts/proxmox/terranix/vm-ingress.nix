@@ -3,8 +3,7 @@
     name = "vm-ingress";
     target_node = "pve2";
     vmid = 100;
-    #clone = "nixos-base";
-    clone = "proxmox-base";
+    clone = "nixos-base";
     full_clone = true;
     tags = "prod,network";
 
@@ -38,8 +37,7 @@
       virtio = {
         virtio0 = {
           disk = {
-            size = "50";
-            #size = "24";
+            size = "24";
             storage = "datapool";
             format = "raw";
             replicate = true;
