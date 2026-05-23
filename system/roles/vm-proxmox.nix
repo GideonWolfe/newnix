@@ -16,6 +16,14 @@
     interval = "weekly";
   };
 
+  # Cap persistent journal so logs can't fill the root disk.
+  # Tweak SystemMaxUse to taste; 500M is plenty for a service VM.
+  services.journald.extraConfig = ''
+    SystemMaxUse=500M
+    SystemKeepFree=1G
+    MaxRetentionSec=2week
+  '';
+
   # Ensure generated qcow images have enough room on first boot
   #virtualisation.diskSize = lib.mkDefault 30720; # MiB (≈30 GiB)
 
@@ -32,7 +40,8 @@
   ##############
   boot = {
     growPartition = true;
-    kernelParams = [ ];
+    # Maybe disable to save CPU
+    #kernelParams = [ "mitigations=off" ];
 
     loader = {
       # Simplest/most portable: legacy BIOS + grub on disk MBR
@@ -41,6 +50,10 @@
         enable = true;
         device = "/dev/disk/by-id/virtio-rootdisk"; # stable serial-based path
         efiSupport = false;
+        # Keep only the last 5 generations in the boot menu. Old generations
+        # still live in /nix/var/nix/profiles until `nix-collect-garbage`
+        # runs, but the kernels won't all be retained in /boot.
+        configurationLimit = 5;
       };
     };
 

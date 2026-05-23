@@ -12,6 +12,7 @@
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
     memory = 4096;
+    balloon = 1536;
     skip_ipv6 = true;
 
     cpu = {
@@ -36,6 +37,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            discard = true;
             serial = "rootdisk";
           };
         };
@@ -45,6 +47,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            discard = true;
             serial = "data";
           };
         };

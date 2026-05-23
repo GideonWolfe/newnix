@@ -5,6 +5,7 @@
         ../../../../system/modules/server/apps/romm/romm.nix
         ../../../../system/modules/server/apps/mealie
         ../../../../system/modules/server/apps/calibre-web-automated
+        ../../../../system/modules/server/apps/pinchflat
     ];
 
     # Unique hostname for this VM

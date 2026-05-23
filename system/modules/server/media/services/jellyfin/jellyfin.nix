@@ -19,6 +19,7 @@
       "/nas/tank/media/tv/:/data/tvshows"
       "/nas/tank/media/movies/:/data/movies"
       "/nas/tank/media/music/:/data/music:ro"
+      "/nas/tank/media/youtube/:/data/youtube"
       # jellyfin.org/docs/general/administration/backup-and-restore/
       # When I trigger a backup from the Jellyfin UI, it will save to the NAS
       #"/nas/tank/app-backups/jellyfin/:/config/data/backups"

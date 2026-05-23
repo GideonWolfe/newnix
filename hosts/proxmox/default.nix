@@ -56,8 +56,20 @@
     #qemuExtraConf.scsi1 = "datapool:vm-9999-disk-1,size=23G,serial=data";
   };
 
-  # Disk size for generated images (MiB)
-  virtualisation.diskSize = 30720;
+  # Disk size for the generated VMA image (MiB).
+  # This must satisfy two opposing constraints:
+  #   1. Be large enough to hold the proxmox-base closure + ext4 overhead
+  #      + boot partition. The build helper VM kernel-panics with init exit
+  #      if `cp -a` of the closure runs out of room. Measure your closure
+  #      with:
+  #        nix path-info -Sh .#nixosConfigurations.proxmox-base.config.system.build.toplevel
+  #      Rule of thumb: diskSize_GiB >= closure_GiB * 1.25 + 1.
+  #   2. Be no larger than the smallest VM you ever want to clone from
+  #      this template (terraform can grow zvols, never shrink them).
+  # Smallest planned VM is ingress-vm at 16 G, so 16384 MiB hits both:
+  # plenty of room for an ~8-10 GiB closure, and matches the smallest
+  # target so we never accidentally clone to something too small.
+  virtualisation.diskSize = 16384; # 16 GiB
 
   system.stateVersion = "25.11";
 }

@@ -55,6 +55,28 @@
         '';
     };
 
+    # Reclaim docker disk weekly: prune dangling images, stopped containers,
+    # unused networks and build cache. Keeps /var/lib/docker from creeping up
+    # as :latest tags pull new image layers.
+    systemd.services.docker-prune = {
+        description = "Prune unused docker objects";
+        after = [ "docker.service" ];
+        requires = [ "docker.service" ];
+        serviceConfig.Type = "oneshot";
+        script = ''
+            /run/current-system/sw/bin/docker system prune -af --filter "until=168h"
+        '';
+    };
+    systemd.timers.docker-prune = {
+        description = "Weekly docker prune";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+            OnCalendar = "weekly";
+            Persistent = true;
+            RandomizedDelaySec = "1h";
+        };
+    };
+
     # Unique hostname for this MV
     networking.hostName = "media-vm";
     
@@ -81,6 +103,25 @@
         options = [
             "defaults"
             "nofail"                  # do not fail boot if disk absent
+            "x-systemd.device-timeout=1s"
+        ];
+        neededForBoot = false;
+    };
+
+    # Non-replicated scratch volume mounted *inside* /data so that paths
+    # like /data/downloads/nzbget/completed/... keep working unchanged.
+    # Anything written here is considered disposable; it is excluded from
+    # zfs replication on the Proxmox side (see terranix vm-media.nix).
+    fileSystems."/data/downloads" = {
+        device = "/dev/disk/by-id/virtio-scratch";
+        fsType = "ext4";
+        autoFormat = true;
+        autoResize = true;
+        # Ensure /data is mounted first so this lands on the correct mountpoint
+        depends = [ "/data" ];
+        options = [
+            "defaults"
+            "nofail"
             "x-systemd.device-timeout=1s"
         ];
         neededForBoot = false;

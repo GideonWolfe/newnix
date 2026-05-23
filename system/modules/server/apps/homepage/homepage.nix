@@ -268,6 +268,12 @@ in
               description = "Media Requests";
             };
           }
+          {
+            Pinchflat = {
+              href = "${svc.pinchflat.protocol}://${svc.pinchflat.ip}:${builtins.toString svc.pinchflat.port}";
+              description = "YouTube Archiver";
+            };
+          }
         ];
       }
 

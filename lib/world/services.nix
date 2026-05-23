@@ -216,6 +216,13 @@ in
       port = 8083;
       protocol = "http";
     };
+    pinchflat = mkService {
+      name = "Pinchflat";
+      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      port = 8945;
+      domain = "";
+      protocol = "http";
+    };
     scrutiny = mkService {
       name = "Scrutiny";
       ip = config.custom.world.hosts.mnemosyne.ip;
