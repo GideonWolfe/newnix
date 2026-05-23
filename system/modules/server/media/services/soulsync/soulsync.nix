@@ -19,7 +19,7 @@
       "/data/soulsync/config/:/app/config"
       "/data/soulsync/data/:/app/data" # database lives here
       "/data/soulsync/staging/:/app/Staging"
-      "${config.custom.world.hosts.proxmox.vms.media_vm.musicDownloadsDir}:/app/downloads"
+      "${config.custom.world.hosts.proxmox.vms.vm_media.musicDownloadsDir}:/app/downloads"
       "/nas/tank/media/music/:/app/Transfer"
     ];
   };

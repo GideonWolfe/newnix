@@ -81,14 +81,14 @@ in
     ################
     traefik = mkService {
       name = "Traefik";
-      ip = config.custom.world.hosts.proxmox.vms.ingress_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_ingress.ip;
       port = 8080;
       domain = "";
       protocol = "http";
     };
     crowdsec = mkService {
       name = "CrowdSec";
-      ip = config.custom.world.hosts.proxmox.vms.ingress_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_ingress.ip;
       port = 4223;
       domain = "";
       protocol = "http";
@@ -99,21 +99,21 @@ in
     ###############
     sonarr = mkService {
       name = "Sonarr";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 8989;
       domain = "";
       protocol = "http";
     };
     radarr = mkService {
       name = "Radarr";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 7878;
       domain = "";
       protocol = "http";
     };
     prowlarr = mkService {
       name = "Prowlarr";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 9696;
       domain = "";
       protocol = "http";
@@ -123,55 +123,55 @@ in
     # modules can still reference the service IP, with a sentinel port of 0.
     recyclarr = mkService {
       name = "Recyclarr";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 0;
       domain = "";
       protocol = "http";
     };
     nzbget = mkService {
       name = "NZBGet";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 6789;
       domain = "";
       protocol = "http";
     };
     jellyfin = mkService {
       name = "Jellyfin";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 8096;
       domain = "jellyfin.gideonwolfe.xyz";
       protocol = "https";
     };
     bazarr = mkService {
       name = "Bazarr";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 6767;
       protocol = "http";
     };
     seerr = mkService {
       name = "Seerr";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 5055;
       domain = "seerr.gideonwolfe.xyz";
       protocol = "https";
     };
     navidrome = mkService {
       name = "Navidrome";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 4533;
       domain = "nd.gideonwolfe.xyz";
       protocol = "https";
     };
     slskd = mkService {
       name = "SoulSeek Daemon";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 5030;
       domain = "";
       protocol = "http";
     };
     soulsync-webui = mkService {
       name = "SoulSync";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 8008;
       domain = "";
       protocol = "http";
@@ -180,45 +180,45 @@ in
     # Other Apps
     netbox = mkService {
       name = "NetBox";
-      ip = config.custom.world.hosts.proxmox.vms.media_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
       port = 9001;
       domain = "";
       protocol = "http";
     };
     paperless = mkService {
       name = "Paperless-ngx";
-      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
       port = 4232;
       domain = "";
       protocol = "http";
     };
     kiwix = mkService {
       name = "Kiwix";
-      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
       port = 4302;
     };
     romm = mkService {
       name = "RomM";
-      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
       domain = "retro86.gideonwolfe.xyz";
       port = 4240;
     };
     mealie = mkService {
       name = "Mealie";
-      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
       domain = "mealie.gideonwolfe.xyz";
       port = 4217;
     };
     calibre-web-automated = mkService {
       name = "Calibre-Web-Automated";
-      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
       domain = "";
       port = 8083;
       protocol = "http";
     };
     pinchflat = mkService {
       name = "Pinchflat";
-      ip = config.custom.world.hosts.proxmox.vms.app1_vm.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
       port = 8945;
       domain = "";
       protocol = "http";

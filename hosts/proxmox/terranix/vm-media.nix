@@ -1,6 +1,6 @@
 {
-  resource.proxmox_vm_qemu.media_vm = {
-    name = "media-vm";
+  resource.proxmox_vm_qemu.vm_media = {
+    name = "vm-media";
     target_node = "pve1";
     vmid = 102;
     clone = "proxmox-base";

@@ -12,7 +12,7 @@
         url = "http://localhost";
         # Does this generalized approach work locally?
         # If so, it could be spun up on any VM and still work!
-        #url = "http://${config.custom.world.hosts.proxmox.vms.media_vm.ip}";
+        #url = "http://${config.custom.world.hosts.proxmox.vms.vm_media.ip}";
         port = config.custom.world.services.sonarr.port;
         openFirewall = true; # might not be necessary since it's local?
         environment = {

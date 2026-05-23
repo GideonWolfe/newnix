@@ -141,8 +141,8 @@ with config.lib.stylix.colors.withHashtag;
       media-update = {
         body = ''
           nixos-rebuild switch \
-          --flake /home/${config.home.username}/test/newnix/.#media-vm \
-          --target-host ${osConfig.custom.world.hosts.proxmox.vms.media_vm.ip} \
+          --flake /home/${config.home.username}/test/newnix/.#vm-media \
+          --target-host ${osConfig.custom.world.hosts.proxmox.vms.vm_media.ip} \
           --sudo \
           --ask-password
         '';

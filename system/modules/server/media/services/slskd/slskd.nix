@@ -16,7 +16,7 @@
     volumes = [
       "/data/slskd/app/:/app/"
       "/nas/tank/media/music/:/music/"
-      "${config.custom.world.hosts.proxmox.vms.media_vm.musicDownloadsDir}:/downloads"
+      "${config.custom.world.hosts.proxmox.vms.vm_media.musicDownloadsDir}:/downloads"
     ];
   };
 }

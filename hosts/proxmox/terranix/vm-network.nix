@@ -1,6 +1,6 @@
 {
-  resource.proxmox_vm_qemu.network_vm = {
-    name = "network-vm";
+  resource.proxmox_vm_qemu.vm_network = {
+    name = "vm-network";
     target_node = "pve2";
     vmid = 1001;
     clone = "nixos-base";

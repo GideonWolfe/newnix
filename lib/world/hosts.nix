@@ -50,9 +50,9 @@ in
 
       proxmox = {
         vms = {
-          ingress_vm = { ip = mkIp "192.168.88.100"; };
-          app1_vm = { ip = mkIp "192.168.88.101"; };
-          media_vm = {
+          vm_ingress = { ip = mkIp "192.168.88.100"; };
+          vm_app1 = { ip = mkIp "192.168.88.101"; };
+          vm_media = {
             ip = mkIp "192.168.88.102";
             downloadsDir = lib.mkOption {
               type = lib.types.str;
@@ -65,7 +65,7 @@ in
               description = "Base directory for music downloads shared by SoulSync/Slskd.";
             };
           };
-          test_vm = { ip = mkIp "192.168.88.103"; };
+          vm_test = { ip = mkIp "192.168.88.103"; };
         };
         nodes = {
           pvenet = { ip = mkIp "192.168.88.7"; };

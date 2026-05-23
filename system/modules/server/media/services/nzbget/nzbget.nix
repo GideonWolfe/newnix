@@ -1,6 +1,6 @@
 {config, ...}:
 let
-  downloadsDir = config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir;
+  downloadsDir = config.custom.world.hosts.proxmox.vms.vm_media.downloadsDir;
 in
 {
   virtualisation.oci-containers.containers.nzbget = {

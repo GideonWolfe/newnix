@@ -9,12 +9,12 @@
     ];
 
     # Unique hostname for this VM
-    networking.hostName = "ingress-vm";
+    networking.hostName = "vm-ingress";
 
     # Assign an IP ourselves
     networking.interfaces.ens18.ipv4.addresses = [
         {
-            address = "${config.custom.world.hosts.proxmox.vms.ingress_vm.ip}";
+            address = "${config.custom.world.hosts.proxmox.vms.vm_ingress.ip}";
             prefixLength = 24;
         }
     ];

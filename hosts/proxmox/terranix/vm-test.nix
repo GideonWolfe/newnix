@@ -1,6 +1,6 @@
 {
-  resource.proxmox_vm_qemu.test_vm = {
-    name = "test-vm";
+  resource.proxmox_vm_qemu.vm_test = {
+    name = "vm-test";
     target_node = "pve2";
     vmid = 103;
     clone = "nixos-base";

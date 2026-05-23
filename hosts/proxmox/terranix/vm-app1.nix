@@ -1,6 +1,6 @@
 {
-  resource.proxmox_vm_qemu.app1_vm = {
-    name = "app1-vm";
+  resource.proxmox_vm_qemu.vm_app1 = {
+    name = "vm-app1";
     target_node = "pve2";
     vmid = 101;
     clone = "nixos-base";

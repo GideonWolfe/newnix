@@ -198,7 +198,7 @@
       # Build a Proxmox VMA image using upstream module imported in the host config
       packages.x86_64-linux.proxmox-base-vma = self.nixosConfigurations.proxmox-base.config.system.build.VMA;
       # Media VM
-      nixosConfigurations.media-vm = lib.nixosSystem {
+      nixosConfigurations.vm-media = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
@@ -207,7 +207,7 @@
         ];
       };
       # App1 VM
-      nixosConfigurations.app1-vm = lib.nixosSystem {
+      nixosConfigurations.vm-app1 = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
@@ -217,7 +217,7 @@
       };
 
       # Ingress VM
-      nixosConfigurations.ingress-vm = lib.nixosSystem {
+      nixosConfigurations.vm-ingress = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [

@@ -77,16 +77,15 @@
         };
     };
 
-    # Unique hostname for this MV
-    networking.hostName = "media-vm";
+    # Unique hostname for this VM
+    networking.hostName = "vm-media";
     
     # Assign an IP ourselves
     # TODO change to VM NIC name
     networking.interfaces.ens18.useDHCP = false;
     networking.interfaces.ens18.ipv4.addresses = [
         {
-            #address = "${config.custom.world.hosts.proxmox.vms.media_vm.ip}";
-            address = "${config.custom.world.hosts.proxmox.vms.media_vm.ip}";
+            address = "${config.custom.world.hosts.proxmox.vms.vm_media.ip}";
             prefixLength = 24;
         }
     ];

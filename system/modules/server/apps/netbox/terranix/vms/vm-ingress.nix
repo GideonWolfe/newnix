@@ -25,7 +25,7 @@
 
     # Assign an IP to this VM
     resource."netbox_ip_address"."vm_ingress_ip1" = {
-        ip_address = "${builtins.toString config.custom.world.hosts.proxmox.vms.ingress_vm.ip}/24";
+        ip_address = "${builtins.toString config.custom.world.hosts.proxmox.vms.vm_ingress.ip}/24";
         virtual_machine_interface_id = "\${netbox_interface.vm_ingress_ether0.id}";
         status = "active";
     };

@@ -4,7 +4,7 @@
     regexp = ".*\\gideonwolfe\\.xyz";
     comment = "Internal gideonwolfe.xyz Redirect";
     type = "A";
-    address = "${config.custom.world.hosts.proxmox.vms.ingress_vm.ip}";
+    address = "${config.custom.world.hosts.proxmox.vms.vm_ingress.ip}";
     provider = "routeros.router";
   };
 

@@ -1,6 +1,6 @@
 {
-  resource.proxmox_vm_qemu.ingress_vm = {
-    name = "ingress-vm";
+  resource.proxmox_vm_qemu.vm_ingress = {
+    name = "vm-ingress";
     target_node = "pve2";
     vmid = 100;
     #clone = "nixos-base";

@@ -89,17 +89,17 @@
 
       # Proxmox VMs
       vm-media = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.media_vm.ip}";
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_media.ip}";
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
       vm-ingress = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.ingress_vm.ip}";
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_ingress.ip}";
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
       vm-app1 = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.app1_vm.ip}";
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_app1.ip}";
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };

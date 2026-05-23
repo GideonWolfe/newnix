@@ -9,12 +9,12 @@
     ];
 
     # Unique hostname for this VM
-    networking.hostName = "app1-vm";
+    networking.hostName = "vm-app1";
     
     # Assign an IP ourselves
     networking.interfaces.ens18.ipv4.addresses = [
         {
-            address = "${config.custom.world.hosts.proxmox.vms.app1_vm.ip}";
+            address = "${config.custom.world.hosts.proxmox.vms.vm_app1.ip}";
             prefixLength = 24;
         }
     ];

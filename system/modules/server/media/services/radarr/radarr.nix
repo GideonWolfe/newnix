@@ -15,7 +15,7 @@
       "/data/radarr/config/:/config/"
       "/nas/tank/media/movies/:/movies/"
       # Downloads can live on the local data disk before being copied ot the NAS
-      "${config.custom.world.hosts.proxmox.vms.media_vm.downloadsDir}:/downloads"
+      "${config.custom.world.hosts.proxmox.vms.vm_media.downloadsDir}:/downloads"
 
     ];
   };
