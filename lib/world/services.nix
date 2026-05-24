@@ -209,6 +209,17 @@ in
       domain = "mealie.gideonwolfe.xyz";
       port = 4217;
     };
+    immich = mkService {
+      name = "Immich";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      # LAN-only for now (no Traefik router, no public DNS). Reach it directly
+      # at http://<vm_app1>:2283 until we're ready to expose it to the WAN.
+      domain = "";
+      # 2283 is Immich's upstream default; we keep it so internal tooling
+      # (e.g. the CLI, mobile apps used over LAN) sees the expected port.
+      port = 2283;
+      protocol = "http";
+    };
     calibre-web-automated = mkService {
       name = "Calibre-Web-Automated";
       ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;

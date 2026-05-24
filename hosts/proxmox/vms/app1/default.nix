@@ -6,6 +6,7 @@
         ../../../../system/modules/server/apps/mealie
         ../../../../system/modules/server/apps/calibre-web-automated
         ../../../../system/modules/server/apps/pinchflat
+        ../../../../system/modules/server/apps/immich
     ];
 
     # Unique hostname for this VM

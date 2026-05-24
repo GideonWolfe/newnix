@@ -32,6 +32,12 @@ creation_rules:
           - *vm-app1
         pgp:
           - *gideon
+  - path_regex: secrets_immich.yaml$
+    key_groups:
+      - age:
+          - *vm-app1
+        pgp:
+          - *gideon
   - path_regex: secrets_ingress.yaml$
     key_groups:
       - age:
