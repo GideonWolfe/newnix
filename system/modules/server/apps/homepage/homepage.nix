@@ -377,6 +377,10 @@ in
                 href = "${svc.immich.protocol}://${svc.immich.ip}:${builtins.toString svc.immich.port}";
                 description = "Photo Library";
             }; }
+            { Dawarich = {
+                href = "${svc.dawarich.protocol}://${svc.dawarich.ip}:${builtins.toString svc.dawarich.port}";
+                description = "Location History";
+            }; }
           ];
         }
 

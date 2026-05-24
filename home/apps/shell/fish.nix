@@ -154,56 +154,9 @@ with config.lib.stylix.colors.withHashtag;
       };
 
       # Build the local flake and push it to a remote host over SSH.
-      #
-      # Usage:
-      #   pushbuild                 # interactively pick a nixosConfiguration via fzf,
-      #                             # then prompt for an IP / hostname for --target-host
-      #   pushbuild <host>          # use <host> as BOTH the flake attr (.#<host>)
-      #                             # AND the --target-host value
-      pushbuild = {
-        body = ''
-          set -l ssh_opts "-p ${toString (builtins.head osConfig.services.openssh.ports)} -i ${config.home.homeDirectory}/.ssh/gideon_ssh_sk"
-
-          set -l flake_attr
-          set -l target_host
-
-          if test (count $argv) -ge 1
-              set flake_attr $argv[1]
-              set target_host $argv[1]
-          else
-              # Discover available nixosConfigurations from the flake in $PWD
-              if not command -q nix; or not command -q jq; or not command -q fzf
-                  echo "pushbuild: requires nix, jq and fzf in PATH" >&2
-                  return 1
-              end
-
-              set -l configs (nix flake show --json --all-systems 2>/dev/null \
-                  | jq -r '.nixosConfigurations // {} | keys[]')
-
-              if test (count $configs) -eq 0
-                  echo "pushbuild: no nixosConfigurations found in this flake" >&2
-                  return 1
-              end
-
-              set flake_attr (printf '%s\n' $configs | fzf --prompt="flake target> " --height=40% --reverse)
-              if test -z "$flake_attr"
-                  echo "pushbuild: no selection, aborting" >&2
-                  return 1
-              end
-
-              read -P "target host (IP or hostname) for $flake_attr: " target_host
-              if test -z "$target_host"
-                  echo "pushbuild: no target host given, aborting" >&2
-                  return 1
-              end
-          end
-
-          echo "pushbuild: building .#$flake_attr -> $target_host"
-          NIX_SSHOPTS="$ssh_opts" nixos-rebuild switch \
-              --flake "/home/${config.home.username}/test/newnix/.#$flake_attr" \
-              --target-host "$target_host" \
-              --ask-sudo-password
-        '';
+      # See ./fish/functions/pushbuild.nix for full docs and the host map.
+      pushbuild = import ./fish/functions/pushbuild.nix {
+        inherit lib config osConfig;
       };
 
       # Better Youtube-dl opts

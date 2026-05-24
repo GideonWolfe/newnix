@@ -5,6 +5,9 @@
       # SECRET_KEY_BASE for Rails + DATABASE_PASSWORD for the app containers.
       "dawarich/secret_key_base" = { sopsFile = ./secrets_dawarich.yaml; };
       "dawarich-db/password"     = { sopsFile = ./secrets_dawarich.yaml; };
+
+      # Restic repo password for the NAS-side backup (see ../dawarich_backup.nix).
+      "dawarich/restic_password" = { sopsFile = ./secrets_dawarich.yaml; };
     };
   };
 
