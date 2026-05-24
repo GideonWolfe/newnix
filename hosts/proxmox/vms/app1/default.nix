@@ -7,6 +7,7 @@
         ../../../../system/modules/server/apps/calibre-web-automated
         ../../../../system/modules/server/apps/pinchflat
         ../../../../system/modules/server/apps/immich
+        ../../../../system/modules/server/apps/dawarich
     ];
 
     # Unique hostname for this VM

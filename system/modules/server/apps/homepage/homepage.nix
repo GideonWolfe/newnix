@@ -112,6 +112,11 @@ in
           columns = 3;
           icon = "mdi-apps";
         };
+        VMs = {
+          style = "row";
+          columns = 4;
+          icon = "mdi-server-network";
+        };
       };
     };
 
@@ -367,6 +372,34 @@ in
             { Mealie = {
                 href = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
                 description = "Recipe Manager";
+            }; }
+            { Immich = {
+                href = "${svc.immich.protocol}://${svc.immich.ip}:${builtins.toString svc.immich.port}";
+                description = "Photo Library";
+            }; }
+          ];
+        }
+
+      #################
+      # VMs           #
+      #################
+        {
+          VMs = [
+            { "vm-ingress" = {
+                href = "ssh://${hosts.proxmox.vms.vm_ingress.ip}";
+                description = "Ingress / Traefik";
+            }; }
+            { "vm-app1" = {
+                href = "ssh://${hosts.proxmox.vms.vm_app1.ip}";
+                description = "Applications";
+            }; }
+            { "vm-media" = {
+                href = "ssh://${hosts.proxmox.vms.vm_media.ip}";
+                description = "Media Stack";
+            }; }
+            { "vm-test" = {
+                href = "ssh://${hosts.proxmox.vms.vm_test.ip}";
+                description = "Test / Scratch";
             }; }
           ];
         }

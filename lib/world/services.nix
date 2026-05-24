@@ -234,6 +234,13 @@ in
       domain = "";
       protocol = "http";
     };
+    dawarich = mkService {
+      name = "Dawarich";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      port = 4268;
+      domain = "";
+      protocol = "http";
+    };
     scrutiny = mkService {
       name = "Scrutiny";
       ip = config.custom.world.hosts.mnemosyne.ip;
