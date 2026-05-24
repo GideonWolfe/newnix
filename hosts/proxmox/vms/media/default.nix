@@ -58,23 +58,10 @@
     # Reclaim docker disk weekly: prune dangling images, stopped containers,
     # unused networks and build cache. Keeps /var/lib/docker from creeping up
     # as :latest tags pull new image layers.
-    systemd.services.docker-prune = {
-        description = "Prune unused docker objects";
-        after = [ "docker.service" ];
-        requires = [ "docker.service" ];
-        serviceConfig.Type = "oneshot";
-        script = ''
-            /run/current-system/sw/bin/docker system prune -af --filter "until=168h"
-        '';
-    };
-    systemd.timers.docker-prune = {
-        description = "Weekly docker prune";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-            OnCalendar = "weekly";
-            Persistent = true;
-            RandomizedDelaySec = "1h";
-        };
+    virtualisation.docker.autoPrune = {
+        enable = true;
+        dates = "weekly";
+        flags = [ "--all" ];
     };
 
     # Unique hostname for this VM

@@ -68,12 +68,16 @@
         # rebuildable (re-download from indexer). NOT replicated — snapshots
         # on this volume are what broke datapool last time. Mounted inside
         # /data so service paths like /data/downloads/... keep working.
+        # Also excluded from vzdump/PBS backups: contents are fully
+        # rebuildable, and including 80 GiB of in-flight downloads would
+        # bloat every backup with throwaway data.
         virtio2 = {
           disk = {
             size = "80G";
             storage = "datapool";
             format = "raw";
             replicate = false;
+            backup = false;
             discard = true;
             serial = "scratch";
           };
