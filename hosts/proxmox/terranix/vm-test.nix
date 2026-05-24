@@ -1,7 +1,7 @@
 {
   resource.proxmox_vm_qemu.vm_test = {
     name = "vm-test";
-    target_node = "pve2";
+    target_node = "pve3";
     vmid = 103;
     clone = "nixos-base";
     full_clone = true;
@@ -12,6 +12,7 @@
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
     memory = 4096;
+    balloon = 1024;
     skip_ipv6 = true;
 
     cpu = {
@@ -36,6 +37,7 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            discard = true;
             serial = "rootdisk";
           };
         };
@@ -45,10 +47,17 @@
             storage = "datapool";
             format = "raw";
             replicate = true;
+            discard = true;
             serial = "data";
           };
         };
       };
+    };
+
+    # See vm-ingress.nix for rationale — silences Telmate's cosmetic
+    # `startup_shutdown { -1 -> null }` non-diff.
+    lifecycle = {
+      ignore_changes = [ "startup_shutdown" ];
     };
   };
 }

@@ -225,6 +225,16 @@
           ./hosts/proxmox/vms/ingress
         ];
       };
+
+      # Test VM (sandbox on pve3 for trying new server roles)
+      nixosConfigurations.vm-test = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+          ./hosts/proxmox/vms/test
+        ];
+      };
       #########################
       # Mnemosyne (Local NAS) #
       #########################
@@ -249,7 +259,7 @@
           ./hosts/proxmox/terranix/vm-ingress.nix
           ./hosts/proxmox/terranix/vm-media.nix
           ./hosts/proxmox/terranix/vm-app1.nix
-          #./hosts/proxmox/terranix/vm-test.nix
+          ./hosts/proxmox/terranix/vm-test.nix
           #./hosts/proxmox/terranix/vm-network.nix
         ];
       };
