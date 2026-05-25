@@ -2,9 +2,11 @@
 {
     # Sandbox VM (lives on pve3). Modules below are the apps currently
     # being trialled here — promote to a dedicated VM once they're stable.
-    # imports = [
-    #     ../../../../system/modules/server/apps/karakeep
-    # ];
+    imports = [
+        #../../../../system/modules/server/apps/tududi
+        ../../../../system/modules/server/apps/vikunja
+        ../../../../system/modules/server/apps/baikal
+    ];
 
     # Unique hostname for this VM
     networking.hostName = "vm-test";

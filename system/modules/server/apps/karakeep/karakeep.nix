@@ -142,9 +142,22 @@ in
     ];
   };
 
-  # Pre-create the bind-mount targets so docker doesn't create them as
-  # root with the wrong perms on first start. Karakeep's container runs
-  # as a non-root user internally but writes through to these dirs.
+  # Pre-create the bind-mount parent so docker doesn't auto-create it on
+  # first start. Ownership is intentionally left as root:root - each
+  # container manages the UID/GID inside its own mount itself:
+  #
+  #   * karakeep-web / -workers  s6-overlay boots as PID 1 (root) and
+  #                              drops privileges to the baked-in `node`
+  #                              user (UID 1000) before touching /data.
+  #   * karakeep-meili           runs as the baked-in `meili` user and
+  #                              chowns /meili_data on init.
+  #
+  # Neither image honors PUID/PGID, so trying to pre-chown these to
+  # gideon:users (1000:100) would either get clobbered on next start or
+  # fight meili's init. If you want host-side access without sudo, the
+  # only safe directory to retag is ${appData} (matches karakeep-web's
+  # node:node 1000:1000) - but the GID won't be 100, so you'd still
+  # need to be in a 1000 group or use sudo.
   systemd.tmpfiles.rules = [
     "d ${dataDir}   0755 root root - -"
     "d ${appData}   0755 root root - -"

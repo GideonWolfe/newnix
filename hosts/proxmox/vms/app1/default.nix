@@ -8,7 +8,7 @@
         ../../../../system/modules/server/apps/pinchflat
         ../../../../system/modules/server/apps/immich
         ../../../../system/modules/server/apps/dawarich
-        ../../../../system/modules/server/apps/karakeep
+        #../../../../system/modules/server/apps/karakeep
     ];
 
     # Unique hostname for this VM

@@ -154,6 +154,25 @@ in
     extraOptions = [ "--network=dawarich-network" ];
   };
 
+  # Pre-create bind-mount targets so docker doesn't auto-create them on
+  # first start. Ownership is intentionally root:root - DO NOT change
+  # this to 1000:100 (the mealie/pinchflat/tududi pattern) because the
+  # service containers enforce their own internal UIDs and will either
+  # chown over the top of us or refuse to start on a mismatch:
+  #
+  #   * dawarich-db        postgis/postgis:17-alpine runs initdb as the
+  #                        baked-in `postgres` user (UID 70). initdb
+  #                        refuses to bootstrap PGDATA unless the dir
+  #                        is empty AND owned by that user, and on
+  #                        subsequent boots the server bails if PGDATA
+  #                        ownership doesn't match.
+  #   * dawarich-redis     redis:7.4-alpine runs as `redis` (UID 999)
+  #                        and chowns /data itself.
+  #   * dawarich-app /     freikin/dawarich runs as root inside the
+  #     -sidekiq           container (Rails). No need to pre-set.
+  #
+  # Leaving everything as root:root lets each container fix its own
+  # subtree on first start without us fighting them.
   systemd.tmpfiles.rules = [
     "d ${dataDir}          0755 root root - -"
     "d ${dataDir}/postgres 0755 root root - -"

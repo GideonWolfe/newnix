@@ -19,6 +19,7 @@
     ./services/mealie.nix
     ./services/karakeep.nix
     ./services/nextcloud.nix
+    ./services/baikal.nix
   ];
 
   # Open the FW for Traefik
