@@ -103,6 +103,11 @@
         port = 2736;
         identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
+      vm-test = {
+        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_test.ip}";
+        port = 2736;
+        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
 
     };
 

@@ -7,6 +7,7 @@ keys:
       - &vm-media age1h3e47488q28t348l53jg64nz2ek2aktk8tqla4p970h0sgtyua9s8fh00t
       - &vm-app1 age160ugqg520cjv7atd5vwwdxc4zf033xe9h9kxckq56k4k0x9ltahqdn8s5d
       - &vm-ingress age1zuwvpzy4ajrc9r8tv4956j3ml3ytncmap0tujk2d8nyypyjlpcws629ysp
+      - &vm-test age123dey9ctytad38z9sxu7gww9drp233fldcs0jyghnds4ahdtvazqn26j83
 creation_rules:
   - path_regex: gideon_secrets.yaml$
     key_groups:
@@ -39,6 +40,12 @@ creation_rules:
         pgp:
           - *gideon
   - path_regex: secrets_dawarich.yaml$
+    key_groups:
+      - age:
+          - *vm-app1
+        pgp:
+          - *gideon
+  - path_regex: secrets_karakeep.yaml$
     key_groups:
       - age:
           - *vm-app1

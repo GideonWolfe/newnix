@@ -241,6 +241,13 @@ in
       domain = "";
       protocol = "http";
     };
+    karakeep = mkService {
+      name = "Karakeep";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      port = 3000;
+      domain = "kk.gideonwolfe.xyz";
+      protocol = "https";
+    };
     scrutiny = mkService {
       name = "Scrutiny";
       ip = config.custom.world.hosts.mnemosyne.ip;

@@ -17,6 +17,7 @@
     ./services/seerr.nix
     ./services/romm.nix
     ./services/mealie.nix
+    ./services/karakeep.nix
     ./services/nextcloud.nix
   ];
 

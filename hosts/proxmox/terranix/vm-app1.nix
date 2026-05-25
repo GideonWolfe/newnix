@@ -18,7 +18,7 @@
     cpu = {
       type = "host";
       sockets = 1;
-      cores = 2;
+      cores = 4;
     };
 
     network = [

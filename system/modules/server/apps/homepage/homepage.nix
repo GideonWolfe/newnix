@@ -381,6 +381,10 @@ in
                 href = "${svc.dawarich.protocol}://${svc.dawarich.ip}:${builtins.toString svc.dawarich.port}";
                 description = "Location History";
             }; }
+            { Karakeep = {
+                href = "${svc.karakeep.protocol}://${svc.karakeep.domain}";
+                description = "Bookmarks";
+            }; }
           ];
         }
 

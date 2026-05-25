@@ -1,10 +1,10 @@
 { config, ... }:
 {
-    # No app modules imported — this VM is a sandbox for trying new server
-    # roles before promoting them to vm-app1 / a dedicated VM. The base
-    # `proxmox-app-vm` profile pulled in by `hosts/proxmox/default.nix`
-    # already provides SSH, monitoring, NFS mounts to mnemosyne, etc.
-    imports = [ ];
+    # Sandbox VM (lives on pve3). Modules below are the apps currently
+    # being trialled here — promote to a dedicated VM once they're stable.
+    # imports = [
+    #     ../../../../system/modules/server/apps/karakeep
+    # ];
 
     # Unique hostname for this VM
     networking.hostName = "vm-test";
