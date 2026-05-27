@@ -19,6 +19,8 @@ creation_rules:
     key_groups:
       - age:
           - *vm-media
+          - *poseidon
+          - *hades
         pgp:
           - *gideon
   - path_regex: secrets_romm.yaml$
@@ -49,6 +51,14 @@ creation_rules:
     key_groups:
       - age:
           - *vm-app1
+          - *vm-test
+        pgp:
+          - *gideon
+  - path_regex: secrets_homepage.yaml$
+    key_groups:
+      - age:
+          - *poseidon
+          - *hades
         pgp:
           - *gideon
   - path_regex: secrets_ingress.yaml$

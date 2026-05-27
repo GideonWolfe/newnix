@@ -7,11 +7,25 @@ let
   c = config.lib.stylix.colors.withHashtag;
 in
 {
+  imports = [
+    # Defines sops secrets + a `homepage-env` template that becomes our
+    # EnvironmentFile, exposing HOMEPAGE_VAR_* to widgets below.
+    ./secrets/secrets_homepage.nix
+  ];
+
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8082;
     openFirewall = true;
     allowedHosts = "*";
+
+    # Inject decrypted secrets (HOMEPAGE_VAR_*) into the dashboard's
+    # process environment. Referenced from services/widgets as
+    # `{{HOMEPAGE_VAR_NAME}}` -- see ./secrets/secrets_homepage.nix.
+    #
+    # NOTE: newer nixpkgs renamed this to `environmentFiles` (plural list).
+    # This pin still uses the singular form.
+    environmentFile = config.sops.templates."homepage-env".path;
 
     # Override Homepage's Tailwind theme CSS variables with stylix base16
     # colors. Homepage's `color` / `theme` settings only accept a fixed list
@@ -188,6 +202,11 @@ in
             { Traefik = {
                 href = "${svc.traefik.protocol}://${svc.traefik.ip}:${builtins.toString svc.traefik.port}";
                 description = "Traefik";
+                widget = {
+                  type = "traefik";
+                  url = "${svc.traefik.protocol}://${svc.traefik.ip}:${builtins.toString svc.traefik.port}";
+                  fields = [ "routers" "services" "middleware" ];
+                };
             }; }
             { Crowdsec = {
                 href = "https://app.crowdsec.net";
@@ -221,12 +240,27 @@ in
             Jellyfin = {
               href = "http://${svc.jellyfin.ip}:${builtins.toString svc.jellyfin.port}";
               description = "Media Server";
+              widget = {
+                type = "jellyfin";
+                url = "http://${svc.jellyfin.ip}:${builtins.toString svc.jellyfin.port}";
+                fields = [ "movies" "series" "episodes" "songs" ];
+                version = 1;
+                key = "{{HOMEPAGE_VAR_JELLYFIN_API_KEY}}";
+              };
             };
           }
           {
             Calibre = {
               href = "http://${svc.calibre-web-automated.ip}:${builtins.toString svc.calibre-web-automated.port}";
               description = "Ebook Library";
+              # https://gethomepage.dev/widgets/services/calibre-web/
+              widget = {
+                type = "calibreweb";
+                url = "http://${svc.calibre-web-automated.ip}:${builtins.toString svc.calibre-web-automated.port}";
+                username = "{{HOMEPAGE_VAR_CALIBRE_USERNAME}}";
+                password = "{{HOMEPAGE_VAR_CALIBRE_PASSWORD}}";
+                fields = [ "books" "authors" "categories" "series" ];
+              };
             };
           }
         ];
@@ -241,36 +275,73 @@ in
             Sonarr = {
               href = "${svc.sonarr.protocol}://${svc.sonarr.ip}:${builtins.toString svc.sonarr.port}";
               description = "Movie Library";
+              widget = {
+                type = "sonarr";
+                url = "${svc.sonarr.protocol}://${svc.sonarr.ip}:${builtins.toString svc.sonarr.port}";
+                key = "{{HOMEPAGE_VAR_SONARR_APIKEY}}";
+                fields = [ "wanted" "queued" "series" ];
+              };
             };
           }
           {
             Radarr = {
               href = "${svc.radarr.protocol}://${svc.radarr.ip}:${builtins.toString svc.radarr.port}";
               description = "TV Library";
+              widget = {
+                type = "radarr";
+                url = "${svc.radarr.protocol}://${svc.radarr.ip}:${builtins.toString svc.radarr.port}";
+                key = "{{HOMEPAGE_VAR_RADARR_APIKEY}}";
+                fields = [ "wanted" "missing" "queued" "movies" ];
+              };
             };
           }
           {
             Prowlarr = {
               href = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
               description = "Indexers";
+              widget = {
+                type = "prowlarr";
+                url = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
+                key = "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}";
+                fields = [ "numberOfGrabs" "numberOfQueries" "numberofFailGrabs" ];
+              };
             };
           }
           {
             Bazarr = {
               href = "${svc.bazarr.protocol}://${svc.bazarr.ip}:${builtins.toString svc.bazarr.port}";
               description = "Subtitles";
+              widget = {
+                type = "bazarr";
+                url = "${svc.bazarr.protocol}://${svc.bazarr.ip}:${builtins.toString svc.bazarr.port}";
+                key = "{{HOMEPAGE_VAR_BAZARR_API_KEY}}";
+                fields = [ "missingEpisodes" "missingMovies"];
+              };
             };
           }
           {
             NZBGet = {
               href = "${svc.nzbget.protocol}://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
               description = "NZB Downloader";
+              widget = {
+                type = "nzbget";
+                url = "http://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
+                username = "{{HOMEPAGE_VAR_NZBGET_USERNAME}}";
+                password = "{{HOMEPAGE_VAR_NZBGET_PASSWORD}}";
+                fields = [ "rate" "remaining" "downloaded" ];
+              };
             };
           }
           {
             Seerr = {
               href = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
               description = "Media Requests";
+              widget = {
+                type = "seerr";
+                url = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
+                key = "{{HOMEPAGE_VAR_SEERR_APIKEY}}";
+                fields = [ "pending" "approved" "available" ];
+              };
             };
           }
           {
@@ -291,6 +362,12 @@ in
             Navidrome = {
               href = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
               description = "Music Server";
+              widget = {
+                type = "navidrome";
+                url = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
+                user = "Gideon";
+                token = "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}";
+              };
             };
           }
           {
@@ -341,12 +418,24 @@ in
             "Router" = {
               href = "http://${hosts.router.ip}";
               description = "Router Dashboard";
+              widget = {
+                type = "mikrotik";
+                url = "http://${config.custom.world.hosts.router.ip}";
+                username = "{{HOMEPAGE_VAR_MIKROTIK_USERNAME}}";
+                password = "{{HOMEPAGE_VAR_MIKROTIK_PASSWORD}}";
+                fields = [ "uptime" "cpuLoad" "memoryUsed" "numberOfLeases" ];
+              };
             };
           }
           {
             "Scrutiny" = {
               href = "${svc.scrutiny.protocol}://${svc.scrutiny.ip}:${builtins.toString svc.scrutiny.port}";
               description = "Disk Health (mnemosyne)";
+              widget = {
+                type = "scrutiny";
+                url = "http://${svc.scrutiny.ip}:${builtins.toString svc.scrutiny.port}";
+                fields = [ "passed" "failed" "unknown" ];
+              };
             };
           }
         ];
@@ -368,14 +457,36 @@ in
             { Romm = {
                 href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
                 description = "Emulation Library";
+                widget = {
+                  type = "romm";
+                  url = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
+                  fields = [ "platforms" "totalRoms" "saves" "totalfilesize" ];
+                };
+
             }; }
             { Mealie = {
                 href = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
                 description = "Recipe Manager";
+                widget = {
+                  type = "mealie";
+                  url = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
+                  key = "{{HOMEPAGE_VAR_MEALIE_API_KEY}}"; # Set in secrets_homepage.yaml + homepage-env template
+                  version = 2;
+                  fields = [ "recipes" "users" "categories" "tags" ];
+                };
+
             }; }
             { Immich = {
                 href = "${svc.immich.protocol}://${svc.immich.ip}:${builtins.toString svc.immich.port}";
                 description = "Photo Library";
+                widget = {
+                  type = "immich";
+                  url = "http://${svc.immich.ip}:${builtins.toString svc.immich.port}";
+                  key = "{{HOMEPAGE_VAR_IMMICH_API_KEY}}"; # Set in secrets_homepage.yaml + homepage-env template
+                  version = 2;
+                  fields = [ "photos" "videos" ];
+                };
+
             }; }
             { Dawarich = {
                 href = "${svc.dawarich.protocol}://${svc.dawarich.ip}:${builtins.toString svc.dawarich.port}";
@@ -413,4 +524,14 @@ in
         }
     ];
   };
+
+  # `services.homepage-dashboard.environmentFile` is read only at unit
+  # start, so changes to the sops template (e.g. a new HOMEPAGE_VAR_*) do
+  # NOT take effect on a normal `nixos-rebuild switch` -- the unit keeps
+  # running with the old env. Hash the template content into restartTriggers
+  # so activation force-restarts homepage-dashboard whenever the env file
+  # would change.
+  systemd.services.homepage-dashboard.restartTriggers = [
+    config.sops.templates."homepage-env".content
+  ];
 }

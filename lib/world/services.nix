@@ -243,45 +243,28 @@ in
     };
     karakeep = mkService {
       name = "Karakeep";
-      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 3000;
       domain = "kk.gideonwolfe.xyz";
       protocol = "https";
     };
     tududi = mkService {
       name = "Tududi";
-      # Currently trialled on the sandbox VM. Promote to vm_app1 once we're
-      # happy with it (and at that point wire up sops + restic backup of
-      # /data/tududi/db, plus a Traefik router if we want public access).
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      # Upstream default port - keeps `docker logs` / docs cross-references
-      # straightforward while we evaluate.
       port = 3002;
       domain = "";
       protocol = "http";
     };
     vikunja = mkService {
       name = "Vikunja";
-      # Trialled alongside tududi on the sandbox VM. Different port, no
-      # conflict - pick a winner before promoting either to vm_app1.
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      # Upstream default port (frontend + backend bundled in one binary).
       port = 3456;
       domain = "";
       protocol = "http";
     };
     baikal = mkService {
       name = "Baikal";
-      # Standalone CalDAV/CardDAV server (sabre/dav-based). Trialled on
-      # the sandbox VM. Useful either on its own (Apple Reminders /
-      # Thunderbird point at it directly) or as a sync backend that
-      # vikunja/tududi push to via their CalDAV-client features.
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      # Baikal listens on 80 inside the container; we publish it on 8800
-      # ('DAV'-mnemonic, not colliding with any other service in this
-      # file). Traefik on vm-ingress fronts it at the domain below over
-      # HTTPS - clients should only ever see https://${domain}, never
-      # the raw IP:port (which exists only for Traefik to proxy to).
       port = 8800;
       domain = "baikal.gideonwolfe.xyz";
       protocol = "https";
