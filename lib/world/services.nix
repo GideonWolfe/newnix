@@ -243,7 +243,7 @@ in
     };
     karakeep = mkService {
       name = "Karakeep";
-      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
       port = 3000;
       domain = "kk.gideonwolfe.xyz";
       protocol = "https";

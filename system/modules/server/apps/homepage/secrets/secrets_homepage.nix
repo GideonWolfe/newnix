@@ -36,6 +36,7 @@
     "homepage/jellyfin_api_key" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/bazarr_api_key" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/prowlarr_api_key" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/karakeep_api_key" = { sopsFile = ./secrets_homepage.yaml; };
   };
 
   # Env file consumed by the homepage-dashboard systemd unit via
@@ -57,5 +58,6 @@
     HOMEPAGE_VAR_JELLYFIN_API_KEY=${config.sops.placeholder."homepage/jellyfin_api_key"}
     HOMEPAGE_VAR_BAZARR_API_KEY=${config.sops.placeholder."homepage/bazarr_api_key"}
     HOMEPAGE_VAR_PROWLARR_API_KEY=${config.sops.placeholder."homepage/prowlarr_api_key"}
+    HOMEPAGE_VAR_KARAKEEP_API_KEY=${config.sops.placeholder."homepage/karakeep_api_key"}
   '';
 }

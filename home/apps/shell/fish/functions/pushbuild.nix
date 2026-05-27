@@ -21,6 +21,7 @@ let
   hostMap = {
     "vm-media"   = h.proxmox.vms.vm_media.ip;
     "vm-app1"    = h.proxmox.vms.vm_app1.ip;
+    "vm-app2"    = h.proxmox.vms.vm_app2.ip;
     "vm-ingress" = h.proxmox.vms.vm_ingress.ip;
     "vm-test"    = h.proxmox.vms.vm_test.ip;
     "mnemosyne"  = h.mnemosyne.ip;

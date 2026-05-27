@@ -216,6 +216,16 @@
         ];
       };
 
+      # App2 VM (lives on pve3)
+      nixosConfigurations.vm-app2 = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+          ./hosts/proxmox/vms/app2
+        ];
+      };
+
       # Ingress VM
       nixosConfigurations.vm-ingress = lib.nixosSystem {
         inherit system;
@@ -259,6 +269,7 @@
           ./hosts/proxmox/terranix/vm-ingress.nix
           ./hosts/proxmox/terranix/vm-media.nix
           ./hosts/proxmox/terranix/vm-app1.nix
+          ./hosts/proxmox/terranix/vm-app2.nix
           ./hosts/proxmox/terranix/vm-test.nix
           #./hosts/proxmox/terranix/vm-network.nix
         ];

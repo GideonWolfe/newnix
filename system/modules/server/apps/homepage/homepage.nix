@@ -493,8 +493,14 @@ in
                 description = "Location History";
             }; }
             { Karakeep = {
-                href = "${svc.karakeep.protocol}://${svc.karakeep.domain}";
+                href = "${svc.karakeep.protocol}://${svc.karakeep.ip}:${builtins.toString svc.karakeep.port}";
                 description = "Bookmarks";
+                widget = {
+                  type = "karakeep";
+                  url = "http://${svc.karakeep.ip}:${builtins.toString svc.karakeep.port}";
+                  key = "{{HOMEPAGE_VAR_KARAKEEP_API_KEY}}";
+                  fields = [ "lists" "bookmarks" "tags" "archived" ];
+                };
             }; }
           ];
         }

@@ -1,22 +1,17 @@
 {config, ...}:
 {
     imports = [
-        #../../../../system/modules/server/apps/kiwix/kiwix.nix
-        ../../../../system/modules/server/apps/romm/romm.nix
-        ../../../../system/modules/server/apps/mealie
-        ../../../../system/modules/server/apps/calibre-web-automated
-        ../../../../system/modules/server/apps/pinchflat
-        ../../../../system/modules/server/apps/immich
-        ../../../../system/modules/server/apps/dawarich
+        ../../../../system/modules/server/apps/karakeep
     ];
 
     # Unique hostname for this VM
-    networking.hostName = "vm-app1";
-    
-    # Assign an IP ourselves
+    networking.hostName = "vm-app2";
+
+    # Assign an IP ourselves (matches the Terranix-side vmid/IP convention:
+    # vmid 104 ↔ 192.168.88.104, declared in lib/world/hosts.nix).
     networking.interfaces.ens18.ipv4.addresses = [
         {
-            address = "${config.custom.world.hosts.proxmox.vms.vm_app1.ip}";
+            address = "${config.custom.world.hosts.proxmox.vms.vm_app2.ip}";
             prefixLength = 24;
         }
     ];

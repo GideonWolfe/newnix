@@ -74,7 +74,7 @@ in
 
       # Public URL Karakeep uses for OAuth callbacks, share links, etc.
       # Must match the Traefik router host on vm-ingress.
-      NEXTAUTH_URL    = "${svc.protocol}://${svc.domain}";
+      #NEXTAUTH_URL    = "${svc.protocol}://${svc.domain}";
 
       # DON'T change DATA_DIR — see upstream compose. If we ever want to
       # relocate state we change the bind mount below, not this var.

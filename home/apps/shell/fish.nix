@@ -236,6 +236,28 @@ with config.lib.stylix.colors.withHashtag;
           '';
       };
 
+      updatekeys = {
+        body =
+          ''
+          cd /home/${config.home.username}/test/newnix && \
+          set -l updated
+          set -l skipped
+          for f in (rg -l --no-messages '^sops:' -g '!.sops.yaml')
+              echo "==> $f"
+              if sops updatekeys $f < /dev/tty
+                  set -a updated $f
+              else
+                  set -a skipped $f
+              end
+          end
+          echo
+          echo "updated: "(count $updated)
+          printf '  %s\n' $updated
+          echo "skipped: "(count $skipped)
+          printf '  %s\n' $skipped
+          '';
+      };
+
       iplot = ''
         printf "\
         set terminal pngcairo enhanced font '${osConfig.stylix.fonts.monospace.name},${

@@ -4,8 +4,10 @@ keys:
   - &hosts:
       - &poseidon age10exe2vqxqapa87r7xxyrzessgk9efjac05s3znsl66xzfm6pqgpqp6793w
       - &hades age1nkjg6grfv5hjxfpav4k2w3y4t7p7j2gk34huu7cjrkrvrdun05mst0rtal
+      - &athena age1yyzawdy20cynpv4pzy3a36lsykxu733e0g4cwvmjnvaup64s8swscxhhst
       - &vm-media age1h3e47488q28t348l53jg64nz2ek2aktk8tqla4p970h0sgtyua9s8fh00t
       - &vm-app1 age160ugqg520cjv7atd5vwwdxc4zf033xe9h9kxckq56k4k0x9ltahqdn8s5d
+      - &vm-app2 age1rmd30ancclvmupptkxwzrys2stfwxxdn6enuqm2us0l936hctyksljfqk7
       - &vm-ingress age1zuwvpzy4ajrc9r8tv4956j3ml3ytncmap0tujk2d8nyypyjlpcws629ysp
       - &vm-test age123dey9ctytad38z9sxu7gww9drp233fldcs0jyghnds4ahdtvazqn26j83
 creation_rules:
@@ -13,6 +15,8 @@ creation_rules:
     key_groups:
       - age:
           - *poseidon
+          - *hades
+          - *athena
         pgp:
           - *gideon
   - path_regex: secrets_media.yaml$
@@ -52,6 +56,7 @@ creation_rules:
       - age:
           - *vm-app1
           - *vm-test
+          - *vm-app2
         pgp:
           - *gideon
   - path_regex: secrets_homepage.yaml$

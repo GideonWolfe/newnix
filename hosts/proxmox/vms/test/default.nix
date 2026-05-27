@@ -6,7 +6,7 @@
         #../../../../system/modules/server/apps/tududi
         #../../../../system/modules/server/apps/vikunja
         ../../../../system/modules/server/apps/baikal
-        ../../../../system/modules/server/apps/karakeep
+        # karakeep moved to vm-app2
     ];
 
     # Unique hostname for this VM

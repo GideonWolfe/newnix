@@ -52,6 +52,7 @@ in
         vms = {
           vm_ingress = { ip = mkIp "192.168.88.100"; };
           vm_app1 = { ip = mkIp "192.168.88.101"; };
+          vm_app2 = { ip = mkIp "192.168.88.104"; };
           vm_media = {
             ip = mkIp "192.168.88.102";
             downloadsDir = lib.mkOption {
