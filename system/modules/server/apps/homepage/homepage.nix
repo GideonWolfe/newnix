@@ -350,6 +350,12 @@ in
               description = "YouTube Archiver";
             };
           }
+          {
+            TubeArchivist = {
+              href = "${svc.tubearchivist.protocol}://${svc.tubearchivist.ip}:${builtins.toString svc.tubearchivist.port}";
+              description = "YouTube Archive + Search";
+            };
+          }
         ];
       }
 

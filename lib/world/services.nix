@@ -248,6 +248,14 @@ in
       domain = "kk.gideonwolfe.xyz";
       protocol = "https";
     };
+    tubearchivist = mkService {
+      name = "TubeArchivist";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
+      # TA's container listens on 8000; we publish 1:1 to the VM.
+      port = 8000;
+      domain = "";
+      protocol = "http";
+    };
     tududi = mkService {
       name = "Tududi";
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;

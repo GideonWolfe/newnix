@@ -2,6 +2,7 @@
 {
     imports = [
         ../../../../system/modules/server/apps/karakeep
+        ../../../../system/modules/server/apps/tubearchivist
     ];
 
     # Unique hostname for this VM
