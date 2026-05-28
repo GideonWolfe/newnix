@@ -93,7 +93,7 @@ in
     settings = {
       title = "Dashboard";
       theme = "light";
-      color = "neutral";
+      #color = "neutral";
       headerStyle = "clean";
       layout = {
         Monitoring = {
@@ -360,9 +360,12 @@ in
               description = "Media Requests";
               icon = "seerr";
               widget = {
-                type = "seerr";
+                # `seerr` is the new unified type (Jellyseerr+Overseerr merged);
+                # only present in recent Homepage builds. Use the legacy alias
+                # that matches the upstream we point at until nixpkgs catches up.
+                type = "jellyseerr";
                 url = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
-                key = "{{HOMEPAGE_VAR_SEERR_APIKEY}}";
+                key = "{{HOMEPAGE_VAR_SEERR_API_KEY}}";
                 fields = [ "pending" "approved" "available" ];
               };
             };
@@ -399,6 +402,7 @@ in
                 url = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
                 user = "Gideon";
                 token = "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}";
+                salt = "{{HOMEPAGE_VAR_NAVIDROME_SALT}}";
               };
             };
           }
@@ -413,7 +417,7 @@ in
             SoulSync = {
               href = "${svc.soulsync-webui.protocol}://${svc.soulsync-webui.ip}:${builtins.toString svc.soulsync-webui.port}";
               description = "Music Library Manager";
-              icon = "soulsync";
+              icon = "soulsync.webp";
             };
           }
         ];

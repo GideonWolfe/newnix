@@ -28,6 +28,7 @@
     "homepage/mikrotik_username" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/mikrotik_password" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/navidrome_token" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/navidrome_salt" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/nzbget_username" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/nzbget_password" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/sonarr_apikey" = { sopsFile = ./secrets_homepage.yaml; };
@@ -50,6 +51,7 @@
     HOMEPAGE_VAR_MIKROTIK_USERNAME=${config.sops.placeholder."homepage/mikrotik_username"}
     HOMEPAGE_VAR_MIKROTIK_PASSWORD=${config.sops.placeholder."homepage/mikrotik_password"}
     HOMEPAGE_VAR_NAVIDROME_TOKEN=${config.sops.placeholder."homepage/navidrome_token"}
+    HOMEPAGE_VAR_NAVIDROME_SALT=${config.sops.placeholder."homepage/navidrome_salt"}
     HOMEPAGE_VAR_NZBGET_USERNAME=${config.sops.placeholder."homepage/nzbget_username"}
     HOMEPAGE_VAR_NZBGET_PASSWORD=${config.sops.placeholder."homepage/nzbget_password"}
     HOMEPAGE_VAR_SONARR_APIKEY=${config.sops.placeholder."homepage/sonarr_apikey"}
