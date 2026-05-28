@@ -30,77 +30,77 @@ in
     # Override Homepage's Tailwind theme CSS variables with stylix base16
     # colors. Homepage's `color` / `theme` settings only accept a fixed list
     # of names, so we drop straight into the CSS variables it uses.
-    customCSS = ''
-      :root,
-      html.dark,
-      html.light,
-      html.dark body,
-      html.light body {
-        /* Backgrounds */
-        --bg-color: ${c.base00};
-        --bg-color-secondary: ${c.base01};
+    # customCSS = ''
+    #   :root,
+    #   html.dark,
+    #   html.light,
+    #   html.dark body,
+    #   html.light body {
+    #     /* Backgrounds */
+    #     --bg-color: ${c.base00};
+    #     --bg-color-secondary: ${c.base01};
 
-        /* Text */
-        --text-color: ${c.base05};
-        --text-color-secondary: ${c.base04};
+    #     /* Text */
+    #     --text-color: ${c.base05};
+    #     --text-color-secondary: ${c.base04};
 
-        /* Tailwind "theme" palette used by Homepage cards/widgets.
-           Homepage references shades 50/100/200/...900 of its theme
-           color. We map them to the base16 ramp so cards, hover states
-           and borders all follow the stylix theme. */
-        --color-theme-50:  ${c.base07};
-        --color-theme-100: ${c.base06};
-        --color-theme-200: ${c.base05};
-        --color-theme-300: ${c.base04};
-        --color-theme-400: ${c.base03};
-        --color-theme-500: ${c.base02};
-        --color-theme-600: ${c.base01};
-        --color-theme-700: ${c.base01};
-        --color-theme-800: ${c.base00};
-        --color-theme-900: ${c.base00};
-      }
+    #     /* Tailwind "theme" palette used by Homepage cards/widgets.
+    #        Homepage references shades 50/100/200/...900 of its theme
+    #        color. We map them to the base16 ramp so cards, hover states
+    #        and borders all follow the stylix theme. */
+    #     --color-theme-50:  ${c.base07};
+    #     --color-theme-100: ${c.base06};
+    #     --color-theme-200: ${c.base05};
+    #     --color-theme-300: ${c.base04};
+    #     --color-theme-400: ${c.base03};
+    #     --color-theme-500: ${c.base02};
+    #     --color-theme-600: ${c.base01};
+    #     --color-theme-700: ${c.base01};
+    #     --color-theme-800: ${c.base00};
+    #     --color-theme-900: ${c.base00};
+    #   }
 
-      body, .dark body {
-        background-color: ${c.base00} !important;
-        color: ${c.base05} !important;
-      }
+    #   body, .dark body {
+    #     background-color: ${c.base00} !important;
+    #     color: ${c.base05} !important;
+    #   }
 
-      /* Service / bookmark cards */
-      #information-widgets,
-      .services-group .service-card,
-      .bookmark-text,
-      .bookmark {
-        background-color: ${c.base01} !important;
-        color: ${c.base05} !important;
-      }
+    #   /* Service / bookmark cards */
+    #   #information-widgets,
+    #   .services-group .service-card,
+    #   .bookmark-text,
+    #   .bookmark {
+    #     background-color: ${c.base01} !important;
+    #     color: ${c.base05} !important;
+    #   }
 
-      /* Accents (links, icons, group headings) */
-      a, .service-name, h1, h2, h3,
-      .services-group > h2,
-      .bookmarks-group > h2 {
-        color: ${c.base0D} !important;
-      }
+    #   /* Accents (links, icons, group headings) */
+    #   a, .service-name, h1, h2, h3,
+    #   .services-group > h2,
+    #   .bookmarks-group > h2 {
+    #     color: ${c.base0D} !important;
+    #   }
 
-      /* Hover / active accents */
-      a:hover,
-      .service-card:hover,
-      .bookmark:hover {
-        color: ${c.base0E} !important;
-        border-color: ${c.base0D} !important;
-      }
-    '';
+    #   /* Hover / active accents */
+    #   a:hover,
+    #   .service-card:hover,
+    #   .bookmark:hover {
+    #     color: ${c.base0E} !important;
+    #     border-color: ${c.base0D} !important;
+    #   }
+    # '';
 
     settings = {
       title = "Dashboard";
       theme = "light";
-      #color = "slate";
+      color = "neutral";
       headerStyle = "clean";
       layout = {
-        # Monitoring = {
-        #   style = "row";
-        #   columns = 4;
-        #   icon = "mdi-chart-line";
-        # };
+        Monitoring = {
+          style = "row";
+          columns = 4;
+          icon = "mdi-chart-line";
+        };
         Media = {
           style = "row";
           columns = 4;
@@ -116,9 +116,14 @@ in
           columns = 3;
           icon = "mdi-music";
         };
+        Networking = {
+          style = "column";
+          columns = 2;
+          icon = "mdi-router-wireless";
+        };
         Infrastructure = {
-          style = "row";
-          columns = 5;
+          style = "column";
+          columns = 2;
           icon = "mdi-server";
         };
         Applications = {
@@ -127,8 +132,8 @@ in
           icon = "mdi-apps";
         };
         VMs = {
-          style = "row";
-          columns = 4;
+          style = "column";
+          columns = 1;
           icon = "mdi-server-network";
         };
       };
@@ -199,9 +204,34 @@ in
       #################
         {
           Monitoring = [
+            { Grafana = {
+                href = "${svc.grafana.protocol}://${svc.grafana.domain}";
+                description = "Dashboard";
+                icon = "grafana";
+            }; }
+            { Prometheus = {
+                href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
+                description = "Metrics";
+                icon = "prometheus";
+            }; }
+            { Loki = {
+                href = "${svc.loki.protocol}://${svc.loki.domain}";
+                description = "Logs";
+                icon = "loki";
+            }; }
+            { Tempo = {
+                href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
+                description = "Traces";
+                icon = "tempo";
+            }; }
+          ];
+        }
+        {
+          Networking = [
             { Traefik = {
                 href = "${svc.traefik.protocol}://${svc.traefik.ip}:${builtins.toString svc.traefik.port}";
-                description = "Traefik";
+                description = "Dashboard";
+                icon = "traefik-proxy";
                 widget = {
                   type = "traefik";
                   url = "${svc.traefik.protocol}://${svc.traefik.ip}:${builtins.toString svc.traefik.port}";
@@ -210,24 +240,9 @@ in
             }; }
             { Crowdsec = {
                 href = "https://app.crowdsec.net";
-                description = "CrowdSec Console";
+                icon = "crowdsec";
+                description = "Console";
             }; }
-            # { Grafana = {
-            #     href = "${svc.grafana.protocol}://${svc.grafana.domain}";
-            #     description = "Grafana";
-            # }; }
-            # { Prometheus = {
-            #     href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
-            #     description = "Prometheus";
-            # }; }
-            # { Loki = {
-            #     href = "${svc.loki.protocol}://${svc.loki.domain}";
-            #     description = "Loki";
-            # }; }
-            # { Tempo = {
-            #     href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
-            #     description = "Tempo";
-            # }; }
           ];
         }
 
@@ -240,6 +255,7 @@ in
             Jellyfin = {
               href = "http://${svc.jellyfin.ip}:${builtins.toString svc.jellyfin.port}";
               description = "Media Server";
+              icon = "jellyfin";
               widget = {
                 type = "jellyfin";
                 url = "http://${svc.jellyfin.ip}:${builtins.toString svc.jellyfin.port}";
@@ -253,6 +269,7 @@ in
             Calibre = {
               href = "http://${svc.calibre-web-automated.ip}:${builtins.toString svc.calibre-web-automated.port}";
               description = "Ebook Library";
+              icon = "calibre-web";
               # https://gethomepage.dev/widgets/services/calibre-web/
               widget = {
                 type = "calibreweb";
@@ -275,6 +292,7 @@ in
             Sonarr = {
               href = "${svc.sonarr.protocol}://${svc.sonarr.ip}:${builtins.toString svc.sonarr.port}";
               description = "Movie Library";
+              icon = "sonarr";
               widget = {
                 type = "sonarr";
                 url = "${svc.sonarr.protocol}://${svc.sonarr.ip}:${builtins.toString svc.sonarr.port}";
@@ -287,6 +305,7 @@ in
             Radarr = {
               href = "${svc.radarr.protocol}://${svc.radarr.ip}:${builtins.toString svc.radarr.port}";
               description = "TV Library";
+              icon = "radarr";
               widget = {
                 type = "radarr";
                 url = "${svc.radarr.protocol}://${svc.radarr.ip}:${builtins.toString svc.radarr.port}";
@@ -299,6 +318,7 @@ in
             Prowlarr = {
               href = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
               description = "Indexers";
+              icon = "prowlarr";
               widget = {
                 type = "prowlarr";
                 url = "${svc.prowlarr.protocol}://${svc.prowlarr.ip}:${builtins.toString svc.prowlarr.port}";
@@ -311,6 +331,7 @@ in
             Bazarr = {
               href = "${svc.bazarr.protocol}://${svc.bazarr.ip}:${builtins.toString svc.bazarr.port}";
               description = "Subtitles";
+              icon = "bazarr";
               widget = {
                 type = "bazarr";
                 url = "${svc.bazarr.protocol}://${svc.bazarr.ip}:${builtins.toString svc.bazarr.port}";
@@ -323,6 +344,7 @@ in
             NZBGet = {
               href = "${svc.nzbget.protocol}://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
               description = "NZB Downloader";
+              icon = "nzbget";
               widget = {
                 type = "nzbget";
                 url = "http://${svc.nzbget.ip}:${builtins.toString svc.nzbget.port}";
@@ -336,6 +358,7 @@ in
             Seerr = {
               href = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
               description = "Media Requests";
+              icon = "seerr";
               widget = {
                 type = "seerr";
                 url = "http://${svc.seerr.ip}:${builtins.toString svc.seerr.port}";
@@ -346,6 +369,7 @@ in
           }
           {
             Pinchflat = {
+              icon = "pinchflat";
               href = "${svc.pinchflat.protocol}://${svc.pinchflat.ip}:${builtins.toString svc.pinchflat.port}";
               description = "YouTube Archiver";
             };
@@ -354,6 +378,7 @@ in
             TubeArchivist = {
               href = "${svc.tubearchivist.protocol}://${svc.tubearchivist.ip}:${builtins.toString svc.tubearchivist.port}";
               description = "YouTube Archive + Search";
+              icon = "tube-archivist";
             };
           }
         ];
@@ -368,6 +393,7 @@ in
             Navidrome = {
               href = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
               description = "Music Server";
+              icon = "navidrome";
               widget = {
                 type = "navidrome";
                 url = "http://${svc.navidrome.ip}:${builtins.toString svc.navidrome.port}";
@@ -380,12 +406,14 @@ in
             Slskd = {
               href = "${svc.slskd.protocol}://${svc.slskd.ip}:${builtins.toString svc.slskd.port}";
               description = "SoulSeek Daemon";
+              icon = "slskd";
             };
           }
           {
             SoulSync = {
               href = "${svc.soulsync-webui.protocol}://${svc.soulsync-webui.ip}:${builtins.toString svc.soulsync-webui.port}";
               description = "Music Library Manager";
+              icon = "soulsync";
             };
           }
         ];
@@ -400,30 +428,35 @@ in
             "PVE Node Net" = {
               href = "https://${pve.pvenet.ip}:8006";
               description = "pvenet";
+              icon = "proxmox";
             };
           }
           {
             "PVE Node 1" = {
               href = "https://${pve.pve1.ip}:8006";
               description = "pve1";
+              icon = "proxmox";
             };
           }
           {
             "PVE Node 2" = {
               href = "https://${pve.pve2.ip}:8006";
               description = "pve2";
+              icon = "proxmox";
             };
           }
           {
             "PVE Node 3" = {
               href = "https://${pve.pve3.ip}:8006";
               description = "pve3";
+              icon = "proxmox";
             };
           }
           {
             "Router" = {
               href = "http://${hosts.router.ip}";
               description = "Router Dashboard";
+              icon = "mikrotik";
               widget = {
                 type = "mikrotik";
                 url = "http://${config.custom.world.hosts.router.ip}";
@@ -437,6 +470,7 @@ in
             "Scrutiny" = {
               href = "${svc.scrutiny.protocol}://${svc.scrutiny.ip}:${builtins.toString svc.scrutiny.port}";
               description = "Disk Health (mnemosyne)";
+              icon = "scrutiny";
               widget = {
                 type = "scrutiny";
                 url = "http://${svc.scrutiny.ip}:${builtins.toString svc.scrutiny.port}";
@@ -463,6 +497,7 @@ in
             { Romm = {
                 href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
                 description = "Emulation Library";
+                icon = "romm";
                 widget = {
                   type = "romm";
                   url = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
@@ -473,6 +508,7 @@ in
             { Mealie = {
                 href = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
                 description = "Recipe Manager";
+                icon = "mealie";
                 widget = {
                   type = "mealie";
                   url = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
@@ -485,6 +521,7 @@ in
             { Immich = {
                 href = "${svc.immich.protocol}://${svc.immich.ip}:${builtins.toString svc.immich.port}";
                 description = "Photo Library";
+                icon = "immich";
                 widget = {
                   type = "immich";
                   url = "http://${svc.immich.ip}:${builtins.toString svc.immich.port}";
@@ -497,10 +534,12 @@ in
             { Dawarich = {
                 href = "${svc.dawarich.protocol}://${svc.dawarich.ip}:${builtins.toString svc.dawarich.port}";
                 description = "Location History";
+                icon = "dawarich";
             }; }
             { Karakeep = {
                 href = "${svc.karakeep.protocol}://${svc.karakeep.ip}:${builtins.toString svc.karakeep.port}";
                 description = "Bookmarks";
+                icon = "karakeep";
                 widget = {
                   type = "karakeep";
                   url = "http://${svc.karakeep.ip}:${builtins.toString svc.karakeep.port}";

@@ -1,4 +1,14 @@
 { config, ... }:
+let
+  prom = config.custom.world.services.prometheus;
+  loki = config.custom.world.services.loki;
+  # Talk to the stack directly over IP:port. The public Traefik-routed
+  # `${protocol}://${domain}` only exists for hosts the ingress VM can
+  # reach with valid TLS — the sandbox monitor (vm_test) doesn't have a
+  # cert, so we bypass DNS/Traefik entirely on the LAN.
+  promURL = "http://${prom.ip}:${toString prom.port}/api/v1/write";
+  lokiURL = "http://${loki.ip}:${toString loki.port}/loki/api/v1/push";
+in
 {
   # Configure Alloy to send the data to my central monitoring server
   services.alloy.enable = true;
@@ -6,19 +16,21 @@
   # make the alloy config file, there is no module support yet
   environment.etc."alloy/config.alloy" = {
     text = ''
-      // Prometheus remote write endpoint
+      // Prometheus remote write endpoint (LAN, direct to monitor host)
       prometheus.remote_write "default" {
         endpoint {
-          // Traefik handles routing/TLS; no explicit port
-          url = "${config.custom.world.services.prometheus.protocol}://${config.custom.world.services.prometheus.domain}/api/v1/write"
+          url = "${promURL}"
+          basic_auth {
+            username      = "push"
+            password_file = "${config.sops.secrets."prometheus/push_password".path}"
+          }
         }
       }
 
-      // Loki remote write endpoint
+      // Loki remote write endpoint (LAN, direct to monitor host)
       loki.write "default" {
         endpoint {
-          // Traefik handles routing/TLS; no explicit port
-          url = "${config.custom.world.services.loki.protocol}://${config.custom.world.services.loki.domain}/loki/api/v1/push"
+          url = "${lokiURL}"
         }
       }
 

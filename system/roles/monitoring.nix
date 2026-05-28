@@ -3,6 +3,7 @@
   imports = [
     ../modules/monitoring/prometheus.nix
     ../modules/monitoring/alloy.nix
+    ../modules/monitoring/secrets/secrets_monitoring_agent.nix
   ];
 }
 

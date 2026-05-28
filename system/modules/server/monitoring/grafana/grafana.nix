@@ -6,14 +6,26 @@
   ...
 }:
 {
+  imports = [
+    # Datasources are split per-backend; each file appends to
+    # services.grafana.provision.datasources.settings.datasources.
+    ./provision/data_sources/prometheus.nix
+    ./provision/data_sources/loki.nix
+    ./provision/data_sources/tempo.nix
 
-  networking.firewall.allowedTCPPorts = [ config.custom.world.services.grafana.port ]; # 3000 for Grafana
+    # Dashboards
+    ./provision/dashboards/node-exporter.nix
+    ./provision/dashboards/traefik-dashboard.nix
+  ];
+
+  #networking.firewall.allowedTCPPorts = [ config.custom.world.services.grafana.port ]; # 3000 for Grafana
 
   services.grafana = {
     enable = true;
 
     # Not available yet, so done manually above
-    #openFirewall = true;
+    # Should be available now
+    openFirewall = true;
 
     dataDir = config.custom.world.services.grafana.dataDir;
 
@@ -22,6 +34,11 @@
     #  grafana-piechart-panel
     #  grafana-worldmap-panel
     #  grafana-clock-panel
+    #  restoring drilldown functionality lost by using declarative plugins
+    #  grafana-metricsdrilldown-app
+    #  grafana-lokiexplore-app
+    #  grafana-exploretraces-app
+    #  grafana-pyroscope-app
     #];
 
     settings = {
@@ -55,95 +72,26 @@
 
       # Reverse Proxy settings
     };
+  };
 
-    provision = {
-      # Declaring our Prometheus, Loki, and Tempo datasources
-      datasources = {
-        settings = {
-          datasources = [
-            {
-              name = "Prometheus";
-              type = "prometheus";
-              uid = "prometheus";
-              url = "${config.custom.world.services.prometheus.protocol}://localhost:${toString config.custom.world.services.prometheus.port}";
-
-              # TODO testing
-              jsonData = {
-                basicAuth = true;
-                basicAuthUser = "${config.sops.secrets."prometheus/push_user".value}";
-                #basicAuthPassword = "${config.sops.secrets."prometheus/push_password".value}";
-              };
-              secureJsonData = {
-                basicAuthPassword = "$__file{${config.sops.secrets."prometheus/push_password".path}}";
-              };
-
-            }
-            {
-              name = "Loki";
-              type = "loki";
-              uid = "loki";
-              url = "${config.custom.world.services.loki.protocol}://localhost:${toString config.custom.world.services.loki.port}";
-            }
-            {
-              name = "Tempo";
-              type = "tempo";
-              uid = "tempo";
-              url = "${config.custom.world.services.tempo.protocol}://localhost:${toString config.custom.world.services.tempo.port}";
-              jsonData = {
-                tracesToLogs = {
-                  datasourceUid = "loki";
-                  tags = [
-                    "job"
-                    "host"
-                  ];
-                };
-                tracesToMetrics = {
-                  datasourceUid = "prometheus";
-                  tags = [
-                    {
-                      key = "service.name";
-                      value = "service";
-                    }
-                    { key = "job"; }
-                  ];
-                  queries = [
-                    {
-                      name = "Sample query";
-                      query = "sum(rate(tempo_spanmetrics_latency_bucket{$$__tags}[5m]))";
-                    }
-                  ];
-                };
-                serviceMap = {
-                  datasourceUid = "prometheus";
-                };
-                nodeGraph.enabled = true;
-                search = {
-                  hide = false;
-                };
-              };
-            }
-          ];
-        };
-      };
+  # Traefik config to route traffic to Grafana (only when traefik is enabled on this host).
+  services.traefik.dynamicConfigOptions = lib.mkIf config.services.traefik.enable {
+    http.routers.grafana = {
+      entryPoints = [
+        "http"
+        "https"
+      ];
+      rule = "Host(`${config.custom.world.services.grafana.domain}`)";
+      service = "grafana";
+      tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
+      tls.certResolver = "myresolver";
     };
-  };
 
-  # Traefik config to route traffic to Grafana
-  services.traefik.dynamicConfigOptions.http.routers.grafana = {
-    entryPoints = [
-      "http"
-      "https"
-    ];
-    rule = "Host(`${config.custom.world.services.grafana.domain}`)";
-    service = "grafana";
-    tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
-    tls.certResolver = "myresolver";
-  };
-
-  services.traefik.dynamicConfigOptions.http.services.grafana = {
-    loadBalancer = {
-      passHostHeader = true;
-      servers = [ { url = "http://${config.custom.world.services.grafana.ip}:${toString config.custom.world.services.grafana.port}"; } ];
+    http.services.grafana = {
+      loadBalancer = {
+        passHostHeader = true;
+        servers = [ { url = "http://${config.custom.world.services.grafana.ip}:${toString config.custom.world.services.grafana.port}"; } ];
+      };
     };
   };
 }

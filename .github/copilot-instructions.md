@@ -16,6 +16,7 @@ To add a new host to the system, you need to follow these steps:
     - Create a new configuration file in `hosts/
   - If the host is a proxmox VM:
     - Create a new VM configuration file in `hosts/proxmox/vms/`
+    - The VM ID should match the last octet of the host IP
 2. New entry in `flake.nix`
 3. Add the host's IP address to `lib/world/hosts.nix`
 4. Add the host entry to `users/gideon/configs/ssh/ssh.nix` for SSH access

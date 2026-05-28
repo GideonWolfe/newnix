@@ -199,26 +199,28 @@
     4318 # OTLP HTTP
   ];
 
-  # Traefik routing for Tempo
-  services.traefik.dynamicConfigOptions.http.routers.tempo = {
-    rule = "Host(`${config.custom.world.services.tempo.domain}`)";
-    service = "tempo";
-    entryPoints = [
-      "http"
-      "https"
-    ];
-    tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
-    tls.certResolver = "myresolver";
-  };
-
-  services.traefik.dynamicConfigOptions.http.services.tempo = {
-    loadBalancer = {
-      passHostHeader = true;
-      servers = [
-        {
-          url = "http://${config.custom.world.services.tempo.ip}:${toString config.custom.world.services.tempo.port}";
-        }
+  # Traefik routing for Tempo (only when traefik is enabled on this host)
+  services.traefik.dynamicConfigOptions = lib.mkIf config.services.traefik.enable {
+    http.routers.tempo = {
+      rule = "Host(`${config.custom.world.services.tempo.domain}`)";
+      service = "tempo";
+      entryPoints = [
+        "http"
+        "https"
       ];
+      tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
+      tls.certResolver = "myresolver";
+    };
+
+    http.services.tempo = {
+      loadBalancer = {
+        passHostHeader = true;
+        servers = [
+          {
+            url = "http://${config.custom.world.services.tempo.ip}:${toString config.custom.world.services.tempo.port}";
+          }
+        ];
+      };
     };
   };
 }

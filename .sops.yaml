@@ -79,3 +79,22 @@ creation_rules:
           - *hades
         pgp:
           - *gideon
+  - path_regex: secrets_monitoring.yaml$
+    key_groups:
+      - age:
+          - *vm-test
+        pgp:
+          - *gideon
+  - path_regex: secrets_monitoring_agent.yaml$
+    key_groups:
+      - age:
+          - *poseidon
+          - *hades
+          - *athena
+          - *vm-media
+          - *vm-app1
+          - *vm-app2
+          - *vm-ingress
+          - *vm-test
+        pgp:
+          - *gideon

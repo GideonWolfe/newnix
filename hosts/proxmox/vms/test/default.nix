@@ -7,6 +7,21 @@
         #../../../../system/modules/server/apps/vikunja
         ../../../../system/modules/server/apps/baikal
         # karakeep moved to vm-app2
+
+        # Full monitoring stack (Grafana + Prometheus + Loki + Tempo + Alloy).
+        # Sandboxed here while we tune it; promote to a dedicated VM later.
+        # Note: lib/world/services.nix already points the stack service
+        # IPs at vm_test, so no per-host overrides are needed.
+        ../../../../system/modules/server/monitoring/monitoring.nix
+    ];
+
+    # The agent alloy/prometheus from system/roles/monitoring.nix (pulled
+    # in by hosts/proxmox/default.nix) would clash with the local stack
+    # alloy and double-enable node_exporter. Drop them on this host.
+    disabledModules = [
+        ../../../../system/modules/monitoring/alloy.nix
+        ../../../../system/modules/monitoring/prometheus.nix
+        ../../../../system/modules/monitoring/secrets/secrets_monitoring_agent.nix
     ];
 
     # Unique hostname for this VM

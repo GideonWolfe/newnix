@@ -55,26 +55,28 @@
   # Open firewall for Loki
   networking.firewall.allowedTCPPorts = [ config.custom.world.services.loki.port ];
 
-  # Traefik routing for Loki
-  services.traefik.dynamicConfigOptions.http.routers.loki = {
-    rule = "Host(`${config.custom.world.services.loki.domain}`)";
-    service = "loki";
-    entryPoints = [
-      "http"
-      "https"
-    ];
-    tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
-    tls.certResolver = "myresolver";
-  };
-
-  services.traefik.dynamicConfigOptions.http.services.loki = {
-    loadBalancer = {
-      passHostHeader = true;
-      servers = [
-        {
-          url = "http://${config.custom.world.services.loki.ip}:${toString config.custom.world.services.loki.port}";
-        }
+  # Traefik routing for Loki (only when traefik is enabled on this host)
+  services.traefik.dynamicConfigOptions = lib.mkIf config.services.traefik.enable {
+    http.routers.loki = {
+      rule = "Host(`${config.custom.world.services.loki.domain}`)";
+      service = "loki";
+      entryPoints = [
+        "http"
+        "https"
       ];
+      tls.domains = [ { main = "*.gideonwolfe.xyz"; } ];
+      tls.certResolver = "myresolver";
+    };
+
+    http.services.loki = {
+      loadBalancer = {
+        passHostHeader = true;
+        servers = [
+          {
+            url = "http://${config.custom.world.services.loki.ip}:${toString config.custom.world.services.loki.port}";
+          }
+        ];
+      };
     };
   };
 }

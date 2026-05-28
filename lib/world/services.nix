@@ -40,12 +40,14 @@ in
     ####################
     # Monitoring Stack #
     ####################
+    # NOTE: temporarily homed on the vm_test sandbox while we tune the
+    # stack. Flip these back to `hosts.monitor.ip` once promoted.
     grafana = mkService {
       name = "Grafana";
-      ip = config.custom.world.hosts.monitor.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 3000;
       domain = "cromulus.gideonwolfe.xyz";
-      protocol = "https";
+      protocol = "http";
       extraOptions = {
         dataDir = lib.mkOption {
           type = lib.types.str;
@@ -56,21 +58,21 @@ in
     };
     prometheus = mkService {
       name = "Prometheus";
-      ip = config.custom.world.hosts.monitor.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 9090;
       domain = "prom.gideonwolfe.xyz";
-      protocol = "https";
+      protocol = "http";
     };
     loki = mkService {
       name = "Loki";
-      ip = config.custom.world.hosts.monitor.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 3100;
       domain = "loki.gideonwolfe.xyz";
-      protocol = "https";
+      protocol = "http";
     };
     tempo = mkService {
       name = "Tempo";
-      ip = config.custom.world.hosts.monitor.ip;
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 3200;
       domain = "tempo.gideonwolfe.xyz";
       protocol = "http";
