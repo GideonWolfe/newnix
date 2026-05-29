@@ -225,7 +225,7 @@ in
     calibre-web-automated = mkService {
       name = "Calibre-Web-Automated";
       ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
-      domain = "";
+      domain = "cw.gideonwolfe.xyz";
       port = 8083;
       protocol = "http";
     };
