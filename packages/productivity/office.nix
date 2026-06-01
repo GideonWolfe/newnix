@@ -52,6 +52,7 @@
     #pkgs.texliveFull # full latex environment
     pkgs.texstudio # LaTeX Editor
     pkgs.texliveMinimal # Minimal latex environment
+    pkgs.citations # Manage BibTex bibliography files
 
 
     ######################

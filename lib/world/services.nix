@@ -229,6 +229,14 @@ in
       port = 8083;
       protocol = "http";
     };
+    shelfmark = mkService {
+      name = "Shelfmark";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      # LAN-only companion to CWA - no Traefik router, no public DNS.
+      domain = "";
+      port = 8084;
+      protocol = "http";
+    };
     pinchflat = mkService {
       name = "Pinchflat";
       ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;

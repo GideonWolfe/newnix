@@ -5,7 +5,8 @@
         ../../../../system/modules/server/apps/romm/romm.nix
         ../../../../system/modules/server/apps/mealie
         ../../../../system/modules/server/apps/calibre-web-automated
-        ../../../../system/modules/server/apps/pinchflat
+        ../../../../system/modules/server/apps/shelfmark
+        #../../../../system/modules/server/apps/pinchflat
         ../../../../system/modules/server/apps/immich
         ../../../../system/modules/server/apps/dawarich
     ];

@@ -13,6 +13,7 @@ in
     pkgs.ticker
     pkgs.tickrs
     pkgs.gnucash # basic accounting software
+    pkgs.valuta # GTK currency converter 
     #pkgs.wealthfolio # local finance/portfolio tracker # BUILD ERROR
     gloomberb # Bloomberg-style terminal portfolio tracker
   ];

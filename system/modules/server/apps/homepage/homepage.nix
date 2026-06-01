@@ -243,6 +243,20 @@ in
                 icon = "crowdsec";
                 description = "Console";
             }; }
+            {
+              "Router" = {
+                href = "http://${hosts.router.ip}";
+                description = "Router Dashboard";
+                icon = "mikrotik";
+                widget = {
+                  type = "mikrotik";
+                  url = "http://${config.custom.world.hosts.router.ip}";
+                  username = "{{HOMEPAGE_VAR_MIKROTIK_USERNAME}}";
+                  password = "{{HOMEPAGE_VAR_MIKROTIK_PASSWORD}}";
+                  fields = [ "uptime" "cpuLoad" "memoryUsed" "numberOfLeases" ];
+                };
+              };
+            }
           ];
         }
 
@@ -278,6 +292,13 @@ in
                 password = "{{HOMEPAGE_VAR_CALIBRE_PASSWORD}}";
                 fields = [ "books" "authors" "categories" "series" ];
               };
+            };
+          }
+          {
+            Shelfmark = {
+              href = "http://${svc.shelfmark.ip}:${builtins.toString svc.shelfmark.port}";
+              description = "Ebook Downloader";
+              icon = "shelfmark";
             };
           }
         ];
@@ -457,20 +478,6 @@ in
             };
           }
           {
-            "Router" = {
-              href = "http://${hosts.router.ip}";
-              description = "Router Dashboard";
-              icon = "mikrotik";
-              widget = {
-                type = "mikrotik";
-                url = "http://${config.custom.world.hosts.router.ip}";
-                username = "{{HOMEPAGE_VAR_MIKROTIK_USERNAME}}";
-                password = "{{HOMEPAGE_VAR_MIKROTIK_PASSWORD}}";
-                fields = [ "uptime" "cpuLoad" "memoryUsed" "numberOfLeases" ];
-              };
-            };
-          }
-          {
             "Scrutiny" = {
               href = "${svc.scrutiny.protocol}://${svc.scrutiny.ip}:${builtins.toString svc.scrutiny.port}";
               description = "Disk Health (mnemosyne)";
@@ -560,20 +567,29 @@ in
         {
           VMs = [
             { "vm-ingress" = {
-                href = "ssh://${hosts.proxmox.vms.vm_ingress.ip}";
+                href = "ssh://vm-ingress";
                 description = "Ingress / Traefik";
+                icon = "mdi-monitor";
             }; }
             { "vm-app1" = {
-                href = "ssh://${hosts.proxmox.vms.vm_app1.ip}";
+                href = "ssh://vm-app1";
                 description = "Applications";
+                icon = "mdi-monitor";
+            }; }
+            { "vm-app2" = {
+                href = "ssh://vm-app2";
+                description = "Applications";
+                icon = "mdi-monitor";
             }; }
             { "vm-media" = {
-                href = "ssh://${hosts.proxmox.vms.vm_media.ip}";
+                href = "ssh://vm-media";
                 description = "Media Stack";
+                icon = "mdi-monitor";
             }; }
             { "vm-test" = {
-                href = "ssh://${hosts.proxmox.vms.vm_test.ip}";
+                href = "ssh://vm-test";
                 description = "Test / Scratch";
+                icon = "mdi-monitor";
             }; }
           ];
         }

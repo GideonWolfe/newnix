@@ -16,6 +16,7 @@
     simulide # Simple real time electronic circuit simulator
     kicad-small # PCB designer
     coulomb # GUI circuit simulator
+    gtkwave # GTK waveform viewer
     (pkgs.callPackage ../../custom/color-code.nix { }) # resistor color code calculator
 
   ];
