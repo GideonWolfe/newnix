@@ -73,6 +73,7 @@
     niri = { url = "github:sodiboo/niri-flake"; };
 
     # Dank Material Shell
+    # TODO: programs.dms-shell is in 26.05, but not sure it comes with HM module
     dms = { 
       url = "github:AvengeMedia/DankMaterialShell/stable"; 
       inputs.nixpkgs.follows = "nixpkgs";

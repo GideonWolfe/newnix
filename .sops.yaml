@@ -51,6 +51,18 @@ creation_rules:
           - *vm-app1
         pgp:
           - *gideon
+  - path_regex: secrets_tubearchivist.yaml$
+    key_groups:
+      - age:
+          - *vm-app2
+        pgp:
+          - *gideon
+  - path_regex: secrets_freshrss.yaml$
+    key_groups:
+      - age:
+          - *vm-app2
+        pgp:
+          - *gideon
   - path_regex: secrets_karakeep.yaml$
     key_groups:
       - age:

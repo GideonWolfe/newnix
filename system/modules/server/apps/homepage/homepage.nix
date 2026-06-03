@@ -505,6 +505,16 @@ in
             #     href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
             #     description = "Paperless-ngx";
             # }; }
+            { "IT Tools" = {
+                href = "${svc.it-tools.protocol}://${svc.it-tools.ip}:${builtins.toString svc.it-tools.port}";
+                description = "Developer Utilities";
+                icon = "it-tools";
+            }; }
+            { FreshRSS = {
+                href = "${svc.freshrss.protocol}://${svc.freshrss.ip}:${builtins.toString svc.freshrss.port}";
+                description = "RSS Reader";
+                icon = "freshrss";
+            }; }
             { Romm = {
                 href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
                 description = "Emulation Library";

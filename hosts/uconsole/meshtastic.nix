@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+#TODO: as of NixOS 26.05, there is services.meshtasticd in nixpkgs
+
 # Meshtastic/LoRa configuration for HackerGadgets uConsole AIO Extension Board
 # Reference: https://hackergadgets.com/pages/hackergadgets-uconsole-rtl-sdr-lora-gps-rtc-usb-hub-all-in-one-extension-board-setup-guide
 # Meshtasticd docs: https://meshtastic.org/docs/hardware/devices/linux-native-hardware/

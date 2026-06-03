@@ -20,7 +20,6 @@
 # in ./secrets/secrets_tubearchivist.nix. ELASTIC_PASSWORD must match
 # between the TA container and the ES container.
 
-#### TODO #### Not actually tested yet
 
 let
   svc = config.custom.world.services.tubearchivist;

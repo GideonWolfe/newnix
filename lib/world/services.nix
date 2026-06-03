@@ -280,6 +280,20 @@ in
       domain = "";
       protocol = "http";
     };
+    it-tools = mkService {
+      name = "IT-Tools";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
+      port = 8765;
+      domain = "";
+      protocol = "http";
+    };
+    freshrss = mkService {
+      name = "FreshRSS";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
+      port = 8766;
+      domain = "";
+      protocol = "http";
+    };
     baikal = mkService {
       name = "Baikal";
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;

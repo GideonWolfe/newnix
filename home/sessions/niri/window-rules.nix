@@ -49,5 +49,10 @@ with config.lib.stylix.colors.withHashtag;
     #   matches = [ { app-id = "^signal$"; } ];
     #   border.active.color = "${blue}";
     # }
+
+    # Open all other windows maximized by default
+    {
+      open-maximized = true;
+    }
   ];
 }
