@@ -21,4 +21,8 @@ in {
     proteinview
 
   ];
+
+    services.flatpak.packages = [
+        "io.github.pemsley.coot"
+    ];
 }

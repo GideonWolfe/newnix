@@ -301,6 +301,23 @@ in
       domain = "baikal.gideonwolfe.xyz";
       protocol = "https";
     };
+    forgejo = mkService {
+      name = "Forgejo";
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+      # Web UI. Forgejo's container listens on 3000 internally; we publish
+      # to 3030 on the host so we don't collide with karakeep (3000) on
+      # other VMs / future migrations.
+      port = 3030;
+      domain = "";
+      protocol = "http";
+      extraOptions = {
+        sshPort = lib.mkOption {
+          type = lib.types.port;
+          default = 2222;
+          description = "Host port forwarded to forgejo's built-in SSH (container :22)";
+        };
+      };
+    };
     scrutiny = mkService {
       name = "Scrutiny";
       ip = config.custom.world.hosts.mnemosyne.ip;

@@ -21,7 +21,7 @@
     touchpad = {
       tap = true;
       # Disable touchpad while typing, could interfere with games
-      dwt = true;
+      dwt = false;
       natural-scroll = true;
       click-method = "clickfinger";
     };

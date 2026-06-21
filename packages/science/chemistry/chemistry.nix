@@ -24,4 +24,8 @@ in
         pkgs.brewtarget # beer recipe creation tool
 
 	];
+
+    services.flatpak.packages = [
+        "io.github.ksharindam.chemcanvas"
+    ];
 }

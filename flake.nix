@@ -4,36 +4,50 @@
   inputs = {
 
     # Stable packages
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-25.11"; };
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixos-25.11";
+    };
 
     # Unstable packages
-    nixpkgs-unstable = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
+    nixpkgs-unstable = {
+      url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
 
     # Hardware support configurations
-    nixos-hardware = { url = "github:NixOS/nixos-hardware/master"; };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
 
     # User configuration manager
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
 
     # My personal wallpaper collection
     wallpapers = {
       url = "github:gideonwolfe/wallpapers/master";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
 
     # Theming engine
     stylix = {
       url = "github:nix-community/stylix/release-25.11";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
 
     # Declerative disk/filesystem management
     disko = {
       url = "github:nix-community/disko/latest";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
 
     spicetify-nix = {
@@ -60,22 +74,30 @@
     };
 
     # Terraform Generator
-    terranix = { url = "github:terranix/terranix"; };
+    terranix = {
+      url = "github:terranix/terranix";
+    };
 
     # cool visualizer
-    xyosc = { url = "github:make-42/xyosc"; };
+    xyosc = {
+      url = "github:make-42/xyosc";
+    };
 
-    dsd-fme = { url = "github:lwvmobile/dsd-fme"; };
+    dsd-fme = {
+      url = "github:lwvmobile/dsd-fme";
+    };
 
     # provides some AI tools like crush (maybe redundant later)
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
 
-    niri = { url = "github:sodiboo/niri-flake"; };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+    };
 
     # Dank Material Shell
     # TODO: programs.dms-shell is in 26.05, but not sure it comes with HM module
-    dms = { 
-      url = "github:AvengeMedia/DankMaterialShell/stable"; 
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dms-plugin-registry = {
@@ -99,14 +121,43 @@
       flake = false;
     };
 
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+    };
+
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, deploy-rs, terranix, wallpapers, nixvim, stylix, sops-nix, disko, dsd-fme, niri, spicetify-nix, dms, dgop, danksearch, xyosc, nix-ai-tools, liixini-shaders, ...  }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      nixos-hardware,
+      home-manager,
+      deploy-rs,
+      terranix,
+      wallpapers,
+      nixvim,
+      stylix,
+      sops-nix,
+      disko,
+      dsd-fme,
+      niri,
+      spicetify-nix,
+      dms,
+      dgop,
+      danksearch,
+      xyosc,
+      nix-ai-tools,
+      liixini-shaders,
+      nix-flatpak,
+      ...
+    }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-    in {
-
+    in
+    {
 
       ################
       # Example Host #
@@ -115,19 +166,17 @@
       nixosConfigurations.example-host = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/example-host
-        ];
+        modules = [ ./hosts/example-host ];
       };
       # Create a VM from this host
       # buld with nix build .#example-host-vm, run with nix run .#example-host-vm
-      packages.x86_64-linux.example-host-vm = self.nixosConfigurations.example-host.config.system.build.vm;
+      packages.x86_64-linux.example-host-vm =
+        self.nixosConfigurations.example-host.config.system.build.vm;
       # Deploy remotely to this host
       deploy.nodes.vm = {
         hostname = "example-host";
         profiles.system.path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.example-host;
       };
-
 
       ############
       # uConsole #
@@ -136,21 +185,21 @@
       nixosConfigurations.uconsole = lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/uconsole
-        ];
+        modules = [ ./hosts/uconsole ];
       };
       # Build targets
       # buld with nix build .#uconsole-image
       # WARNING: will result in resource intensive cross-compilation
-      packages.x86_64-linux.uconsole-image = self.nixosConfigurations.uconsole.config.system.build.sdImage;
-      packages.x86_64-linux.uconsole-nixos = self.nixosConfigurations.uconsole.config.system.build.toplevel;
+      packages.x86_64-linux.uconsole-image =
+        self.nixosConfigurations.uconsole.config.system.build.sdImage;
+      packages.x86_64-linux.uconsole-nixos =
+        self.nixosConfigurations.uconsole.config.system.build.toplevel;
       # Remotely deploy changes (so we don't have to bake images each time)
       deploy.nodes.uconsole = {
         hostname = "192.168.0.29";
         profiles.system.path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.uconsole;
       };
-      
+
       ############
       # Poseidon #
       ############
@@ -158,9 +207,7 @@
       nixosConfigurations.poseidon = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/poseidon
-        ];
+        modules = [ ./hosts/poseidon ];
       };
 
       #########
@@ -170,9 +217,7 @@
       nixosConfigurations.hades = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/hades
-        ];
+        modules = [ ./hosts/hades ];
       };
 
       # Build target and convenience alias: nix build .#poseidon
@@ -185,19 +230,19 @@
       # Base config for proxmox VM without any specific role
       # Can be used to generate image that can be deployed on proxmox
       # Then a more specific VM role can be layered on top and deployed to the running base VM
-      # Alternatively, the specific VM role can be deployed directly 
+      # Alternatively, the specific VM role can be deployed directly
       # with nixos-anywhere if the VM just boots a NixOS ISO
       nixosConfigurations.proxmox-base = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/proxmox
-        ];
+        modules = [ ./hosts/proxmox ];
       };
-      packages.x86_64-linux.proxmox-test-vm = self.nixosConfigurations.proxmox-base.config.system.build.vm;
+      packages.x86_64-linux.proxmox-test-vm =
+        self.nixosConfigurations.proxmox-base.config.system.build.vm;
 
       # Build a Proxmox VMA image using upstream module imported in the host config
-      packages.x86_64-linux.proxmox-base-vma = self.nixosConfigurations.proxmox-base.config.system.build.VMA;
+      packages.x86_64-linux.proxmox-base-vma =
+        self.nixosConfigurations.proxmox-base.config.system.build.VMA;
       # Media VM
       nixosConfigurations.vm-media = lib.nixosSystem {
         inherit system;
@@ -252,9 +297,7 @@
       nixosConfigurations.mnemosyne = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/mnemosyne
-        ];
+        modules = [ ./hosts/mnemosyne ];
       };
       deploy.nodes.mnemosyne = {
         hostname = "192.168.0.137";
@@ -350,16 +393,16 @@
       deploy = {
         sshUser = "gideon";
         #sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk" "-p" "2736"];
-        sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk"];
+        sshOpts = [
+          "-i"
+          "/home/gideon/.ssh/gideon_ssh_sk"
+        ];
         user = "root";
         fastConnection = true;
         interactiveSudo = true;
       };
       # Deploy checks to run before deployment
-      checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-
-
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     };
 

@@ -8,7 +8,11 @@ in {
     ########
     pkgs.newsboat # TUI RSS reader
     #pkgs.akregator #Qt RSS reader
-    pkgs.newsflash # GTK RSS reader
+    pkgs.newsflash # GTK RSS reader (Connects to FreshRSS)
     pkgs.rssguard # KDE RSS reader
   ];
+
+    services.flatpak.packages = [
+        "org.gnome.gitlab.cheywood.Pulp" # GTK RSS Reader (connects to FreshRSS)
+    ];
 }

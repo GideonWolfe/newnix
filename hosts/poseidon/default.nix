@@ -26,6 +26,8 @@
     #../../system/modules/networking/mnemosyne-nfs.nix
     ../../system/roles/home-lan.nix
 
+    ../../system/roles/gaming.nix # mainly to use aseprite via steam
+
     ../../system/modules/services/terraform
 
     ../../system/modules/networking/wireguard/wg-home.nix

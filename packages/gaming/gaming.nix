@@ -19,4 +19,8 @@
       pkgs.parallel-launcher # n64 emulator
       pkgs.gopher64 # n64 emulator
   ];
+
+    services.flatpak.packages = [
+        "de.hummdudel.Libellus"
+    ];
 }

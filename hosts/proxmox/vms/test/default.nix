@@ -6,7 +6,7 @@
         #../../../../system/modules/server/apps/tududi
         ../../../../system/modules/server/apps/vikunja
         ../../../../system/modules/server/apps/baikal
-        # karakeep moved to vm-app2
+        ../../../../system/modules/server/apps/forejo
 
         # Full monitoring stack (Grafana + Prometheus + Loki + Tempo + Alloy).
         # Sandboxed here while we tune it; promote to a dedicated VM later.
