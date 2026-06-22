@@ -253,8 +253,8 @@ with config.lib.stylix.colors;
           --slider-track-background: var(--neutral-green);
 
           --scrollbar-bg: transparent;
-          --scrollbar-thumb-bg: var(--neutral-green);
-          --scrollbar-active-thumb-bg: var(--neutral-blue);
+          --scrollbar-thumb-bg: rgba(var(--gray_x), 0.3);
+          --scrollbar-active-thumb-bg: rgba(var(--neutral-blue_x), 0.7);
 
           /* TESTING */
           --mer-text: #${base05};
@@ -970,6 +970,11 @@ with config.lib.stylix.colors;
           color: var(--dark0);
       }
 
+      /* combobox button: same orange bg as dropdowns, needs dark text */
+      .combobox-button {
+          color: var(--dark0);
+      }
+
       /* dropdown option list: light text on dark background */
       select option, .dropdown option {
           color: var(--text-normal);
@@ -979,6 +984,21 @@ with config.lib.stylix.colors;
       /* make math text green */
       mjx-math.MJX-TEX {
           color: var(--neutral-green) !important;
+      }
+
+      /* Scrollbars: thin and subtle at rest, accent color on hover.
+         The transparent border + padding-box clip keeps the thumb slim. */
+      ::-webkit-scrollbar {
+          width: 9px;
+          height: 9px;
+      }
+      ::-webkit-scrollbar-thumb {
+          border: 2px solid transparent;
+          background-clip: padding-box;
+          border-radius: 9px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+          background-color: var(--scrollbar-active-thumb-bg);
       }
 
     /* ===== TaskNotes ===== */
