@@ -965,15 +965,60 @@ with config.lib.stylix.colors;
           color: var(--dark0);
       }
 
-      /* make dropdown text dark */
+      /* dropdown button: dark text on orange --dropdown-background */
       select, .dropdown {
+          color: var(--dark0);
+      }
+
+      /* dropdown option list: light text on dark background */
+      select option, .dropdown option {
           color: var(--text-normal);
+          background-color: var(--background-secondary);
       }
 
       /* make math text green */
       mjx-math.MJX-TEX {
           color: var(--neutral-green) !important;
       }
+
+    /* ===== TaskNotes ===== */
+
+    /* Semantic state colors: drive due dates, overdue, blocked pills, time tracking */
+    .tasknotes-plugin {
+        --tn-color-error:   var(--color-red) !important;    /* overdue / blocked */
+        --tn-color-warning: var(--color-yellow) !important; /* due today */
+        --tn-color-success: var(--color-green) !important;  /* upcoming / completed */
+        --tn-color-info:    var(--color-blue) !important;   /* scheduled / tracking */
+    }
+
+    /* Priority dots: high=red, normal=orange, low=green. The dots use an inline
+       --current-priority-color, so override background-color directly. The child
+       combinator (>) stops subtasks inheriting the parent's priority color. */
+    .tasknotes-plugin .task-card--priority-high > .task-card__main-row .task-card__priority-dot {
+        background-color: var(--color-red) !important;
+    }
+    .tasknotes-plugin .task-card--priority-normal > .task-card__main-row .task-card__priority-dot {
+        background-color: var(--color-orange) !important;
+    }
+    .tasknotes-plugin .task-card--priority-low > .task-card__main-row .task-card__priority-dot {
+        background-color: var(--color-green) !important;
+    }
+
+    /* Status dots: keyed by status value. open/in-progress render as rings (border
+       only), done renders as a filled circle (background + border). */
+    .tasknotes-plugin .task-card[data-status="done"] > .task-card__main-row .task-card__status-dot {
+        background-color: var(--color-green) !important;
+        border-color: var(--color-green) !important;
+    }
+    .tasknotes-plugin .task-card[data-status="in-progress"] > .task-card__main-row .task-card__status-dot {
+        border-color: var(--color-blue) !important;
+    }
+    .tasknotes-plugin .task-card[data-status="open"] > .task-card__main-row .task-card__status-dot {
+        border-color: var(--text-muted) !important;
+    }
+    .tasknotes-plugin .task-card[data-status="none"] > .task-card__main-row .task-card__status-dot {
+        border-color: var(--text-faint) !important;
+    }
 
     '';
 
