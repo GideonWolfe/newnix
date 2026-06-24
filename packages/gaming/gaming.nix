@@ -8,6 +8,7 @@
       #pkgs.nexusmods-app-unfree
       pkgs.mangohud
       pkgs.jstest-gtk #joystick tester
+      pkgs.oversteer # Steering wheel manager
       pkgs.cutechess # chess engine
       pkgs.maptool # VTT for tabletop games
       pkgs.flips # IPS and BPS patcher (for making romhacks)

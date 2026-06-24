@@ -6,6 +6,8 @@
 			#!/usr/bin/env bash
 			set -euo pipefail
 
+			docker system prune -a -f
+
 			nix-collect-garbage -d
 			nix-collect-garbage
 			sudo nix-collect-garbage

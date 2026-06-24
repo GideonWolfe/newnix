@@ -17,6 +17,9 @@
     bemenu # like dmenu, required by sth
     kando # pie menu
 
+    # Flathub GUI
+    bazaar
+
     #############
     # Terminals #
     #############

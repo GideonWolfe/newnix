@@ -5,7 +5,12 @@
   services.prometheus.exporters.zfs = {
     enable = true;
     pools = [ "tank" ]; 
-    #extraFlags = [];
+    extraFlags = [ 
+      # Track snapshots individually
+      #"--collector.dataset-snapshot" 
+      # Make sure we're grabbing "usedbysnapshots" for dataset values
+      "--properties.dataset-filesystem=available,logicalused,quota,referenced,used,usedbydataset,usedbysnapshots,written"
+    ];
   };
 
   # Append ZFS scrape job to the existing Alloy config provided by the monitoring role
