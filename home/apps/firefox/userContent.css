@@ -145,6 +145,9 @@
   /* used in Warning Potential Security Risk Ahead page */
   --warning-color: var(--theme-highlight-yellow) !important;
 
+  /* fixing black text on "Proceed with caution" and similar pages */
+  --text-color: var(--theme-body-color) !important;
+
 }
 
 /* toggle buttons, used in PDF tool dropdown menus */
