@@ -34,6 +34,10 @@
 
     # Host a local dashboard for easy access to services
     ../../system/modules/server/apps/homepage/homepage.nix
+
+    # Testing Gatus
+    ../../system/modules/server/monitoring/gatus/gatus.nix
+    ../../system/modules/server/monitoring/gatus/endpoints.nix
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

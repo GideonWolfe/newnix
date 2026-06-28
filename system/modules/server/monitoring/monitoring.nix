@@ -1,5 +1,7 @@
 {
   imports = [
+    # Status page / uptime dashboard.
+    ./gatus
     # Metrics Server
     ./prometheus/prometheus.nix
     # Logs Server

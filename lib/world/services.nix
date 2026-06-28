@@ -77,6 +77,13 @@ in
       domain = "tempo.gideonwolfe.xyz";
       protocol = "http";
     };
+    gatus = mkService {
+      name = "Gatus";
+      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+      port = 8085;
+      #domain = "status.gideonwolfe.xyz";
+      protocol = "http";
+    };
 
     ################
     # Home Network #
@@ -180,25 +187,25 @@ in
     };
     
     # Other Apps
-    netbox = mkService {
-      name = "NetBox";
-      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
-      port = 9001;
-      domain = "";
-      protocol = "http";
-    };
-    paperless = mkService {
-      name = "Paperless-ngx";
-      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
-      port = 4232;
-      domain = "";
-      protocol = "http";
-    };
-    kiwix = mkService {
-      name = "Kiwix";
-      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
-      port = 4302;
-    };
+    # netbox = mkService {
+    #   name = "NetBox";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
+    #   port = 9001;
+    #   domain = "";
+    #   protocol = "http";
+    # };
+    # paperless = mkService {
+    #   name = "Paperless-ngx";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+    #   port = 4232;
+    #   domain = "";
+    #   protocol = "http";
+    # };
+    # kiwix = mkService {
+    #   name = "Kiwix";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+    #   port = 4302;
+    # };
     romm = mkService {
       name = "RomM";
       ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
@@ -237,13 +244,13 @@ in
       port = 8084;
       protocol = "http";
     };
-    pinchflat = mkService {
-      name = "Pinchflat";
-      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
-      port = 8945;
-      domain = "";
-      protocol = "http";
-    };
+    # pinchflat = mkService {
+    #   name = "Pinchflat";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+    #   port = 8945;
+    #   domain = "";
+    #   protocol = "http";
+    # };
     dawarich = mkService {
       name = "Dawarich";
       ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
@@ -258,28 +265,28 @@ in
       domain = "kk.gideonwolfe.xyz";
       protocol = "https";
     };
-    tubearchivist = mkService {
-      name = "TubeArchivist";
-      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
-      # TA's container listens on 8000; we publish 1:1 to the VM.
-      port = 8000;
-      domain = "";
-      protocol = "http";
-    };
-    tududi = mkService {
-      name = "Tududi";
-      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      port = 3002;
-      domain = "";
-      protocol = "http";
-    };
-    vikunja = mkService {
-      name = "Vikunja";
-      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      port = 3456;
-      domain = "";
-      protocol = "http";
-    };
+    # tubearchivist = mkService {
+    #   name = "TubeArchivist";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
+    #   # TA's container listens on 8000; we publish 1:1 to the VM.
+    #   port = 8000;
+    #   domain = "";
+    #   protocol = "http";
+    # };
+    # tududi = mkService {
+    #   name = "Tududi";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+    #   port = 3002;
+    #   domain = "";
+    #   protocol = "http";
+    # };
+    # vikunja = mkService {
+    #   name = "Vikunja";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+    #   port = 3456;
+    #   domain = "";
+    #   protocol = "http";
+    # };
     it-tools = mkService {
       name = "IT-Tools";
       ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
@@ -299,25 +306,25 @@ in
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 8800;
       domain = "baikal.gideonwolfe.xyz";
-      protocol = "https";
-    };
-    forgejo = mkService {
-      name = "Forgejo";
-      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      # Web UI. Forgejo's container listens on 3000 internally; we publish
-      # to 3030 on the host so we don't collide with karakeep (3000) on
-      # other VMs / future migrations.
-      port = 3030;
-      domain = "";
       protocol = "http";
-      extraOptions = {
-        sshPort = lib.mkOption {
-          type = lib.types.port;
-          default = 2222;
-          description = "Host port forwarded to forgejo's built-in SSH (container :22)";
-        };
-      };
     };
+    # forgejo = mkService {
+    #   name = "Forgejo";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+    #   # Web UI. Forgejo's container listens on 3000 internally; we publish
+    #   # to 3030 on the host so we don't collide with karakeep (3000) on
+    #   # other VMs / future migrations.
+    #   port = 3030;
+    #   domain = "";
+    #   protocol = "http";
+    #   extraOptions = {
+    #     sshPort = lib.mkOption {
+    #       type = lib.types.port;
+    #       default = 2222;
+    #       description = "Host port forwarded to forgejo's built-in SSH (container :22)";
+    #     };
+    #   };
+    # };
     scrutiny = mkService {
       name = "Scrutiny";
       ip = config.custom.world.hosts.mnemosyne.ip;

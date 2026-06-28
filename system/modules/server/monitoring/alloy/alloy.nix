@@ -6,8 +6,8 @@ let
 
   # Grab GeoIP database for geo lookups
   geoipDB = pkgs.fetchurl {
-    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.05.28/GeoLite2-City.mmdb";
-    sha256 = "sha256-67jtz5N4a5ZDtkdMljTv5bwDm2JWM6YskJlfsgnUlkc=";
+    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.06.25/GeoLite2-City.mmdb";
+    sha256 = "sha256-eZNHdpqeOs+gIsUwx3M9xcYOru2hqvVyHPHcOqsNiVo=";
   };
 in
 {

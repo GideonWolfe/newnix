@@ -4,9 +4,9 @@
     # being trialled here — promote to a dedicated VM once they're stable.
     imports = [
         #../../../../system/modules/server/apps/tududi
-        ../../../../system/modules/server/apps/vikunja
+        #../../../../system/modules/server/apps/vikunja
         ../../../../system/modules/server/apps/baikal
-        ../../../../system/modules/server/apps/forejo
+        #../../../../system/modules/server/apps/forejo
 
         # Full monitoring stack (Grafana + Prometheus + Loki + Tempo + Alloy).
         # Sandboxed here while we tune it; promote to a dedicated VM later.

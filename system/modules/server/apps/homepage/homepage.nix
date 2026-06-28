@@ -204,18 +204,23 @@ in
       #################
         {
           Monitoring = [
+            { Gatus = {
+                href = "${svc.gatus.protocol}://${svc.gatus.ip}:${builtins.toString svc.gatus.port}";
+                description = "Uptime Dashboard";
+                icon = "gatus";
+            }; }
             { Grafana = {
-                href = "${svc.grafana.protocol}://${svc.grafana.domain}";
+                href = "${svc.grafana.protocol}://${svc.grafana.ip}:${builtins.toString svc.grafana.port}";
                 description = "Dashboard";
                 icon = "grafana";
             }; }
             { Prometheus = {
-                href = "${svc.prometheus.protocol}://${svc.prometheus.domain}";
+                href = "${svc.prometheus.protocol}://${svc.prometheus.ip}:${builtins.toString svc.prometheus.port}";
                 description = "Metrics";
                 icon = "prometheus";
             }; }
             { Loki = {
-                href = "${svc.loki.protocol}://${svc.loki.domain}";
+                href = "${svc.loki.protocol}://${svc.loki.ip}:${builtins.toString svc.loki.port}";
                 description = "Logs";
                 icon = "loki";
             }; }
@@ -391,20 +396,20 @@ in
               };
             };
           }
-          {
-            Pinchflat = {
-              icon = "pinchflat";
-              href = "${svc.pinchflat.protocol}://${svc.pinchflat.ip}:${builtins.toString svc.pinchflat.port}";
-              description = "YouTube Archiver";
-            };
-          }
-          {
-            TubeArchivist = {
-              href = "${svc.tubearchivist.protocol}://${svc.tubearchivist.ip}:${builtins.toString svc.tubearchivist.port}";
-              description = "YouTube Archive + Search";
-              icon = "tube-archivist";
-            };
-          }
+          # {
+          #   Pinchflat = {
+          #     icon = "pinchflat";
+          #     href = "${svc.pinchflat.protocol}://${svc.pinchflat.ip}:${builtins.toString svc.pinchflat.port}";
+          #     description = "YouTube Archiver";
+          #   };
+          # }
+          # {
+          #   TubeArchivist = {
+          #     href = "${svc.tubearchivist.protocol}://${svc.tubearchivist.ip}:${builtins.toString svc.tubearchivist.port}";
+          #     description = "YouTube Archive + Search";
+          #     icon = "tube-archivist";
+          #   };
+          # }
         ];
       }
 
