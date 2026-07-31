@@ -6,6 +6,8 @@
         #../../../../system/modules/server/apps/tubearchivist
         ../../../../system/modules/server/apps/freshrss
         ../../../../system/modules/server/apps/it-tools
+
+        ../network/services/mikrotik-prometheus-exporter
     ];
 
     # Unique hostname for this VM

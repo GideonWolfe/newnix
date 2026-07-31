@@ -15,5 +15,7 @@
     #BUG: conflicts with "speedtest" command offered by speedtest-cli
     speedtest # GTK frontend for librespeed
     wireguard-tools # WireGuard VPN utilities
+    tcpdump # network packet sniffer
+    nftables # firewall utility
   ];
 }

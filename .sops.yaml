@@ -98,6 +98,12 @@ creation_rules:
           - *vm-test
         pgp:
           - *gideon
+  - path_regex: secrets_mikrotik.yaml$
+    key_groups:
+      - age:
+          - *vm-app2
+        pgp:
+          - *gideon
   - path_regex: secrets_monitoring_agent.yaml$
     key_groups:
       - age:

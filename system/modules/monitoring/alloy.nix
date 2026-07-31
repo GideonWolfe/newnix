@@ -23,13 +23,27 @@ let
         forward_to = [prometheus.remote_write.default.receiver]
       }
   '';
+
+  # Extra Alloy config contributed by other modules on this host
+  # (e.g. exporters that want to be scraped by the local Alloy instance)
+  extraConfig = lib.concatStringsSep "\n" config.custom.monitoring.alloy.extraConfigs;
 in
 {
+  options.custom.monitoring.alloy.extraConfigs = lib.mkOption {
+    type = lib.types.listOf lib.types.lines;
+    default = [ ];
+    description = ''
+      Additional Alloy config snippets appended to this host's config.alloy.
+      Modules (exporters, etc.) can add scrape blocks here so the local
+      Alloy instance automatically collects them.
+    '';
+  };
+
   # Configure Alloy to send the data to my central monitoring server
-  services.alloy.enable = true;
+  config.services.alloy.enable = true;
   # TODO possibly break these out into individual files?
   # make the alloy config file, there is no module support yet
-  environment.etc."alloy/config.alloy" = {
+  config.environment.etc."alloy/config.alloy" = {
     text = ''
       // Prometheus remote write endpoint (LAN, direct to monitor host)
       prometheus.remote_write "default" {
@@ -85,6 +99,7 @@ ${smartctlScrape}
         ]
         forward_to = [loki.write.default.receiver]
       }
+${extraConfig}
     '';
   };
 
