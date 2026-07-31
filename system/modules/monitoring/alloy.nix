@@ -1,13 +1,48 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   prom = config.custom.world.services.prometheus;
   loki = config.custom.world.services.loki;
+  # Only scrape the smartctl exporter where it's actually enabled
+  smartctl = config.services.prometheus.exporters.smartctl;
   # Talk to the stack directly over IP:port. The public Traefik-routed
   # `${protocol}://${domain}` only exists for hosts the ingress VM can
   # reach with valid TLS — the sandbox monitor (vm_test) doesn't have a
   # cert, so we bypass DNS/Traefik entirely on the LAN.
   promURL = "http://${prom.ip}:${toString prom.port}/api/v1/write";
   lokiURL = "http://${loki.ip}:${toString loki.port}/loki/api/v1/push";
+
+  # S.M.A.R.T. disk metrics, only emitted where the smartctl exporter runs
+  smartctlScrape = lib.optionalString smartctl.enable ''
+
+      // Scrape S.M.A.R.T. disk metrics from smartctl_exporter
+      prometheus.scrape "smartctl_exporter" {
+        targets = [
+          {"__address__" = "localhost:${toString smartctl.port}", "job" = "smartctl", "instance" = "${config.networking.hostName}:${toString smartctl.port}"},
+        ]
+        scrape_interval = "60s"
+        forward_to = [prometheus.relabel.smartctl_bays.receiver]
+      }
+
+      // Map physical drive serial numbers to drive-bay numbers. Only the
+      // `smartctl_device` info metric carries `serial_number`, so `bay` lands
+      // there; pull it into queries via `group_left(bay)` on that metric.
+      prometheus.relabel "smartctl_bays" {
+        forward_to = [prometheus.remote_write.default.receiver]
+
+        rule {
+          source_labels = ["serial_number"]
+          regex         = "1RJ0H3NV"
+          target_label  = "bay"
+          replacement   = "1"
+        }
+        rule {
+          source_labels = ["serial_number"]
+          regex         = "511250811096010609"
+          target_label  = "bay"
+          replacement   = "os"
+        }
+      }
+  '';
 in
 {
   # Configure Alloy to send the data to my central monitoring server
@@ -51,7 +86,7 @@ in
         scrape_interval = "15s"
         forward_to = [prometheus.remote_write.default.receiver]
       }
-
+${smartctlScrape}
       // Collect systemd journal logs
       loki.source.journal "journal" {
         max_age = "12h"

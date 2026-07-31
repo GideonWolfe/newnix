@@ -45,6 +45,8 @@
     ../../home/sessions/niri/niri.nix
     # NixVim configuration
     ../../home/apps/nixvim/nixvim-light.nix
+    # Host-specific UI overrides (always-on panel: no idle/lock/suspend)
+    ./ui.nix
   ];
 
   # networking.interfaces.enp1s0.useDHCP = false;

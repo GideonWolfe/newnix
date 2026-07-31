@@ -27,6 +27,7 @@
     uefitool # GUI for manipulating and viewing UEFI firmware files
     gptfdisk # GPT partitioning CLI tool, used for wiping new disks
     nfs-utils # NFS commands like showmount and exportfs
+    fatrace # monitor filesystem activity
 
     # Backup CLI
     restic

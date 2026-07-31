@@ -187,13 +187,13 @@ in
     };
     
     # Other Apps
-    # netbox = mkService {
-    #   name = "NetBox";
-    #   ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
-    #   port = 9001;
-    #   domain = "";
-    #   protocol = "http";
-    # };
+    netbox = mkService {
+      name = "NetBox";
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
+      port = 9001;
+      domain = "";
+      protocol = "http";
+    };
     # paperless = mkService {
     #   name = "Paperless-ngx";
     #   ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;

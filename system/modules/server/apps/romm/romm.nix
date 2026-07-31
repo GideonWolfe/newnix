@@ -41,7 +41,7 @@ in
   systemd.services.docker-romm-db.requires = [ "docker-create-romm-network.service" ];
 
   virtualisation.oci-containers.containers.romm = {
-    image = "rommapp/romm:4.8.1";
+    image = "rommapp/romm:5.0.0";
     ports = [ "${builtins.toString config.custom.world.services.romm.port}:8080" ];
     autoStart = true;
     # https://docs.romm.app/latest/Getting-Started/Environment-Variables/
