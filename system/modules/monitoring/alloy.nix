@@ -20,27 +20,7 @@ let
           {"__address__" = "localhost:${toString smartctl.port}", "job" = "smartctl", "instance" = "${config.networking.hostName}:${toString smartctl.port}"},
         ]
         scrape_interval = "60s"
-        forward_to = [prometheus.relabel.smartctl_bays.receiver]
-      }
-
-      // Map physical drive serial numbers to drive-bay numbers. Only the
-      // `smartctl_device` info metric carries `serial_number`, so `bay` lands
-      // there; pull it into queries via `group_left(bay)` on that metric.
-      prometheus.relabel "smartctl_bays" {
         forward_to = [prometheus.remote_write.default.receiver]
-
-        rule {
-          source_labels = ["serial_number"]
-          regex         = "1RJ0H3NV"
-          target_label  = "bay"
-          replacement   = "1"
-        }
-        rule {
-          source_labels = ["serial_number"]
-          regex         = "511250811096010609"
-          target_label  = "bay"
-          replacement   = "os"
-        }
       }
   '';
 in
