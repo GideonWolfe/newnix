@@ -8,8 +8,8 @@
             "media" = {
                 # Bulk media: avoid churny hourlies, keep a light long-tail
                 hourly = 0; # No hourly snapshots
-                daily = 2; # Take one snapshot per day, keep the last 2 days
-                weekly = 4; # Take one snapshot per week, keep the last 4 weeks
+                daily = 0; # Take no daily snapshots
+                weekly = 2; # Take one snapshot per week, keep the last 2 weeks
                 monthly = 6; # Take one snapshot a month, keep the last 6 months
                 yearly = 0; # No yearly snapshots
                 autosnap = true; # Automatically take snapshots

@@ -38,6 +38,12 @@
     "homepage/bazarr_api_key" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/prowlarr_api_key" = { sopsFile = ./secrets_homepage.yaml; };
     "homepage/karakeep_api_key" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/freshrss_username" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/freshrss_api_key" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/grafana_username" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/grafana_password" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/prometheus_username" = { sopsFile = ./secrets_homepage.yaml; };
+    "homepage/prometheus_password" = { sopsFile = ./secrets_homepage.yaml; };
   };
 
   # Env file consumed by the homepage-dashboard systemd unit via
@@ -61,5 +67,11 @@
     HOMEPAGE_VAR_BAZARR_API_KEY=${config.sops.placeholder."homepage/bazarr_api_key"}
     HOMEPAGE_VAR_PROWLARR_API_KEY=${config.sops.placeholder."homepage/prowlarr_api_key"}
     HOMEPAGE_VAR_KARAKEEP_API_KEY=${config.sops.placeholder."homepage/karakeep_api_key"}
+    HOMEPAGE_VAR_FRESHRSS_USERNAME=${config.sops.placeholder."homepage/freshrss_username"}
+    HOMEPAGE_VAR_FRESHRSS_API_KEY=${config.sops.placeholder."homepage/freshrss_api_key"}
+    HOMEPAGE_VAR_GRAFANA_USERNAME=${config.sops.placeholder."homepage/grafana_username"}
+    HOMEPAGE_VAR_GRAFANA_PASSWORD=${config.sops.placeholder."homepage/grafana_password"}
+    HOMEPAGE_VAR_PROMETHEUS_USERNAME=${config.sops.placeholder."homepage/prometheus_username"}
+    HOMEPAGE_VAR_PROMETHEUS_PASSWORD=${config.sops.placeholder."homepage/prometheus_password"}
   '';
 }

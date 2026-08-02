@@ -95,6 +95,7 @@ in
       theme = "light";
       #color = "neutral";
       headerStyle = "clean";
+      useEqualHeights = true;
       layout = {
         Monitoring = {
           style = "row";
@@ -204,20 +205,31 @@ in
       #################
         {
           Monitoring = [
-            { Gatus = {
-                href = "${svc.gatus.protocol}://${svc.gatus.ip}:${builtins.toString svc.gatus.port}";
-                description = "Uptime Dashboard";
-                icon = "gatus";
-            }; }
             { Grafana = {
                 href = "${svc.grafana.protocol}://${svc.grafana.ip}:${builtins.toString svc.grafana.port}";
                 description = "Dashboard";
                 icon = "grafana";
+                widget = {
+                  type = "grafana";
+                  url = "${svc.grafana.protocol}://${svc.grafana.ip}:${builtins.toString svc.grafana.port}";
+                  version = 2;
+                  # When adding alerts: can have "totalalerts" and "alertstriggered"
+                  fields = [ "dashboards" "datasources" ];
+                  username = "{{HOMEPAGE_VAR_GRAFANA_USERNAME}}";
+                  password = "{{HOMEPAGE_VAR_GRAFANA_PASSWORD}}";
+                };
             }; }
             { Prometheus = {
                 href = "${svc.prometheus.protocol}://${svc.prometheus.ip}:${builtins.toString svc.prometheus.port}";
                 description = "Metrics";
                 icon = "prometheus";
+                widget = {
+                  type = "prometheus";
+                  url = "${svc.prometheus.protocol}://${svc.prometheus.ip}:${builtins.toString svc.prometheus.port}";
+                  # Basic auth via the generic proxy handler (behind reverse proxy)
+                  username = "{{HOMEPAGE_VAR_PROMETHEUS_USERNAME}}";
+                  password = "{{HOMEPAGE_VAR_PROMETHEUS_PASSWORD}}";
+                };
             }; }
             { Loki = {
                 href = "${svc.loki.protocol}://${svc.loki.ip}:${builtins.toString svc.loki.port}";
@@ -228,6 +240,15 @@ in
                 href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
                 description = "Traces";
                 icon = "tempo";
+            }; }
+            { Gatus = {
+                href = "${svc.gatus.protocol}://${svc.gatus.ip}:${builtins.toString svc.gatus.port}";
+                description = "Uptime Dashboard";
+                icon = "gatus";
+                widget = {
+                  type = "gatus";
+                  url = "${svc.gatus.protocol}://${svc.gatus.ip}:${builtins.toString svc.gatus.port}";
+                };
             }; }
           ];
         }
@@ -494,6 +515,13 @@ in
               };
             };
           }
+          {
+            "Home Assistant" = {
+              href = "http://192.168.88.177:8123";
+              description = "Home Automation";
+              icon = "home-assistant";
+            };
+          }
         ];
       }
 
@@ -519,6 +547,13 @@ in
                 href = "${svc.freshrss.protocol}://${svc.freshrss.ip}:${builtins.toString svc.freshrss.port}";
                 description = "RSS Reader";
                 icon = "freshrss";
+                widget = {
+                  type = "freshrss";
+                  url = "${svc.freshrss.protocol}://${svc.freshrss.ip}:${builtins.toString svc.freshrss.port}";
+                  username = "{{HOMEPAGE_VAR_FRESHRSS_USERNAME}}"; # Set in secrets_homepage.yaml + homepage-env template
+                  password = "{{HOMEPAGE_VAR_FRESHRSS_API_KEY}}"; # Set in secrets_homepage.yaml + homepage-env template
+                  fields = [ "subscriptions" "unread" ];
+                };
             }; }
             { Romm = {
                 href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
