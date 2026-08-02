@@ -21,9 +21,6 @@ in {
     ./window-rules.nix
   ];
 
-  # Keep upstream overlay so pkgs.niri-unstable exists
-  nixpkgs.overlays = [ inputs.niri.overlays.niri ];
-
   # https://github.com/sodiboo/niri-flake/blob/main/docs.md
   programs.niri = {
     enable = true;
