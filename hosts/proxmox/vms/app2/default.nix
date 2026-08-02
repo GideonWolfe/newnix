@@ -8,6 +8,7 @@
         ../../../../system/modules/server/apps/it-tools
 
         ../network/services/mikrotik-prometheus-exporter
+        ../network/services/mktxp
     ];
 
     # Unique hostname for this VM

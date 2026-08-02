@@ -26,7 +26,7 @@
         ];
 
         # Server endpoint constructed from IP and port
-        endpoint = "173.56.24.213:${toString config.custom.world.hosts.router.wireguard.port}";
+        endpoint = "70.19.44.46:${toString config.custom.world.hosts.router.wireguard.port}";
 
         # Keep NAT tables alive
         persistentKeepalive = 25;

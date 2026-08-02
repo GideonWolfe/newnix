@@ -16,6 +16,7 @@
     # Dashboards
     ./provision/dashboards/node-exporter.nix
     ./provision/dashboards/traefik-dashboard.nix
+    ./provision/dashboards/mktxp.nix
   ];
 
   #networking.firewall.allowedTCPPorts = [ config.custom.world.services.grafana.port ]; # 3000 for Grafana
