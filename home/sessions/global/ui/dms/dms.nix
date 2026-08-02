@@ -25,7 +25,7 @@ with config.lib.stylix.colors.withHashtag;
         systemd.enable = true;
         systemd.restartIfChanged = true; # doesn't seem to be working?
         # Pulling in dgop from unstable until its in stable
-        dgop.package = inputs.dgop.packages.${pkgs.system}.default;
+        dgop.package = inputs.dgop.packages.${pkgs.stdenv.hostPlatform.system}.default;
         enableSystemMonitoring = true;
         #enableDynamicTheming = true;
         enableAudioWavelength = true;

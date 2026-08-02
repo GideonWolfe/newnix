@@ -21,6 +21,21 @@
   /* Firefox theme variable mapping (single palette, no light/dark) */
   --theme-body-background: var(--base01) !important;
   --theme-body-color: var(--base05) !important;
+
+  /* Toolbox tab bar (Inspector/Console/Debugger/etc row) */
+  --theme-tab-toolbar-background: var(--base01) !important;
+
+  /* Inspector side panes (rules/layout/computed/changes) content background */
+  --theme-sidebar-background: var(--base00) !important;
+  --theme-body-emphasized-background: var(--base02) !important;
+  /* Rule view header/pseudo-element bars and computed view rows */
+  --rule-header-background-color: var(--base01) !important;
+  --rule-highlight-background-color: var(--base02) !important;
+  /* Changes panel diff colors */
+  --theme-diff-add-background: color-mix(in srgb, var(--base0B) 20%, transparent) !important;
+  --theme-diff-add-color: var(--base0B) !important;
+  --theme-diff-remove-background: color-mix(in srgb, var(--base08) 20%, transparent) !important;
+  --theme-diff-remove-color: var(--base08) !important;
   --theme-text-color-alt: var(--base04) !important;
   --theme-text-color-strong: var(--base06) !important;
   --theme-link-color: var(--base0D) !important;
@@ -106,6 +121,9 @@
   --link-fg-color: var(--theme-link-color) !important;
   --link-hover-fg-color: var(--theme-highlight-orange) !important;
 
+  /* Used in the list of logins on about:logins */
+  --background-color-box: var(--theme-body-background) !important;
+
   /* Ring when clicking into certain dialog boxes */
   --focus-ring-color: var(--theme-focus-outline-color) !important;
 
@@ -147,6 +165,9 @@
 
   /* fixing black text on "Proceed with caution" and similar pages */
   --text-color: var(--theme-body-color) !important;
+
+  --button-text-color: var(--theme-highlight-blue) !important;
+  --button-text-color-hover: var(--theme-highlight-yellow) !important;
 
 }
 
@@ -203,6 +224,43 @@ input {
 }
 .theme-dark .devtools-filterinput {
 	background-color: var(--theme-body-background) !important;
+}
+
+/* Inspector side panes: rules/layout/computed/changes content areas.
+   Toolbar is themed via --theme-toolbar-background; these cover the
+   tree/list bodies that otherwise fall back to Firefox defaults. */
+#ruleview-container,
+#computed-container,
+#computedview-container,
+#layout-container,
+#boxmodel-container,
+#changesview-container,
+.ruleview,
+.computed-property-view,
+.layout-wrapper,
+.changes-list {
+	background-color: var(--theme-sidebar-background) !important;
+	color: var(--theme-body-color) !important;
+}
+
+/* Toolbox tab bar (Inspector / Console / Debugger / ... row) */
+.devtools-tabbar,
+.toolbox-tabs-wrapper,
+#toolbox-container .devtools-tabbar {
+	background-color: var(--theme-tab-toolbar-background) !important;
+	color: var(--theme-body-color) !important;
+}
+.devtools-tab {
+	background-color: var(--theme-tab-toolbar-background) !important;
+	color: var(--theme-body-color) !important;
+}
+.devtools-tab:hover {
+	background-color: var(--theme-toolbar-hover) !important;
+	color: var(--theme-toolbar-hover-color) !important;
+}
+.devtools-tab.selected {
+	background-color: var(--theme-toolbar-selected-background) !important;
+	color: var(--theme-toolbar-selected-color) !important;
 }
 
 
