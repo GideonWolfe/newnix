@@ -30,7 +30,7 @@
     # Downloaders #
     ###############
     yt-dlp # better youtube-dl
-    vdhcoapp # companion for video downloader firefox plugin
+    # vdhcoapp removed: VDH >= 10 no longer needs the companion app (archived upstream)
     multiplex # watch torrents with your friends
 
     # Take photos through webcam

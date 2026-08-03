@@ -16,7 +16,6 @@
   programs.nixvim.plugins.cmp-nvim-lsp-signature-help = { enable = true; };
   programs.nixvim.plugins.cmp-nvim-lsp = { enable = true; };
   programs.nixvim.plugins.cmp-nvim-lua = { enable = true; };
-  programs.nixvim.plugins.cmp-spell = { enable = true; };
   programs.nixvim.plugins.cmp-dap = { enable = true; };
 
   # Main cmp
@@ -116,7 +115,6 @@
               { name = 'calc' },
               { name = 'fish' },
               { name = 'digraphs' },
-              { name = 'spell' },
           })
         '';
       };

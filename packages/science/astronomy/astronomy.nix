@@ -8,8 +8,7 @@
     #############
     pkgs.celestia
     pkgs.kstars
-    #pkgs.gpredict
-    pkgs.gpredict-unstable
+    pkgs.gpredict
     pkgs.astroterm
 
   ];

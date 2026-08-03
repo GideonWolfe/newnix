@@ -9,11 +9,12 @@
 		papirus-folders
 		adwaita-icon-theme
 		material-icons
-		libsForQt5.breeze-icons
+		kdePackages.breeze-icons
 		# Qt theming tools
 		libsForQt5.qt5ct
 		qt6Packages.qt6ct
-		libsForQt5.qtcurve
+		# qtcurve was removed from libsForQt5 in 26.05; commented out for now
+		# libsForQt5.qtcurve
 		libsForQt5.qtstyleplugins
 		# Additional theming tools
 		spicetify-cli

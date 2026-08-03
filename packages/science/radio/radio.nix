@@ -36,7 +36,7 @@ in {
     pkgs.hackrf
     pkgs.telegraph # morse code GUI
     pkgs.aldo # learn morse code
-    pkgs.gpredict-unstable
+    pkgs.gpredict
     pkgs.contact # Meshtastic TUI
     pkgs.nanovna-saver # GUI for NanoVNA devices
     pkgs.nanovna-qt # GUI for NanoVNA devices

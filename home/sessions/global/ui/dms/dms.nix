@@ -8,7 +8,7 @@ with config.lib.stylix.colors.withHashtag;
         # Niri integration module (not using rn?)
         #inputs.dms.homeModules.niri
         # Make plugins available decleratively
-        inputs.dms-plugin-registry.modules.default
+        inputs.dms-plugin-registry.homeModules.default
         # search service for dms
         inputs.danksearch.homeModules.default
      ];
@@ -70,15 +70,17 @@ with config.lib.stylix.colors.withHashtag;
         # Once desired config is reached, click "Copy settings.json to clipboard"
         # Run that through json2nix: nix run github:sempruijs/json2nix
         settings = {
-            currentThemeName = "custom";
-            currentThemeCategory = "generic";
-            customThemeFile = "${config.home.homeDirectory}/.config/DankMaterialShell/stylix.json";
+            # Theming now handled by stylix's dank-material-shell target (26.05)
+            # currentThemeName = "custom";
+            # currentThemeCategory = "generic";
+            # customThemeFile = "${config.home.homeDirectory}/.config/DankMaterialShell/stylix.json";
             registryThemeVariants = {};
             matugenScheme = "scheme-content";
             runUserMatugenTemplates = false;
             matugenTargetMonitor = "";
-            popupTransparency = 1;
-            dockTransparency = 0.5;
+            # popupTransparency / dockTransparency now set by stylix's DMS target
+            # popupTransparency = 1;
+            # dockTransparency = 0.5;
             cornerRadius = 12;
             e24HourClock = true;
             showSeconds = true;
@@ -276,8 +278,9 @@ with config.lib.stylix.colors.withHashtag;
             launcherLogoBrightness = 0.5;
             launcherLogoContrast = 1;
             launcherLogoSizeOffset = 0;
-            fontFamily = "${osConfig.stylix.fonts.sansSerif.name}";
-            monoFontFamily = "${osConfig.stylix.fonts.monospace.name}";
+            # fontFamily / monoFontFamily now set by stylix's DMS target
+            # fontFamily = "${osConfig.stylix.fonts.sansSerif.name}";
+            # monoFontFamily = "${osConfig.stylix.fonts.monospace.name}";
             fontWeight = 400;
             fontScale = 1;
             notepadUseMonospace = true;
@@ -617,6 +620,9 @@ with config.lib.stylix.colors.withHashtag;
     };
 
     # Export Stylix colors for DankMaterialShell as a JSON theme file
+    # Disabled: stylix themes DMS natively via its dank-material-shell target (26.05).
+    # Kept here (commented) in case we want to revert to our own color mapping.
+    /*
     xdg.configFile."DankMaterialShell/stylix.json" = lib.mkIf (lib.hasAttr "stylix" config.lib) {
         text = builtins.toJSON {
             name = "Stylix Colors";
@@ -665,6 +671,7 @@ with config.lib.stylix.colors.withHashtag;
             success = green;
         };
     };
+    */
     # Enable dsearch for DMS (system wide searching)
     programs.dsearch.enable = true;
 }

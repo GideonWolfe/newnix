@@ -6,7 +6,8 @@ in {
     #########
     # Wikis #
     #########
-    pkgs.trilium-desktop
+    # BUG: trilium-desktop bundles EOL electron-40 (marked insecure in 26.05)
+    #pkgs.trilium-desktop
     #pkgs.affine BUG: uses an insecure version of electron
     pkgs.obsidian
     basalt-tui

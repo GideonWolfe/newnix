@@ -4,7 +4,7 @@
   environment.systemPackages = with pkgs; [
 
     # Hardware 
-    light # utility for changing backlight brightness
+    brightnessctl # utility for changing backlight brightness (light removed in 26.05)
     piper # GTK frontend to configure mice
     solaar # GUI for Logitech Unifying Reciever config
     antimicrox # GUI for mapping buttons on input devices

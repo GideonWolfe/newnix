@@ -10,7 +10,7 @@
     # Audio Controls #
     ##################
     pkgs.qpwgraph # QT patchbay for pipewire
-    pkgs.helvum # GTK patchbay for pipewire
+    pkgs.crosspipe # GTK patchbay for pipewire (helvum removed in 26.05)
     pkgs.coppwr # Low level control GUI for pipewire
     pkgs.pwvucontrol # volume control gui (pipewire)
     pkgs.pavucontrol # PulseAudio control GUI (pulse)

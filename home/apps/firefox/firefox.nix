@@ -51,9 +51,6 @@ in
   programs.firefox = {
     enable = true;
 
-    # allow vdhcoapp to run in FF without setup step
-    nativeMessagingHosts = [ pkgs.vdhcoapp ];
-
     # Change policies from https://mozilla.github.io/policy-templates/
     policies = {
       AppAutoUpdate = false;
@@ -186,7 +183,7 @@ in
           "default_area" = "menupanel";
         };
         # Video DownloadHelper
-        # requires "vdhcoapp" companion app
+        # VDH >= 10 no longer requires the vdhcoapp companion app
         "{b9db16a4-6edc-47ec-a1f4-b86292ed211d}" = {
           "installation_mode" = "force_installed";
           "install_url" =
@@ -270,12 +267,13 @@ in
           "ui.textHighlightForeground" = "${base00}";
 
           # Set the colors of the reader mode
+          # stylix themes reader mode as of 26.05, so these are handled upstream
           "reader.color_scheme" = "custom";
-          "reader.custom_colors.background" = "${base00}";
-          "reader.custom_colors.foreground" = "${base05}";
-          "reader.custom_colors.selection-highlight" = "${base0E}";
-          "reader.custom_colors.unvisited-links" = "${base0B}";
-          "reader.custom_colors.visited-links" = "${base08}";
+          # "reader.custom_colors.background" = "${base00}";
+          # "reader.custom_colors.foreground" = "${base05}";
+          # "reader.custom_colors.selection-highlight" = "${base0E}";
+          # "reader.custom_colors.unvisited-links" = "${base0B}";
+          # "reader.custom_colors.visited-links" = "${base08}";
 
           # Colors available when using highlighter tool in PDF
           "pdfjs.highlightEditorColors" =

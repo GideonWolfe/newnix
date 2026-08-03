@@ -53,6 +53,10 @@ with config.lib.stylix.colors.withHashtag;
   ];
   programs.nixvim = {
 
+    # nixvim uses its own nixpkgs instance which doesn't inherit the system
+    # allowUnfree; many hrsh7th cmp plugins are marked unfree in nixpkgs 26.05
+    nixpkgs.config.allowUnfree = true;
+
     # Enable NixVim configuration
     enable = true;
 

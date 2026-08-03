@@ -382,8 +382,8 @@ with config.lib.stylix.colors;
       # only one should be enabled at a time
       # they both have binds to activate with three fingers on trackpad
       # can be disabled but might as well keep only one around
-      pkgs.hyprlandPlugins.hyprexpo
-      #pkgs.hyprlandPlugins.hyprspace
+      # hyprexpo was removed from nixpkgs in 26.05; using hyprspace instead
+      pkgs.hyprlandPlugins.hyprspace
       pkgs.hyprlandPlugins.hyprbars
     ];
 

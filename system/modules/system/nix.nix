@@ -6,6 +6,11 @@
   # Allow packages not supported on system
   nixpkgs.config.allowUnsupportedSystem = true;
 
+  # bitwarden-desktop bundles EOL electron-39; permit it to keep the app
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+  ];
+
   # disable docs to speed builds and save disk
   # (man/info pages can pull a few hundred MB into the closure)
   documentation.nixos.enable = false;
