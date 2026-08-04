@@ -19,7 +19,9 @@ let
       textStroke = 0;
       engine = "dynamicTheme";
       stylesheet = "";
-      darkSchemeBackgroundColor = base01;
+      # base00 to match the Firefox chrome; base01 became lighter than base00
+      # after the base16 spec fix, which brightened web page backgrounds.
+      darkSchemeBackgroundColor = base00;
       darkSchemeTextColor = base05;
       lightSchemeBackgroundColor = base05;
       lightSchemeTextColor = base00;

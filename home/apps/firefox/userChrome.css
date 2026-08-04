@@ -19,7 +19,10 @@ by Miguel Avila
 */
 
 :root {
-  --sfwindow: @base01@;
+  /* Main chrome background (tab strip, toolbar, sidebar). Uses base00 so it
+     stays dark and matches DarkReader's page background. base01 became lighter
+     than base00 after the base16 spec fix, which brightened the chrome. */
+  --sfwindow: @base00@;
   --sfsecondary: @base00@;
   /* base16 colors for easy access (templated by Stylix) */
   --base00: @base00@;/* base */
@@ -242,7 +245,28 @@ tooltip {
   --tabs-border-color: var(--sfsecondary) !important;
   --lwt-sidebar-background-color: var(--sfwindow) !important;
   --lwt-toolbar-field-focus: var(--sfsecondary) !important;
+  /* Firefox composites its own lightened default for the toolbar and the
+     selected tab. Pin those theme vars to base00 so they stay dark. */
+  --lwt-selected-tab-background-color: var(--base00) !important;
+  --toolbar-field-focus-background-color: var(--base00) !important;
+  --tabpanel-background-color: var(--base00) !important;
 }
+
+/* Toolbar containing the URL bar */
+#nav-bar,
+#nav-bar-customization-target {
+  background-color: var(--base00) !important;
+  background-image: none !important;
+}
+
+/* Active/selected tab background */
+.tabbrowser-tab:is([visuallyselected='true'], [selected='true'], [multiselected])
+  > .tab-stack
+  > .tab-background {
+  background-color: var(--base00) !important;
+  background-image: none !important;
+}
+
 
 /* Sidebar color  */
 #sidebar-box,
