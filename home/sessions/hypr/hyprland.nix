@@ -18,6 +18,9 @@ with config.lib.stylix.colors;
 
     #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
 
+    # Keep the legacy hyprlang config format instead of the new lua default.
+    configType = "hyprlang";
+
     systemd.enable = true;
 
     settings = {

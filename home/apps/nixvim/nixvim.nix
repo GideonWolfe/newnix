@@ -73,6 +73,10 @@ with config.lib.stylix.colors.withHashtag;
   ];
   programs.nixvim = {
 
+    # Explicitly use the system nixpkgs for nixvim (silences the
+    # source-mismatch warning now that we no longer `follows` in the flake).
+    nixpkgs.source = pkgs.path;
+
     # Enable NixVim configuration
     enable = true;
 

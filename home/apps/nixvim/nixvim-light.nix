@@ -53,6 +53,10 @@ with config.lib.stylix.colors.withHashtag;
   ];
   programs.nixvim = {
 
+    # Explicitly use the system nixpkgs for nixvim (silences the
+    # source-mismatch warning now that we no longer `follows` in the flake).
+    nixpkgs.source = pkgs.path;
+
     # nixvim uses its own nixpkgs instance which doesn't inherit the system
     # allowUnfree; many hrsh7th cmp plugins are marked unfree in nixpkgs 26.05
     nixpkgs.config.allowUnfree = true;

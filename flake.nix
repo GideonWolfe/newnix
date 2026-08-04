@@ -56,9 +56,10 @@
     };
 
     # Configure neovim with Nix!
+    # Note: no `nixpkgs.follows` here -- nixvim pins its own nixpkgs and
+    # overriding it triggers a source-mismatch warning.
     nixvim = {
       url = "github:nix-community/nixvim/nixos-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Secret Management

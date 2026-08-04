@@ -21,97 +21,98 @@
     #addKeysToAgent = "yes";
     # Should prevent being prompted for yubikey every 5 seconds with nixos-anywhere
 
-    matchBlocks = {
+    # Uses upstream ssh_config(5) directive names (HostName, User, Port, ...).
+    settings = {
 
       "*" = {
-        forwardAgent = false;
-        forwardX11 = false;
+        ForwardAgent = false;
+        ForwardX11 = false;
       };
 
       # GitHub SSH Auth
       github = {
-        hostname = "github.com";
-        identityFile = [
+        HostName = "github.com";
+        IdentityFile = [
           "${config.home.homeDirectory}/.ssh/gideon_ssh_sk"
           "${config.home.homeDirectory}/.ssh/gideon_backup_ssh_sk"
           #"/home/gideon/nix/configs/users/gideon/configs/ssh/keys/github-nixos-tester"
         ];
-        user = "git";
+        User = "git";
       };
 
       # Example of main server
       homeserver = {
-        hostname = "66.108.176.86";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
-        user = "overseer";
+        HostName = "66.108.176.86";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        User = "overseer";
       };
       # Jumping through server to desktop
       desktop = {
-        hostname = "192.168.0.103";
-        port = 2736;
-        proxyJump = "homeserver";
+        HostName = "192.168.0.103";
+        Port = 2736;
+        ProxyJump = "homeserver";
       };
 
 
       # Home Network Devices
       router = {
-        hostname = "${osConfig.custom.world.hosts.router.ip}";
+        HostName = "${osConfig.custom.world.hosts.router.ip}";
       };
       access_point = {
-        hostname = "${osConfig.custom.world.hosts.access_point.ip}";
+        HostName = "${osConfig.custom.world.hosts.access_point.ip}";
       };
 
       # NAS (LAN)
       mnemosyne = {
-        hostname = "${osConfig.custom.world.hosts.mnemosyne.ip}";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        HostName = "${osConfig.custom.world.hosts.mnemosyne.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
       # Physical Proxmox Hosts
       pvenet = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pvenet.ip}";
-        user = "root";
+        HostName = "${osConfig.custom.world.hosts.proxmox.nodes.pvenet.ip}";
+        User = "root";
       };
       pve1 = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve1.ip}";
-        user = "root";
+        HostName = "${osConfig.custom.world.hosts.proxmox.nodes.pve1.ip}";
+        User = "root";
       };
       pve2 = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve2.ip}";
-        user = "root";
+        HostName = "${osConfig.custom.world.hosts.proxmox.nodes.pve2.ip}";
+        User = "root";
       };
       pve3 = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.nodes.pve3.ip}";
-        user = "root";
+        HostName = "${osConfig.custom.world.hosts.proxmox.nodes.pve3.ip}";
+        User = "root";
       };
 
       # Proxmox VMs
       vm-media = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_media.ip}";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        HostName = "${osConfig.custom.world.hosts.proxmox.vms.vm_media.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
       vm-ingress = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_ingress.ip}";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        HostName = "${osConfig.custom.world.hosts.proxmox.vms.vm_ingress.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
       vm-app1 = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_app1.ip}";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        HostName = "${osConfig.custom.world.hosts.proxmox.vms.vm_app1.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
       vm-app2 = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_app2.ip}";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        HostName = "${osConfig.custom.world.hosts.proxmox.vms.vm_app2.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
       vm-test = {
-        hostname = "${osConfig.custom.world.hosts.proxmox.vms.vm_test.ip}";
-        port = 2736;
-        identityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+        HostName = "${osConfig.custom.world.hosts.proxmox.vms.vm_test.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
     };

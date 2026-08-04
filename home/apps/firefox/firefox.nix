@@ -51,6 +51,9 @@ in
   programs.firefox = {
     enable = true;
 
+    # Profile migrated to the XDG path ($XDG_CONFIG_HOME/mozilla/firefox).
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
+
     # Change policies from https://mozilla.github.io/policy-templates/
     policies = {
       AppAutoUpdate = false;

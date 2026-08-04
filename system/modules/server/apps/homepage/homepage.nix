@@ -22,10 +22,7 @@ in
     # Inject decrypted secrets (HOMEPAGE_VAR_*) into the dashboard's
     # process environment. Referenced from services/widgets as
     # `{{HOMEPAGE_VAR_NAME}}` -- see ./secrets/secrets_homepage.nix.
-    #
-    # NOTE: newer nixpkgs renamed this to `environmentFiles` (plural list).
-    # This pin still uses the singular form.
-    environmentFile = config.sops.templates."homepage-env".path;
+    environmentFiles = [ config.sops.templates."homepage-env".path ];
 
     # Override Homepage's Tailwind theme CSS variables with stylix base16
     # colors. Homepage's `color` / `theme` settings only accept a fixed list

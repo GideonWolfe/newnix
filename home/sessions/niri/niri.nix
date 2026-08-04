@@ -36,7 +36,7 @@ in {
       # Startup commands (runs after session start)
       spawn-at-startup = [
         # Set wallpaper
-        { command = [ "${lib.getExe pkgs.swww}" "img" "${osConfig.stylix.image}" ]; }
+        { command = [ "${lib.getExe pkgs.awww}" "img" "${osConfig.stylix.image}" ]; }
       ];
 
       prefer-no-csd = true;

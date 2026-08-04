@@ -4,6 +4,8 @@
   # Enable User Dirs
   xdg.userDirs = {
     enable = true;
+    # Keep legacy behavior of exporting XDG_* session variables.
+    setSessionVariables = true;
     videos = "$HOME/videos";
     pictures = "$HOME/pictures";
     music = "$HOME/music";

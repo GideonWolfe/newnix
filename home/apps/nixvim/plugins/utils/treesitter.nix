@@ -2,7 +2,7 @@
   # Main Treesitter plugin
   programs.nixvim.plugins.treesitter = {
     enable = true;
-    folding = false;
+    folding.enable = false;
     #indent.enable = true;
     settings = {
       # BUG: this causes INSANE startup times

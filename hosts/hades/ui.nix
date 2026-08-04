@@ -4,9 +4,10 @@
   # Hyprland monitor settings
   wayland.windowManager.hyprland.settings = {
     monitor = [
-      "DP-3, preferred, 0x0, 1"
-      "DP-2, preferred, 2560x-25, 1"
-      "DP-1, preferred, 5120x-335, 1, transform, 3"
+      # DP-1 is portrait (rotated) on the far left, DP-2 middle, DP-3 right
+      "DP-1, preferred, 0x0, 1, transform, 3"
+      "DP-2, preferred, 1440x678, 1"
+      "DP-3, preferred, 4000x678, 1"
     ];
     workspace = [
       "1, monitor:DP-3, default:true"
@@ -21,20 +22,24 @@
       "10, monitor:DP-1, default:true"
     ];
   };
-  # Niri monitor settings to mirror the Hyprland layout
+  # Niri monitor settings to mirror the Hyprland layout.
+  # DP-1 is portrait (rotation 270 = "90 CCW") on the far left, then DP-2, DP-3.
   programs.niri.settings.outputs = lib.mkForce {
-    "DP-3" = {
+    "DP-1" = {
+      mode = { width = 2560; height = 1440; refresh = 143.999; };
       position = { x = 0; y = 0; };
       scale = 1.0;
+      transform = { rotation = 90; };
     };
     "DP-2" = {
-      position = { x = 2560; y = -25; };
+      mode = { width = 2560; height = 1440; refresh = 143.999; };
+      position = { x = 1440; y = 678; };
       scale = 1.0;
     };
-    "DP-1" = {
-      position = { x = 5120; y = -335; };
+    "DP-3" = {
+      mode = { width = 2560; height = 1440; refresh = 143.999; };
+      position = { x = 4000; y = 678; };
       scale = 1.0;
-      transform = { rotation = 270; };
     };
   };
   # Override the scale settings for hyprpanel

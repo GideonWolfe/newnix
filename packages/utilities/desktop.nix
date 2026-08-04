@@ -31,10 +31,10 @@
     # File managers #
     #################
     ranger
-    xfce.thunar
-    xfce.thunar-volman # allow thunar to manage removable drives
-    xfce.thunar-archive-plugin
-    xfce.thunar-media-tags-plugin # we have easytag for this but it doesn't hurt
+    thunar
+    thunar-volman # allow thunar to manage removable drives
+    thunar-archive-plugin
+    thunar-media-tags-plugin # we have easytag for this but it doesn't hurt
     kdePackages.ark # advanced archive manager, haven't figured out KDE theming yet
     nautilus
     sushi # quick preview for nautilus
