@@ -11,11 +11,11 @@ with config.lib.stylix.colors;
 
     text = ''
       :root {
-          --dark0-hard_x:     ${base01-rgb-r},${base01-rgb-g},${base01-rgb-b}; 
+          --dark0-hard_x:     ${base00-rgb-r},${base00-rgb-g},${base00-rgb-b}; 
           --dark0-hard:       rgb(var(--dark0-hard_x));
-          --dark0_x:          ${base01-rgb-r},${base01-rgb-g},${base01-rgb-b}; 
+          --dark0_x:          ${base00-rgb-r},${base00-rgb-g},${base00-rgb-b}; 
           --dark0:            rgb(var(--dark0_x));
-          --dark0-soft_x:     ${base00-rgb-r},${base00-rgb-g},${base00-rgb-b}; 
+          --dark0-soft_x:     ${base01-rgb-r},${base01-rgb-g},${base01-rgb-b}; 
           --dark0-soft:       rgb(var(--dark0-soft_x));
           --dark1_x:          ${base01-rgb-r},${base01-rgb-g},${base01-rgb-b}; 
           --dark1:            rgb(var(--dark1_x));

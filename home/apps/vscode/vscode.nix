@@ -15,6 +15,26 @@ with config.lib.stylix.colors.withHashtag;
             "**/*.gd.uid" = true;
             "**/*.import" = true;
           };
+          # Stylix themes all chrome surfaces (sidebar, activity/status bar, panel,
+          # tab headers, title bar) with base01. Since the base16 spec fix made
+          # base01 lighter than the editor's base00, these panes now look brighter
+          # than the code window. Pin them back to base00 for a uniform dark look.
+          # Uses stylix color vars so it tracks whatever scheme is active.
+          "workbench.colorCustomizations" = {
+            "sideBar.background" = base00;
+            "sideBarSectionHeader.background" = base00;
+            "activityBar.background" = base00;
+            "statusBar.background" = base00;
+            "statusBar.noFolderBackground" = base00;
+            "panel.background" = base00;
+            "titleBar.activeBackground" = base00;
+            "titleBar.inactiveBackground" = base00;
+            "editorGroupHeader.tabsBackground" = base00;
+            "editorGroupHeader.noTabsBackground" = base00;
+            "breadcrumb.background" = base00;
+            "tab.inactiveBackground" = base00;
+            "tab.unfocusedInactiveBackground" = base00;
+          };
         };
         # enableUpdateCheck = true;
         # enableExtensionUpdateCheck = true;

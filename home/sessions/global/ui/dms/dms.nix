@@ -70,10 +70,12 @@ with config.lib.stylix.colors.withHashtag;
         # Once desired config is reached, click "Copy settings.json to clipboard"
         # Run that through json2nix: nix run github:sempruijs/json2nix
         settings = {
-            # Theming now handled by stylix's dank-material-shell target (26.05)
-            # currentThemeName = "custom";
-            # currentThemeCategory = "generic";
-            # customThemeFile = "${config.home.homeDirectory}/.config/DankMaterialShell/stylix.json";
+            # Use our own custom color theme instead of stylix's DMS target colors.
+            # The stylix target still provides fonts, opacity, and wallpaper; we only
+            # override the color theme file here (mkForce beats the target's values).
+            currentThemeName = lib.mkForce "custom";
+            currentThemeCategory = "generic";
+            customThemeFile = lib.mkForce "${config.home.homeDirectory}/.config/DankMaterialShell/stylix.json";
             registryThemeVariants = {};
             matugenScheme = "scheme-content";
             runUserMatugenTemplates = false;
@@ -619,59 +621,58 @@ with config.lib.stylix.colors.withHashtag;
         };
     };
 
-    # Export Stylix colors for DankMaterialShell as a JSON theme file
-    # Disabled: stylix themes DMS natively via its dank-material-shell target (26.05).
-    # Kept here (commented) in case we want to revert to our own color mapping.
-    /*
+    # Export our own colors for DankMaterialShell as a JSON theme file.
+    # We use the stylix DMS target for fonts/opacity/wallpaper, but override the
+    # colors with this file (referenced via settings.customThemeFile above).
+    # Schema mirrors stylix's dank-material-shell target so no keys are missed.
     xdg.configFile."DankMaterialShell/stylix.json" = lib.mkIf (lib.hasAttr "stylix" config.lib) {
-        text = builtins.toJSON {
-            name = "Stylix Colors";
-            # Main accent color for buttons, highlights, and active states
-            # Used by: active workspace button bg, widget buttons, sliders, etc
-            primary = blue;
-            # Text color contrasting with primary background
-            primaryText = base00;
-            # Variant of primary for containers
-            # used by: hovering over certain settings menu buttons (add widget),
-            primaryContainer = orange;
-            # Supporting accent color for variety and hierarchy
-            #secondary = base00;
-            # used by: Bar border, 
-            secondary = magenta;
-            # Tint color applied to surfaces (usually derived from primary)
-            # ONLY seen when hovering over pages in dashboard
-            surfaceTint = magenta;
-            # Default surface color for cards and panels
-            # used by: bottom compass in weather panel, flipped menu switch knobs, bar section BGs
-            surface = base01;
-            # Alternate surface for subtle differentiation
-            surfaceVariant = base00;
-            # Container surface, slightly different from surface
-            surfaceContainer = base01;
-            # Elevated container for layered interfaces
-            # used by: basically all cards/panels in menus
-            surfaceContainerHigh = base00;
-            # Highest elevation container for top-level 
-            surfaceContainerHighest = base02;
-            # Primary text color on surface backgrounds
-            surfaceText = base05;
-            # Text color for surfaceVariant backgrounds
-            surfaceVariantText = base06;
-            # Main background color for the interface
-            # used by: pause icon in media player
-            background = base00; 
-            # Text color for background areas
-            backgroundText = base07;
-            # Color for subtle borders, dividers, muted icons, and extra subtle text
-            outline = magenta;
-            # Status colors
-            error = red;
-            warning = orange;
-            info = blue;
-            success = green;
-        };
+        text = builtins.toJSON (
+          let
+            theme = {
+              name = "Custom";
+              # Main accent color for buttons, highlights, and active states
+              primary = blue;
+              # Text color contrasting with primary background
+              primaryText = base00;
+              # Variant of primary for containers (settings menu button hover)
+              primaryContainer = orange;
+              # Supporting accent color (bar border)
+              secondary = magenta;
+              # Tint color applied to surfaces (dashboard page hover)
+              surfaceTint = magenta;
+              # Default surface color for cards and panels (bar section BGs)
+              surface = base00;
+              # Primary text color on surface backgrounds
+              surfaceText = base05;
+              # Alternate surface for subtle differentiation
+              surfaceVariant = base01;
+              # Text color for surfaceVariant backgrounds
+              surfaceVariantText = base06;
+              # Container surface, slightly different from surface
+              surfaceContainer = base00;
+              # Elevated container for cards/panels in menus
+              surfaceContainerHigh = base01;
+              # Highest elevation container for top-level surfaces
+              surfaceContainerHighest = base02;
+              # Main background color for the interface
+              background = base00;
+              # Text color for background areas
+              backgroundText = base07;
+              # Color for subtle borders, dividers, muted icons
+              outline = magenta;
+              # Status colors
+              error = red;
+              warning = orange;
+              info = blue;
+              success = green;
+            };
+          in
+          {
+            dark = theme;
+            light = theme;
+          }
+        );
     };
-    */
     # Enable dsearch for DMS (system wide searching)
     programs.dsearch.enable = true;
 }
