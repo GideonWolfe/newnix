@@ -110,11 +110,14 @@
 
     # ----- Multi-monitor ---------------------------------------------------
 
-    # Monitor focus/move for multi-monitor parity with Hyprland
-    "Mod+Comma".action.focus-monitor-previous = [ ];
-    "Mod+Period".action.focus-monitor-next = [ ];
-    "Mod+Shift+Comma".action.move-window-to-monitor-previous = [ ];
-    "Mod+Shift+Period".action.move-window-to-monitor-next = [ ];
+    # Monitor focus/move for multi-monitor parity with Hyprland.
+    # Use spatial left/right (not previous/next) so these match the vim
+    # Mod+Shift+H/L binds; previous/next follow niri's monitor enumeration
+    # order, which doesn't track the physical left-to-right layout.
+    "Mod+Comma".action.focus-monitor-left = [ ];
+    "Mod+Period".action.focus-monitor-right = [ ];
+    "Mod+Shift+Comma".action.move-window-to-monitor-left = [ ];
+    "Mod+Shift+Period".action.move-window-to-monitor-right = [ ];
 
     # ----- Columns / tabs / overview ---------------------------------------
 

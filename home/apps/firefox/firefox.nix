@@ -157,13 +157,13 @@ in
             "https://addons.mozilla.org/firefox/downloads/latest/floccus/latest.xpi";
           "default_area" = "menupanel";
         };
-        # Hoarder
-        # "addon@hoarder.app" = {
-        #   "installation_mode" = "force_installed";
-        #   "install_url" =
-        #     "https://addons.mozilla.org/firefox/downloads/latest/hoarder-app/latest.xpi";
-        #   "default_area" = "menupanel";
-        # };
+        # Karakeep (formerly Hoarder)
+        "addon@karakeep.app" = {
+          "installation_mode" = "force_installed";
+          "install_url" =
+            "https://addons.mozilla.org/firefox/downloads/latest/karakeep/latest.xpi";
+          "default_area" = "menupanel";
+        };
         # SponsorBlock
         "sponsorBlocker@ajay.app" = {
           "installation_mode" = "force_installed";

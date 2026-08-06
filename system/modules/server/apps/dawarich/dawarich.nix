@@ -12,7 +12,7 @@ let
   svc = config.custom.world.services.dawarich;
 
   # https://github.com/Freika/dawarich/releases
-  dawarichVersion = "1.7.9";
+  dawarichVersion = "1.11.0";
 
   # PostGIS is mandatory since 1.7.8 (visit detection uses DBSCAN).
   # ARM64: switch to "imresamu/postgis:17-3.5-alpine".

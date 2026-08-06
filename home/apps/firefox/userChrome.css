@@ -533,6 +533,24 @@ menupopup, panel {
 	--panel-border-color: var(--base0E) !important;
 }
 
+/* Form autocomplete dropdown (search fields, datalist, form history).
+   Recent Firefox renders the results on the inner richlistbox's own
+   background (a system Field gray) instead of inheriting --panel-background,
+   so set it explicitly. Also pin the width to the anchored input to stop it
+   overflowing to the right. */
+#PopupAutoComplete,
+#PopupAutoComplete > richlistbox {
+	background-color: var(--base00) !important;
+	color: var(--base05) !important;
+}
+#PopupAutoComplete > richlistbox {
+	width: 100% !important;
+	max-width: 100% !important;
+}
+#PopupAutoComplete richlistitem[selected] {
+	background-color: var(--base02) !important;
+}
+
 
 /* Screenshot page menu */
 #full-page, #visible-page {

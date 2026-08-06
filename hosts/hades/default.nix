@@ -46,6 +46,10 @@
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
 
+  # Keep NetworkManager from power-cycling the WiFi link. Harmless default
+  # that also avoids latency spikes on the Intel AX200 card.
+  networking.networkmanager.wifi.powersave = false;
+
   # Give the machine a unique hostname
   networking.hostName = "hades";
 

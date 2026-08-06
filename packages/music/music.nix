@@ -34,7 +34,8 @@
     pkgs.termsonic # TUI subsonic client
     pkgs.fum # MPRIS TUI client
     #pkgs.sublime-music #GUI Subsonic music server client #BUG: this one slow as fuck
-    #pkgs.feishin # GUI Subsonic music server client #TODO: rewritten into audioling, not a package yet
+    pkgs.feishin # GUI Subsonic music server client
+    pkgs.nocturne # GTK navidrome client
     #pkgs.finamp # Jellyfin music player
     #pkgs.supersonic # subsonic client https://github.com/dweymouth/supersonic/blob/main/res/themes/default.toml
     #pkgs.amarok # KDE GUI music player
