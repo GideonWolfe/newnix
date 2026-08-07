@@ -43,7 +43,7 @@ let
 in
 {
   body = ''
-    set -l ssh_opts "-p ${sshPort} -i ${config.home.homeDirectory}/.ssh/gideon_ssh_sk"
+    set -l ssh_opts "-p ${sshPort} -i ${config.home.homeDirectory}/.ssh/gideon_ssh_sk -C"
     set -l known_hosts ${knownHosts}
 
     set -l flake_attr
@@ -111,6 +111,7 @@ in
     NIX_SSHOPTS="$ssh_opts" nixos-rebuild switch \
         --flake "/home/${config.home.username}/test/newnix/.#$flake_attr" \
         --target-host "$target_host" \
+        --use-substitutes \
         --ask-sudo-password
   '';
 }

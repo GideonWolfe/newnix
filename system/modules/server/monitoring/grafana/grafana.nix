@@ -11,7 +11,8 @@
     # services.grafana.provision.datasources.settings.datasources.
     ./provision/data_sources/prometheus.nix
     ./provision/data_sources/loki.nix
-    ./provision/data_sources/tempo.nix
+    # Tempo datasource removed alongside the Tempo service (see monitoring.nix).
+    # Re-add ./provision/data_sources/tempo.nix if Tempo is reintroduced.
 
     # Dashboards
     ./provision/dashboards/node-exporter.nix
@@ -69,6 +70,10 @@
         admin_user = "$__file{${config.sops.secrets."grafana/users/admin/username".path}}";
         admin_password = "$__file{${config.sops.secrets."grafana/users/admin/password".path}}";
         admin_email = "${config.custom.world.email.infra_email.address}";
+        # NixOS 26.05 requires an explicit secret_key (no default). Provided via
+        # sops file-provider; holds the old default so existing DB secrets stay
+        # decryptable. See secrets_monitoring.nix.
+        secret_key = "$__file{${config.sops.secrets."grafana/secret_key".path}}";
       };
 
       # Reverse Proxy settings

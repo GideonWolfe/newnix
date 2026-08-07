@@ -11,5 +11,11 @@
       PasswordAuthentication = false;
     };
   };
+
+  # Install terminfo for all terminals so ncurses apps (htop, less, vim…)
+  # work when SSHing in from clients that set exotic TERM values like
+  # `xterm-kitty` or `alacritty`, which servers wouldn't otherwise know.
+  environment.enableAllTerminfo = true;
+
   #programs.ssh.startAgent = true;
 }

@@ -1,7 +1,10 @@
 { config, ... }:
 {
   services.prometheus = {
-    enable = true;
+    # Do NOT run a full Prometheus server on every monitored host — the
+    # central monitoring box scrapes these exporters. Enabling the server
+    # here pulls the ~177 MiB prometheus package and runs a needless daemon.
+    # The exporters below work independently of `services.prometheus.enable`.
     exporters = {
       node = {
         enable = true;

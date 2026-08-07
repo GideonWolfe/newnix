@@ -6,8 +6,10 @@
     ./prometheus/prometheus.nix
     # Logs Server
     ./loki/loki.nix
-    # Traces Server (not really used lol)
-    ./tempo/tempo.nix
+    # Traces Server: Tempo removed — it was unused ("not really used lol")
+    # and its WAL/compaction added needless write load to the root disk that
+    # was helping saturate the VM. Re-add ./tempo/tempo.nix (and the Grafana
+    # tempo datasource) if traces are ever actually needed.
     # Visualization Server
     ./grafana/grafana.nix
     # Transport / collection agent that ships local logs into the

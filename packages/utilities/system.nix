@@ -10,13 +10,10 @@
     xdg-utils
 
 
-    opentofu # Terraform provider (used for provisioning Proxmox VMs)
-
     ###########
     # Viewers #
     ###########
     imv # like mpv for images
-    f3d # lightweight 3D model viewer
 
     lsof # List open files
     usbutils # adds utilities like lsusb

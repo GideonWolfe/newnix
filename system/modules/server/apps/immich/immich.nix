@@ -119,6 +119,7 @@ in
   systemd.services.docker-create-immich-network = {
     description = "Create immich docker bridge network";
     after = [ "docker.service" ];
+    requires = [ "docker.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
@@ -126,9 +127,18 @@ in
       # the dependency as satisfied.
       RemainAfterExit = true;
     };
+    # `after docker.service` only orders against the unit starting, not the
+    # daemon being ready to accept API calls. During a `nixos-rebuild switch`
+    # the socket can be mid-cycle, so a bare `inspect || create` misfires:
+    # inspect fails to connect (not "absent"), the `||` runs create, and by
+    # then the daemon is back with the network still present -> the unit dies
+    # with "network already exists". Wait for the daemon, then create only if
+    # missing; the final `|| inspect` swallows the create/create race.
     script = ''
+      until ${pkgs.docker}/bin/docker info >/dev/null 2>&1; do sleep 1; done
       ${pkgs.docker}/bin/docker network inspect immich-network >/dev/null 2>&1 || \
-        ${pkgs.docker}/bin/docker network create immich-network
+        ${pkgs.docker}/bin/docker network create immich-network >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network inspect immich-network >/dev/null 2>&1
     '';
   };
 

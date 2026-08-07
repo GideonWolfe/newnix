@@ -19,7 +19,9 @@
     bat-extras.batgrep
     bat-extras.batdiff
     bat-extras.batwatch
-    bat-extras.prettybat
+    # NOTE: bat-extras.prettybat lives in the desktop package list — it
+    # shells out to rustfmt/clang-format/prettier at runtime, dragging the
+    # entire Rust + Clang/LLVM + Node toolchain (~3.5 GiB) into the closure.
 
     # Utilities
     csview # cat out CSV files
@@ -34,9 +36,6 @@
     pstree # process tree
     ov # terminal pager
     pv # pipe viewer (progress bar for long-running commands)
-
-
-    espeak # pipe script output to voice
 
 
 

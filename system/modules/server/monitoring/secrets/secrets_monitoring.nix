@@ -9,6 +9,12 @@
     "grafana/users/admin/username"   = { sopsFile = ./secrets_monitoring.yaml; owner = "grafana"; };
     "grafana/users/admin/password"   = { sopsFile = ./secrets_monitoring.yaml; owner = "grafana"; };
 
+    # Grafana - secret_key used to encrypt secrets in Grafana's DB.
+    # NixOS 26.05 dropped the built-in default, so this must be provided.
+    # Use the OLD default value ("SW2YcwTIb9zpOOhoPsMm") so already-encrypted
+    # DB secrets stay readable; store it here rather than hard-coding it.
+    "grafana/secret_key"             = { sopsFile = ./secrets_monitoring.yaml; owner = "grafana"; };
+
     # Grafana - login screen password hint string
     "grafana/hint"                   = { sopsFile = ./secrets_monitoring.yaml; owner = "grafana"; };
 

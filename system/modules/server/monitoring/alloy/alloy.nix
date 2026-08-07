@@ -4,10 +4,13 @@ let
   # Monitoring stack is co-located; always send to local Loki
   lokiEndpoint = "http://localhost:${toString lokiService.port}/loki/api/v1/push";
 
-  # Grab GeoIP database for geo lookups
+  # Grab GeoIP database for geo lookups.
+  # NOTE: upstream (P3TERX/GeoLite.mmdb) publishes a fresh dated release daily
+  # and garbage-collects old ones, so a stale tag will 404 the build. Bump the
+  # date + hash when that happens (latest tag: https://github.com/P3TERX/GeoLite.mmdb/releases/latest).
   geoipDB = pkgs.fetchurl {
-    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.07.31/GeoLite2-City.mmdb";
-    sha256 = "sha256-5ClIoaodG8omWe63OlMAUCHMwbUAjlv3qZPlP7T/X+Y=";
+    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.08.04/GeoLite2-City.mmdb";
+    sha256 = "sha256-bmaEyrBOu6EMHqn0pEMXXKD/CA4lXoT57wNQUXWCZX4=";
   };
 in
 {

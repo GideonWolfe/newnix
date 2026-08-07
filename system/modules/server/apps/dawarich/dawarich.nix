@@ -49,14 +49,21 @@ in
   systemd.services.docker-create-dawarich-network = {
     description = "Create dawarich docker bridge network";
     after       = [ "docker.service" ];
+    requires    = [ "docker.service" ];
     wantedBy    = [ "multi-user.target" ];
     serviceConfig = {
       Type            = "oneshot";
       RemainAfterExit = true;
     };
+    # Wait for the docker daemon to be reachable before touching networks —
+    # `after docker.service` only orders against unit start, not API
+    # readiness, so a bare `inspect || create` can misfire during a switch
+    # (socket mid-cycle) and die with "network already exists".
     script = ''
+      until ${pkgs.docker}/bin/docker info >/dev/null 2>&1; do sleep 1; done
       ${pkgs.docker}/bin/docker network inspect dawarich-network >/dev/null 2>&1 || \
-        ${pkgs.docker}/bin/docker network create dawarich-network
+        ${pkgs.docker}/bin/docker network create dawarich-network >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network inspect dawarich-network >/dev/null 2>&1
     '';
   };
 

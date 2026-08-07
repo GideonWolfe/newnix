@@ -21,6 +21,7 @@ in
   systemd.services.docker-create-romm-network = {
     description = "Create romm docker bridge network";
     after = [ "docker.service" ];
+    requires = [ "docker.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
@@ -28,9 +29,15 @@ in
       # it (the romm containers) see the dependency as satisfied.
       RemainAfterExit = true;
     };
+    # Wait for the docker daemon to be reachable before touching networks —
+    # `after docker.service` only orders against unit start, not API
+    # readiness, so a bare `inspect || create` can misfire during a switch
+    # (socket mid-cycle) and die with "network already exists".
     script = ''
+      until ${pkgs.docker}/bin/docker info >/dev/null 2>&1; do sleep 1; done
       ${pkgs.docker}/bin/docker network inspect romm-network >/dev/null 2>&1 || \
-        ${pkgs.docker}/bin/docker network create romm-network
+        ${pkgs.docker}/bin/docker network create romm-network >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network inspect romm-network >/dev/null 2>&1
     '';
   };
 

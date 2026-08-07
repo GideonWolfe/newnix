@@ -49,9 +49,15 @@
         requires = [ "docker.service" ];
         wantedBy = [ "multi-user.target" ];
         serviceConfig.Type = "oneshot";
+        # Wait for the docker daemon to be reachable before touching networks —
+        # `after docker.service` only orders against unit start, not API
+        # readiness, so a bare `inspect || create` can misfire during a switch
+        # (socket mid-cycle) and die with "network already exists".
         script = ''
+            until /run/current-system/sw/bin/docker info >/dev/null 2>&1; do sleep 1; done
             /run/current-system/sw/bin/docker network inspect media >/dev/null 2>&1 || \
-                /run/current-system/sw/bin/docker network create media
+                /run/current-system/sw/bin/docker network create media >/dev/null 2>&1 || \
+                /run/current-system/sw/bin/docker network inspect media >/dev/null 2>&1
         '';
     };
 

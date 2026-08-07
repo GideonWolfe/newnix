@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     wget
     nmap
-    networkmanagerapplet
     inetutils # various networking utils (ftp, traceroute, whois, etc)
     gping # graphical ping
     ip2location
@@ -13,7 +12,6 @@
     wtfis # more informative whois CLI
     speedtest-rs
     #BUG: conflicts with "speedtest" command offered by speedtest-cli
-    speedtest # GTK frontend for librespeed
     wireguard-tools # WireGuard VPN utilities
     tcpdump # network packet sniffer
     nftables # firewall utility

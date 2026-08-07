@@ -19,6 +19,8 @@
     ../modules/ui/xdg-portals.nix
     ../modules/ui/xwayland.nix
     ../modules/system/flatpak.nix
+    # Desktop virtualization (virt-manager/libvirt/SPICE)
+    ../modules/system/libvirt.nix
 
     ############
     # Packages #

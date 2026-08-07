@@ -26,6 +26,33 @@
   # Dropping some stuff to save space
   programs.appimage.enable = lib.mkForce false; # not needed on servers
 
+  # These are headless VMs — no GUI to theme. Stylix's home-manager
+  # integration otherwise generates a KDE/Qt theme (`stylix-kde-theme`,
+  # ~600 MiB), pulls qtbase into the user environment, and sets a GNOME
+  # dconf background whose `picture-uri` drags the entire ~600 MiB
+  # wallpapers flake input into the closure. Disable the graphical HM
+  # stylix targets to keep the closure lean.
+  home-manager.users.gideon.stylix.targets = {
+    kde.enable = false;
+    qt.enable = false;
+    gtk.enable = false;
+    gnome.enable = false;
+  };
+
+  # Headless servers don't need geolocation-based timezone detection. The base
+  # `automatic-timezoned` module runs geoclue plus a `geoclue-agent` *user*
+  # service, which (along with gnome-keyring's gcr-ssh-agent) is desktop churn
+  # that also makes home-manager's user-session dbus-broker reload fail during
+  # `nixos-rebuild switch`. Use a static timezone instead — these VMs never move.
+  services.automatic-timezoned.enable = lib.mkForce false;
+  time.timeZone = "America/New_York";
+
+  # Keep gideon's user systemd manager (and its session dbus-broker) running
+  # persistently rather than being spun up transiently for each SSH+sudo switch.
+  # Without this, home-manager's user activation reloads dbus-broker inside a
+  # short-lived session and reports "user activation for gideon failed".
+  users.users.gideon.linger = true;
+
   # Point at the router
   networking.defaultGateway = "${config.custom.world.hosts.router.ip}";
   networking.nameservers = [ "${config.custom.world.hosts.router.ip}" ];

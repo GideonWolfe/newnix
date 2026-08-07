@@ -10,6 +10,13 @@
     enable = true;
   };
 
+  # The upstream proxmox-image module adds `console=ttyS0` to kernelParams,
+  # which makes NixOS auto-spawn serial-getty@ttyS0. These seabios/VGA VMs
+  # have no real serial port, so agetty fails ("not a tty") and systemd
+  # restart-loops it forever, flooding the journal. We access these VMs over
+  # SSH / the Proxmox VGA console, so just disable the serial getty.
+  systemd.services."serial-getty@ttyS0".enable = false;
+
   # reduce size of the VM
   services.fstrim = {
     enable = true;

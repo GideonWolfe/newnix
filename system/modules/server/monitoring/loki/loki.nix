@@ -49,6 +49,24 @@
           directory = "/var/lib/loki/chunks";
         };
       };
+
+      # Bound Loki's on-disk growth. Without a compactor + retention, the
+      # chunk/index dirs under /var/lib/loki grow forever and every ingested
+      # line is a permanent write — a big contributor to the root-disk I/O
+      # saturation that stalls this VM. Keep 7 days and let the compactor
+      # apply retention.
+      limits_config = {
+        retention_period = "168h"; # 7 days
+      };
+
+      compactor = {
+        working_directory = "/var/lib/loki/compactor";
+        compaction_interval = "10m";
+        retention_enabled = true;
+        retention_delete_delay = "2h";
+        # Required when retention is enabled with the filesystem backend.
+        delete_request_store = "filesystem";
+      };
     };
   };
 
