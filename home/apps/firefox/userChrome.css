@@ -459,6 +459,12 @@ findbar checkbox[checked="true"] {
     --urlbarView-highlight-background: color-mix( in srgb, var(--base0D), transparent 80% ) !important; 
 }
 
+/* Background of the actively selected/hovered URL bar suggestion row */
+.urlbarView-row:is([selected], [visually-selected]),
+.urlbarView-row:hover {
+    background-color: color-mix( in srgb, var(--base0D), transparent 80% ) !important;
+}
+
 /* Bookmarks bar  */
 .bookmark-item .toolbarbutton-icon {
   display: none;

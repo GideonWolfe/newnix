@@ -1,7 +1,8 @@
 { config, ... }:
 {
   resource."routeros_ip_dhcp_server_lease"."poseidon" = {
-    mac_address = "6C:6E:07:05:36:6E";
+    #mac_address = "6C:6E:07:05:36:6E";
+    mac_address = "14:F6:D8:D6:95:6B";
     address = "${config.custom.world.hosts.poseidon.ip}";
     server = "defconf";
     provider = "routeros.router";
@@ -9,7 +10,7 @@
   };
 
   resource."routeros_ip_dhcp_server_lease"."hades" = {
-    mac_address = "2C:f0:5D:59:89:6A";
+    mac_address = "EC:3A:56:FA:82:8C";
     address = "${config.custom.world.hosts.hades.ip}";
     server = "defconf";
     provider = "routeros.router";

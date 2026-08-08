@@ -150,7 +150,7 @@ with config.lib.stylix.colors.withHashtag;
 
       winbox = {
         body =
-          "command WinBox";
+          "command QT_QPA_PLATFORM=xcb WinBox";
       };
 
       # Build the local flake and push it to a remote host over SSH.
