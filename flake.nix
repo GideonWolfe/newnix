@@ -126,6 +126,11 @@
       url = "github:gmodena/nix-flatpak/?ref=latest";
     };
 
+    # Lightweight file server (resumable up/downloads, webdav/ftp/smb, etc.)
+    copyparty = {
+      url = "github:9001/copyparty";
+    };
+
   };
 
   outputs =
@@ -152,6 +157,7 @@
       nix-ai-tools,
       liixini-shaders,
       nix-flatpak,
+      copyparty,
       ...
     }@inputs:
     let

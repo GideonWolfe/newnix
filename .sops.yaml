@@ -79,6 +79,13 @@ creation_rules:
           - *hades
         pgp:
           - *gideon
+  - path_regex: secrets_copyparty.yaml$
+    key_groups:
+      - age:
+          - *hades
+          - *mnemosyne
+        pgp:
+          - *gideon
   - path_regex: secrets_ingress.yaml$
     key_groups:
       - age:

@@ -332,5 +332,12 @@ in
       domain = "";
       protocol = "http";
     };
+    copyparty = mkService {
+      name = "Copyparty";
+      ip = config.custom.world.hosts.mnemosyne.ip;
+      port = 3923; # upstream default
+      domain = "";
+      protocol = "http";
+    };
   };
 }

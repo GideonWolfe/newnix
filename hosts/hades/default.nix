@@ -28,6 +28,8 @@
     # TESTING
     ../../system/modules/services/terraform
     ../../system/modules/server/apps/homepage/homepage.nix
+    # Copyparty lightweight file server (testing before mnemosyne)
+    ../../system/modules/server/apps/copyparty
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)

@@ -563,6 +563,11 @@ in
                 };
 
             }; }
+            { CopyParty = {
+                href = "${svc.copyparty.protocol}://${svc.copyparty.ip}:${builtins.toString svc.copyparty.port}";
+                description = "LAN File Server";
+                icon = "copyparty";
+            }; }
             { Mealie = {
                 href = "http://${svc.mealie.ip}:${builtins.toString svc.mealie.port}";
                 description = "Recipe Manager";

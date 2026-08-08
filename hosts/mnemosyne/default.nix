@@ -34,6 +34,9 @@
     # Allow our datasets to be shared over NFS
     ./nfs/nfs.nix
 
+    # Copyparty lightweight file server for LAN hosts without the NFS mount
+    ../../system/modules/server/apps/copyparty
+
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -59,6 +62,10 @@
 
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
+
+  # Directory that copyparty serves as its root volume. 
+  # On the NAS this should point at a gideon-owned location on the tank pool.
+  custom.services.copyparty.dataDir = "/tank";
 
   # Give the machine a unique hostname
   networking.hostName = "mnemosyne";
