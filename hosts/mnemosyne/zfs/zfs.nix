@@ -23,4 +23,8 @@
     # Even though it auto imports fine now, saving ourselves possible breakage later
     # Make sure ZFS can find the disks for our pool
     boot.zfs.devNodes = "/dev/disk/by-id/"; 
+    # Don't force-import an un-exported root pool (new default from 26.11).
+    # Safer: a pool left dirty (e.g. after a crash) won't be blindly imported,
+    # avoiding data loss if it were ever in use elsewhere.
+    boot.zfs.forceImportRoot = false;
 }
