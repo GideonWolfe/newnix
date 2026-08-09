@@ -1,19 +1,15 @@
-{pkgs, config, ... }:
+{ inputs, ... }:
+{
+  # dms-greeter: a greetd login screen matching the DankMaterialShell aesthetic.
+  # The upstream flake ships a standalone NixOS module that also wires up greetd.
+  imports = [ inputs.dank-greeter.nixosModules.default ];
 
-let tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-in {
-  # Enable greetd
-  services.greetd = {
+  programs.dms-greeter = {
     enable = true;
-    settings = {
-      default_session = {
-        # Command to launch tuigreet, a TUI based greeter
-        command =
-          #INFO: This is how to manually bind sessions, but they seem to automatically populate fine
-          "${tuigreet} --time  --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions --xsessions ${config.services.displayManager.sessionData.desktops}/share/xsessions --remember --remember-user-session";
-          #"${tuigreet} --time --remember --remember-user-session";
-        user = "greeter";
-      };
-    };
+    # Render the greeter inside niri (our primary compositor).
+    compositor.name = "niri";
+    # Copy gideon's DMS theme, wallpaper, and settings into the greeter so the
+    # login screen matches the desktop.
+    configHome = "/home/gideon";
   };
 }

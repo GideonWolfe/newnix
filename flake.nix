@@ -115,6 +115,12 @@
       url = "github:AvengeMedia/danksearch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # greetd login screen matching the DMS aesthetic.
+    # No `nixpkgs.follows`: upstream pins nixpkgs-unstable and needs Go 1.26+,
+    # which isn't guaranteed in our stable nixpkgs.
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
+    };
 
     # liixini's GLSL shader collection for niri (not a flake, just .glsl files)
     liixini-shaders = {
