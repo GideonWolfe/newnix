@@ -532,11 +532,33 @@ toolbarbutton.bookmark-item:not(.subviewbutton) {
 }
 
 
-/* Context menu colors */
+/* Context menu colors.
+   Firefox 152 renamed the panel/menu background variables: the old
+   --panel-background / --arrowpanel-background are now ignored, and menus read
+   --panel-background-color / --panel-text-color instead. Set the new names
+   (keep the old ones for pre-152 compatibility). */
 menupopup, panel {
 	--panel-background: var(--base00) !important;
+	--panel-background-color: var(--base00) !important;
 	--panel-color: var(--base05) !important;
+	--panel-text-color: var(--base05) !important;
 	--panel-border-color: var(--base0E) !important;
+}
+
+/* Menu items: kill the native (blue) hover/selected highlight and use a
+   semi-transparent theme accent instead. */
+menupopup menuitem,
+menupopup menu {
+	appearance: none !important;
+	-moz-appearance: none !important;
+	color: var(--base05) !important;
+}
+menupopup menuitem[_moz-menuactive="true"],
+menupopup menu[_moz-menuactive="true"],
+menupopup menuitem:hover,
+menupopup menu:hover {
+	background-color: color-mix( in srgb, var(--base0D), transparent 80% ) !important;
+	color: var(--base05) !important;
 }
 
 /* Form autocomplete dropdown (search fields, datalist, form history).
