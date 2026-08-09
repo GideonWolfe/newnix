@@ -339,5 +339,12 @@ in
       domain = "";
       protocol = "http";
     };
+    aria2 = mkService {
+      name = "Aria2";
+      ip = config.custom.world.hosts.mnemosyne.ip;
+      port = 6800; # JSON-RPC port (upstream default)
+      domain = "";
+      protocol = "http";
+    };
   };
 }

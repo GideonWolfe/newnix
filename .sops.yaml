@@ -86,6 +86,12 @@ creation_rules:
           - *mnemosyne
         pgp:
           - *gideon
+  - path_regex: secrets_aria2.yaml$
+    key_groups:
+      - age:
+          - *mnemosyne
+        pgp:
+          - *gideon
   - path_regex: secrets_ingress.yaml$
     key_groups:
       - age:

@@ -200,6 +200,16 @@ in
             "https://addons.mozilla.org/firefox/downloads/latest/istilldontcareaboutcookies/latest.xpi";
           "default_area" = "menupanel";
         };
+        # Aria2 Explorer -- hand off downloads to the aria2 daemon on mnemosyne
+        # (also bundles the AriaNg dashboard). Configure RPC in the extension:
+        #   RPC URL:    http://<mnemosyne>:6800/jsonrpc
+        #   RPC secret: the token from secrets_aria2.yaml
+        "nicong@aspect.dev" = {
+          "installation_mode" = "force_installed";
+          "install_url" =
+            "https://addons.mozilla.org/firefox/downloads/latest/ybbapp-aria2-explorer/latest.xpi";
+          "default_area" = "menupanel";
+        };
       };
 
     };

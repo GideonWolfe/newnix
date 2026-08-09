@@ -37,6 +37,10 @@
     # Copyparty lightweight file server for LAN hosts without the NFS mount
     ../../system/modules/server/apps/copyparty
 
+    # Aria2 remote download daemon (queue downloads from a desktop browser,
+    # NAS pulls them directly over its fast wired link)
+    ../../system/modules/server/apps/aria2
+
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -66,6 +70,10 @@
   # Directory that copyparty serves as its root volume. 
   # On the NAS this should point at a gideon-owned location on the tank pool.
   custom.services.copyparty.dataDir = "/tank";
+
+  # Aria2 downloads land on the tank pool so they're pulled at full wired
+  # speed and are immediately browsable via copyparty (which serves /tank).
+  custom.services.aria2.dataDir = "/tank/bucket/downloads";
 
   # Give the machine a unique hostname
   networking.hostName = "mnemosyne";
