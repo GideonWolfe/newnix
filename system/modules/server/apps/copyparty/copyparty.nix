@@ -69,9 +69,12 @@ in
         "/" = {
           path = cfg.dataDir;
           access = {
-            # these can be "*" to allow anonymous read/write, but we don't want that on the LAN
-            r = [ "copyadmin" ];
-            rw = [ "copyadmin" ];
+            # copyparty perms are per-letter: r=read/browse, w=write/upload,
+            # m=move/rename, d=delete. `rw` alone allows upload (copy/paste)
+            # but NOT move or delete -- grant rwmd for full management.
+            rwmd = [ "copyadmin" ];
+            # Uncomment to let anyone on the LAN read + upload anonymously:
+            # rw = [ "*" ];
           };
           flags = {
             e2d = true;

@@ -27,8 +27,8 @@
     ############
     # PAINTING #
     ############
-    pkgs.inkscape-with-extensions
-    pkgs.inkscape-extensions.inkstitch
+    #pkgs.inkscape-with-extensions
+    #pkgs.inkscape-extensions.inkstitch
     pkgs.krita
     pkgs.drawing # lightweight drawing app
 
