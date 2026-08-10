@@ -99,4 +99,11 @@
     allowed_address = [ "${config.custom.world.hosts.pixel9a.wireguard.ip}/32" ];
     provider = "routeros.router";
   };
+  resource."routeros_interface_wireguard_peer"."retroidpocket6" = {
+    interface = "\${routeros_interface_wireguard.wg0.name}";
+    name = "retroidpocket6";
+    public_key = config.custom.world.hosts.retroidpocket6.wireguard.public_key;
+    allowed_address = [ "${config.custom.world.hosts.retroidpocket6.wireguard.ip}/32" ];
+    provider = "routeros.router";
+  };
 }

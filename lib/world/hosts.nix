@@ -17,6 +17,11 @@ in
         wireguard.ip = mkIp "10.0.0.2";
         wireguard.public_key = mkIp "yVjPDm5jjI9rqTG9m1zapHl6gzqxbXBfJaq1IlO4Z14=";
       };
+      retroidpocket6    = {
+        ip = mkIp "192.168.88.206";
+        wireguard.ip = mkIp "10.0.0.3";
+        wireguard.public_key = mkIp "N5/g+wB3XnvU0MeYNZ2sq+GHDEzJ5kASz+WZbcY/mG4=";
+      };
       mnemosyne  = { ip = mkIp "192.168.88.205"; };
       access_point = { ip = mkIp "192.168.88.2"; };
       monitor    = { ip = mkIp "165.227.70.3"; };
