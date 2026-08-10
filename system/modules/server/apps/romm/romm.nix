@@ -68,6 +68,7 @@ in
       "${gamesDir}/gb:${rommRomLibrary}/gb" # GameBoy
       "${gamesDir}/gba:${rommRomLibrary}/gba" # GameBoy Advance
       "${gamesDir}/gbc:${rommRomLibrary}/gbc" # GameBoy Color
+      "${gamesDir}/gc:${rommRomLibrary}/ngc" # Nintendo GameCube
       "${gamesDir}/nds:${rommRomLibrary}/nds" # Nintendo DS
       "${gamesDir}/nes:${rommRomLibrary}/nes" # Nintendo Entertainment System
       "${gamesDir}/n64:${rommRomLibrary}/n64" # Nintendo 64
@@ -78,6 +79,14 @@ in
       "${gamesDir}/ngpc:${rommRomLibrary}/neo-geo-pocket-color" # Neo Geo Pocket Color
       "${gamesDir}/sms:${rommRomLibrary}/sms" # Sega Master System
       "${gamesDir}/xbox:${rommRomLibrary}/xbox" # Xbox
+      "${gamesDir}/xbox360:${rommRomLibrary}/xbox360" # Xbox 361
+      "${gamesDir}/psp:${rommRomLibrary}/psp" # PlayStation Portable
+      "${gamesDir}/psvita:${rommRomLibrary}/psvita" # PlayStation Vita
+      "${gamesDir}/psx:${rommRomLibrary}/psx" # PlayStation 1
+      "${gamesDir}/ps2:${rommRomLibrary}/ps2" # PlayStation 2
+      "${gamesDir}/ps3:${rommRomLibrary}/ps3" # PlayStation 3
+      "${gamesDir}/ps4:${rommRomLibrary}/ps4" # PlayStation 4
+      "${gamesDir}/ps5:${rommRomLibrary}/ps5" # PlayStation 5
 
       # We already have a specially made bios directory for RomM from 
       # https://github.com/Abdess/retrobios/releases/tag/v2026.04.02

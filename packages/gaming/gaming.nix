@@ -19,6 +19,7 @@
       pkgs.skyemu # Emulator for GB,GBC,GBA,DS
       pkgs.parallel-launcher # n64 emulator
       pkgs.gopher64 # n64 emulator
+      pkgs.ecmtools # CLI for extracting and creating ECM files (used for some PS1 games)
   ];
 
     services.flatpak.packages = [
