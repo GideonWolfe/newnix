@@ -27,6 +27,10 @@ in
       monitor    = { ip = mkIp "165.227.70.3"; };
       homeserver = { ip = mkIp "66.108.176.86"; };
 
+      # SLZB-06MU Zigbee coordinator. Trusted infra on the main LAN (NOT the
+      # IoT VLAN); Home Assistant reaches it over ser2net (tcp 6638).
+      slzb06 = { ip = mkIp "192.168.88.168"; };
+
       # IoT VLAN devices (subnet defined in networks.nix). Home Assistant is
       # multi-homed here via a second NIC to reach IoT gear directly.
       iot = {

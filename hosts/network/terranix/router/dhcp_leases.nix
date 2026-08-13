@@ -41,6 +41,14 @@
     comment = "Mnemosyne (NAS)";
   };
 
+  resource."routeros_ip_dhcp_server_lease"."slzb06" = {
+    mac_address = "9E:13:9E:34:20:C8";
+    address = "${config.custom.world.hosts.slzb06.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "SLZB-06MU (Zigbee coordinator)";
+  };
+
   # resource."routeros_ip_dhcp_server_lease"."pvenet" = {
   #   mac_address = "7C:83:34:B9:A4:AF";
   #   address = "${config.custom.world.hosts.proxmox.nodes.pvenet.ip}";
