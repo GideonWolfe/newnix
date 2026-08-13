@@ -26,7 +26,7 @@ in
   # DHCP address pool handed out to IoT devices.
   resource."routeros_ip_pool"."iot" = {
     name = "iot-pool";
-    ranges = "${iot.dhcp.start}-${iot.dhcp.end}";
+    ranges = [ "${iot.dhcp.start}-${iot.dhcp.end}" ];
     provider = "routeros.router";
   };
 
@@ -41,7 +41,7 @@ in
   resource."routeros_ip_dhcp_server_network"."iot" = {
     address = iot.subnet;
     gateway = iot.gateway;
-    dns_server = iot.dns;
+    dns_server = [ iot.dns ];
     provider = "routeros.router";
   };
 }
