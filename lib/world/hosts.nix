@@ -22,6 +22,13 @@ in
       monitor    = { ip = mkIp "165.227.70.3"; };
       homeserver = { ip = mkIp "66.108.176.86"; };
 
+      # IoT VLAN devices (subnet defined in networks.nix). Home Assistant is
+      # multi-homed here via a second NIC to reach IoT gear directly.
+      iot = {
+        gateway = { ip = mkIp "192.168.20.1"; };
+        homeassistant = { ip = mkIp "192.168.20.2"; };
+      };
+
       router = {
         ip = mkIp "192.168.88.1";
         subnet = lib.mkOption {

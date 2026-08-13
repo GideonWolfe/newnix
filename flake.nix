@@ -341,6 +341,10 @@
           ./hosts/network/terranix/router/port_forwards.nix
           ./hosts/network/terranix/router/dns.nix
           ./hosts/network/terranix/router/wireguard.nix
+          # IoT VLAN, staged rollout: apply Stage A (vlan_iot) and verify LAN +
+          # DHCP lease before enabling Stage B (firewall_iot) isolation rules.
+          ./hosts/network/terranix/router/vlan_iot.nix
+          #./hosts/network/terranix/router/firewall_iot.nix
         ];
       };
 
