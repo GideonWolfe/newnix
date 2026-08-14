@@ -519,6 +519,13 @@ in
               icon = "home-assistant";
             };
           }
+          {
+            "SLZB" = {
+              href = "http://${config.custom.world.hosts.slzb06.ip}:6638";
+              description = "SLZB-06MU Zigbee coordinator";
+              icon = "zigbee";
+            };
+          }
         ];
       }
 

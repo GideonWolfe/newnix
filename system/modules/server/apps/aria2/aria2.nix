@@ -73,6 +73,26 @@ in
         # URL as its referer, clearing referer-check 403s too.
         user-agent = "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0";
         referer = "*";
+
+        # --- BitTorrent ---
+        # DHT + PEX are on by default; LPD is not. Enable every peer-discovery
+        # mechanism so magnets aren't stuck relying on a single source.
+        bt-enable-lpd = true;
+        # Magnets/torrents with dead or missing trackers otherwise sit at 0
+        # peers forever (DHT alone can be slow/unreliable). Seed a list of
+        # reliable public trackers that get merged into every torrent.
+        bt-tracker = lib.concatStringsSep "," [
+          "udp://tracker.opentrackr.org:1337/announce"
+          "udp://open.tracker.cl:1337/announce"
+          "udp://open.demonii.com:1337/announce"
+          "udp://tracker.openbittorrent.com:6969/announce"
+          "udp://exodus.desync.com:6969/announce"
+          "udp://tracker.torrent.eu.org:451/announce"
+          "udp://explodie.org:6969/announce"
+          "udp://tracker.dler.org:6969/announce"
+          "udp://opentracker.i2p.rocks:6969/announce"
+          "udp://tracker1.bt.moack.co.kr:80/announce"
+        ];
       };
     };
 
@@ -87,6 +107,17 @@ in
       StateDirectory = "aria2-state";
       StateDirectoryMode = "0770";
     };
+
+    # The upstream `openPorts` only opens UDP 6881-6999 (DHT / UDP trackers)
+    # and TCP for the RPC port -- it never opens the *TCP* BitTorrent
+    # peer-listen range, so peers can't connect inbound. Open it so we're
+    # reachable and actually pick up seeders.
+    networking.firewall.allowedTCPPortRanges = [
+      {
+        from = 6881;
+        to = 6999;
+      }
+    ];
 
     # Own the download dir as gideon:users (setgid) so downloads land with the
     # right owner and copyparty/other PGID=100 tooling can manage them too.
