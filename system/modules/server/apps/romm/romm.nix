@@ -73,6 +73,8 @@ in
       "${gamesDir}/nes:${rommRomLibrary}/nes" # Nintendo Entertainment System
       "${gamesDir}/n64:${rommRomLibrary}/n64" # Nintendo 64
       "${gamesDir}/snes:${rommRomLibrary}/snes" # Super Nintendo Entertainment System
+      "${gamesDir}/wii:${rommRomLibrary}/wii" # Nintendo Wii
+      "${gamesDir}/wiiu:${rommRomLibrary}/wiiu" # Nintendo Wii U
       "${gamesDir}/md:${rommRomLibrary}/genesis" # megadrive/genesis
       "${gamesDir}/gg:${rommRomLibrary}/gamegear" # game gear
       "${gamesDir}/gw:${rommRomLibrary}/g-and-w" # game and watch
