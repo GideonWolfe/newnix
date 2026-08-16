@@ -6,6 +6,10 @@
     clone = "nixos-base";
     full_clone = true;
 
+    # Auto-start on host boot so the VM recovers after a host reboot or an
+    # OOM-kill of the kvm process.
+    start_at_node_boot = true;
+
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";

@@ -7,12 +7,20 @@
     full_clone = true;
     tags = "prod,app";
 
+    # Auto-start on host boot so the VM recovers after a host reboot or after
+    # the host OOM-killer reaps the kvm process (see 04:00 replication spike).
+    start_at_node_boot = true;
+
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
+    # `memory` is the cap; `balloon` is the floor the host can shrink us to
+    # under memory pressure. Keep balloon below memory so pve2 can reclaim
+    # RAM from this VM during the 04:00 replication spike instead of
+    # OOM-killing the kvm process.
     memory = 8192;
-    balloon = 8192;
+    balloon = 3072;
     skip_ipv6 = true;
 
     cpu = {

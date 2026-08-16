@@ -7,6 +7,10 @@
     full_clone = true;
     tags = "prod,app";
 
+    # Auto-start on host boot so the VM recovers after a host reboot or an
+    # OOM-kill of the kvm process.
+    start_at_node_boot = true;
+
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
