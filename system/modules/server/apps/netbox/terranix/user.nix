@@ -18,7 +18,7 @@
     };
 
     resource."netbox_token"."test_basic" = {
-        user_id = netbox_user.test.username;
+        user_id = "\${netbox_user.test.id}";
         key = "\${var.netbox_user_token}";
     };
 }

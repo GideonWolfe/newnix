@@ -7,14 +7,20 @@
     resource."netbox_virtual_disk"."vm-media-boot-disk" = {
         name = "media-vm-boot-disk";
         virtual_machine_id = "\${netbox_virtual_machine.vm-media.id}";
-        description = "Boot disk for media VM";
-        size_mb = 30000;
+        description = "Boot disk for media VM (rootdisk: OS, nix store, docker images)";
+        size_mb = 51200;
     };
     resource."netbox_virtual_disk"."vm-media-data-disk" = {
         name = "media-vm-data-disk";
         virtual_machine_id = "\${netbox_virtual_machine.vm-media.id}";
-        description = "Data disk for media VM";
-        size_mb = 23000;
+        description = "Data disk for media VM (app config dirs, replicated)";
+        size_mb = 32768;
+    };
+    resource."netbox_virtual_disk"."vm-media-scratch-disk" = {
+        name = "media-vm-scratch-disk";
+        virtual_machine_id = "\${netbox_virtual_machine.vm-media.id}";
+        description = "Scratch disk for media VM (nzbget/soulseek downloads, not replicated or backed up)";
+        size_mb = 81920;
     };
 
     # Define Virtual NIC for the VM

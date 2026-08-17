@@ -7,14 +7,14 @@
     resource."netbox_virtual_disk"."vm_ingress_boot_disk" = {
         name = "ingress-vm-boot-disk";
         virtual_machine_id = "\${netbox_virtual_machine.vm_ingress.id}";
-        description = "Boot disk for ingress VM";
-        size_mb = 30000;
+        description = "Boot disk for ingress VM (rootdisk)";
+        size_mb = 24576;
     };
     resource."netbox_virtual_disk"."vm_ingress_data_disk" = {
         name = "ingress-vm-data-disk";
         virtual_machine_id = "\${netbox_virtual_machine.vm_ingress.id}";
         description = "Data disk for ingress VM";
-        size_mb = 10000;
+        size_mb = 16384;
     };
 
     # Define Virtual NIC for the VM
@@ -49,6 +49,6 @@
         name = "Traefik";
         virtual_machine_id = "\${netbox_virtual_machine.vm_ingress.id}";
         protocol = "tcp";
-        ports = [8080 443];
+        ports = [config.custom.world.services.traefik.port 443];
     };
 }

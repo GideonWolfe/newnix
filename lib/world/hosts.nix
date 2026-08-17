@@ -23,6 +23,9 @@ in
         wireguard.public_key = mkIp "N5/g+wB3XnvU0MeYNZ2sq+GHDEzJ5kASz+WZbcY/mG4=";
       };
       mnemosyne  = { ip = mkIp "192.168.88.205"; };
+      # Offsite backup NAS (UGREEN DXP2800). Not yet stood up; IP is a
+      # placeholder to be finalized once the offsite network is provisioned.
+      soteria    = { ip = mkIp "10.10.10.10"; };
       access_point = { ip = mkIp "192.168.88.2"; };
       monitor    = { ip = mkIp "165.227.70.3"; };
       homeserver = { ip = mkIp "66.108.176.86"; };
