@@ -50,7 +50,7 @@
     # Or any other arbitrary HM config we are testing
     ../../home/sessions/niri/niri.nix
     # NixVim configuration (belongs in HM, not system modules)
-    ../../home/apps/nixvim/nixvim.nix
+    ../../home/apps/nixvim/nixvim-light.nix
   ];
 
   # Plymouth fills up the /boot partition lol
