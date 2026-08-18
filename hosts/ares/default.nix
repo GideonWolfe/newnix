@@ -3,6 +3,10 @@
 {
   imports = [
 
+    # Partitioning configuration for boot drive
+    # Only run on install
+    ./disko.nix
+
     # Host-specific hardware setup (disk layout, initrd modules, etc.)
     #./hardware-configuration.nix
 

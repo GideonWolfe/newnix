@@ -29,6 +29,7 @@
     ./manufacturers/smlight.nix
     ./manufacturers/retroid.nix
     ./manufacturers/google.nix
+    ./manufacturers/dell.nix
 
     # Device types
     ./device_types/mikrotik_rb5009.nix
@@ -43,6 +44,7 @@
     ./device_types/slzb06mu.nix
     ./device_types/retroid_pocket6.nix
     ./device_types/pixel_9a.nix
+    ./device_types/dell_xps_15_9510.nix
 
     # Device roles
     ./device_roles/router.nix
@@ -52,6 +54,7 @@
     ./device_roles/patch_panel.nix
     ./device_roles/iot_coordinator.nix
     ./device_roles/handheld.nix
+    ./device_roles/workstation.nix
 
     # Devices
     ./devices/mikrotik_rb5009.nix
@@ -67,6 +70,7 @@
     ./devices/deskpi_patch_panel_1u.nix
     ./devices/slzb06.nix
     ./devices/retroidpocket6.nix
+    ./devices/ares.nix
     ./devices/pixel9a.nix
 
     # Virtual machines

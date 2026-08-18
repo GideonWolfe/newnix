@@ -17,6 +17,14 @@
     comment = "Hades (Main Desktop)";
   };
 
+  resource."routeros_ip_dhcp_server_lease"."ares" = {
+    mac_address = "AC:74:B1:88:0C:AC";
+    address = "${config.custom.world.hosts.ares.ip}";
+    server = "defconf";
+    provider = "routeros.router";
+    comment = "Ares (Dell XPS 15 9510)";
+  };
+
   resource."routeros_ip_dhcp_server_lease"."athena" = {
     mac_address = "D8:43:AE:90:5A:D1";
     address = "${config.custom.world.hosts.athena.ip}";
