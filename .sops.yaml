@@ -80,6 +80,7 @@ creation_rules:
       - age:
           - *poseidon
           - *hades
+          - *ares
         pgp:
           - *gideon
   - path_regex: secrets_copyparty.yaml$
@@ -106,6 +107,7 @@ creation_rules:
       - age:
           - *poseidon
           - *hades
+          - *ares
         pgp:
           - *gideon
   - path_regex: secrets_monitoring.yaml$

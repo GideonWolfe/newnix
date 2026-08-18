@@ -26,6 +26,21 @@ let
     else
       fromHexString hex;
 
+  # Recolour the bundled NASA topo map to match the active Stylix theme.
+  # Built as a store path so it never depends on anything in $HOME.
+  customMap = pkgs.runCommand "gpredict-custom-map.jpg" { } ''
+    ${pkgs.imagemagick}/bin/magick ${./nasa-topo_2048.jpg} \
+      -alpha off \
+      -fuzz 10% \
+      -fill black -opaque '#2B2C4B' \
+      -fill blue +opaque black \
+      -edge 1 \
+      -fuzz 10% \
+      -fill '#${base00-hex-r}${base00-hex-g}${base00-hex-b}' -opaque black \
+      -fill '#${base0E-hex-r}${base0E-hex-g}${base0E-hex-b}' -opaque blue \
+      $out
+  '';
+
 in {
   # Example usage:
   xdg.configFile."Gpredict/gpredict.cfg".force = true; #TEST: try and force replacing the config file
@@ -68,7 +83,7 @@ in {
     }
     POLAR_SHOW_TRACK_AUTO=true
 
-    MAP_FILE=${config.home.homeDirectory}/.config/Gpredict/custom_map.jpg
+    MAP_FILE=${config.xdg.configHome}/Gpredict/custom_map.jpg
     MAP_QTH_INFO=true
     MAP_NEXT_EVENT=true
     MAP_CURSOR_TRACK=true
@@ -141,20 +156,6 @@ in {
     GPSDPORT=0
   '';
 
-  home.activation.createGPredictMap =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.imagemagick}/bin/magick ${config.home.homeDirectory}/nix/configs/modules/configs/user/gpredict/nasa-topo_2048.jpg \
-                     -alpha off \
-                     -fuzz 10% \
-                     -fill black -opaque '#2B2C4B' \
-                     -fill blue +opaque black \
-                     -edge 1 \
-                     ${config.home.homeDirectory}/.config/Gpredict/custom_map.jpg
-
-      ${pkgs.imagemagick}/bin/magick ${config.home.homeDirectory}/.config/Gpredict/custom_map.jpg \
-                     -fuzz 10% \
-                     -fill '#${base00-hex-r}${base00-hex-g}${base00-hex-b}' -opaque black \
-                     -fill '#${base0E-hex-r}${base0E-hex-g}${base0E-hex-b}' -opaque blue \
-                     ${config.home.homeDirectory}/.config/Gpredict/custom_map.jpg
-    '';
+  # Themed map is built in the Nix store and linked into place declaratively.
+  xdg.configFile."Gpredict/custom_map.jpg".source = customMap;
 }
