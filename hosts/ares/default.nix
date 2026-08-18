@@ -8,7 +8,7 @@
     ./disko.nix
 
     # Host-specific hardware setup (disk layout, initrd modules, etc.)
-    #./hardware-configuration.nix
+    ./hardware-configuration.nix
 
     # Grab the tweaks from nix-hardware to optimize this laptop.
     inputs.nixos-hardware.nixosModules.dell-xps-15-9510
