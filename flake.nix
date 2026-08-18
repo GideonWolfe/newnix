@@ -233,9 +233,23 @@
         modules = [ ./hosts/hades ];
       };
 
+      ########
+      # Ares #
+      ########
+      # System definition
+      nixosConfigurations.ares = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/ares ];
+      };
+
       # Build target and convenience alias: nix build .#poseidon
       packages.x86_64-linux.poseidon = self.nixosConfigurations.poseidon.config.system.build.toplevel;
       poseidon = self.packages.x86_64-linux.poseidon;
+
+      # Build target and convenience alias: nix build .#ares
+      packages.x86_64-linux.ares = self.nixosConfigurations.ares.config.system.build.toplevel;
+      ares = self.packages.x86_64-linux.ares;
 
       ###################
       # Base Proxmox VM #

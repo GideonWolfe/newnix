@@ -12,6 +12,13 @@ in
         wireguard.public_key = mkIp "RKr0FtPL+VnOal/gy8kkwHx+IJbzimoEgZ5KO8X18XE=";
       };
       hades      = { ip = mkIp "192.168.88.203"; };
+      ares       = {
+        ip = mkIp "192.168.88.207";
+        # TODO: after the first build, register ares's generated public key
+        # (from /root/wireguard/ares-wg0-private.key) on the router.
+        wireguard.ip = mkIp "10.0.0.4";
+        wireguard.public_key = mkIp "REPLACE_ME_WITH_ARES_WG_PUBLIC_KEY";
+      };
       pixel9a    = {
         ip = mkIp "192.168.88.204";
         wireguard.ip = mkIp "10.0.0.2";

@@ -70,6 +70,13 @@
         IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
+      # Laptop (LAN)
+      ares = {
+        HostName = "${osConfig.custom.world.hosts.ares.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
+
       # Physical Proxmox Hosts
       pvenet = {
         HostName = "${osConfig.custom.world.hosts.proxmox.nodes.pvenet.ip}";

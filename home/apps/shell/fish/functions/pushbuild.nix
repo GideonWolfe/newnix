@@ -27,6 +27,7 @@ let
     "mnemosyne"  = h.mnemosyne.ip;
     "poseidon"   = h.poseidon.ip;
     "hades"      = h.hades.ip;
+    "ares"       = h.ares.ip;
   };
 
   # Generate fish switch cases: `case "vm-media"; set default_host "192.168.88.102"`
