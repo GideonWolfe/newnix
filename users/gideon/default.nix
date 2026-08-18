@@ -45,6 +45,9 @@
       # Import Git and SSH settings, no secrets here but needed alot
       ./configs/ssh/ssh.nix
       ./configs/git/git.nix
+      # Import my public GPG key so the keyring can bind signing requests
+      # to the YubiKey (git commit signing expects this)
+      ./configs/gpg/gpg.nix
     ];
   };
 }

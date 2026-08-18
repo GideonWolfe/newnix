@@ -335,7 +335,7 @@ in
           {
             Sonarr = {
               href = "${svc.sonarr.protocol}://${svc.sonarr.ip}:${builtins.toString svc.sonarr.port}";
-              description = "Movie Library";
+              description = "TV Library";
               icon = "sonarr";
               widget = {
                 type = "sonarr";
@@ -348,7 +348,7 @@ in
           {
             Radarr = {
               href = "${svc.radarr.protocol}://${svc.radarr.ip}:${builtins.toString svc.radarr.port}";
-              description = "TV Library";
+              description = "Movie Library";
               icon = "radarr";
               widget = {
                 type = "radarr";
