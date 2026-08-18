@@ -92,6 +92,14 @@
     provider = "routeros.router";
   };
 
+  resource."routeros_interface_wireguard_peer"."ares" = {
+    interface = "\${routeros_interface_wireguard.wg0.name}";
+    name = "ares";
+    public_key = config.custom.world.hosts.ares.wireguard.public_key;
+    allowed_address = [ "${config.custom.world.hosts.ares.wireguard.ip}/32" ];
+    provider = "routeros.router";
+  };
+
   resource."routeros_interface_wireguard_peer"."pixel9a" = {
     interface = "\${routeros_interface_wireguard.wg0.name}";
     name = "pixel9a";
