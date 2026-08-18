@@ -13,5 +13,6 @@
     pkgs.aichat # LLM TUI
     pkgs.shell-gpt # CLI for ChatGPT
     pkgs.newelle
+    pkgs.llmfit # TUI to show which LLMs will run on your system
   ];
 }

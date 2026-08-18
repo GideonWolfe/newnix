@@ -17,5 +17,6 @@
 
     lsof # List open files
     usbutils # adds utilities like lsusb
+    cyme # modern looking lsusb
   ];
 }

@@ -17,6 +17,7 @@
     pkgs.qalculate-gtk # frontend for qalculate
     pkgs.gnome-graphs # GNOME app for quick plotting
         #pkgs.kdePackages.kig # Interactive geometry #BUG broken
+    pkgs.youplot # CLI that draws plots in the terminal
 
   ];
 }
