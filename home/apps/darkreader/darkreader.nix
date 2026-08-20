@@ -61,10 +61,22 @@ let
   };
 in
 {
+  # Current approach: generate a config.json that has to be imported into Dark
+  # Reader by hand each time it changes.
   xdg.configFile.darkreader = {
     enable = true;
     # onChange = manually tell darkreader to refresh somehow?
     target = "darkreader/config.json";
     source = json.generate "darkreader-config.json" configData;
   };
+
+  # Alternative (WIP): bake the settings straight into the Firefox profile so
+  # they no longer need manual importing. Home Manager writes these into the
+  # extension's storage, so Dark Reader picks them up on the next browser start.
+  # Requires `extensions.force = true` on the profile (set in firefox.nix) and a
+  # full browser restart after a rebuild to apply. Note: enabling this flips the
+  # profile to the JSON storage backend, which resets extension state once (e.g.
+  # a one-time Bitwarden re-login).
+  # programs.firefox.profiles.default.extensions.settings."addon@darkreader.org".settings =
+  #   configData;
 }
