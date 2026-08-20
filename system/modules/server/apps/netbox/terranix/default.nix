@@ -73,6 +73,10 @@
     ./devices/ares.nix
     ./devices/pixel9a.nix
 
+    # IPAM / VLANs
+    ./ipam/vlan_group_home.nix
+    ./ipam/iot.nix
+
     # Virtual machines
     ./vms/vm-media.nix
     ./vms/vm-ingress.nix

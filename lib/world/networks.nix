@@ -8,7 +8,7 @@
       gateway = {
         ip = lib.mkOption {
           type = lib.types.str;
-          default = "192.168.0.1";
+          default = "192.168.88.1";
           description = "The IP address of the home network gateway/router";
         };
       };
