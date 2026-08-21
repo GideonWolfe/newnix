@@ -210,6 +210,13 @@ in
             "https://addons.mozilla.org/firefox/downloads/latest/ybbapp-aria2-explorer/latest.xpi";
           "default_area" = "menupanel";
         };
+        # DuckDuckGo Privacy Essentials
+        "jid1-ZAdIEUB7XOzOJw@jetpack" = {
+          "installation_mode" = "force_installed";
+          "install_url" =
+            "https://addons.mozilla.org/firefox/downloads/latest/duckduckgo-for-firefox/latest.xpi";
+          "default_area" = "menupanel";
+        };
       };
 
     };

@@ -32,6 +32,9 @@
 
     ../../system/roles/gaming.nix
 
+    # NVIDIA Optimus: proprietary driver + PRIME offload for the RTX 3050 dGPU
+    ../../system/modules/hardware/nvidia.nix
+
     ../../system/modules/services/terraform
 
     ../../system/modules/networking/wireguard/wg-home.nix
