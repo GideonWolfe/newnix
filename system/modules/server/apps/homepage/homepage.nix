@@ -129,6 +129,11 @@ in
           columns = 3;
           icon = "mdi-apps";
         };
+        AI = {
+          style = "row";
+          columns = 3;
+          icon = "mdi-robot";
+        };
         VMs = {
           style = "column";
           columns = 1;
@@ -616,6 +621,24 @@ in
                   key = "{{HOMEPAGE_VAR_KARAKEEP_API_KEY}}";
                   fields = [ "lists" "bookmarks" "tags" "archived" ];
                 };
+            }; }
+          ];
+        }
+
+      #################
+      # AI            #
+      #################
+        {
+          AI = [
+            { "Open WebUI" = {
+                href = "${svc.open-webui.protocol}://${svc.open-webui.ip}:${builtins.toString svc.open-webui.port}";
+                description = "LLM Chat GUI";
+                icon = "open-webui";
+            }; }
+            { "llama-swap" = {
+                href = "${svc.llama-swap.protocol}://${svc.llama-swap.ip}:${builtins.toString svc.llama-swap.port}";
+                description = "Model Proxy / API";
+                icon = "mdi-swap-horizontal";
             }; }
           ];
         }

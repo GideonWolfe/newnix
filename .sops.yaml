@@ -10,6 +10,7 @@ keys:
       - &vm-app2 age1rmd30ancclvmupptkxwzrys2stfwxxdn6enuqm2us0l936hctyksljfqk7
       - &vm-ingress age1zuwvpzy4ajrc9r8tv4956j3ml3ytncmap0tujk2d8nyypyjlpcws629ysp
       - &vm-test age123dey9ctytad38z9sxu7gww9drp233fldcs0jyghnds4ahdtvazqn26j83
+      - &vm-ai age1jqu67xh6cpkknraf6schn57sdy7uawv7pum9dsvrt0jdm9ddl4gq4ng0n5
       - &mnemosyne age1r3a6r8eupm6pm3l2rg0l5kz32un945nqmhvnnwutejaakwfgjvks5043gc
       - &ares age1eywe53hdwya9qw3589f5qrpzhzet0kg66nn4glqz7lvcm6kgs5fs4v8csl
 creation_rules:
@@ -135,5 +136,6 @@ creation_rules:
           - *vm-app2
           - *vm-ingress
           - *vm-test
+          - *vm-ai
         pgp:
           - *gideon

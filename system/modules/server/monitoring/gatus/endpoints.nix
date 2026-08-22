@@ -16,6 +16,7 @@ let
     "${vms.vm_app1.ip}"     = "Applications";
     "${vms.vm_app2.ip}"     = "Applications";
     "${vms.vm_test.ip}"     = "Monitoring";
+    "${vms.vm_ai.ip}"       = "AI";
     "${hosts.mnemosyne.ip}" = "Infrastructure";
   };
 

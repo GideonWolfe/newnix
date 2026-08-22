@@ -360,5 +360,15 @@ in
       domain = "";
       protocol = "http";
     };
+    # Open WebUI -- persistent web GUI on the AI VM, pointed at the local
+    # llama-swap OpenAI endpoint. Port 3000 (Open WebUI defaults to 8080,
+    # which collides with llama-swap on this host). LAN/VPN-only for now.
+    open-webui = mkService {
+      name = "Open WebUI";
+      ip = config.custom.world.hosts.proxmox.vms.vm_ai.ip;
+      port = 3000;
+      domain = "";
+      protocol = "http";
+    };
   };
 }

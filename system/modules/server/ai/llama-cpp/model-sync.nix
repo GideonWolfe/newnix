@@ -19,10 +19,29 @@ in
     after = [ "network-online.target" "nas-tank.automount" ];
     wants = [ "network-online.target" ];
 
+    # Both /data (local cache, virtio1) and /nas/tank (NFS source) are
+    # x-systemd.automount mountpoints -- they only mount on access. Without
+    # this, the unit can run before either is mounted: rsync then writes the
+    # cache onto the *unmounted* root fs (or fails to mkdir the tree).
+    # RequiresMountsFor lives in the [Unit] section, so it goes in unitConfig
+    # (NOT serviceConfig -- systemd silently ignores it there).
+    unitConfig.RequiresMountsFor = [ "/data" "/nas/tank" ];
+
     serviceConfig = {
       Type = "oneshot";
       User = "gideon";
       Group = "users";
+
+      # Fresh ext4 on /data (from autoFormat) has a root:root fs root, so the
+      # gideon-owned service can't create its cache tree. Run this one step as
+      # root (the `+` prefix ignores User=/Group=) once /data is mounted to
+      # create + chown the cache dirs. `install -d` applies owner/group/mode to
+      # every directory component it creates (like `mkdir -p` + chown).
+      ExecStartPre = "+" + (pkgs.writeShellScript "llama-model-sync-mkcache" ''
+        set -eu
+        ${pkgs.coreutils}/bin/install -d -o gideon -g users -m 0755 \
+          /data/ai "${cfg.modelCacheDir}"
+      '');
 
       # Touch the source to trigger the automount, then mirror. Trailing
       # slashes: copy the *contents* of models/ into the cache. Best-effort --

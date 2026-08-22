@@ -2,17 +2,24 @@
 
 # llama.cpp CPU inference, fronted by llama-swap.
 #
-# Design goal: keep *compute* (this VM, the binaries, the systemd unit --
-# all reproducible from the flake) cleanly separated from *content* (models,
-# the llama-swap config, prompts and agents -- all durable, living on the NAS).
+# Design goal: keep *compute + config* (this VM, the binaries, the systemd
+# unit, and the llama-swap config -- all reproducible from the flake) cleanly
+# separated from *content* (models and prompts/agents -- durable data that's
+# either too big or too user-owned to live in the Nix store, kept on the NAS).
 # Nuke and rebuild this VM, move it to different hardware, and everything that
-# matters survives untouched on mnemosyne.
+# matters survives: the config from the repo, the models + prompts from the NAS.
 #
-# Storage split (hybrid):
-#   NAS  /nas/tank/infra/ai/              <- source of truth, survives rebuilds
-#          models/                          canonical GGUF library
-#          config/llama-swap.yaml           model definitions (edit here)
-#          prompts/  agents/                your system prompts + agent library
+# The llama-swap config is CODE, not content: it's a declarative service
+# definition, so it's generated from the `settings` attrset below and rendered
+# to a YAML file in the Nix store. The repo is the single source of truth --
+# edit `settings`, rebuild, and the new config is placed on the VM and the
+# service restarted automatically. No hand-editing a live file on the NAS.
+#
+# Storage split:
+#   repo/store  llama-swap.yaml            <- generated from `settings` (code)
+#   NAS  /nas/tank/infra/ai/
+#          models/                           canonical GGUF library (content)
+#          prompts/  agents/                 system prompts + agent library
 #   Local /data/ai/models/                 <- fast NVMe cache llama-server loads
 #                                             from (mirrored from the NAS by
 #                                             model-sync.nix)
@@ -23,12 +30,17 @@
 # a few seconds. So the NAS holds the library, model-sync mirrors it down, and
 # llama-swap loads from the local copy.
 #
-# Runs as gideon:users (like copyparty/aria2) so it can read NAS content over
-# NFS (uid 1000 / gid 100) without cross-user permission juggling.
+# Runs as gideon:users (like copyparty/aria2) so it can read the NAS-synced
+# models (uid 1000 / gid 100) without cross-user permission juggling.
 
 let
   svc = config.custom.world.services."llama-swap";
   cfg = config.custom.services.llama;
+
+  # Render the `settings` attrset to a YAML file in the Nix store. This is the
+  # file llama-swap actually reads -- the repo is the source of truth.
+  yamlFormat = pkgs.formats.yaml { };
+  configFile = yamlFormat.generate "llama-swap.yaml" cfg.settings;
 in
 {
   options.custom.services.llama = {
@@ -57,20 +69,53 @@ in
       type = lib.types.str;
       default = "/nas/tank/infra/ai";
       description = ''
-        Canonical, durable AI content on the NAS: the GGUF library, the
-        llama-swap config, and your prompts/agents. This is what survives
-        hardware and software changes to the stack.
+        Durable AI *content* on the NAS -- reserved for artifacts that can't
+        (or shouldn't) live in version control: the GGUF library (models/,
+        too big for git) and, later, agent memory/state (generated at runtime,
+        irreplaceable). Config AND persona prompts are versionable text, so
+        they live in the repo and are rendered into the Nix store instead.
+        model-sync.nix pulls `${cfg.contentDir}/models` down to modelCacheDir.
       '';
     };
 
-    configFile = lib.mkOption {
-      type = lib.types.str;
-      default = "${cfg.contentDir}/config/llama-swap.yaml";
+    settings = lib.mkOption {
+      type = yamlFormat.type;
       description = ''
-        Path to the llama-swap config on the NAS. Seeded from a sane default on
-        first start if absent, then owned by you -- edit it to add/tune models.
-        llama-swap runs with -watch-config so edits hot-reload.
+        The llama-swap configuration, as a Nix attrset rendered to YAML in the
+        Nix store. This is the single source of truth for which models exist
+        and how they run -- edit it here and rebuild; the new config is placed
+        on the VM and llama-swap restarted automatically.
+
+        Note: `''${PORT}` in a model's `cmd` is a llama-swap placeholder (it
+        injects the upstream port), so it's escaped from Nix interpolation.
       '';
+      default = {
+        healthCheckTimeout = 300;
+        logLevel = "info";
+
+        models = {
+          # Snappy daily driver -- ~6 GB, 8-15 tok/s.
+          "qwen2.5-7b" = {
+            # --threads 12    pin to physical cores (SMT threads hurt throughput)
+            # --ctx-size      long context grows the KV cache in RAM
+            # --jinja         enables the chat template + tool/function calling
+            # --cache-reuse   reuse the KV cache for an unchanged prompt PREFIX
+            #                 across turns instead of re-evaluating it. Huge win
+            #                 on CPU for multi-turn chat clients that resend the
+            #                 full system prompt + history every request.
+            cmd = ''
+              llama-server
+              --model ${cfg.modelCacheDir}/qwen2.5-7b-instruct-q4_k_m.gguf
+              --host 127.0.0.1 --port ''${PORT}
+              --ctx-size 8192
+              --threads 12
+              --jinja
+              --cache-reuse 256
+            '';
+            ttl = 300;
+          };
+        };
+      };
     };
   };
 
@@ -79,44 +124,30 @@ in
       description = "llama-swap (llama.cpp model-swapping proxy)";
       wantedBy = [ "multi-user.target" ];
 
-      # Needs the NAS (config + models source) and the local cache populated
-      # before it can serve anything. model-sync mirrors the library down;
-      # order after it but don't hard-require it (a NAS blip shouldn't wedge
-      # the whole service -- stale local models are better than none).
-      after = [ "network-online.target" "nas-tank.automount" "llama-model-sync.service" ];
+      # Config is in the store; models come from the local cache. Order after
+      # model-sync so the cache is populated, but don't hard-require it (a NAS
+      # blip shouldn't wedge the service -- stale local models beat none).
+      after = [ "network-online.target" "llama-model-sync.service" ];
       wants = [ "network-online.target" "llama-model-sync.service" ];
 
-      # llama-server is resolved by name from the config's `cmd:`, so put the
-      # llama.cpp package on the unit's PATH rather than baking a store path
-      # into the user-editable NAS config (which GC would eventually break).
+      # llama-swap only needs the local model cache now (config lives in the
+      # store, not on the NAS). /data is an x-systemd.automount mountpoint, so
+      # force systemd to trigger + wait for it before llama-server loads a
+      # cached GGUF. [Unit] directive -> unitConfig (ignored in [Service]).
+      unitConfig.RequiresMountsFor = [ "/data" ];
+
+      # llama-server is resolved by name from each model's `cmd`, so put the
+      # llama.cpp package on the unit's PATH.
       path = [ cfg.package ];
 
       serviceConfig = {
         User = "gideon";
         Group = "users";
 
-        # Seed the NAS content skeleton (config + prompts/agents dirs) on first
-        # start if it isn't there yet. Touching the paths also triggers the NFS
-        # automount. Never clobbers an existing, user-edited config.
-        ExecStartPre = pkgs.writeShellScript "llama-swap-seed" ''
-          set -eu
-          install -d -m 0755 \
-            "${cfg.contentDir}" \
-            "${cfg.contentDir}/config" \
-            "${cfg.contentDir}/models" \
-            "${cfg.contentDir}/prompts" \
-            "${cfg.contentDir}/agents"
-          if [ ! -f "${cfg.configFile}" ]; then
-            install -m 0644 ${./config/llama-swap.yaml} "${cfg.configFile}"
-            echo "seeded default llama-swap config at ${cfg.configFile}"
-          fi
-        '';
-
         ExecStart = lib.concatStringsSep " " [
           "${pkgs.llama-swap}/bin/llama-swap"
-          "-config ${cfg.configFile}"
+          "-config ${configFile}"
           "-listen :${toString svc.port}"
-          "-watch-config"
         ];
 
         Restart = "on-failure";
