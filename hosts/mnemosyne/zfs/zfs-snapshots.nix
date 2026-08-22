@@ -71,10 +71,14 @@
             "tank/media/tv".useTemplate = [ "media" ];
             "tank/media/music".useTemplate = [ "media" ];
 
-            "tank/vms/images".useTemplate = [ "vm_images" ];
-            "tank/vms/proxmox".useTemplate = [ "vm_backups" ];
+            "tank/infra/vms/images".useTemplate    = [ "vm_images" ];
+            "tank/infra/vms/templates".useTemplate = [ "vm_images" ];
+            "tank/infra/vms/backups".useTemplate   = [ "vm_backups" ];
 
-            "tank/services".useTemplate = [ "service_backups" ];
+            "tank/infra/services".useTemplate = [ "service_backups" ];
+
+            # AI model/prompt library on its own dataset (see llama-swap.nix)
+            "tank/infra/ai".useTemplate = [ "service_backups" ];
 
             "tank/bucket".useTemplate = [ "bucket" ];
 

@@ -14,7 +14,7 @@ let
   immichDataDir = "/data/immich";
 
   # Pre-created folder on the NAS for application-level restic repos.
-  backupRepo = "/nas/tank/services/immich/restic_backup";
+  backupRepo = "/nas/tank/infra/services/immich/restic_backup";
 in
 {
   services.restic.backups."immich" = {

@@ -18,7 +18,7 @@
 { pkgs, config, lib, ... }:
 let
   tubearchivistDataDir = "/data/tubearchivist";
-  backupRepo           = "/nas/tank/services/tubearchivist/restic_backup";
+  backupRepo           = "/nas/tank/infra/services/tubearchivist/restic_backup";
 in
 {
   services.restic.backups."tubearchivist" = {

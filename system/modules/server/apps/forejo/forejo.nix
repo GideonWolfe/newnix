@@ -22,8 +22,8 @@
 #       SQLite DB, secrets, generated app.ini, logs, dumps. Hot, small,
 #       benefits from local SSD. Restic-backup separately later.
 #
-#   NAS    /nas/tank/services/forgejo/repositories  -> repositoryRoot
-#          /nas/tank/services/forgejo/lfs           -> lfs.contentDir
+  #   NAS    /nas/tank/infra/services/forgejo/repositories  -> repositoryRoot
+  #          /nas/tank/infra/services/forgejo/lfs           -> lfs.contentDir
 #       Bulk git data + LFS objects. If the VM dies, repos survive
 #       intact on the NAS and can be cloned as bare git directly or
 #       rehydrated into a fresh Forgejo.
@@ -50,8 +50,8 @@ let
 
   # Bulk repo + LFS data on the NAS. Pre-provision before first boot
   # (see footer of this file).
-  reposDir = "/nas/tank/services/forgejo/repositories";
-  lfsDir   = "/nas/tank/services/forgejo/lfs";
+  reposDir = "/nas/tank/infra/services/forgejo/repositories";
+  lfsDir   = "/nas/tank/infra/services/forgejo/lfs";
 in
 {
   # Pin the daemon's identity. Merges with the upstream module's
@@ -152,13 +152,13 @@ in
   # Run once before first nixos-rebuild of this VM (or any time after a
   # forgejoUid/Gid bump):
   #
-  #   sudo mkdir -p /tank/services/forgejo/{repositories,lfs}
-  #   sudo chown -R 2042:2042 /tank/services/forgejo
-  #   sudo chmod  0750         /tank/services/forgejo/repositories
-  #   sudo chmod  0750         /tank/services/forgejo/lfs
+  #   sudo mkdir -p /tank/infra/services/forgejo/{repositories,lfs}
+  #   sudo chown -R 2042:2042 /tank/infra/services/forgejo
+  #   sudo chmod  0750         /tank/infra/services/forgejo/repositories
+  #   sudo chmod  0750         /tank/infra/services/forgejo/lfs
   #
   # NFS export: the dataset's sharenfs property should NOT use
   # all_squash. We want UID 2042 to pass through unchanged so the
   # forgejo daemon's view of ownership matches what's on disk. Default
-  # `rw,sync` is fine. Verify with `zfs get sharenfs tank/services`.
+  # `rw,sync` is fine. Verify with `zfs get sharenfs tank/infra/services`.
 }

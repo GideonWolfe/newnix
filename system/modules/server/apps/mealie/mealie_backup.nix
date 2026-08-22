@@ -5,7 +5,7 @@ let
   # Mealie's bind-mounted data on the host (see mealie.nix: /data/mealie/data:/app/data)
   mealieDataDir = "/data/mealie";
   # Pre-created folder on the NAS for application-level restic repos
-  backupRepo = "/nas/tank/services/mealie/restic_backup";
+  backupRepo = "/nas/tank/infra/services/mealie/restic_backup";
 in
 {
   services.restic.backups."mealie" = {

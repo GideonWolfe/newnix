@@ -19,7 +19,7 @@ let
   dawarichDataDir = "/data/dawarich";
   dumpDir         = "${dawarichDataDir}/backups";
   dumpFile        = "${dumpDir}/dump.sql.gz";
-  backupRepo      = "/nas/tank/services/dawarich/restic_backup";
+  backupRepo      = "/nas/tank/infra/services/dawarich/restic_backup";
   postgresUser    = "dawarich";
   dockerBin       = "${pkgs.docker}/bin/docker";
 in

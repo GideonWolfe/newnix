@@ -5,7 +5,7 @@ let
   # RomM's bind-mounted data on the host (see romm.nix: /data/romm/data:/app/data)
   rommDataDir = "/data/romm";
   # Pre-created folder on the NAS for application-level restic repos
-  backupRepo = "/nas/tank/services/romm/restic_backup";
+  backupRepo = "/nas/tank/infra/services/romm/restic_backup";
 in
 {
   services.restic.backups."romm" = {

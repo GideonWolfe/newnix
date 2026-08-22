@@ -1,13 +1,13 @@
 # llama-swap configuration (seeded default).
 #
-# This file lives on the NAS at /nas/tank/services/ai/config/llama-swap.yaml
+# This file lives on the NAS at /nas/tank/infra/ai/config/llama-swap.yaml
 # and is the durable, user-owned source of truth for which models exist and how
 # they run. It is copied here from the flake default ONLY if it doesn't already
 # exist -- once seeded, edit it freely; llama-swap runs with -watch-config so
 # changes hot-reload.
 #
 # HOW MODELS GET HERE:
-#   1. Download a GGUF into the NAS library:   /nas/tank/services/ai/models/
+#   1. Download a GGUF into the NAS library:   /nas/tank/infra/ai/models/
 #   2. model-sync mirrors it to the local cache: /data/ai/models/
 #      (runs hourly; force now with: systemctl start llama-model-sync)
 #   3. Reference the local /data/ai/models/... path in a `cmd:` below.

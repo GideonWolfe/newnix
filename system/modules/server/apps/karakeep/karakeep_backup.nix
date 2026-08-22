@@ -19,7 +19,7 @@
 { pkgs, config, lib, ... }:
 let
   karakeepDataDir = "/data/karakeep";
-  backupRepo      = "/nas/tank/services/karakeep/restic_backup";
+  backupRepo      = "/nas/tank/infra/services/karakeep/restic_backup";
 in
 {
   services.restic.backups."karakeep" = {

@@ -46,7 +46,7 @@
       ./configs/ssh/ssh.nix
       ./configs/git/git.nix
       # First-time clone of this repo, with origin set to the `github:` SSH alias
-      ./configs/git/clone-newnix.nix
+      #./configs/git/clone-newnix.nix
       # Import my public GPG key so the keyring can bind signing requests
       # to the YubiKey (git commit signing expects this)
       ./configs/gpg/gpg.nix

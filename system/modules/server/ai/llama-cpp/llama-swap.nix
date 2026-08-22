@@ -9,7 +9,7 @@
 # matters survives untouched on mnemosyne.
 #
 # Storage split (hybrid):
-#   NAS  /nas/tank/services/ai/           <- source of truth, survives rebuilds
+#   NAS  /nas/tank/infra/ai/              <- source of truth, survives rebuilds
 #          models/                          canonical GGUF library
 #          config/llama-swap.yaml           model definitions (edit here)
 #          prompts/  agents/                your system prompts + agent library
@@ -55,7 +55,7 @@ in
 
     contentDir = lib.mkOption {
       type = lib.types.str;
-      default = "/nas/tank/services/ai";
+      default = "/nas/tank/infra/ai";
       description = ''
         Canonical, durable AI content on the NAS: the GGUF library, the
         llama-swap config, and your prompts/agents. This is what survives
