@@ -318,6 +318,16 @@
           ./hosts/proxmox/vms/test
         ];
       };
+
+      # AI VM (CPU inference on the pvetower / Ryzen 9 7900X box)
+      nixosConfigurations.vm-ai = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/proxmox
+          ./hosts/proxmox/vms/ai
+        ];
+      };
       #########################
       # Mnemosyne (Local NAS) #
       #########################
@@ -342,6 +352,7 @@
           ./hosts/proxmox/terranix/vm-app1.nix
           ./hosts/proxmox/terranix/vm-app2.nix
           ./hosts/proxmox/terranix/vm-test.nix
+          ./hosts/proxmox/terranix/vm-ai.nix
           #./hosts/proxmox/terranix/vm-network.nix
         ];
       };

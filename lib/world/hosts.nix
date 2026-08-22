@@ -91,12 +91,19 @@ in
             };
           };
           vm_test = { ip = mkIp "192.168.88.103"; };
+          # CPU inference box (Ryzen 9 7900X / 61 GiB) on the pvetower node.
+          # vmid 106 <-> .106 (105 is taken by home-assistant).
+          vm_ai = { ip = mkIp "192.168.88.106"; };
         };
         nodes = {
           pvenet = { ip = mkIp "192.168.88.7"; };
           pve1   = { ip = mkIp "192.168.88.8"; };
           pve2   = { ip = mkIp "192.168.88.9"; };
           pve3   = { ip = mkIp "192.168.88.10"; };
+          # New AI/compute tower (Ryzen 9 7900X). TODO: set real mgmt IP once
+          # the node is on the LAN; only `target_node = "pvetower"` (the
+          # cluster node name) is needed for Terranix provisioning.
+          pvetower = { ip = mkIp "192.168.88.11"; };
         };
       };
     };

@@ -346,5 +346,19 @@ in
       domain = "";
       protocol = "http";
     };
+
+    #############
+    # AI Stack  #
+    #############
+    # llama-swap sits in front of llama.cpp's llama-server and exposes a
+    # single OpenAI-compatible endpoint, hot-swapping the underlying model
+    # per request. LAN/VPN-only for now (no Traefik router, no public DNS).
+    llama-swap = mkService {
+      name = "llama-swap";
+      ip = config.custom.world.hosts.proxmox.vms.vm_ai.ip;
+      port = 8080; # llama-swap's upstream default listen port
+      domain = "";
+      protocol = "http";
+    };
   };
 }

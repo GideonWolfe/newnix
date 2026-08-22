@@ -121,6 +121,11 @@
         Port = 2736;
         IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
+      vm-ai = {
+        HostName = "${osConfig.custom.world.hosts.proxmox.vms.vm_ai.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
 
     };
 

@@ -1,0 +1,84 @@
+# llama-swap configuration (seeded default).
+#
+# This file lives on the NAS at /nas/tank/services/ai/config/llama-swap.yaml
+# and is the durable, user-owned source of truth for which models exist and how
+# they run. It is copied here from the flake default ONLY if it doesn't already
+# exist -- once seeded, edit it freely; llama-swap runs with -watch-config so
+# changes hot-reload.
+#
+# HOW MODELS GET HERE:
+#   1. Download a GGUF into the NAS library:   /nas/tank/services/ai/models/
+#   2. model-sync mirrors it to the local cache: /data/ai/models/
+#      (runs hourly; force now with: systemctl start llama-model-sync)
+#   3. Reference the local /data/ai/models/... path in a `cmd:` below.
+#
+# The paths below are EXAMPLES matching common HF GGUF filenames -- adjust them
+# to whatever you actually download. A model whose file is missing simply fails
+# to load on request; the rest keep working.
+#
+# Tuning notes for the Ryzen 9 7900X (12 physical cores / 24 threads):
+#   --threads 12   pin to physical cores; SMT threads usually hurt throughput
+#   --ctx-size     bump for long context, but it grows the KV cache in RAM
+#   --jinja        enables the model's chat template + tool/function calling
+
+healthCheckTimeout: 300
+logLevel: info
+
+models:
+  # Snappy daily driver -- ~6 GB, 8-15 tok/s.
+  "qwen2.5-7b":
+    cmd: |
+      llama-server
+      --model /data/ai/models/qwen2.5-7b-instruct-q4_k_m.gguf
+      --host 127.0.0.1 --port ${PORT}
+      --ctx-size 8192
+      --threads 12
+      --jinja
+    ttl: 300
+
+  # Smarter, still comfortable -- ~10 GB, 5-9 tok/s.
+  "qwen2.5-14b":
+    cmd: |
+      llama-server
+      --model /data/ai/models/qwen2.5-14b-instruct-q4_k_m.gguf
+      --host 127.0.0.1 --port ${PORT}
+      --ctx-size 8192
+      --threads 12
+      --jinja
+    ttl: 300
+
+  # Top pick for this box: MoE, ~19 GB but only ~3B params active per token, so
+  # it gives near-32B quality at ~14B speeds (~12-18 tok/s).
+  "qwen3-30b-a3b":
+    cmd: |
+      llama-server
+      --model /data/ai/models/qwen3-30b-a3b-q4_k_m.gguf
+      --host 127.0.0.1 --port ${PORT}
+      --ctx-size 8192
+      --threads 12
+      --jinja
+    ttl: 300
+
+  # Coding-focused variant.
+  "qwen2.5-coder-14b":
+    cmd: |
+      llama-server
+      --model /data/ai/models/qwen2.5-coder-14b-instruct-q4_k_m.gguf
+      --host 127.0.0.1 --port ${PORT}
+      --ctx-size 16384
+      --threads 12
+      --jinja
+    ttl: 300
+
+  # Max quality when you can wait -- ~42 GB, batch/async only (~1.5-2.5 tok/s).
+  # Uncomment once the GGUF is on the NAS and you've confirmed it fits in RAM
+  # alongside the OS and KV cache.
+  # "llama-3.3-70b":
+  #   cmd: |
+  #     llama-server
+  #     --model /data/ai/models/llama-3.3-70b-instruct-q4_k_m.gguf
+  #     --host 127.0.0.1 --port ${PORT}
+  #     --ctx-size 4096
+  #     --threads 12
+  #     --jinja
+  #   ttl: 600
