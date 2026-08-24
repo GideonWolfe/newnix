@@ -8,6 +8,10 @@
 
       # Restic repo password for the NAS-side backup (see ../dawarich_backup.nix).
       "dawarich/restic_password" = { sopsFile = ./secrets_dawarich.yaml; };
+
+      # Personal API key (generated in the Dawarich UI: Account -> API key) used
+      # by the GPX exporter to pull raw points (see ../dawarich_gpx_export.nix).
+      "dawarich/api_key" = { sopsFile = ./secrets_dawarich.yaml; };
     };
   };
 

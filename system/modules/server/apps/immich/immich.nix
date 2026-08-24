@@ -178,6 +178,15 @@ in
       # rest of Immich (upload, library, albums, sharing) works fine.
       # See https://docs.immich.app/install/environment-variables
       IMMICH_MACHINE_LEARNING_ENABLED = "false";
+
+      # RECOVERY TOGGLE — run ONLY the api/web worker, not the "microservices"
+      # worker that processes the job queue (thumbnails, transcode, storage
+      # migration). With this set, the UI loads but zero jobs execute, so a
+      # runaway job queue can't grind the VM to a halt on startup. Use this to
+      # get back into Admin -> Jobs, pause the offending queue, then REMOVE
+      # this line and rebuild to let jobs run again.
+      # https://docs.immich.app/install/environment-variables
+      IMMICH_WORKERS_INCLUDE = "api";
     };
 
     volumes = [
@@ -197,7 +206,16 @@ in
       "/etc/localtime:/etc/localtime:ro"
     ];
 
-    extraOptions = [ "--network=immich-network" ];
+    # Resource ceilings so a startup job burst (transcode/thumbnail backlog,
+    # one-time VectorChord reindex) can't starve the 4-core/8GB app1 VM and
+    # knock out node_exporter/Prometheus. cpu-shares deprioritizes immich vs
+    # other containers when the host is contended.
+    extraOptions = [
+      "--network=immich-network"
+      "--cpus=2"
+      "--cpu-shares=512"
+      "--memory=2g"
+    ];
 
     # Order container start the way docker-compose does.
     dependsOn = [ "immich-redis" "immich-database" ];
@@ -240,6 +258,10 @@ in
       # Upstream sets shm_size: 128mb; postgres uses /dev/shm for parallel
       # workers and tempfiles, so match it.
       "--shm-size=128m"
+      # Bound postgres so the VectorChord reindex can't peg all cores/RAM.
+      "--cpus=1.5"
+      "--cpu-shares=512"
+      "--memory=2g"
     ];
 
     # POSTGRES_PASSWORD comes from sops; see ./secrets/secrets_immich.nix

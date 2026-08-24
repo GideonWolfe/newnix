@@ -6,5 +6,7 @@
     ./secrets/secrets_dawarich.nix
     # Daily pg_dumpall + restic backup to the NAS
     ./dawarich_backup.nix
+    # Daily GPX export of raw points to the NAS
+    ./dawarich_gpx_export.nix
   ];
 }
