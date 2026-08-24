@@ -87,12 +87,13 @@ let
 
   # Pin the Immich application version.
   # See https://github.com/immich-app/immich/releases for the latest release.
-  immichVersion = "v2.7.5";
+  immichVersion = "v3.1.0";
 
-  # Pinned support images straight from the v2.7.5 docker-compose.yml. These
+  # Pinned support images straight from the v3.1.0 docker-compose.yml. These
   # rarely change between Immich releases, but the upstream compose pins exact
-  # digests so we do too.
-  redisImage = "docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9";
+  # digests so we do too. NB: the postgres digest is unchanged from v2.7.5
+  # (still the same VectorChord image), so no DB migration on this bump.
+  redisImage = "docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411";
   postgresImage = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23";
 
   # Local app state. Holds both the postgres data dir AND Immich's UPLOAD_LOCATION
@@ -186,7 +187,8 @@ in
       # get back into Admin -> Jobs, pause the offending queue, then REMOVE
       # this line and rebuild to let jobs run again.
       # https://docs.immich.app/install/environment-variables
-      IMMICH_WORKERS_INCLUDE = "api";
+      #IMMICH_WORKERS_INCLUDE = "api";
+      IMMICH_LOG_LEVEL = "verbose";
     };
 
     volumes = [
@@ -212,9 +214,9 @@ in
     # other containers when the host is contended.
     extraOptions = [
       "--network=immich-network"
-      "--cpus=2"
-      "--cpu-shares=512"
-      "--memory=2g"
+      #"--cpus=2"
+      #"--cpu-shares=512"
+      #"--memory=2g"
     ];
 
     # Order container start the way docker-compose does.
@@ -257,11 +259,11 @@ in
       "--network=immich-network"
       # Upstream sets shm_size: 128mb; postgres uses /dev/shm for parallel
       # workers and tempfiles, so match it.
-      "--shm-size=128m"
+      #"--shm-size=128m"
       # Bound postgres so the VectorChord reindex can't peg all cores/RAM.
-      "--cpus=1.5"
-      "--cpu-shares=512"
-      "--memory=2g"
+      #"--cpus=1.5"
+      ##"--cpu-shares=512"
+      #"--memory=2g"
     ];
 
     # POSTGRES_PASSWORD comes from sops; see ./secrets/secrets_immich.nix

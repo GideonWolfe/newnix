@@ -15,12 +15,15 @@
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    # `memory` is the cap; `balloon` is the floor the host can shrink us to
-    # under memory pressure. Keep balloon below memory so pve2 can reclaim
-    # RAM from this VM during the 04:00 replication spike instead of
-    # OOM-killing the kvm process.
+    # Ballooning DISABLED (balloon = 0): this VM's workload (immich + postgres
+    # + other docker services) is page-cache heavy, so it needs its full 8 GiB
+    # resident. With auto-ballooning on, pvestatd shrank this VM toward the old
+    # 3 GiB floor during a host spike and never re-inflated it (hysteresis),
+    # starving the page cache and causing immich to thrash node_modules off
+    # disk (iowait pressure stall). pve2 (16 GiB, ARC capped ~1.6 GiB) can back
+    # the full 8 GiB alongside ingress + home-assistant, so pin it like vm-ai.
     memory = 8192;
-    balloon = 3072;
+    balloon = 0;
     skip_ipv6 = true;
 
     cpu = {
