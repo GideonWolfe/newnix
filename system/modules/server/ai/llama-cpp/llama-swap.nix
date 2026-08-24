@@ -114,6 +114,26 @@ in
             '';
             ttl = 300;
           };
+
+          # Agent variant: same GGUF as qwen2.5-7b, but with a 64k context
+          # window. Hermes (and most agent harnesses) REQUIRE >= 64k context
+          # and reject smaller windows at startup -- the snappy 8k model above
+          # is for casual chat, this is for tool-using agents that ship a large
+          # system prompt + tool schemas + history. The bigger --ctx-size only
+          # grows the KV cache ceiling (~4 GB extra for this model); actual
+          # per-request cost still scales with the real prompt size.
+          "qwen2.5-7b-agent" = {
+            cmd = ''
+              llama-server
+              --model ${cfg.modelCacheDir}/qwen2.5-7b-instruct-q4_k_m.gguf
+              --host 127.0.0.1 --port ''${PORT}
+              --ctx-size 65536
+              --threads 12
+              --jinja
+              --cache-reuse 256
+            '';
+            ttl = 300;
+          };
         };
       };
     };

@@ -370,5 +370,15 @@ in
       domain = "";
       protocol = "http";
     };
+    # Hermes Agent dashboard/gateway on the AI VM. Port 9119 (upstream
+    # backend default). Bound to the VM IP, which turns on Hermes's dashboard
+    # auth gate (session token via sops). LAN/VPN-only.
+    hermes = mkService {
+      name = "Hermes";
+      ip = config.custom.world.hosts.proxmox.vms.vm_ai.ip;
+      port = 9119;
+      domain = "";
+      protocol = "http";
+    };
   };
 }

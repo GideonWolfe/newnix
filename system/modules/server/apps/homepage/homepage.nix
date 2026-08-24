@@ -638,7 +638,12 @@ in
             { "llama-swap" = {
                 href = "${svc.llama-swap.protocol}://${svc.llama-swap.ip}:${builtins.toString svc.llama-swap.port}";
                 description = "Model Proxy / API";
-                icon = "mdi-swap-horizontal";
+                icon = "llama-cpp";
+            }; }
+            { Hermes = {
+                href = "${svc.hermes.protocol}://${svc.hermes.ip}:${builtins.toString svc.hermes.port}";
+                description = "Agent Gateway";
+                icon = "hermes-icon";
             }; }
           ];
         }

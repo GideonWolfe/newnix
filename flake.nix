@@ -91,6 +91,13 @@
     # provides some AI tools like crush (maybe redundant later)
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
 
+    # Hermes Agent -- self-hosted agent harness (gateway + skills + memory).
+    # No `nixpkgs.follows`: it builds its Python venv via uv2nix against its
+    # own pinned nixpkgs; overriding it risks a broken/mismatched build.
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent";
+    };
+
     niri = {
       url = "github:sodiboo/niri-flake";
     };

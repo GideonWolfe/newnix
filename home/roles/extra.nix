@@ -51,6 +51,7 @@
     ../apps/obs-studio/obs-theme.nix
     ../apps/aichat/aichat.nix
     ../apps/mods/mods.nix
+    ../apps/crush/crush.nix
     ../apps/f3d/f3d.nix
     #../apps/flameshot/flameshot.nix # doesn't work on wayland, deprecating
     ../apps/fzf/fzf.nix
