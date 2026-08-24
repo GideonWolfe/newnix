@@ -1,8 +1,6 @@
 {
   imports = [
-    # Headless Obsidian Sync service
+    # Headless Obsidian Sync service (manually bootstrapped -- no secrets).
     ./obsidian-headless.nix
-    # sops secrets used to bootstrap the sync
-    ./secrets/secrets_obsidian-headless.nix
   ];
 }

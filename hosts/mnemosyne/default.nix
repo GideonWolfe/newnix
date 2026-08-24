@@ -41,6 +41,11 @@
     # NAS pulls them directly over its fast wired link)
     ../../system/modules/server/apps/aria2
 
+    # Headless Obsidian Sync: keeps a fresh copy of the vault on the tank
+    # pool (covered by the "personal" ZFS snapshots). One-time manual
+    # bootstrap -- see the module header for the `ob login` steps.
+    ../../system/modules/server/apps/obsidian-headless
+
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -74,6 +79,11 @@
   # Aria2 downloads land on the tank pool so they're pulled at full wired
   # speed and are immediately browsable via copyparty (which serves /tank).
   custom.services.aria2.dataDir = "/tank/bucket/downloads";
+
+  # Headless Obsidian Sync. Vault lands on the tank "personal" dataset so the
+  # existing snapshots serve as note version history. Bootstrap once by hand
+  # (see the module header), then the sync daemon runs on every boot.
+  custom.services.obsidian-headless.enable = true;
 
   # Give the machine a unique hostname
   networking.hostName = "mnemosyne";

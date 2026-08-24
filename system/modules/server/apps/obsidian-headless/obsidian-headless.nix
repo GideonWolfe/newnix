@@ -4,199 +4,250 @@
 # Upstream:  https://github.com/obsidianmd/obsidian-headless
 #            https://obsidian.md/help/sync/headless
 #
-# Provides the `ob` CLI from the upstream `obsidian-headless` npm package and
-# runs continuous sync of a single Obsidian vault into a directory on the NAS
-# (mounted via /nas/tank). Login + sync-setup are performed once at activation
-# from sops-managed secrets; subsequent restarts just resume continuous sync.
+# Keeps a freshly synced copy of an Obsidian Sync vault in a directory on the
+# tank pool (default /tank/personal/notes) by running the upstream `ob` CLI on
+# mnemosyne itself. Because it writes straight to a local ZFS dataset, the
+# existing "personal" sanoid snapshots (see hosts/mnemosyne/zfs/zfs-snapshots.nix)
+# double as point-in-time version history for the notes -- no separate backup
+# job is needed.
 #
-# Required sops secrets (see ./secrets/secrets_obsidian-headless.nix):
-#   obsidian/email           - Obsidian account email
-#   obsidian/password        - Obsidian account password
-#   obsidian/vault_name      - Remote vault name (or ID) to sync
-#   obsidian/e2ee_password   - End-to-end encryption password for the vault
-#                              (only needed for e2ee vaults; leave empty file
-#                              for standard-encrypted vaults)
+# WHY THIS MODULE IS "SLIM" ---------------------------------------------------
+# `ob` splits its work into two distinct phases:
+#
+#   1. One-time bootstrap: `ob login` + `ob sync-setup` + `ob sync-config`.
+#      This authenticates the machine and binds the local directory to the
+#      remote vault. It writes auth tokens / device id / a sync config into
+#      $HOME (stateDir below) -- NOT into the Nix store.
+#
+#   2. Ongoing sync: `ob sync --continuous`, which watches the vault and pulls
+#      remote changes forever.
+#
+# Phase 1 is inherently interactive (Obsidian 2FA prompts for an MFA code that
+# no unattended unit can answer) and only ever runs ONCE per machine. So rather
+# than drag sops secrets + a bootstrap systemd unit into the repo just to run
+# three commands one time, we do the bootstrap BY HAND (see "MANUAL BOOTSTRAP"
+# at the bottom of this file) and let Nix own only the durable, repeatable part:
+# the package, the state dir, and the always-on sync daemon.
+#
+# Net effect: NO secrets live in this repo. The only persistent state is the
+# `ob` login under stateDir, which survives rebuilds untouched.
+#
+# The sync service is still fully declarative and is what actually matters
+# day to day -- it starts `ob` on every boot and restarts it after network
+# blips, so you never babysit a shell process.
+#
+# Ownership: runs as gideon:users -- same rationale as copyparty/aria2. Every
+# file the sync writes is owned by the pool's primary user, so notes are
+# editable locally and browsable over NFS/copyparty without fighting ZFS's
+# NFSv4-ACL group-write masking.
+
 let
-  user  = "obsidian-sync";
-  group = "obsidian-sync";
+  cfg = config.custom.services.obsidian-headless;
 
-  # Where the vault lives on disk. Lives on the NAS so it survives host churn
-  # and is accessible to other clients.
-  vaultDir = "/nas/tank/notes/obsidian-vault";
-
-  # Home dir for the service user. `ob` keeps its state
-  # (auth tokens, device id, sync cursors) in $HOME/.config/obsidian-headless.
-  stateDir = "/var/lib/obsidian-headless";
+  user  = "gideon";
+  group = "users";
 
   # --- Package: obsidian-headless ------------------------------------------
-  # Build the upstream CLI from GitHub. There are no GitHub releases yet, so
-  # we pin a commit.
+  # The upstream repo ships a prebuilt, bundled `cli.js` plus a pnpm lockfile;
+  # the only native runtime dependency is `better-sqlite3`. pnpm 10 does NOT
+  # run dependency build scripts on install, and `pnpm rebuild` is a no-op
+  # here, so we compile the addon ourselves the way nixpkgs' own
+  # obsidian-headless derivation does: `npm run build-release` inside the
+  # better-sqlite3 dir, pointed at the Nix node source tree (offline, no
+  # node-gyp download), then wrap cli.js behind an `ob` launcher.
   #
-  # First time you build this, both hashes will be `lib.fakeHash` — `nix build`
-  # will fail and print the correct values. Paste them in and rebuild.
-  obsidian-headless = pkgs.buildNpmPackage {
+  # NOTE: nixpkgs gained an official `obsidian-headless` package after 26.05,
+  # so once it lands in this flake's nixpkgs just drop this whole derivation
+  # and use `pkgs.obsidian-headless` directly.
+  nodeSources = pkgs.srcOnly pkgs.nodejs_22;
+
+  obsidian-headless = pkgs.stdenv.mkDerivation (finalAttrs: {
     pname = "obsidian-headless";
-    version = "unstable-2026-02-27";
+    version = "0.0.14";
 
     src = pkgs.fetchFromGitHub {
       owner = "obsidianmd";
       repo  = "obsidian-headless";
-      # TODO: bump to a current commit when updating.
-      rev   = "master";
-      hash  = lib.fakeHash;
+      tag   = finalAttrs.version;
+      hash  = "sha256-ue2M9maFyvabGH9qTDOpAJS4OPwCikpAMYm/M/XRGKo=";
     };
 
-    # `nix build` will tell you the correct value; paste it in here.
-    npmDepsHash = lib.fakeHash;
+    pnpmDeps = pkgs.fetchPnpmDeps {
+      inherit (finalAttrs) pname version src;
+      # Pin the pnpm fetcher output format (required by newer nixpkgs).
+      # fetcherVersion 2 is deprecated for removal in 26.11 -- migrate to 3
+      # (and regenerate this hash) when bumping past 26.05.
+      fetcherVersion = 2;
+      hash = "sha256-N+4BOSW8uRG/7iH38By/sQtviM07yxyhr6fxdojZNv0=";
+    };
 
-    # The package only ships a CLI (cli.js) — no build step needed.
-    dontNpmBuild = true;
+    nativeBuildInputs = [
+      pkgs.nodejs_22
+      pkgs.pnpm          # provides the `pnpm` binary the configHook shells out to
+      pkgs.pnpmConfigHook
+      pkgs.python3       # node-gyp needs a Python to build better-sqlite3
+      pkgs.node-gyp
+      pkgs.makeWrapper
+    ];
 
-    # package.json declares `bin: { "ob": "cli.js" }` so npm install wires up
-    # the `ob` symlink in $out/bin automatically.
+    # Compile the native better-sqlite3 addon offline against the Nix node
+    # source, then strip references to that (huge) source tree from the output
+    # so it isn't dragged into the runtime closure.
+    buildPhase = ''
+      runHook preBuild
+
+      pushd node_modules/better-sqlite3
+      npm run build-release --offline "--nodedir=${nodeSources}"
+      find build -type f -exec \
+        ${pkgs.removeReferencesTo}/bin/remove-references-to -t "${nodeSources}" {} \;
+      rm -rf deps src   # build-only inputs, not needed at runtime
+      popd
+
+      rm -rf btime/win32-* # Windows-only birthtime binaries, never used
+
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/lib/obsidian-headless"
+      cp -r cli.js btime node_modules package.json "$out/lib/obsidian-headless/"
+      makeWrapper ${lib.getExe pkgs.nodejs_22} "$out/bin/ob" \
+        --add-flags "$out/lib/obsidian-headless/cli.js"
+      runHook postInstall
+    '';
+
     meta = with lib; {
       description = "Headless client for Obsidian Sync";
       homepage    = "https://github.com/obsidianmd/obsidian-headless";
       license     = licenses.unfree; # Obsidian is not open source
       mainProgram = "ob";
+      platforms   = platforms.linux;
     };
-  };
+  });
 
-  # Path to the `ob` binary inside the derivation, for use in ExecStart.
-  ob = "${obsidian-headless}/bin/ob";
+  ob = lib.getExe obsidian-headless;
 in
 {
-  ###########################################################################
-  # Make `ob` available system-wide (handy for ad-hoc maintenance).
-  ###########################################################################
-  environment.systemPackages = [ obsidian-headless ];
+  options.custom.services.obsidian-headless = {
+    enable = lib.mkEnableOption "headless Obsidian Sync into a NAS directory";
 
-  ###########################################################################
-  # Dedicated service user.
-  ###########################################################################
-  users.users.${user} = {
-    isSystemUser = true;
-    inherit group;
-    home = stateDir;
-    createHome = true;
-    description = "Obsidian headless sync service";
-  };
-  users.groups.${group} = { };
-
-  ###########################################################################
-  # Grant the service user read access to its sops secrets. The secrets
-  # themselves are declared in ./secrets/secrets_obsidian-headless.nix; here
-  # we just set ownership so the service can read them at activation time.
-  ###########################################################################
-  sops.secrets."obsidian/email".owner          = user;
-  sops.secrets."obsidian/password".owner       = user;
-  sops.secrets."obsidian/vault_name".owner     = user;
-  sops.secrets."obsidian/e2ee_password".owner  = user;
-
-  ###########################################################################
-  # Ensure the state and vault directories exist with the right ownership.
-  # (The NAS share is mounted via x-systemd.automount, so the parent path
-  # will exist; we just create our subdirectory and chown it.)
-  ###########################################################################
-  systemd.tmpfiles.rules = [
-    "d ${stateDir}            0750 ${user} ${group} - -"
-    "d ${stateDir}/.config    0750 ${user} ${group} - -"
-    "d ${vaultDir}            0750 ${user} ${group} - -"
-  ];
-
-  ###########################################################################
-  # Bootstrap: log in to Obsidian Sync and bind the local directory to the
-  # remote vault. Runs once — guarded by a marker file in the state dir.
-  ###########################################################################
-  systemd.services.obsidian-headless-bootstrap = {
-    description = "Obsidian Headless: bootstrap login + sync-setup";
-    wantedBy    = [ "multi-user.target" ];
-    before      = [ "obsidian-headless-sync.service" ];
-
-    # Ensure the NAS is mounted before we touch the vault directory.
-    unitConfig.RequiresMountsFor = [ "/nas/tank" ];
-    after        = [ "network-online.target" "nas-tank.automount" ];
-    wants        = [ "network-online.target" ];
-
-    serviceConfig = {
-      Type             = "oneshot";
-      RemainAfterExit  = true;
-      User             = user;
-      Group            = group;
-      WorkingDirectory = stateDir;
-      Environment      = [ "HOME=${stateDir}" ];
+    vaultDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/tank/personal/notes";
+      example = "/tank/personal/notes";
+      description = ''
+        Local directory the vault is synced into. On mnemosyne this lives on
+        the tank pool so the existing "personal" ZFS snapshots cover it. This
+        is the `--path` you pass to `ob sync-setup` during manual bootstrap.
+      '';
     };
 
-    # Read secrets at runtime (NOT into the nix store). Idempotent: skip if
-    # the marker file already exists.
-    script = ''
-      set -euo pipefail
-
-      marker="${stateDir}/.bootstrapped"
-      if [ -f "$marker" ]; then
-        echo "Already bootstrapped; nothing to do."
-        exit 0
-      fi
-
-      email=$(cat ${config.sops.secrets."obsidian/email".path})
-      password=$(cat ${config.sops.secrets."obsidian/password".path})
-      vault=$(cat ${config.sops.secrets."obsidian/vault_name".path})
-      e2ee=$(cat ${config.sops.secrets."obsidian/e2ee_password".path} || echo "")
-
-      echo "Logging in to Obsidian Sync as $email..."
-      ${ob} login --email "$email" --password "$password"
-
-      echo "Linking ${vaultDir} to remote vault \"$vault\"..."
-      if [ -n "$e2ee" ]; then
-        ${ob} sync-setup \
-          --vault "$vault" \
-          --path "${vaultDir}" \
-          --password "$e2ee" \
-          --device-name "$(${pkgs.nettools}/bin/hostname)"
-      else
-        ${ob} sync-setup \
-          --vault "$vault" \
-          --path "${vaultDir}" \
-          --device-name "$(${pkgs.nettools}/bin/hostname)"
-      fi
-
-      touch "$marker"
-      echo "Bootstrap complete."
-    '';
+    stateDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/obsidian-headless";
+      description = ''
+        HOME for the sync service. `ob` keeps its login token, device id and
+        sync cursors here -- this is the state created by the one-time manual
+        bootstrap and reused by the daemon forever after. Lives on local disk,
+        deliberately separate from the vault directory.
+      '';
+    };
   };
 
-  ###########################################################################
-  # Continuous sync. Restarts on failure (e.g. transient network blips).
-  ###########################################################################
-  systemd.services.obsidian-headless-sync = {
-    description = "Obsidian Headless: continuous vault sync";
-    wantedBy    = [ "multi-user.target" ];
-    after       = [
-      "network-online.target"
-      "nas-tank.automount"
-      "obsidian-headless-bootstrap.service"
+  config = lib.mkIf cfg.enable {
+    # Make `ob` available system-wide -- REQUIRED for the manual bootstrap and
+    # handy for ad-hoc `ob sync-status` / `ob sync-config` maintenance.
+    environment.systemPackages = [ obsidian-headless ];
+
+    # Ensure the state and vault directories exist, owned by gideon:users, so
+    # the manual `ob login` (run as gideon) and the daemon share one HOME.
+    systemd.tmpfiles.rules = [
+      "d ${cfg.stateDir} 0750 ${user} ${group} - -"
+      "d ${cfg.vaultDir} 0755 ${user} ${group} - -"
     ];
-    requires    = [ "obsidian-headless-bootstrap.service" ];
-    wants       = [ "network-online.target" ];
 
-    unitConfig.RequiresMountsFor = [ "/nas/tank" ];
+    # Continuous sync daemon -- the always-on half. It is GATED on whether the
+    # one-time manual bootstrap has run yet: `ob login` writes its auth token
+    # and per-vault sync state under $HOME/.config/obsidian-headless, so the
+    # presence of that directory means "set up". ConditionPathExists below
+    # makes systemd SKIP the unit (inactive, not failed) until it exists --
+    # which keeps `pushbuild` / switch-to-configuration green pre-bootstrap.
+    # Without the gate, `ob sync` exits non-zero ("vault not set up"), the
+    # switch sees a failed unit, and the whole deploy reports failure. After
+    # bootstrap the directory exists, the condition passes, and the daemon runs
+    # on every boot -- no marker file or manual bookkeeping step required.
+    #
+    # NB: we deliberately use ConditionPathExists on the config dir rather than
+    # ConditionDirectoryNotEmpty on stateDir, because the latter IGNORES hidden
+    # entries (systemd checks it with ignore_hidden_or_backup=true) and `ob`
+    # stores everything under the hidden `.config` -- so a bootstrapped stateDir
+    # would still read as "empty" and the unit would never start.
+    systemd.services.obsidian-headless-sync = {
+      description = "Obsidian Headless: continuous vault sync";
+      wantedBy    = [ "multi-user.target" ];
+      after       = [ "network-online.target" ];
+      wants       = [ "network-online.target" ];
 
-    serviceConfig = {
-      Type              = "simple";
-      User              = user;
-      Group             = group;
-      WorkingDirectory  = vaultDir;
-      Environment       = [ "HOME=${stateDir}" ];
-      ExecStart         = "${ob} sync --continuous --path ${vaultDir}";
-      Restart           = "on-failure";
-      RestartSec        = 15;
+      serviceConfig = {
+        Type             = "simple";
+        User             = user;
+        Group            = group;
+        WorkingDirectory = cfg.vaultDir;
+        Environment      = [ "HOME=${cfg.stateDir}" ];
+        ExecStart        = "${ob} sync --continuous --path ${cfg.vaultDir}";
+        Restart          = "on-failure";
+        RestartSec       = 30;
 
-      # Hardening
-      NoNewPrivileges   = true;
-      ProtectSystem     = "strict";
-      ProtectHome       = true;
-      PrivateTmp        = true;
-      ReadWritePaths    = [ stateDir vaultDir ];
+        # Hardening. ReadWritePaths carves the two dirs we own back out of the
+        # otherwise read-only filesystem imposed by ProtectSystem = "strict".
+        NoNewPrivileges  = true;
+        ProtectSystem    = "strict";
+        ProtectHome      = true;
+        PrivateTmp       = true;
+        ReadWritePaths   = [ cfg.stateDir cfg.vaultDir ];
+      };
+
+      unitConfig = {
+        # Skip (don't fail) the unit until `ob login` has created its config
+        # dir -- keeps deploys green before the vault is bootstrapped.
+        ConditionPathExists = "${cfg.stateDir}/.config/obsidian-headless";
+        # Once bootstrapped, keep retrying forever on transient failures
+        # (network blips) without the start-rate limiter latching us into a
+        # hard `failed` state.
+        StartLimitIntervalSec = 0;
+      };
     };
   };
 }
+
+# --- MANUAL BOOTSTRAP (run ONCE on mnemosyne) --------------------------------
+# After the first `pushbuild mnemosyne` puts `ob` on PATH and creates the dirs,
+# authenticate the machine and bind the vault. Run everything as `gideon` with
+# HOME pointed at the state dir so the daemon inherits the same login:
+#
+#   sudo -u gideon HOME=/var/lib/obsidian-headless ob login
+#       # prompts for email + password (+ 2FA code if enabled)
+#
+#   sudo -u gideon HOME=/var/lib/obsidian-headless ob sync-list-remote
+#       # confirm the vault name/ID you want
+#
+#   sudo -u gideon HOME=/var/lib/obsidian-headless \
+#     ob sync-setup --vault "My Vault" --path /tank/personal/notes \
+#       --device-name mnemosyne
+#       # add `--password <e2ee-pass>` here if the vault is end-to-end encrypted
+#
+#   # Pull-only so the NAS can never push local changes back and corrupt the
+#   # canonical vault. Use `bidirectional` if you want to edit notes on the NAS,
+#   # or `mirror-remote` for an exact one-way mirror that reverts local drift.
+#   sudo -u gideon HOME=/var/lib/obsidian-headless \
+#     ob sync-config --path /tank/personal/notes --mode pull-only
+#
+#   # Optional one-shot to verify before handing off to the daemon:
+#   sudo -u gideon HOME=/var/lib/obsidian-headless ob sync --path /tank/personal/notes
+#
+# The very first `ob login` above already populated the state dir, so the
+# daemon's gate (ConditionDirectoryNotEmpty) is now satisfied. Just start it:
+#
+#   sudo systemctl start obsidian-headless-sync
+#   systemctl status obsidian-headless-sync
