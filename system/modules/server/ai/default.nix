@@ -5,6 +5,6 @@
     # Persistent web GUI, pointed at the local llama-swap endpoint.
     ./open-webui
     # Hermes Agent gateway -- agent/orchestration layer above inference.
-    ./hermes
+    #./hermes
   ];
 }

@@ -134,6 +134,61 @@ in
             '';
             ttl = 300;
           };
+
+          # Embedding model for RAG. Exposes the OpenAI-standard /v1/embeddings
+          # endpoint (--embeddings), so ANY client -- Open WebUI, Hermes,
+          # scripts, aichat -- can embed against one shared endpoint. This is
+          # the "bake it in early" primitive: the capability lives at the
+          # inference layer, not inside any single app.
+          #
+          # nomic-embed-text-v1.5: the standard general-purpose CPU embedder
+          # (~140 MB f16, 8k context, mean pooling). Tiny + fast on the 7900X.
+          #
+          # NOTE: place the GGUF on the NAS at
+          #   /nas/tank/infra/ai/models/nomic-embed-text-v1.5.f16.gguf
+          # (model-sync pulls the whole models/ dir, so it lands in the local
+          # cache automatically). e.g. bartowski/nomic-embed-text-v1.5-GGUF.
+          #
+          # ttl 0 = never auto-unload: the model is tiny, and keeping it warm
+          # avoids a reload on every retrieval. (Chat + embeddings still swap
+          # with each other by default -- if that thrash is annoying during
+          # RAG, we can put them in separate llama-swap `groups` so both stay
+          # resident; ask and I'll wire it.)
+          "nomic-embed" = {
+            cmd = ''
+              llama-server
+              --model ${cfg.modelCacheDir}/nomic-embed-text-v1.5.f16.gguf
+              --host 127.0.0.1 --port ''${PORT}
+              --embeddings
+              --pooling mean
+              --ctx-size 8192
+              --threads 12
+            '';
+            ttl = 0;
+          };
+          "gemma-4-E4B" = {
+            # Gemma 3n E4B instruct. NOTE: this is a generation model, so it
+            # must NOT use --embeddings/--pooling (that's embedding-only mode).
+            # --jinja enables Gemma's chat template + tool calling. Sampling
+            # follows Google's Gemma recommendation (temp 1.0 / top-k 64 /
+            # top-p 0.95 / min-p 0.0) -- Gemma misbehaves at the low temps that
+            # suit other models. Drop --temp toward 0.7 if this abliterated
+            # ("heretic") fine-tune rambles.
+            cmd = ''
+              llama-server
+              --model ${cfg.modelCacheDir}/gemma-4-E4B-it-ultra-uncensored-heretic-Q4_K_M.gguf
+              --host 127.0.0.1 --port ''${PORT}
+              --ctx-size 8192
+              --threads 12
+              --jinja
+              --cache-reuse 256
+              --temp 1.0
+              --top-k 64
+              --top-p 0.95
+              --min-p 0.0
+            '';
+            ttl = 300;
+          };
         };
       };
     };
