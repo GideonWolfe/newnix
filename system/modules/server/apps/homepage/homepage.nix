@@ -94,47 +94,73 @@ in
       headerStyle = "clean";
       useEqualHeights = true;
       layout = {
-        Monitoring = {
-          style = "row";
-          columns = 4;
-          icon = "mdi-chart-line";
-        };
-        Media = {
-          style = "row";
-          columns = 4;
-          icon = "mdi-filmstrip";
-        };
-        "Media Management" = {
-          style = "row";
-          columns = 4;
-          icon = "mdi-download";
-        };
-        Music = {
-          style = "row";
-          columns = 3;
-          icon = "mdi-music";
-        };
-        Networking = {
-          style = "column";
-          columns = 2;
-          icon = "mdi-router-wireless";
-        };
-        Infrastructure = {
-          style = "column";
-          columns = 2;
-          icon = "mdi-server";
-        };
+        # ---- Apps tab ----
         Applications = {
+          tab = "Apps";
           style = "row";
           columns = 3;
           icon = "mdi-apps";
         };
         AI = {
+          tab = "Apps";
           style = "row";
           columns = 3;
           icon = "mdi-robot";
         };
+
+        # ---- Media tab ----
+        Media = {
+          tab = "Media";
+          style = "row";
+          columns = 4;
+          icon = "mdi-filmstrip";
+        };
+        "Media Management" = {
+          tab = "Media";
+          style = "row";
+          columns = 4;
+          icon = "mdi-download";
+        };
+        Music = {
+          tab = "Media";
+          style = "row";
+          columns = 3;
+          icon = "mdi-music";
+        };
+        Books = {
+          tab = "Media";
+          style = "row";
+          columns = 3;
+          icon = "mdi-book-open-page-variant";
+        };
+        Games = {
+          tab = "Media";
+          style = "row";
+          columns = 3;
+          icon = "mdi-controller";
+        };
+
+        # ---- Infra tab ----
+        Monitoring = {
+          tab = "Infra";
+          style = "row";
+          columns = 4;
+          icon = "mdi-chart-line";
+        };
+        Networking = {
+          tab = "Infra";
+          style = "column";
+          columns = 2;
+          icon = "mdi-router-wireless";
+        };
+        Infrastructure = {
+          tab = "Infra";
+          style = "column";
+          columns = 2;
+          icon = "mdi-server";
+        };
         VMs = {
+          tab = "Infra";
           style = "column";
           columns = 1;
           icon = "mdi-server-network";
@@ -307,6 +333,14 @@ in
               };
             };
           }
+        ];
+      }
+
+      #################
+      # Books         #
+      #################
+      {
+        Books = [
           {
             Calibre = {
               href = "http://${svc.calibre-web-automated.ip}:${builtins.toString svc.calibre-web-automated.port}";
@@ -473,6 +507,26 @@ in
       }
 
       #################
+      # Games         #
+      #################
+      {
+        Games = [
+          {
+            Romm = {
+              href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
+              description = "Emulation Library";
+              icon = "romm";
+              widget = {
+                type = "romm";
+                url = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
+                fields = [ "platforms" "totalRoms" "saves" "totalfilesize" ];
+              };
+            };
+          }
+        ];
+      }
+
+      #################
       # Infrastructure#
       #################
       {
@@ -563,17 +617,6 @@ in
                   password = "{{HOMEPAGE_VAR_FRESHRSS_API_KEY}}"; # Set in secrets_homepage.yaml + homepage-env template
                   fields = [ "subscriptions" "unread" ];
                 };
-            }; }
-            { Romm = {
-                href = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
-                description = "Emulation Library";
-                icon = "romm";
-                widget = {
-                  type = "romm";
-                  url = "${svc.romm.protocol}://${svc.romm.ip}:${builtins.toString svc.romm.port}";
-                  fields = [ "platforms" "totalRoms" "saves" "totalfilesize" ];
-                };
-
             }; }
             { CopyParty = {
                 href = "${svc.copyparty.protocol}://${svc.copyparty.ip}:${builtins.toString svc.copyparty.port}";
