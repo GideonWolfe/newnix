@@ -25,17 +25,17 @@ Phase 9).
   HOME SITE                          INTERNET            OFFSITE SITE
  ┌───────────────────────┐                            ┌───────────────────────┐
  │ Proxmox cluster        │                            │ soteria (NixOS)        │
- │ 192.168.88.x  (Debian) │                            │  LAN: 10.20.0.5        │
+ │ 192.168.88.x  (Debian) │                            │  LAN: 10.2.0.66        │
  │        │               │        WireGuard           │  wg0: 10.0.0.5         │
  │        ▼               │      (soteria dials out)   │        │               │
  │ MikroTik hub ──────────┼──── 10.0.0.254 ◄═══════════┿═══ wg0 tunnel          │
  │ 192.168.88.1           │                            │        │ ip_forward     │
  │ wg0: 10.0.0.254        │                            │        ▼               │
  └───────────────────────┘                            │ PBS (Debian)           │
-                                                        │  LAN: 10.20.0.10       │
+                                                        │  LAN: 10.2.0.67        │
                                                         └───────────────────────┘
 
- Path PVE → PBS:  192.168.88.x → MikroTik → tunnel → soteria → 10.20.0.10
+ Path PVE → PBS:  192.168.88.x → MikroTik → tunnel → soteria → 10.2.0.67
 ```
 
 Address plan (adjust to reality):
@@ -44,14 +44,26 @@ Address plan (adjust to reality):
 |---------------------------|------------------|-----------------------------------|
 | soteria WG IP             | `10.0.0.5`       | `lib/world/hosts.nix`             |
 | WG subnet                 | `10.0.0.0/24`    | `lib/world/hosts.nix` (router)    |
-| soteria offsite LAN IP    | `10.20.0.10`* †  | remote DHCP reservation / static  |
-| offsite LAN subnet        | `10.20.0.0/24` † | `lib/world/networks.nix` (offsite) |
-| PBS offsite LAN IP        | `10.20.0.11`* †  | PBS box                           |
+| soteria offsite LAN IP    | `10.2.0.66`      | `lib/world/hosts.nix` (static)    |
+| offsite LAN subnet        | `10.2.0.0/24`    | `lib/world/networks.nix` (offsite) |
+| PBS offsite LAN IP        | `10.2.0.67`*     | PBS box                           |
 | soteria SSH port          | `2736`           | `system/modules/networking/ssh.nix` |
 
-\* placeholders — fill once the remote LAN subnet is known.
-† the offsite LAN subnet **must not overlap** your home LAN (`192.168.88.0/24`)
-or the WG subnet (`10.0.0.0/24`), or routing will break.
+\* fill once the PBS box is assigned an address on the offsite LAN.
+The offsite LAN subnet **must not overlap** your home LAN (`192.168.88.0/24`)
+or the WG subnet (`10.0.0.0/24`).
+
+> ✅ **Subnet collision resolved (2026-08-29).** The offsite LAN originally came
+> up as `10.0.0.0/24` (installer got `10.0.0.67`), colliding with the home
+> WireGuard subnet. The remote Xfinity LAN has been **renumbered to
+> `10.2.0.0/24`** (gateway `10.2.0.1`); this is reflected in
+> `lib/world/networks.nix`. soteria takes the static `10.2.0.66`. Phase 5
+> WireGuard is unblocked.
+>
+> Note the sequencing: after renumbering, soteria re-leases/re-addresses on
+> `10.2.0.x`, so the temporary install port-forward must target the new address.
+
+
 
 ---
 
@@ -61,8 +73,9 @@ or the WG subnet (`10.0.0.0/24`), or routing will break.
    ```
    nix build .#nixosConfigurations.soteria.config.system.build.toplevel
    ```
-2. Sanity-check the boot disk device in `hosts/soteria/disko.nix` (currently
-   `/dev/nvme0n1`). You'll re-verify live in Phase 2 before formatting.
+2. Sanity-check the boot disk device in `hosts/soteria/disko.nix` (set to
+   `/dev/mmcblk0`, the DXP2800's onboard 32GB eMMC). You'll re-verify live in
+   Phase 2 before formatting.
 3. Remote helper preps hardware:
    - Wired ethernet into the offsite LAN.
    - Boot the **NixOS minimal installer** USB.
@@ -74,6 +87,11 @@ or the WG subnet (`10.0.0.0/24`), or routing will break.
      ```
 
 ## Phase 1 — Remote networking to reach the installer over WAN ☐
+
+Installer LAN IP: the box first came up as `10.0.0.67` on the pre-renumber LAN.
+After the LAN is renumbered to `10.2.0.0/24`, the installer re-leases on
+`10.20.0.x` — read the current value with `ip -4 addr` and point the
+port-forward at that address.
 
 1. On the **remote router**, add a temporary port forward:
    `WAN TCP 22 → <installer-LAN-IP>:22`.
@@ -93,7 +111,8 @@ or the WG subnet (`10.0.0.0/24`), or routing will break.
    ```
    ssh root@<remote-public-ip> "lsblk -dpno NAME,SIZE,MODEL"
    ```
-   If the boot NVMe isn't `/dev/nvme0n1`, fix `hosts/soteria/disko.nix`.
+   If the boot device isn't `/dev/mmcblk0` (the onboard eMMC), fix
+   `hosts/soteria/disko.nix`.
 2. Install:
    ```
    nix run github:nix-community/nixos-anywhere -- \
@@ -101,7 +120,7 @@ or the WG subnet (`10.0.0.0/24`), or routing will break.
      --ssh-port 22 \
      root@<remote-public-ip>
    ```
-   This partitions per disko (ESP + 8G swap + ext4 root — **no ZFS yet**),
+   This partitions per disko (ESP + 2G swap + ext4 root — **no ZFS yet**),
    installs the closure, and reboots.
 3. After reboot soteria comes up on the offsite LAN listening on SSH **2736**.
    Have the helper **delete the WAN:22 port forward** now.
@@ -137,7 +156,7 @@ To let it decrypt secrets later (replication creds, etc.):
 1. **world config** — in `lib/world/hosts.nix` give soteria:
    ```nix
    soteria = {
-     ip = mkIp "10.20.0.10";                 # offsite LAN IP (Phase 3)
+     ip = mkIp "10.2.0.66";                  # offsite LAN static (Phase 3)
      wireguard.ip = mkIp "10.0.0.5";         # next free WG address
      wireguard.public_key = mkIp "<fill after first activation>";
    };
@@ -251,7 +270,7 @@ have no `wg0` and no route to `10.0.0.0/24` or the offsite LAN. We solve this
 *without* installing WireGuard on the Debian boxes, by making the home hub and
 soteria do the routing.
 
-**Path:** `PVE (192.168.88.x) → MikroTik → tunnel → soteria → PBS (10.20.0.10)`
+**Path:** `PVE (192.168.88.x) → MikroTik → tunnel → soteria → PBS (10.2.0.67)`
 
 Because the MikroTik is already the PVE nodes' default gateway, and it will
 learn the route to the offsite subnet, **the PVE nodes need no per-node static
@@ -285,7 +304,7 @@ Mirror the existing `routeros_ip_route.wg0`:
 
 ```nix
 resource."routeros_ip_route"."soteria_site" = {
-  dst_address = config.custom.world.networks.offsite.subnet; # 10.20.0.0/24
+  dst_address = config.custom.world.networks.offsite.subnet; # 10.2.0.0/24
   gateway = "\${routeros_interface_wireguard.wg0.name}";
   provider = "routeros.router";
 };
@@ -323,12 +342,12 @@ back through the tunnel.
 
 - If PBS runs **on** soteria: PVE targets `10.0.0.5` (soteria's WG IP) directly.
 - If PBS is a **separate box** (this plan): PVE targets PBS's offsite IP
-  `10.20.0.10`; traffic flows via the path above.
+  `10.2.0.67`; traffic flows via the path above.
 
 Add the PBS datastore in the Proxmox UI and run a test backup. Verify the path
 end-to-end from a PVE node:
 ```
-ping 10.20.0.10          # should traverse hub → tunnel → soteria → PBS
+ping 10.2.0.67          # should traverse hub → tunnel → soteria → PBS
 ```
 
 > **End state note:** this Option 1 routing is the flake-native interim. The

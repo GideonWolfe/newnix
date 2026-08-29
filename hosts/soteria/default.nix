@@ -14,13 +14,22 @@
     # This host uses my personal secrets and accounts
     #../../users/gideon/personal.nix
 
-    # Apply a system profile that matches this host
-    # This will enable the necessary roles and packages
-    ../../system/profiles/light-workstation.nix
-    
-    # Augment with extra roles as needed
-    ../../system/roles/hardware.nix # This is a local system with physical access
+    # MINIMAL profile: soteria boots from a 32GB eMMC, so it must stay lean.
+    # Unlike mnemosyne (light-workstation + always-on Grafana panel), this box
+    # is headless — no desktop, no app suites. Just base system + the NAS bits.
+    ../../system/profiles/minimal.nix
 
+    # Monitoring AGENT (exporters + Alloy shipping to the home stack). This is
+    # the lightweight agent role, NOT the full server aggregator. zfs-monitoring.nix
+    # appends its scrape job to the Alloy config this provides.
+    #
+    # FIRST DEPLOY: keep commented. It pulls in sops.secrets."prometheus/push_password"
+    # which is encrypted per-host — but soteria's age key does not exist until its
+    # SSH host key is generated during install, so it cannot be decrypted on the
+    # first boot (activation would fail). Enable this AFTER registering soteria's
+    # age key in .sops.yaml + `sops updatekeys` (setup.md Phase 4), alongside the
+    # ZFS block below (zfs-monitoring.nix depends on this role's Alloy config).
+    #../../system/roles/monitoring.nix
 
     #############
     # NAS Stuff #
@@ -29,6 +38,19 @@
     ../../system/modules/hardware/ugreen-nas.nix # This is the UGREEN NAS box, so it needs the hardware tweaks for that
     # HDD monitoring with smartd and scrutiny
     ../../system/roles/hdds.nix 
+
+    # WireGuard tunnel to the home hub. soteria dials out to the hub (via the
+    # DNS endpoint) so all home<->offsite traffic rides the tunnel. First
+    # activation generates soteria's keypair at
+    # /root/wireguard/soteria-wg0-private.key; read its public half, put it in
+    # lib/world/hosts.nix (soteria.wireguard.public_key), and register soteria
+    # as a peer on the MikroTik before the tunnel will come up.
+    ../../system/modules/networking/wireguard/wg-home.nix
+
+    # NOTE: intentionally NOT importing system/roles/hardware.nix — that role is
+    # for desktop/physical-access machines (bluetooth, printing, SDR, gaming
+    # peripherals, KDE Connect, etc.) and would bloat the eMMC closure. The NAS
+    # only needs the ugreen-nas hardware module and smartd/scrutiny above.
 
     #####################################################################
     # ZFS / tank-dependent services (FIRST DEPLOY: keep commented)      #
@@ -48,21 +70,34 @@
 
   ];
 
-  # Here we could add our full HM configuration (core is automatically imported)
-  home-manager.users.gideon.imports = [
-    # The desktop with desktop environment and apps
-    ../../home/roles/desktop.nix
-    #../../home/roles/extra.nix
-    # Or any other arbitrary HM config we are testing
-    ../../home/sessions/niri/niri.nix
-    # NixVim configuration
-    ../../home/apps/nixvim/nixvim-light.nix
-    # Host-specific UI overrides (always-on panel: no idle/lock/suspend)
-    ./ui.nix
-  ];
+  # Headless box: no home-manager desktop/session/editor imports. The core HM
+  # config is imported automatically; the graphical stack (niri, chromium
+  # kiosk, nixvim) is intentionally omitted to keep the eMMC closure small.
 
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
+
+  # eMMC boot support: soteria's root is on /dev/mmcblk0 (onboard 32GB eMMC).
+  # The default NixOS initrd bundles NVMe/AHCI/USB storage modules but NOT the
+  # SD/eMMC host-controller modules, so without these the initrd cannot see
+  # mmcblk0 and root fails to mount at boot. (mnemosyne boots from NVMe and so
+  # doesn't need these.)
+  boot.initrd.availableKernelModules = [ "mmc_block" "sdhci" "sdhci_pci" "sdhci_acpi" ];
+
+  #####################################################################
+  # eMMC closure trims (32GB onboard flash) — headless overrides of   #
+  # things pulled in by the shared base role that a headless offsite  #
+  # NAS never uses.                                                    #
+  #####################################################################
+  # NOTE: stylix.enable is intentionally left ON — the shared HM config
+  # (e.g. fish) references config.lib.stylix.colors, so disabling it breaks
+  # eval. Its cost is mostly fonts/theme data and not worth the entanglement.
+  # No desktop → never launches AppImages.
+  programs.appimage.enable = lib.mkForce false;
+  # Docker/moby (~900MB) is only needed by the container-based file services
+  # (copyparty/aria2), which are deferred to a later deploy. Re-enable this
+  # (delete the override) when uncommenting those services below.
+  virtualisation.docker.enable = lib.mkForce false;
 
   #####################################################################
   # ZFS / tank-dependent service settings (FIRST DEPLOY: commented)   #

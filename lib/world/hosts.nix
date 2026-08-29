@@ -28,9 +28,15 @@ in
         wireguard.public_key = mkIp "N5/g+wB3XnvU0MeYNZ2sq+GHDEzJ5kASz+WZbcY/mG4=";
       };
       mnemosyne  = { ip = mkIp "192.168.88.205"; };
-      # Offsite backup NAS (UGREEN DXP2800). Not yet stood up; IP is a
-      # placeholder to be finalized once the offsite network is provisioned.
-      soteria    = { ip = mkIp "10.10.10.10"; };
+      # Offsite backup NAS (UGREEN DXP2800). Static IP on the offsite LAN
+      # (10.2.0.0/24). WireGuard peer: public_key is filled in after the first
+      # wg-home activation generates soteria's keypair (read it off the box,
+      # then register it on the MikroTik hub).
+      soteria    = {
+        ip = mkIp "10.2.0.66";
+        wireguard.ip = mkIp "10.0.0.5";
+        wireguard.public_key = mkIp "R2/ifWdsux2AEs3nBlNQ3jGOG5b3bkLfunyVj1VaGVw=";
+      };
       access_point = { ip = mkIp "192.168.88.2"; };
       monitor    = { ip = mkIp "165.227.70.3"; };
       homeserver = { ip = mkIp "66.108.176.86"; };

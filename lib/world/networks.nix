@@ -60,12 +60,12 @@
     offsite = {
       subnet = lib.mkOption {
         type = lib.types.str;
-        default = "10.20.0.0/24";
+        default = "10.2.0.0/24";
         description = "The offsite backup LAN subnet in CIDR notation";
       };
       gateway = lib.mkOption {
         type = lib.types.str;
-        default = "10.20.0.1";
+        default = "10.2.0.1";
         description = "The remote router's gateway IP on the offsite LAN";
       };
     };

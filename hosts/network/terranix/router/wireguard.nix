@@ -114,4 +114,19 @@
     allowed_address = [ "${config.custom.world.hosts.retroidpocket6.wireguard.ip}/32" ];
     provider = "routeros.router";
   };
+
+  # Offsite backup NAS. allowed_address carries both soteria's own tunnel IP
+  # and the offsite LAN subnet behind it, so the hub will route traffic destined
+  # for the remote PBS box (on 10.2.0.0/24) into the tunnel (see
+  # hosts/soteria/setup.md, Phase 9).
+  resource."routeros_interface_wireguard_peer"."soteria" = {
+    interface = "\${routeros_interface_wireguard.wg0.name}";
+    name = "soteria";
+    public_key = config.custom.world.hosts.soteria.wireguard.public_key;
+    allowed_address = [
+      "${config.custom.world.hosts.soteria.wireguard.ip}/32"
+      "${config.custom.world.networks.offsite.subnet}"
+    ];
+    provider = "routeros.router";
+  };
 }

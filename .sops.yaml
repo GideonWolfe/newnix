@@ -13,6 +13,7 @@ keys:
       - &vm-ai age1jqu67xh6cpkknraf6schn57sdy7uawv7pum9dsvrt0jdm9ddl4gq4ng0n5
       - &mnemosyne age1r3a6r8eupm6pm3l2rg0l5kz32un945nqmhvnnwutejaakwfgjvks5043gc
       - &ares age1eywe53hdwya9qw3589f5qrpzhzet0kg66nn4glqz7lvcm6kgs5fs4v8csl
+      - &soteria age1a6lcea3tw49wlcv7ymwu8z8nndykkhd78u5yf2luf07d8eatr4rst602c2
 creation_rules:
   - path_regex: gideon_secrets.yaml$
     key_groups:
@@ -131,6 +132,7 @@ creation_rules:
           - *athena
           - *ares
           - *mnemosyne
+          - *soteria
           - *vm-media
           - *vm-app1
           - *vm-app2
