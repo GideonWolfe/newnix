@@ -1,4 +1,10 @@
 { config, lib, pkgs, inputs, ... }:
+let
+  wg = config.custom.world.hosts.router.wireguard;
+  # The hub's endpoint as a "host:port" string. `host` may be a DNS name so a
+  # home WAN-IP change only needs a DNS-record update, not a redeploy.
+  endpoint = "${wg.endpoint}:${toString wg.port}";
+in
 {
     # Open firewall for WireGuard
     networking.firewall.allowedUDPPorts = [
@@ -33,8 +39,11 @@
           config.custom.world.hosts.router.subnet
         ];
 
-        # Server endpoint constructed from IP and port
-        endpoint = "70.19.44.46:${toString config.custom.world.hosts.router.wireguard.port}";
+        # Server endpoint. Host may be a DNS name (see router.wireguard.endpoint)
+        # so a home WAN-IP change only requires a DNS update. Note: the kernel
+        # resolves this ONCE at interface setup, so remote hosts also run the
+        # reresolve-dns timer below to pick up a changed IP without a reboot.
+        endpoint = endpoint;
 
         # Keep NAT tables alive
         persistentKeepalive = 25;
@@ -50,5 +59,34 @@
         ${pkgs.iproute2}/bin/ip route replace ${config.custom.world.hosts.router.wireguard.subnet} dev wg0
         ${pkgs.iproute2}/bin/ip route replace ${config.custom.world.hosts.router.subnet} dev wg0 metric 1000
       '';
+    };
+
+    # Periodically re-resolve the hub's endpoint hostname and update the peer if
+    # its IP changed. The WireGuard kernel module only resolves `endpoint` once
+    # at setup, so without this a home WAN-IP change would silently strand any
+    # remote spoke on the stale IP (and the tunnel is the only way back in to
+    # fix it). Harmless on LAN hosts. No-op unless the resolved IP actually
+    # differs, so it won't churn the handshake.
+    systemd.services.wg-reresolve-dns = {
+      description = "Re-resolve WireGuard hub endpoint and update peer";
+      after = [ "network-online.target" "wireguard-wg0.service" ];
+      wants = [ "network-online.target" ];
+      serviceConfig.Type = "oneshot";
+      path = [ pkgs.wireguard-tools ];
+      script = ''
+        # `wg set ... endpoint <host:port>` re-resolves the hostname each run.
+        # If the resolved IP is unchanged this is a no-op that does NOT reset
+        # the handshake, so running it on a short timer is safe.
+        wg set wg0 peer "${config.custom.world.hosts.router.wireguard.public_key}" \
+          endpoint "${endpoint}"
+      '';
+    };
+    systemd.timers.wg-reresolve-dns = {
+      description = "Periodically re-resolve WireGuard hub endpoint";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "2min";
+        OnUnitActiveSec = "2min";
+      };
     };
 }

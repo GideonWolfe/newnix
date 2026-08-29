@@ -70,6 +70,13 @@
         IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
+      # NAS (Offsite)
+      soteria = {
+        HostName = "${osConfig.custom.world.hosts.soteria.ip}";
+        Port = 2736;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
+      };
+
       # Laptop (LAN)
       ares = {
         HostName = "${osConfig.custom.world.hosts.ares.ip}";

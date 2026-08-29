@@ -26,6 +26,7 @@ let
     "vm-test"    = h.proxmox.vms.vm_test.ip;
     "vm-ai"      = h.proxmox.vms.vm_ai.ip;
     "mnemosyne"  = h.mnemosyne.ip;
+    "soteria"    = h.soteria.ip;
     "poseidon"   = h.poseidon.ip;
     "hades"      = h.hades.ip;
     "ares"       = h.ares.ip;

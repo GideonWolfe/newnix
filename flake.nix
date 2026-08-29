@@ -68,12 +68,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Deployment tool
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Terraform Generator
     terranix = {
       url = "github:terranix/terranix";
@@ -153,7 +147,6 @@
       nixpkgs-unstable,
       nixos-hardware,
       home-manager,
-      deploy-rs,
       terranix,
       wallpapers,
       nixvim,
@@ -192,11 +185,6 @@
       # buld with nix build .#example-host-vm, run with nix run .#example-host-vm
       packages.x86_64-linux.example-host-vm =
         self.nixosConfigurations.example-host.config.system.build.vm;
-      # Deploy remotely to this host
-      deploy.nodes.vm = {
-        hostname = "example-host";
-        profiles.system.path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.example-host;
-      };
 
       ############
       # uConsole #
@@ -214,11 +202,6 @@
         self.nixosConfigurations.uconsole.config.system.build.sdImage;
       packages.x86_64-linux.uconsole-nixos =
         self.nixosConfigurations.uconsole.config.system.build.toplevel;
-      # Remotely deploy changes (so we don't have to bake images each time)
-      deploy.nodes.uconsole = {
-        hostname = "192.168.0.29";
-        profiles.system.path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.uconsole;
-      };
 
       ############
       # Poseidon #
@@ -343,10 +326,14 @@
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/mnemosyne ];
       };
-      deploy.nodes.mnemosyne = {
-        hostname = "192.168.0.137";
-        profiles.system.path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.mnemosyne;
-        profiles.system.user = "root";
+
+      ############################
+      # Soteria (Offsite NAS)    #
+      ############################
+      nixosConfigurations.soteria = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/soteria ];
       };
 
       # Terraform
@@ -389,21 +376,6 @@
           ./system/modules/server/apps/netbox/terranix
         ];
       };
-
-      # deploy-rs global settings
-      deploy = {
-        sshUser = "gideon";
-        #sshOpts = [ "-i" "/home/gideon/.ssh/gideon_ssh_sk" "-p" "2736"];
-        sshOpts = [
-          "-i"
-          "/home/gideon/.ssh/gideon_ssh_sk"
-        ];
-        user = "root";
-        fastConnection = true;
-        interactiveSudo = true;
-      };
-      # Deploy checks to run before deployment
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     };
 

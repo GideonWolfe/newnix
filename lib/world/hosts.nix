@@ -64,6 +64,18 @@ in
             default = 51820;
             description = "The port Wireguard listens on for incoming connections";
           };
+          # Endpoint spokes dial to reach the hub. Prefer a hostname over a raw
+          # IP so a home WAN-IP change (e.g. after a power-outage reboot) only
+          # requires updating one DNS record instead of redeploying every
+          # remote host. The record can be maintained manually; remote spokes
+          # run a reresolve-dns timer (see wg-home.nix) so they pick up the new
+          # IP without a reboot. Defaults to the current literal IP so nothing
+          # breaks until the DNS name is provisioned.
+          endpoint = lib.mkOption {
+            type = lib.types.str;
+            default = "mhtfiytjkhtuy.gideonwolfe.xyz";
+            description = "Hostname or IP that WireGuard spokes dial to reach the hub";
+          };
           public_key = lib.mkOption {
             type = lib.types.str;
             default = "FHr9Cpx7fgC8qrWLJo4TmLwl9Q0g44wkFnH5P4e/z0A=";
