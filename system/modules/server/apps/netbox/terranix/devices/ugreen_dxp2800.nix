@@ -61,6 +61,15 @@
         type = "2.5gbase-t";
     };
 
+    # WireGuard tunnel interface — soteria is a spoke on the wg-home mesh,
+    # dialing the router hub from the offsite site.
+    resource."netbox_device_interface"."ugreen_dxp2800_wg0" = {
+        name = "wg0";
+        device_id = "\${netbox_device.ugreen_dxp2800.id}";
+        type = "virtual";
+        description = "WireGuard VPN. Public key: ${config.custom.world.hosts.soteria.wireguard.public_key}";
+    };
+
     # Assign an IP to this machine
     resource."netbox_ip_address"."ugreen_dxp2800_ip1" = {
         ip_address = "${builtins.toString config.custom.world.hosts.soteria.ip}/24";
@@ -71,5 +80,13 @@
     resource."netbox_device_primary_ip"."ugreen_dxp2800_ip_primary" = {
         device_id = "\${netbox_device.ugreen_dxp2800.id}";
         ip_address_id = "\${netbox_ip_address.ugreen_dxp2800_ip1.id}";
+    };
+
+    # WireGuard VPN IP on the tunnel interface
+    resource."netbox_ip_address"."ugreen_dxp2800_wg_ip" = {
+        ip_address = "${builtins.toString config.custom.world.hosts.soteria.wireguard.ip}/24";
+        device_interface_id = "\${netbox_device_interface.ugreen_dxp2800_wg0.id}";
+        status = "active";
+        description = "WireGuard tunnel address on the router's VPN network";
     };
 }

@@ -81,6 +81,21 @@
         type = "10gbase-x-sfpp";
     };
 
+    # WireGuard tunnel interface — this router is the hub of the hub-and-spoke
+    # WireGuard mesh (wg-home). All remote spokes dial in here.
+    resource."netbox_device_interface"."mikrotik_rb5009_wg0" = {
+        name = "wg0";
+        device_id = "\${netbox_device.mikrotik_rb5009.id}";
+        type = "virtual";
+        description = "WireGuard hub. Public key: ${config.custom.world.hosts.router.wireguard.public_key}";
+    };
+    resource."netbox_ip_address"."mikrotik_rb5009_wg_ip" = {
+        ip_address = "${builtins.toString config.custom.world.hosts.router.wireguard.ip}/24";
+        device_interface_id = "\${netbox_device_interface.mikrotik_rb5009_wg0.id}";
+        status = "active";
+        description = "WireGuard hub address on the VPN network";
+    };
+
 
     # Add a cable from the routers ether2 port to the Access Points' ether1 port
     resource."netbox_cable"."rb5009_ether2_to_hapax2_ether1" = {

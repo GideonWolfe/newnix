@@ -45,6 +45,7 @@
     ./device_types/retroid_pocket6.nix
     ./device_types/pixel_9a.nix
     ./device_types/dell_xps_15_9510.nix
+    ./device_types/lenovo_thinkpad_t490.nix
 
     # Device roles
     ./device_roles/router.nix
@@ -71,12 +72,16 @@
     ./devices/slzb06.nix
     ./devices/retroidpocket6.nix
     ./devices/ares.nix
+    ./devices/poseidon.nix
     ./devices/pixel9a.nix
 
     # IPAM / VLANs
     ./ipam/vlan_group_home.nix
     ./ipam/iot.nix
     ./ipam/offsite.nix
+
+    # VPN tunnels
+    ./vpn/wireguard.nix
 
     # Virtual machines
     ./vms/vm-media.nix
