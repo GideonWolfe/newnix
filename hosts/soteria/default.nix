@@ -21,15 +21,9 @@
 
     # Monitoring AGENT (exporters + Alloy shipping to the home stack). This is
     # the lightweight agent role, NOT the full server aggregator. zfs-monitoring.nix
-    # appends its scrape job to the Alloy config this provides.
-    #
-    # FIRST DEPLOY: keep commented. It pulls in sops.secrets."prometheus/push_password"
-    # which is encrypted per-host — but soteria's age key does not exist until its
-    # SSH host key is generated during install, so it cannot be decrypted on the
-    # first boot (activation would fail). Enable this AFTER registering soteria's
-    # age key in .sops.yaml + `sops updatekeys` (setup.md Phase 4), alongside the
-    # ZFS block below (zfs-monitoring.nix depends on this role's Alloy config).
-    #../../system/roles/monitoring.nix
+    # appends its scrape job to the Alloy config this provides. soteria's age key
+    # is registered in .sops.yaml so the push-password secret decrypts fine.
+    ../../system/roles/monitoring.nix
 
     #############
     # NAS Stuff #
@@ -53,17 +47,14 @@
     # only needs the ugreen-nas hardware module and smartd/scrutiny above.
 
     #####################################################################
-    # ZFS / tank-dependent services (FIRST DEPLOY: keep commented)      #
-    #                                                                   #
-    # The tank pool and its datasets do not exist yet on soteria. Do    #
-    # the initial deploy with the block below commented out, create the #
-    # pool + datasets by hand (mirror mnemosyne's tank layout), then    #
-    # uncomment and redeploy to bring up ZFS, NFS and the file services.#
+    # ZFS + NFS (Phase 7: pool + datasets now exist).                   #
+    # Replication (syncoid) stays deferred inside zfs/zfs.nix until the  #
+    # monitoring stack is confirmed working end-to-end.                 #
     #####################################################################
-    # Services and tools to create and manage ZFS pools
-    #./zfs/zfs.nix
+    # Services and tools to manage the ZFS pool (scrub, snapshots, monitoring)
+    ./zfs/zfs.nix
     # Allow our datasets to be shared over NFS
-    #./nfs/nfs.nix
+    ./nfs/nfs.nix
 
     # Copyparty lightweight file server for LAN hosts without the NFS mount
     #../../system/modules/server/apps/copyparty

@@ -9,6 +9,9 @@
         # ZFS Monitoring configuration
         ./zfs-monitoring.nix
 
+        # Source-side replication user: soteria pulls datasets from here.
+        ./syncoid-source.nix
+
         # ZFS replication configuration
         #./zfs-replication.nix
     ];

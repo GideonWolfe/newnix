@@ -70,9 +70,10 @@
         IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };
 
-      # NAS (Offsite)
+      # NAS (Offsite) — reached over the WireGuard tunnel (its offsite LAN IP
+      # 10.2.0.66 is not directly reachable from home; use the WG address).
       soteria = {
-        HostName = "${osConfig.custom.world.hosts.soteria.ip}";
+        HostName = "${osConfig.custom.world.hosts.soteria.wireguard.ip}";
         Port = 2736;
         IdentityFile = [ "${config.home.homeDirectory}/.ssh/gideon_ssh_sk" ];
       };

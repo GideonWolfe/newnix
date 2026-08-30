@@ -9,7 +9,8 @@
         # ZFS Monitoring configuration
         ./zfs-monitoring.nix
 
-        # ZFS replication configuration (soteria pulls from mnemosyne)
+        # ZFS replication configuration (soteria pulls from mnemosyne).
+        # Single dataset (tank/personal) first to validate the path.
         ./zfs-replication.nix
     ];
 

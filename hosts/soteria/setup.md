@@ -17,6 +17,17 @@ Phase 9).
 
 > Status legend: ☐ not started · ◐ in progress · ☑ done
 
+> **PROGRESS (2026-08-29).** Phases 0–7 are ☑ **done**: soteria is installed on
+> the eMMC, reachable only over WireGuard, ZFS mirror `tank` is up with datasets
+> created, monitoring agent is live in home Grafana. Phase 8 is ◐ **in
+> progress** — the first replication seed (`tank/media/games`, ~299G) is
+> transferring over the throttled tunnel (~2 days). RESUME HERE when the seed
+> completes: re-arm the games timer, then roll out the remaining datasets.
+> Phases 9–10 (PBS routing + offsite compute) are ☐ not started.
+>
+> A condensed "what we actually did" record (for Obsidian) lives in
+> `hosts/soteria/build-record.md`. This file keeps the forward-looking plan.
+
 ---
 
 ## Topology at a glance
@@ -67,7 +78,7 @@ or the WG subnet (`10.0.0.0/24`).
 
 ---
 
-## Phase 0 — Pre-flight (local, before touching remote hardware) ☐
+## Phase 0 — Pre-flight (local, before touching remote hardware) ☑
 
 1. Build soteria with the ZFS block still commented out:
    ```
@@ -86,7 +97,7 @@ or the WG subnet (`10.0.0.0/24`).
      systemctl status sshd # ensure sshd is running (start if not)
      ```
 
-## Phase 1 — Remote networking to reach the installer over WAN ☐
+## Phase 1 — Remote networking to reach the installer over WAN ☑
 
 Installer LAN IP: the box first came up as `10.0.0.67` on the pre-renumber LAN.
 After the LAN is renumbered to `10.2.0.0/24`, the installer re-leases on
@@ -105,7 +116,7 @@ port-forward at that address.
 > Phase 2. After install, soteria listens on 2736 and is reached via WireGuard,
 > so no permanent inbound rule is ever needed at the remote site.
 
-## Phase 2 — Install with nixos-anywhere across WAN ☐
+## Phase 2 — Install with nixos-anywhere across WAN ☑
 
 1. Verify the real target disk first:
    ```
@@ -125,7 +136,7 @@ port-forward at that address.
 3. After reboot soteria comes up on the offsite LAN listening on SSH **2736**.
    Have the helper **delete the WAN:22 port forward** now.
 
-## Phase 3 — Stable identity on the remote LAN ☐
+## Phase 3 — Stable identity on the remote LAN ☑
 
 Pick one:
 - **Preferred: DHCP reservation** — pin soteria's MAC → a fixed LAN IP on the
@@ -136,7 +147,7 @@ Pick one:
 
 Record soteria's offsite LAN IP — needed until WireGuard is up.
 
-## Phase 4 — Secrets: register soteria's age key ☐
+## Phase 4 — Secrets: register soteria's age key ☑
 
 soteria's sops age key is derived from its SSH host key (generated at install).
 To let it decrypt secrets later (replication creds, etc.):
@@ -151,7 +162,7 @@ To let it decrypt secrets later (replication creds, etc.):
    `creation_rules` key group soteria needs.
 3. `sops updatekeys <file>` on affected secrets; commit.
 
-## Phase 5 — WireGuard (wg-home) for a permanent private path ☐
+## Phase 5 — WireGuard (wg-home) for a permanent private path ☑
 
 1. **world config** — in `lib/world/hosts.nix` give soteria:
    ```nix
@@ -177,7 +188,7 @@ To let it decrypt secrets later (replication creds, etc.):
    its `pushbuild` target at the **WG IP**. All future deploys go over the
    tunnel — `pushbuild soteria`.
 
-### 5a. Stable hub endpoint (survive a home WAN-IP change) ☐
+### 5a. Stable hub endpoint (survive a home WAN-IP change) ☑
 
 soteria dials the home hub to establish the tunnel. If a power outage reboots
 the home router and the ISP hands out a **new WAN IP**, a hardcoded-IP endpoint
@@ -204,7 +215,7 @@ in to fix it. Two independent pieces close this:
 Net effect: rare IP change → edit one DNS record → soteria self-recovers. No
 regular maintenance.
 
-## Phase 6 — Create the ZFS pool + datasets (manual) ☐
+## Phase 6 — Create the ZFS pool + datasets (manual) ☑
 
 Over SSH on soteria. Adjust vdev topology to the DXP2800's bay count.
 
@@ -239,7 +250,7 @@ Over SSH on soteria. Adjust vdev topology to the DXP2800's bay count.
    zpool export tank && zpool import tank
    ```
 
-## Phase 7 — Enable the ZFS-dependent config ☐
+## Phase 7 — Enable the ZFS-dependent config ☑
 
 1. In `hosts/soteria/default.nix`, uncomment the ZFS/NFS/service block and the
    matching `custom.services.*` settings.
@@ -250,16 +261,46 @@ Over SSH on soteria. Adjust vdev topology to the DXP2800's bay count.
 4. Verify: `zpool status`, `systemctl status zfs-import-tank`, sanoid timer,
    prometheus zfs exporter.
 
-## Phase 8 — Replication + PBS storage ☐
+## Phase 8 — Replication + PBS storage ◐
 
-1. **Replication (soteria pulls from mnemosyne):** finalize
-   `zfs/zfs-replication.nix` — uncomment `commands`, target
-   `syncoid@mnemosyne` on port 2736 using soteria's host key. Provision the
-   restricted `syncoid` user + `zfs allow send,snapshot,hold tank` on
-   mnemosyne. Run once manually; confirm snapshots land under `tank/backups/*`.
-2. **PBS backend:** add a scoped NFS export of `tank/pbs` to only the PBS IP in
-   `hosts/soteria/nfs/nfs.nix`, mount on PBS, add as a datastore, configure
-   prune/GC/verify there.
+### 8a. ZFS replication (soteria pulls from mnemosyne) ◐ — RESUME POINT
+
+Done so far:
+- Dedicated sops-managed pull key: `hosts/soteria/zfs/secrets_syncoid.yaml`
+  (git-tracked, encrypted for `*soteria`); referenced via
+  `sshKey = config.sops.secrets."syncoid/id_ed25519".path`.
+- Restricted source user: `hosts/mnemosyne/zfs/syncoid-source.nix` (imported into
+  mnemosyne's `zfs.nix`) with soteria's public key. Delegated on mnemosyne:
+  `zfs allow syncoid send,snapshot,hold tank/media/games`.
+- mnemosyne now snapshots `tank/media/games` (added to its sanoid, `media` template).
+- `lzop`/`mbuffer`/`pv` added to BOTH hosts for compressed/buffered transport.
+- soteria `zfs/zfs-replication.nix` active: pulls `tank/media/games` →
+  `tank/backups/media/games`, `commonArgs` includes `--no-sync-snap`,
+  `--sshoption=Port=2736`, `--source-bwlimit=2m`. mnemosyne host key pinned in
+  `programs.ssh.knownHosts` (bracketed `[ip]:2736` form).
+- **First seed is RUNNING** with the hourly timer masked (manual control).
+
+**When the seed finishes** (`zfs list -t snapshot tank/backups/media/games`
+shows the snapshot and `ls /tank/backups/media/games` works):
+```
+sudo systemctl start syncoid-syncoid-192.168.88.205-tank-media-games.timer  # re-arm hourly incrementals
+```
+
+**Then roll out the remaining datasets** (per one, using the same recipe):
+1. Ensure mnemosyne's sanoid snapshots it (add to `zfs-snapshots.nix` if not).
+2. `zfs allow syncoid send,snapshot,hold tank/<dataset>` on mnemosyne.
+3. Add a `commands` entry + matching prune template/target in soteria's
+   `zfs-replication.nix` / `zfs-snapshots.nix`; create the target parent dataset.
+4. Controlled seed (mask timer → manual start → re-arm).
+   Candidates: `tank/personal`, `tank/infra/services`, `tank/infra/vms/backups`.
+   (The empty `tank/backups/{bucket,personal,infra/*}` datasets already exist as
+   placeholders.)
+
+### 8b. PBS backend ☐ (not started)
+
+Add a scoped NFS export of `tank/pbs` to only the PBS IP in
+`hosts/soteria/nfs/nfs.nix`, mount on PBS, add as a datastore, configure
+prune/GC/verify there. (Depends on Phase 9/10 offsite-compute work.)
 
 ---
 

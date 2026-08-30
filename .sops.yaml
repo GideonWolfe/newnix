@@ -141,3 +141,9 @@ creation_rules:
           - *vm-ai
         pgp:
           - *gideon
+  - path_regex: secrets_syncoid.yaml$
+    key_groups:
+      - age:
+          - *soteria
+        pgp:
+          - *gideon

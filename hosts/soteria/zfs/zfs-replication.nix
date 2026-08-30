@@ -1,41 +1,68 @@
-{ ... }:
+{ config, pkgs, ... }:
 # Offsite replication: soteria PULLS selected datasets from mnemosyne.
 #
 # Pull-model rationale: the backup box holds the credentials and initiates the
 # connection, so a compromise of mnemosyne can't reach in and delete the
-# offsite copies. soteria only needs outbound SSH to mnemosyne.
+# offsite copies. soteria only needs outbound SSH to mnemosyne (over the WG
+# tunnel).
 #
-# The pulled datasets land under tank/backups/* which should be `readonly=on`
-# and are owned entirely by syncoid -- never write to them directly. sanoid on
-# soteria runs prune-only on these (autosnap=false); syncoid brings the
-# snapshots over via --no-sync-snap.
+# The pulled datasets land under tank/backups/* which are `readonly=on` and are
+# owned entirely by syncoid -- never write to them directly. sanoid on soteria
+# runs prune-only on these (autosnap=false); syncoid brings the snapshots over
+# via --no-sync-snap.
+#
+# STAGED ROLLOUT: starting with a SINGLE dataset (tank/personal) to validate the
+# whole path end-to-end before adding the rest.
 {
+    # syncoid transport helpers. Without these on BOTH ends syncoid falls back
+    # to uncompressed, unbuffered transfers (it warns about missing lzop/mbuffer):
+    #   - lzop:    on-the-wire compression (big win for compressible datasets)
+    #   - mbuffer: buffering to smooth throughput over the high-latency WG tunnel
+    #   - pv:      progress metering
+    environment.systemPackages = with pkgs; [ lzop mbuffer pv ];
+
+    # Private key syncoid uses to reach mnemosyne. sops-encrypted for soteria's
+    # age key only; decrypts to a file owned by the syncoid service user.
+    sops.secrets."syncoid/id_ed25519" = {
+        sopsFile = ./secrets_syncoid.yaml;
+        owner = config.services.syncoid.user;
+        group = config.services.syncoid.group;
+        mode = "0400";
+    };
+
     services.syncoid = {
         enable = true;
 
-        # Dedicated SSH key for pulling from mnemosyne (sops-managed).
-        # TODO: provision the key + matching authorized_keys entry on mnemosyne
-        #sshKey = "/etc/syncoid/id_ed25519";
+        # Pull key (sops-managed, see secret above).
+        sshKey = config.sops.secrets."syncoid/id_ed25519".path;
 
-        # Common flags applied to every command below.
+        # Flags applied to every command.
         commonArgs = [
-            "--no-sync-snap" # rely on sanoid's snapshots from the source
+            "--no-sync-snap"        # rely on sanoid's snapshots from the source
+            "--sshoption=Port=2736"  # mnemosyne's non-standard SSH port
+            "--source-bwlimit=2m"    # ~16 Mbps cap, leaves headroom on the uplink
         ];
 
-        # One entry per dataset we want offsite. Only replicate what genuinely
-        # needs an offsite copy (personal, service/vm backups, irreplaceable
-        # media) -- skip re-downloadable bulk media to save space.
-        # TODO: finalize the source list + SSH target (user@host:port 2736)
-        #commands = {
-        #    "root@mnemosyne:tank/personal" = {
-        #        target = "tank/backups/personal";
-        #    };
-        #    "root@mnemosyne:tank/infra/services" = {
-        #        target = "tank/backups/infra/services";
-        #    };
-        #    "root@mnemosyne:tank/infra/vms/backups" = {
-        #        target = "tank/backups/infra/vms/backups";
-        #    };
-        #};
+        commands = {
+            # FIRST DATASET: tank/media/games (~299G, a "keeper"). mnemosyne now
+            # snapshots it via sanoid (media template), so --no-sync-snap has a
+            # snapshot chain to work from. Source is the restricted `syncoid`
+            # user on mnemosyne, reached over the WG tunnel. Nested under
+            # backups/media/ to mirror the source layout for when tv/movies/etc
+            # are added later.
+            "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/media/games" = {
+                target = "tank/backups/media/games";
+            };
+        };
+    };
+
+    # syncoid connects to mnemosyne over SSH; pin its host key so the first
+    # unattended pull doesn't fail host verification (no TOFU prompt). mnemosyne's
+    # sshd listens on 2736, and SSH looks up non-standard ports under the
+    # bracketed "[host]:port" form, so that must be the known_hosts hostname.
+    programs.ssh.knownHosts."mnemosyne-offsite" = {
+        hostNames = [ "[${config.custom.world.hosts.mnemosyne.ip}]:2736" ];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJjUMb0RfitORlVjcgffhsR+DruflDPsV1/D04k48xe6 root@mnemosyne";
     };
 }
+

@@ -76,6 +76,7 @@
     # IPAM / VLANs
     ./ipam/vlan_group_home.nix
     ./ipam/iot.nix
+    ./ipam/offsite.nix
 
     # Virtual machines
     ./vms/vm-media.nix

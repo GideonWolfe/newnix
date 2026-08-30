@@ -67,6 +67,7 @@
             # Making individual snapshot targets lets me roll back granularly
             # As well as change snapshot options granularly in the future
             "tank/media/books".useTemplate = [ "media" ];
+            "tank/media/games".useTemplate = [ "media" ];
             "tank/media/movies".useTemplate = [ "media" ];
             "tank/media/tv".useTemplate = [ "media" ];
             "tank/media/music".useTemplate = [ "media" ];

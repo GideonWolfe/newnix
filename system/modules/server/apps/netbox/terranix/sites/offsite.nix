@@ -1,6 +1,6 @@
 {
     resource."netbox_site"."offsite" = {
         name = "Offsite";
-        status = "planned";
+        status = "active";
     };
 }
