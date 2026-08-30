@@ -1,0 +1,2578 @@
+{
+  "annotations": [
+    {
+      "kind": "AnnotationQuery",
+      "spec": {
+        "builtIn": true,
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "query": {
+          "datasource": {
+            "name": "-- Grafana --"
+          },
+          "group": "grafana",
+          "kind": "DataQuery",
+          "spec": {},
+          "version": "v0"
+        }
+      }
+    }
+  ],
+  "cursorSync": "Off",
+  "editable": true,
+  "elements": {
+    "panel-1": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "zfs_pool_health{pool=\"tank\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "interval": "5m",
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*pool=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 1,
+        "links": [],
+        "title": "Pool Status",
+        "vizConfig": {
+          "group": "status-history",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "axisPlacement": "auto",
+                  "fillOpacity": 61,
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "ONLINE"
+                      },
+                      "1": {
+                        "color": "orange",
+                        "index": 1,
+                        "text": "DEGRADED"
+                      },
+                      "2": {
+                        "color": "super-light-orange",
+                        "index": 2,
+                        "text": "FAULTED"
+                      },
+                      "3": {
+                        "color": "red",
+                        "index": 3,
+                        "text": "OFFLINE"
+                      },
+                      "4": {
+                        "color": "dark-yellow",
+                        "index": 4,
+                        "text": "UNAVAILABLE"
+                      },
+                      "5": {
+                        "color": "dark-yellow",
+                        "index": 5,
+                        "text": "REMOVED"
+                      },
+                      "6": {
+                        "color": "dark-yellow",
+                        "index": 6,
+                        "text": "SUSPENDED"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
+              },
+              "colWidth": 0.92,
+              "legend": {
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": false
+              },
+              "rowHeight": 0.81,
+              "showValue": "never",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-10": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "node_systemd_unit_state{name=~\"zfs-scrub.service\"}",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "filterFieldsByName",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "include": {
+                      "names": [
+                        "state",
+                        "Value"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "group": "filterByValue",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "filters": [
+                      {
+                        "config": {
+                          "id": "equal",
+                          "options": {
+                            "value": "1"
+                          }
+                        },
+                        "fieldName": "Value"
+                      }
+                    ],
+                    "match": "any",
+                    "type": "include"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 10,
+        "links": [],
+        "title": "Pool Scrub Status",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "active": {
+                        "color": "blue",
+                        "index": 1,
+                        "text": "Scrubbing..."
+                      },
+                      "failed": {
+                        "color": "red",
+                        "index": 2,
+                        "text": "FAILED"
+                      },
+                      "inactive": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "Inactive"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "/^state$/",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-11": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "node_systemd_unit_state{name=\"sanoid.service\", state=\"failed\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 11,
+        "links": [],
+        "title": "Last Snapshot Status",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "Success"
+                      },
+                      "1": {
+                        "color": "red",
+                        "index": 1,
+                        "text": "FAILED"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-12": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "time() - node_systemd_timer_last_trigger_seconds{name=\"sanoid.timer\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 12,
+        "links": [],
+        "title": "Time Since Last Snapshot",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 3600
+                    },
+                    {
+                      "color": "orange",
+                      "value": 7200
+                    },
+                    {
+                      "color": "red",
+                      "value": 10800
+                    }
+                  ]
+                },
+                "unit": "dtdurations"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-13": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "zfs_dataset_used_bytes{name=\"tank\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 13,
+        "links": [],
+        "title": "Pool Used Size",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "inverted",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": true,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-14": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "delta(zfs_dataset_used_bytes{name=\"tank\", instance=\"mnemosyne:9100\"}[$__range])",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 14,
+        "links": [],
+        "title": "Net Size Change",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "blue",
+                      "value": 1073741824
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 10737418240
+                    },
+                    {
+                      "color": "orange",
+                      "value": 53687091200
+                    },
+                    {
+                      "color": "red",
+                      "value": 107374182400
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-15": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "zfs_scrape_collector_success{instance=\"mnemosyne:9100\"}",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 15,
+        "links": [],
+        "title": "Metrics Scrape Status",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "red",
+                        "index": 1,
+                        "text": "FAILED"
+                      },
+                      "1": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "Success"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-16": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "zfs_scrape_collector_duration_seconds{collector=\"pool\"}",
+                      "format": "table",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 16,
+        "links": [],
+        "title": "Last Scrape Duration",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 1
+                    },
+                    {
+                      "color": "orange",
+                      "value": 30
+                    },
+                    {
+                      "color": "red",
+                      "value": 60
+                    }
+                  ]
+                },
+                "unit": "s"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-17": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "time() - node_systemd_timer_last_trigger_seconds{name=\"zfs-scrub.timer\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 17,
+        "links": [],
+        "title": "Time Since Last Scrub",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "blue",
+                      "value": 1210000
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 2628000
+                    },
+                    {
+                      "color": "red",
+                      "value": 3629000
+                    }
+                  ]
+                },
+                "unit": "dtdurations"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-18": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "zfs_pool_health{pool=\"tank\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "interval": "5m",
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*pool=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 18,
+        "links": [],
+        "title": "Pool Status",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "ONLINE"
+                      },
+                      "1": {
+                        "color": "orange",
+                        "index": 1,
+                        "text": "DEGRADED"
+                      },
+                      "2": {
+                        "color": "super-light-orange",
+                        "index": 2,
+                        "text": "FAULTED"
+                      },
+                      "3": {
+                        "color": "red",
+                        "index": 3,
+                        "text": "OFFLINE"
+                      },
+                      "4": {
+                        "color": "dark-yellow",
+                        "index": 4,
+                        "text": "UNAVAILABLE"
+                      },
+                      "5": {
+                        "color": "dark-yellow",
+                        "index": 5,
+                        "text": "REMOVED"
+                      },
+                      "6": {
+                        "color": "dark-yellow",
+                        "index": 6,
+                        "text": "SUSPENDED"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "noValue": "OFFLINE",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-2": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "zfs_pool_free_bytes{pool=\"tank\", instance=\"mnemosyne:9100\"}",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 2,
+        "links": [],
+        "title": "Pool Free Space",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": true,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-20": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace(zfs_dataset_used_by_dataset_bytes{type=\"filesystem\", name!~\"tank|tank/media|tank/infra|tank/infra/vms\", instance=\"mnemosyne:9100\"}, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace(zfs_dataset_used_by_snapshot_bytes{type=\"filesystem\", name!~\"tank|tank/media|tank/infra|tank/infra/vms\", instance=\"mnemosyne:9100\"}, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "joinByField",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "byField": "name",
+                    "mode": "outerTabular"
+                  }
+                }
+              },
+              {
+                "group": "organize",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "excludeByName": {
+                      "Time 1": true,
+                      "Time 2": true,
+                      "__name__ 1": true,
+                      "__name__ 2": true,
+                      "instance 1": true,
+                      "instance 2": true,
+                      "job 1": true,
+                      "job 2": true,
+                      "pool 1": true,
+                      "pool 2": true,
+                      "type 1": true,
+                      "type 2": true
+                    },
+                    "includeByName": {},
+                    "indexByName": {},
+                    "renameByName": {
+                      "Value #A": "Live",
+                      "Value #B": "Snapshot"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 20,
+        "links": [],
+        "title": "Dataset Live to Snapshot Ratio",
+        "vizConfig": {
+          "group": "barchart",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic-by-name"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "percentunit"
+              },
+              "overrides": []
+            },
+            "options": {
+              "barRadius": 0,
+              "barWidth": 0.97,
+              "fullHighlight": false,
+              "groupWidth": 0.7,
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "orientation": "horizontal",
+              "showValue": "auto",
+              "stacking": "percent",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              },
+              "xTickLabelRotation": 0,
+              "xTickLabelSpacing": 0
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-21": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace(zfs_dataset_used_by_dataset_bytes{type=\"filesystem\", name!~\"tank|tank/media|tank/infra|tank/infra/vms\", instance=\"mnemosyne:9100\"}, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace(zfs_dataset_used_by_snapshot_bytes{type=\"filesystem\", name!~\"tank|tank/media|tank/infra|tank/infra/vms\", instance=\"mnemosyne:9100\"}, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "joinByField",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "byField": "name",
+                    "mode": "outerTabular"
+                  }
+                }
+              },
+              {
+                "group": "organize",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "excludeByName": {
+                      "Time 1": true,
+                      "Time 2": true,
+                      "__name__ 1": true,
+                      "__name__ 2": true,
+                      "instance 1": true,
+                      "instance 2": true,
+                      "job 1": true,
+                      "job 2": true,
+                      "pool 1": true,
+                      "pool 2": true,
+                      "type 1": true,
+                      "type 2": true
+                    },
+                    "includeByName": {},
+                    "indexByName": {},
+                    "renameByName": {
+                      "Value #A": "Live",
+                      "Value #B": "Snapshot"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Shows how much of a dataset's size is held by live data, and how much are snapshots.",
+        "id": 21,
+        "links": [],
+        "title": "Dataset Size Breakdown",
+        "vizConfig": {
+          "group": "barchart",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic-by-name"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "barRadius": 0,
+              "barWidth": 0.97,
+              "fullHighlight": false,
+              "groupWidth": 0.7,
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "orientation": "auto",
+              "showValue": "always",
+              "stacking": "normal",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "all",
+                "sort": "none"
+              },
+              "xTickLabelRotation": 45,
+              "xTickLabelSpacing": 0
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-3": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "zfs_dataset_available_bytes{name=\"tank\", instance=\"mnemosyne:9100\"} / (zfs_dataset_used_bytes{name=\"tank\", instance=\"mnemosyne:9100\"} + zfs_dataset_available_bytes{name=\"tank\", instance=\"mnemosyne:9100\"}) * 100",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 3,
+        "links": [],
+        "title": "Pool Percentage Free",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "max": 100,
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 10
+                    },
+                    {
+                      "color": "orange",
+                      "value": 20
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 50
+                    },
+                    {
+                      "color": "green",
+                      "value": 70
+                    }
+                  ]
+                },
+                "unit": "percent"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": true,
+              "textMode": "auto",
+              "wideLayout": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-5": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "label_replace((zfs_dataset_used_by_dataset_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"} + zfs_dataset_used_by_snapshot_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"}) > 100e6, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*name=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              },
+              {
+                "group": "filterFieldsByName",
+                "kind": "Transformation",
+                "spec": {
+                  "disabled": true,
+                  "options": {
+                    "include": {
+                      "names": [
+                        "Time",
+                        "tank/bucket",
+                        "tank/media/books",
+                        "tank/media/games",
+                        "tank/media/movies",
+                        "tank/media/music",
+                        "tank/media/tv",
+                        "tank/media/youtube",
+                        "tank/personal",
+                        "tank/infra/ai",
+                        "tank/infra/services",
+                        "tank/infra/vms/backups",
+                        "tank/infra/vms/images",
+                        "tank/infra/vms/templates"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Shows dataset size over time logarithmically, because we care about seeing movement over time, which is difficult when some datasets are dwarfed in linear scale.",
+        "id": 5,
+        "links": [],
+        "title": "Dataset Sizes over Time",
+        "vizConfig": {
+          "group": "timeseries",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "log": 2,
+                    "type": "log"
+                  },
+                  "showPoints": "auto",
+                  "showValues": false,
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
+              },
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-6": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace((zfs_dataset_used_by_dataset_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"} + zfs_dataset_used_by_snapshot_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"}) > 100e6, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "time_series",
+                      "instant": true,
+                      "interval": "",
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*name=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 6,
+        "links": [],
+        "title": "Datasets by Size",
+        "vizConfig": {
+          "group": "barchart",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "barRadius": 0,
+              "barWidth": 0.97,
+              "fullHighlight": false,
+              "groupWidth": 0.7,
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "orientation": "auto",
+              "showValue": "always",
+              "stacking": "none",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              },
+              "xTickLabelRotation": 0,
+              "xTickLabelSpacing": 0
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-7": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace((zfs_dataset_used_by_dataset_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"} + zfs_dataset_used_by_snapshot_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"}) > 100e6, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "time_series",
+                      "instant": true,
+                      "interval": "",
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*name=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              },
+              {
+                "group": "filterFieldsByName",
+                "kind": "Transformation",
+                "spec": {
+                  "disabled": true,
+                  "options": {
+                    "include": {
+                      "names": [
+                        "Time",
+                        "tank/bucket",
+                        "tank/media/books",
+                        "tank/media/games",
+                        "tank/media/movies",
+                        "tank/media/music",
+                        "tank/media/tv",
+                        "tank/media/youtube",
+                        "tank/personal",
+                        "tank/infra/ai",
+                        "tank/infra/services",
+                        "tank/infra/vms/backups",
+                        "tank/infra/vms/images",
+                        "tank/infra/vms/templates"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 7,
+        "links": [],
+        "title": "Datasets by Size",
+        "vizConfig": {
+          "group": "piechart",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  }
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "pieType": "pie",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "sort": "desc",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-8": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "exemplar": false,
+                      "expr": "label_replace((zfs_dataset_used_by_dataset_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"} + zfs_dataset_used_by_snapshot_bytes{type=\"filesystem\", instance=\"mnemosyne:9100\"}) > 100e6, \"name\", \"$1\", \"name\", \"tank/(.+)\")",
+                      "format": "table",
+                      "instant": true,
+                      "interval": "",
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*name=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              },
+              {
+                "group": "filterFieldsByName",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "include": {
+                      "names": [
+                        "name",
+                        "Value"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 8,
+        "links": [],
+        "title": "Datasets by Size",
+        "vizConfig": {
+          "group": "table",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": false
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-9": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "label_replace(rate(node_zfs_zpool_dataset_writes{dataset!~\"tank|tank/media|tank/infra|tank/infra/vms\", instance=\"mnemosyne:9100\"}[$__rate_interval]), \"dataset\", \"$1\", \"dataset\", \"tank/(.+)\")",
+                      "instant": false,
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "renameByRegex",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "regex": ".*dataset=\"([^\"]+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 9,
+        "links": [],
+        "title": "Write Activity by Dataset",
+        "vizConfig": {
+          "group": "heatmap",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "scaleDistribution": {
+                    "type": "linear"
+                  }
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
+              },
+              "calculate": false,
+              "cellGap": 1,
+              "color": {
+                "exponent": 0.5,
+                "fill": "dark-orange",
+                "mode": "scheme",
+                "reverse": false,
+                "scale": "exponential",
+                "scheme": "RdYlBu",
+                "steps": 64
+              },
+              "exemplars": {
+                "color": "rgba(255,0,255,0.7)"
+              },
+              "filterValues": {
+                "le": 1e-9
+              },
+              "legend": {
+                "show": true
+              },
+              "rowsFrame": {
+                "layout": "auto"
+              },
+              "tooltip": {
+                "mode": "single",
+                "showColorScale": false,
+                "yHistogram": false
+              },
+              "yAxis": {
+                "axisPlacement": "left",
+                "reverse": false,
+                "unit": "binBps"
+              }
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    }
+  },
+  "layout": {
+    "kind": "GridLayout",
+    "spec": {
+      "items": [
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-18"
+            },
+            "height": 6,
+            "width": 4,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-1"
+            },
+            "height": 6,
+            "width": 20,
+            "x": 4,
+            "y": 0
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-2"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 0,
+            "y": 6
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-3"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 3,
+            "y": 6
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-7"
+            },
+            "height": 20,
+            "width": 8,
+            "x": 6,
+            "y": 6
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-9"
+            },
+            "height": 20,
+            "width": 10,
+            "x": 14,
+            "y": 6
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-13"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 0,
+            "y": 10
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-14"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 3,
+            "y": 10
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-11"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 0,
+            "y": 14
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-12"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 3,
+            "y": 14
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-10"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 0,
+            "y": 18
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-17"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 3,
+            "y": 18
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-15"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 0,
+            "y": 22
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-16"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 3,
+            "y": 22
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-8"
+            },
+            "height": 15,
+            "width": 6,
+            "x": 0,
+            "y": 26
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-6"
+            },
+            "height": 15,
+            "width": 8,
+            "x": 6,
+            "y": 26
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-5"
+            },
+            "height": 15,
+            "width": 10,
+            "x": 14,
+            "y": 26
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-20"
+            },
+            "height": 17,
+            "width": 11,
+            "x": 0,
+            "y": 41
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-21"
+            },
+            "height": 17,
+            "width": 13,
+            "x": 11,
+            "y": 41
+          }
+        }
+      ]
+    }
+  },
+  "links": [],
+  "liveNow": false,
+  "preload": false,
+  "tags": [],
+  "timeSettings": {
+    "autoRefresh": "",
+    "autoRefreshIntervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "fiscalYearStartMonth": 0,
+    "from": "now-1h",
+    "hideTimepicker": false,
+    "timezone": "browser",
+    "to": "now"
+  },
+  "title": "Mnemosyne Tank ZFS Pool",
+  "variables": [
+    {
+      "datasource": {
+        "name": "prometheus"
+      },
+      "group": "prometheus",
+      "kind": "AdhocVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "baseFilters": [],
+        "defaultKeys": [],
+        "enableGroupBy": false,
+        "filters": [],
+        "hide": "dontHide",
+        "name": "Filters",
+        "skipUrlSync": false
+      }
+    }
+  ]
+}

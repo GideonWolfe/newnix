@@ -18,6 +18,9 @@
     ./provision/dashboards/node-exporter.nix
     ./provision/dashboards/traefik-dashboard.nix
     ./provision/dashboards/mktxp.nix
+    ./provision/dashboards/mnemosyne-screen.nix
+    ./provision/dashboards/mnemosyne-tank.nix
+    ./provision/dashboards/soteria-tank.nix
   ];
 
   #networking.firewall.allowedTCPPorts = [ config.custom.world.services.grafana.port ]; # 3000 for Grafana
