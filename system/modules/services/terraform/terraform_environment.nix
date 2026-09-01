@@ -50,6 +50,29 @@ in
     '';
   };
 
+  # Step 1b: ensure the central state directories exist on the NAS. State now lives
+  # on mnemosyne (tank/infra/terraform, NFS-mounted at /nas/tank) so it survives a
+  # bricked deploy host and is ZFS-snapshotted. The local backend won't create these
+  # parent dirs itself, and the mount is an automount so we trigger it on access.
+  systemd.services.terraform-create-state-dir = {
+    description = "Create central Terraform state directories on the NAS";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      # RequiresMountsFor triggers the /nas/tank automount before we run
+      RequiresMountsFor = [ "/nas/tank" ];
+    };
+    script = ''
+      set -e
+      for proj in proxmox network netbox; do
+        mkdir -p "/nas/tank/infra/terraform/$proj"
+      done
+      chown -R 1000:100 /nas/tank/infra/terraform
+    '';
+  };
+
   # systemd.services.terraform-proxmox-init = {
   #   description = "Initialize Terraform Proxmox module";
   #   wantedBy = [ "multi-user.target" ];

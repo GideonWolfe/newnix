@@ -40,7 +40,10 @@
         commonArgs = [
             "--no-sync-snap"        # rely on sanoid's snapshots from the source
             "--sshoption=Port=2736"  # mnemosyne's non-standard SSH port
-            "--source-bwlimit=2m"    # ~16 Mbps cap, leaves headroom on the uplink
+            # NOTE: no --source-bwlimit. Seeds run at full uplink speed; the
+            # offsite link isn't shared with anything latency-sensitive, so
+            # finishing the (large, one-time) seeds sooner is preferable. Add a
+            # cap back here if seeds ever need to yield bandwidth.
         ];
 
         commands = {
@@ -52,6 +55,19 @@
             # are added later.
             "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/media/games" = {
                 target = "tank/backups/media/games";
+            };
+
+            # tank/personal — the "personal" sanoid template on mnemosyne
+            # (hourly/daily churn), already snapshotted there. High-value data,
+            # so it goes offsite. Target mirrors the source path.
+            "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/personal" = {
+                target = "tank/backups/personal";
+            };
+
+            # tank/media/music (~316G). Already snapshotted on mnemosyne via the
+            # media sanoid template. Nested under backups/media/ alongside games.
+            "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/media/music" = {
+                target = "tank/backups/media/music";
             };
         };
     };

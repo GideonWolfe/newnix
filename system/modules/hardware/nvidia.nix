@@ -21,10 +21,16 @@
     # Required for a working modern setup and for Wayland sessions (niri).
     modesetting.enable = true;
 
-    # Open kernel modules are NVIDIA's recommendation for Turing and newer.
-    # The RTX 3050 is Ampere, so this is supported; flip to false to fall back
-    # to the legacy proprietary modules if anything misbehaves.
-    open = true;
+    # Use the proprietary kernel modules rather than the open ones.
+    #
+    # On this Ampere laptop the open modules (driver 595) fail at runtime: the
+    # GSP firmware RPC returns NV_ERR_NO_MEMORY from ctxBufPoolReserve when a
+    # program tries to create a GPU context (see dmesg NVRM GspRmAlloc /
+    # "RPC to vGpu Host failed"). The result is vkCreateDevice failing with
+    # ERROR_INITIALIZATION_FAILED, so offloaded games silently fall back to the
+    # Intel iGPU and run at ~30fps. The proprietary modules avoid the GSP path
+    # and fix this.
+    open = false;
 
     # Installs nvidia-settings.
     nvidiaSettings = true;
@@ -38,6 +44,12 @@
       # Ideal for a laptop: the card draws ~0W until a game asks for it.
       finegrained = true;
     };
+
+    # Runs nvidia-powerd, which sustains the GPU's Dynamic Boost power budget.
+    # Without it the RTX 3050 requests 40W under load but the firmware relaxes
+    # back to its 20W base limit (pinning clocks and halving FPS). The daemon
+    # keeps the full ~40W available while gaming.
+    dynamicBoost.enable = true;
 
     prime = {
       # Bus IDs confirmed on ares via `lspci -k`.

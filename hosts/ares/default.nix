@@ -59,6 +59,12 @@
   # Plymouth fills up the /boot partition lol
   boot.plymouth.enable = lib.mkForce false;
 
+  # Disable Intel Panel Self Refresh. On the XPS 15 9510 (TigerLake iGPU) PSR
+  # triggers i915 "Fence expiration time out" / "reset request timed out" GPU
+  # hangs that freeze the display for 10+ seconds under mixed GL load (browser,
+  # Steam, Electron). This became noticeable once niri was moved onto the iGPU.
+  boot.kernelParams = [ "i915.enable_psr=0" ];
+
   # Give the machine a unique hostname
   networking.hostName = "ares";
 

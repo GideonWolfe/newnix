@@ -5,6 +5,10 @@
     version = "1.99.0";
   };
 
+  # Central state on the NAS (mnemosyne tank/infra/terraform, NFS-mounted at
+  # /nas/tank). State survives a bricked deploy host and is ZFS-snapshotted.
+  terraform.backend.local.path = "/nas/tank/infra/terraform/network/terraform.tfstate";
+
   variable."router_username" = { type = "string"; };
   variable."router_password" = { type = "string"; };
   variable."ap_username" = { type = "string"; };

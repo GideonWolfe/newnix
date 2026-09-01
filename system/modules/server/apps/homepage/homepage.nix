@@ -572,6 +572,18 @@ in
             };
           }
           {
+            "Scrutiny (soteria)" = {
+              href = "${svc.scrutiny-soteria.protocol}://${svc.scrutiny-soteria.ip}:${builtins.toString svc.scrutiny-soteria.port}";
+              description = "Disk Health (soteria, offsite)";
+              icon = "scrutiny";
+              widget = {
+                type = "scrutiny";
+                url = "http://${svc.scrutiny-soteria.ip}:${builtins.toString svc.scrutiny-soteria.port}";
+                fields = [ "passed" "failed" "unknown" ];
+              };
+            };
+          }
+          {
             "Home Assistant" = {
               href = "http://192.168.88.177:8123";
               description = "Home Automation";

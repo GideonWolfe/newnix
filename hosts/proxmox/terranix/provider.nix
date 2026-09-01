@@ -8,6 +8,9 @@
                 version = "3.0.2-rc07";
             };
         };
+        # Central state on the NAS (mnemosyne tank/infra/terraform, NFS-mounted at
+        # /nas/tank). State survives a bricked deploy host and is ZFS-snapshotted.
+        backend.local.path = "/nas/tank/infra/terraform/proxmox/terraform.tfstate";
     };
 
     variable."proxmox_api_url" = {

@@ -332,6 +332,15 @@ in
       domain = "";
       protocol = "http";
     };
+    # soteria runs its own Scrutiny instance (offsite NAS). Reached over the
+    # WireGuard tunnel, so use its wg IP rather than the offsite LAN IP.
+    scrutiny-soteria = mkService {
+      name = "Scrutiny (soteria)";
+      ip = config.custom.world.hosts.soteria.wireguard.ip;
+      port = 5232;
+      domain = "";
+      protocol = "http";
+    };
     copyparty = mkService {
       name = "Copyparty";
       ip = config.custom.world.hosts.mnemosyne.ip;

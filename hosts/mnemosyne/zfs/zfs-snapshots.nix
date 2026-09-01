@@ -42,6 +42,17 @@
                 autosnap = true; # Automatically take snapshots
                 autoprune = true; # Automatically prune old snapshots
             };
+            "terraform_state" = {
+                # Terraform state is small and precious: keep a dense, recent history
+                # so I can roll back to any recent apply if a run corrupts state.
+                hourly = 24; # Keep the last 24 hours of changes
+                daily = 14; # Keep the last 14 days
+                weekly = 8; # Keep the last 8 weeks
+                monthly = 6; # Keep the last 6 months
+                yearly = 0; # No yearly snapshots
+                autosnap = true; # Automatically take snapshots
+                autoprune = true; # Automatically prune old snapshots
+            };
             "bucket" = {
                 hourly = 0; # No hourly snapshots
                 daily = 1; # Take one snapshot per day, keep the last 1 day
@@ -77,6 +88,10 @@
             "tank/infra/vms/backups".useTemplate   = [ "vm_backups" ];
 
             "tank/infra/services".useTemplate = [ "service_backups" ];
+
+            # Central Terraform/OpenTofu state store (see terranix backend config).
+            # Snapshotted frequently so state changes are recoverable point-in-time.
+            "tank/infra/terraform".useTemplate = [ "terraform_state" ];
 
             # AI model/prompt library on its own dataset (see llama-swap.nix)
             "tank/infra/ai".useTemplate = [ "service_backups" ];
