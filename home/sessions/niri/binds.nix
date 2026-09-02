@@ -171,5 +171,23 @@
     "Print".action.screenshot = [ ];              # interactive selection UI
     "Ctrl+Print".action.screenshot-screen = [ ];  # full focused output
     "Alt+Print".action.screenshot-window = [ ];   # just the focused window
+
+    # ----- Mouse side buttons ----------------------------------------------
+
+    # Redragon AATROX M811 PRO side buttons. keyd remaps the mouse's raw keys
+    # (see system/modules/hardware/keyd.nix). XKB then translates them to the
+    # keysyms below, which is what niri matches on. These were read from `wev`,
+    # not guessed - XKB maps them inconsistently.
+    "XF86Tools".action.focus-column-left = [ ];    # button 1 (f13): focus left
+    "XF86Launch5".action.focus-column-right = [ ]; # button 2 (f14): focus right
+    "F19".action.fullscreen-window = [ ];          # button 7 (f19): toggle fullscreen
+    "F24".action.close-window = [ ];               # button 8 (f24): close window
+    "XF86Launch6".action.toggle-overview = [ ];    # button 3 (f15): overview
+
+    # Buttons 4-6 are remapped by keyd but intentionally left unbound for now.
+    # Their keysyms (verify with `wev` before binding):
+    #   button 4 -> XF86Launch7
+    #   button 5 -> f17 (sym unverified)
+    #   button 6 -> f18 (sym unverified)
   };
 }

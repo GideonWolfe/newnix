@@ -69,6 +69,27 @@
             "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/media/music" = {
                 target = "tank/backups/media/music";
             };
+
+            # tank/media/books (~68M). Already snapshotted on mnemosyne via the
+            # media sanoid template. Nested under backups/media/.
+            "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/media/books" = {
+                target = "tank/backups/media/books";
+            };
+
+            # tank/infra/services (~24G). Service config/state, snapshotted on
+            # mnemosyne via the service_backups sanoid template.
+            # NOTE: an empty tank/backups/infra/services placeholder exists from
+            # early planning -- destroy it before the first seed (else syncoid
+            # "cowardly refuses" to overwrite the existing target).
+            "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/infra/services" = {
+                target = "tank/backups/infra/services";
+            };
+
+            # tank/infra/ai (~10G). AI model/prompt library, snapshotted on
+            # mnemosyne via the service_backups sanoid template.
+            "syncoid@${config.custom.world.hosts.mnemosyne.ip}:tank/infra/ai" = {
+                target = "tank/backups/infra/ai";
+            };
         };
     };
 

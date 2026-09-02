@@ -15,8 +15,14 @@
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
+    # Ballooning DISABLED (balloon = 0): this VM runs the full monitoring
+    # stack (Prometheus/Loki/Tempo TSDB + Grafana), which is page-cache
+    # heavy. Same failure mode as vm-app1 — pvestatd auto-ballooning shrank
+    # the guest during a host spike and never re-inflated it (hysteresis),
+    # collapsing the page cache into an iowait pressure stall that starved
+    # the shared datapool. Pin the full 4 GiB resident.
     memory = 4096;
-    balloon = 1024;
+    balloon = 0;
     skip_ipv6 = true;
 
     cpu = {

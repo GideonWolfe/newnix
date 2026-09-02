@@ -245,7 +245,7 @@
         "description": "",
         "id": 10,
         "links": [],
-        "title": "Pool Scrub Status",
+        "title": "Scrub Status",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -348,7 +348,7 @@
         "description": "",
         "id": 11,
         "links": [],
-        "title": "Last Snapshot Status",
+        "title": "Snapshot Status",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -446,7 +446,7 @@
         "description": "",
         "id": 12,
         "links": [],
-        "title": "Time Since Last Snapshot",
+        "title": "Last Snapshot",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -540,7 +540,7 @@
         "description": "",
         "id": 13,
         "links": [],
-        "title": "Pool Used Size",
+        "title": "Used Space",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -623,7 +623,7 @@
         "description": "",
         "id": 14,
         "links": [],
-        "title": "Net Size Change",
+        "title": "Net Change",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -827,7 +827,7 @@
         "description": "",
         "id": 16,
         "links": [],
-        "title": "Last Scrape Duration",
+        "title": "Scrape Duration",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -921,7 +921,7 @@
         "description": "",
         "id": 17,
         "links": [],
-        "title": "Time Since Last Scrub",
+        "title": "Last Scrub",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -1151,7 +1151,7 @@
         "description": "",
         "id": 2,
         "links": [],
-        "title": "Pool Free Space",
+        "title": "Free Space",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -1543,6 +1543,124 @@
         }
       }
     },
+    "panel-22": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "label_replace(\n  label_replace(\n    2 * max by (instance, name) (node_systemd_unit_state{name=~\"restic-backups-.*\\\\.service\", state=\"failed\"})\n    + max by (instance, name) (node_systemd_unit_state{name=~\"restic-backups-.*\\\\.service\", state=~\"activating|active\"}),\n    \"job_name\", \"$1\", \"name\", \"restic-backups-(.*)\\\\.service\"\n  ),\n  \"host\", \"$1\", \"instance\", \"([^:]+):.*\"\n)",
+                      "instant": false,
+                      "legendFormat": "{{host}} / {{job_name}}",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 22,
+        "links": [],
+        "title": "Service Backups",
+        "vizConfig": {
+          "group": "state-timeline",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "fixed"
+                },
+                "custom": {
+                  "axisPlacement": "auto",
+                  "fillOpacity": 70,
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineWidth": 0,
+                  "spanNulls": false
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "OK"
+                      },
+                      "1": {
+                        "color": "blue",
+                        "index": 1,
+                        "text": "RUNNING"
+                      },
+                      "2": {
+                        "color": "red",
+                        "index": 2,
+                        "text": "FAILED"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "options": {
+              "alignValue": "left",
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
+              },
+              "legend": {
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "mergeValues": true,
+              "rowHeight": 0.9,
+              "showValue": "never",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
     "panel-3": {
       "kind": "Panel",
       "spec": {
@@ -1580,7 +1698,7 @@
         "description": "",
         "id": 3,
         "links": [],
-        "title": "Pool Percentage Free",
+        "title": "% Free",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -1905,7 +2023,7 @@
               "barRadius": 0,
               "barWidth": 0.97,
               "fullHighlight": false,
-              "groupWidth": 0.7,
+              "groupWidth": 1,
               "legend": {
                 "calcs": [],
                 "displayMode": "list",
@@ -2245,7 +2363,7 @@
                 "mode": "scheme",
                 "reverse": false,
                 "scale": "exponential",
-                "scheme": "RdYlBu",
+                "scheme": "Purples",
                 "steps": 64
               },
               "exemplars": {
@@ -2340,7 +2458,7 @@
               "kind": "ElementReference",
               "name": "panel-7"
             },
-            "height": 20,
+            "height": 15,
             "width": 8,
             "x": 6,
             "y": 6
@@ -2353,7 +2471,7 @@
               "kind": "ElementReference",
               "name": "panel-9"
             },
-            "height": 20,
+            "height": 15,
             "width": 10,
             "x": 14,
             "y": 6
@@ -2442,6 +2560,19 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
+              "name": "panel-22"
+            },
+            "height": 8,
+            "width": 18,
+            "x": 6,
+            "y": 21
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
               "name": "panel-15"
             },
             "height": 4,
@@ -2483,10 +2614,10 @@
               "kind": "ElementReference",
               "name": "panel-6"
             },
-            "height": 15,
+            "height": 12,
             "width": 8,
             "x": 6,
-            "y": 26
+            "y": 29
           }
         },
         {
@@ -2496,10 +2627,10 @@
               "kind": "ElementReference",
               "name": "panel-5"
             },
-            "height": 15,
+            "height": 12,
             "width": 10,
             "x": 14,
-            "y": 26
+            "y": 29
           }
         },
         {
@@ -2550,12 +2681,12 @@
       "1d"
     ],
     "fiscalYearStartMonth": 0,
-    "from": "now-1h",
+    "from": "now-15m",
     "hideTimepicker": false,
     "timezone": "browser",
     "to": "now"
   },
-  "title": "Mnemosyne Tank ZFS Pool",
+  "title": "Mnemosyne ZFS Pool Staging",
   "variables": [
     {
       "datasource": {

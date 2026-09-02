@@ -72,8 +72,11 @@
         # + tank/pbs), NOT mnemosyne's source datasets.
         datasets = {
             "tank/backups/media/games".useTemplate         = [ "media" ];
+            "tank/backups/media/music".useTemplate         = [ "media" ];
+            "tank/backups/media/books".useTemplate         = [ "media" ];
             "tank/backups/personal".useTemplate            = [ "personal" ];
             "tank/backups/infra/services".useTemplate      = [ "service_backups" ];
+            "tank/backups/infra/ai".useTemplate            = [ "service_backups" ];
             "tank/backups/infra/vms/backups".useTemplate   = [ "vm_backups" ];
 
             "tank/pbs".useTemplate = [ "pbs" ];

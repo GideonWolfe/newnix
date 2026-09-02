@@ -1543,7 +1543,7 @@
         }
       }
     },
-    "panel-22": {
+    "panel-24": {
       "kind": "Panel",
       "spec": {
         "data": {
@@ -1562,10 +1562,287 @@
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "code",
-                      "expr": "label_replace(\n  node_systemd_unit_state{name=~\"syncoid-.*\\\\.service\", state=\"failed\"},\n  \"dataset\", \"$1\", \"name\", \".*tank-(.*)\\\\.service\"\n)",
+                      "exemplar": false,
+                      "expr": "label_replace(\n  2 * max by (name) (node_systemd_unit_state{name=~\"syncoid-.*\\\\.service\", state=\"failed\"})\n  + max by (name) (node_systemd_unit_state{name=~\"syncoid-.*\\\\.service\", state=~\"activating|active\"}),\n  \"dataset\", \"$1\", \"name\", \".*tank-(.*)\\\\.service\"\n)",
+                      "format": "table",
                       "instant": true,
                       "legendFormat": "__auto",
                       "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "exemplar": false,
+                      "expr": "label_replace(\n  1000 * node_systemd_timer_last_trigger_seconds{name=~\"syncoid-.*\\\\.timer\"},\n  \"dataset\", \"$1\", \"name\", \".*tank-(.*)\\\\.timer\"\n)",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "B"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "exemplar": false,
+                      "expr": "label_replace(\n  time() - node_systemd_timer_last_trigger_seconds{name=~\"syncoid-.*\\\\.timer\"},\n  \"dataset\", \"$1\", \"name\", \".*tank-(.*)\\\\.timer\"\n)",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": "__auto",
+                      "range": false
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "C"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "group": "joinByField",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "byField": "dataset",
+                    "mode": "outerTabular"
+                  }
+                }
+              },
+              {
+                "group": "organize",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "excludeByName": {
+                      "Time": true,
+                      "Time 1": true,
+                      "Time 2": true,
+                      "Value #A": false,
+                      "Value #B": false,
+                      "dataset": false,
+                      "instance": true,
+                      "job": true,
+                      "name": true,
+                      "name 1": false,
+                      "name 2": false
+                    },
+                    "includeByName": {},
+                    "indexByName": {},
+                    "renameByName": {
+                      "Value #A": "Result",
+                      "Value #B": "Last Run",
+                      "Value #C": "Age"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 24,
+        "links": [],
+        "title": "Backup Runs",
+        "vizConfig": {
+          "group": "table",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "color-text"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false,
+                  "styleField": "Value",
+                  "tooltip": {
+                    "field": "dataset"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Last Run",
+                    "scope": "series"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "dateTimeFromNow"
+                    },
+                    {
+                      "id": "custom.width",
+                      "value": 140
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Age",
+                    "scope": "series"
+                  },
+                  "properties": [
+                    {
+                      "id": "thresholds",
+                      "value": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "color": "green",
+                            "value": 0
+                          },
+                          {
+                            "color": "light-yellow",
+                            "value": 3600
+                          },
+                          {
+                            "color": "orange",
+                            "value": 7200
+                          },
+                          {
+                            "color": "red",
+                            "value": 86400
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "unit",
+                      "value": "dtdurations"
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Result",
+                    "scope": "series"
+                  },
+                  "properties": [
+                    {
+                      "id": "mappings",
+                      "value": [
+                        {
+                          "options": {
+                            "0": {
+                              "color": "green",
+                              "index": 0,
+                              "text": "OK"
+                            },
+                            "1": {
+                              "color": "blue",
+                              "index": 1,
+                              "text": "RUNNING"
+                            },
+                            "2": {
+                              "color": "red",
+                              "index": 2,
+                              "text": "FAILED"
+                            }
+                          },
+                          "type": "value"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "custom.width",
+                      "value": 67
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "dataset"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.width",
+                      "value": 143
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "enablePagination": false,
+              "showHeader": true
+            }
+          },
+          "version": "13.0.3"
+        }
+      }
+    },
+    "panel-25": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "prometheus"
+                    },
+                    "group": "prometheus",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "label_replace(\n  2 * max by (name) (node_systemd_unit_state{name=~\"syncoid-.*\\\\.service\", state=\"failed\"})\n  + max by (name) (node_systemd_unit_state{name=~\"syncoid-.*\\\\.service\", state=~\"activating|active\"}),\n  \"dataset\", \"$1\", \"name\", \".*tank-(.*)\\\\.service\"\n)",
+                      "instant": false,
+                      "legendFormat": "{{dataset}}",
+                      "range": true
                     },
                     "version": "v0"
                   },
@@ -1578,19 +1855,30 @@
           }
         },
         "description": "",
-        "id": 22,
+        "id": 25,
         "links": [],
-        "title": "Backup Jobs",
+        "title": "Backup Job State",
         "vizConfig": {
-          "group": "stat",
+          "group": "state-timeline",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
               "defaults": {
                 "color": {
-                  "mode": "thresholds"
+                  "mode": "palette-classic"
                 },
-                "displayName": "${__field.labels.dataset}",
+                "custom": {
+                  "axisPlacement": "auto",
+                  "fillOpacity": 70,
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineWidth": 0,
+                  "spanNulls": false
+                },
                 "mappings": [
                   {
                     "options": {
@@ -1600,9 +1888,14 @@
                         "text": "OK"
                       },
                       "1": {
-                        "color": "red",
+                        "color": "blue",
                         "index": 1,
-                        "text": "FAIL"
+                        "text": "RUNNING"
+                      },
+                      "2": {
+                        "color": "red",
+                        "index": 2,
+                        "text": "FAILED"
                       }
                     },
                     "type": "value"
@@ -1625,21 +1918,24 @@
               "overrides": []
             },
             "options": {
-              "colorMode": "value",
-              "graphMode": "none",
-              "justifyMode": "auto",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
+              "alignValue": "left",
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
               },
-              "showPercentChange": false,
-              "textMode": "value_and_name",
-              "wideLayout": true
+              "legend": {
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "mergeValues": true,
+              "rowHeight": 0.9,
+              "showValue": "auto",
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
             }
           },
           "version": "13.0.3"
@@ -2264,118 +2560,6 @@
           "version": "13.0.3"
         }
       }
-    },
-    "panel-9": {
-      "kind": "Panel",
-      "spec": {
-        "data": {
-          "kind": "QueryGroup",
-          "spec": {
-            "queries": [
-              {
-                "kind": "PanelQuery",
-                "spec": {
-                  "hidden": false,
-                  "query": {
-                    "datasource": {
-                      "name": "prometheus"
-                    },
-                    "group": "prometheus",
-                    "kind": "DataQuery",
-                    "spec": {
-                      "editorMode": "builder",
-                      "expr": "label_replace(rate(node_zfs_zpool_dataset_writes{dataset!~\"tank|tank/(media|vms|reserved)\", instance=\"soteria:9100\"}[$__rate_interval]), \"dataset\", \"$1\", \"dataset\", \"tank/(.+)\")",
-                      "instant": false,
-                      "legendFormat": "__auto",
-                      "range": true
-                    },
-                    "version": "v0"
-                  },
-                  "refId": "A"
-                }
-              }
-            ],
-            "queryOptions": {},
-            "transformations": [
-              {
-                "group": "renameByRegex",
-                "kind": "Transformation",
-                "spec": {
-                  "options": {
-                    "regex": ".*dataset=\"([^\"]+)\".*",
-                    "renamePattern": "$1"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "description": "",
-        "id": 9,
-        "links": [],
-        "title": "Write Activity by Dataset",
-        "vizConfig": {
-          "group": "heatmap",
-          "kind": "VizConfig",
-          "spec": {
-            "fieldConfig": {
-              "defaults": {
-                "custom": {
-                  "hideFrom": {
-                    "legend": false,
-                    "tooltip": false,
-                    "viz": false
-                  },
-                  "scaleDistribution": {
-                    "type": "linear"
-                  }
-                }
-              },
-              "overrides": []
-            },
-            "options": {
-              "annotations": {
-                "clustering": -1,
-                "multiLane": false
-              },
-              "calculate": false,
-              "cellGap": 1,
-              "color": {
-                "exponent": 0.5,
-                "fill": "dark-orange",
-                "mode": "scheme",
-                "reverse": false,
-                "scale": "exponential",
-                "scheme": "RdYlBu",
-                "steps": 64
-              },
-              "exemplars": {
-                "color": "rgba(255,0,255,0.7)"
-              },
-              "filterValues": {
-                "le": 1e-9
-              },
-              "legend": {
-                "show": true
-              },
-              "rowsFrame": {
-                "layout": "auto"
-              },
-              "tooltip": {
-                "mode": "single",
-                "showColorScale": false,
-                "yHistogram": false
-              },
-              "yAxis": {
-                "axisPlacement": "left",
-                "reverse": false,
-                "unit": "binBps"
-              }
-            }
-          },
-          "version": "13.0.3"
-        }
-      }
     }
   },
   "layout": {
@@ -2413,12 +2597,38 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
+              "name": "panel-25"
+            },
+            "height": 9,
+            "width": 15,
+            "x": 0,
+            "y": 6
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-24"
+            },
+            "height": 9,
+            "width": 9,
+            "x": 15,
+            "y": 6
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
               "name": "panel-2"
             },
             "height": 4,
             "width": 3,
             "x": 0,
-            "y": 6
+            "y": 15
           }
         },
         {
@@ -2431,7 +2641,7 @@
             "height": 4,
             "width": 3,
             "x": 3,
-            "y": 6
+            "y": 15
           }
         },
         {
@@ -2439,12 +2649,12 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-7"
+              "name": "panel-8"
             },
-            "height": 20,
-            "width": 8,
+            "height": 8,
+            "width": 6,
             "x": 6,
-            "y": 6
+            "y": 15
           }
         },
         {
@@ -2452,12 +2662,12 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-9"
+              "name": "panel-5"
             },
-            "height": 20,
-            "width": 10,
-            "x": 14,
-            "y": 6
+            "height": 12,
+            "width": 12,
+            "x": 12,
+            "y": 15
           }
         },
         {
@@ -2470,7 +2680,7 @@
             "height": 4,
             "width": 3,
             "x": 0,
-            "y": 10
+            "y": 19
           }
         },
         {
@@ -2483,7 +2693,7 @@
             "height": 4,
             "width": 3,
             "x": 3,
-            "y": 10
+            "y": 19
           }
         },
         {
@@ -2496,7 +2706,7 @@
             "height": 4,
             "width": 3,
             "x": 0,
-            "y": 14
+            "y": 23
           }
         },
         {
@@ -2509,7 +2719,7 @@
             "height": 4,
             "width": 3,
             "x": 3,
-            "y": 14
+            "y": 23
           }
         },
         {
@@ -2521,8 +2731,8 @@
             },
             "height": 4,
             "width": 3,
-            "x": 0,
-            "y": 18
+            "x": 6,
+            "y": 23
           }
         },
         {
@@ -2534,8 +2744,8 @@
             },
             "height": 4,
             "width": 3,
-            "x": 3,
-            "y": 18
+            "x": 9,
+            "y": 23
           }
         },
         {
@@ -2543,12 +2753,25 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-15"
+              "name": "panel-6"
             },
-            "height": 4,
-            "width": 3,
+            "height": 15,
+            "width": 9,
             "x": 0,
-            "y": 22
+            "y": 27
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-7"
+            },
+            "height": 15,
+            "width": 9,
+            "x": 9,
+            "y": 27
           }
         },
         {
@@ -2560,8 +2783,8 @@
             },
             "height": 4,
             "width": 3,
-            "x": 3,
-            "y": 22
+            "x": 21,
+            "y": 27
           }
         },
         {
@@ -2569,38 +2792,12 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-8"
+              "name": "panel-15"
             },
-            "height": 15,
-            "width": 6,
-            "x": 0,
-            "y": 26
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-6"
-            },
-            "height": 15,
-            "width": 8,
-            "x": 6,
-            "y": 26
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-5"
-            },
-            "height": 15,
-            "width": 10,
-            "x": 14,
-            "y": 26
+            "height": 4,
+            "width": 3,
+            "x": 21,
+            "y": 31
           }
         },
         {
@@ -2613,7 +2810,7 @@
             "height": 17,
             "width": 11,
             "x": 0,
-            "y": 41
+            "y": 42
           }
         },
         {
@@ -2626,20 +2823,7 @@
             "height": 17,
             "width": 13,
             "x": 11,
-            "y": 41
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-22"
-            },
-            "height": 8,
-            "width": 12,
-            "x": 0,
-            "y": 58
+            "y": 42
           }
         }
       ]
@@ -2664,12 +2848,12 @@
       "1d"
     ],
     "fiscalYearStartMonth": 0,
-    "from": "now-1h",
+    "from": "now-12h",
     "hideTimepicker": false,
     "timezone": "browser",
     "to": "now"
   },
-  "title": "Soteria Tank ZFS Pool",
+  "title": "Soteria Tank ZFS Pool Staging",
   "variables": [
     {
       "datasource": {

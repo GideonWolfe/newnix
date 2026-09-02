@@ -15,8 +15,15 @@
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
+    # Ballooning DISABLED (balloon = 0): this VM's docker stack is page-cache
+    # heavy — karakeep (Next.js web + headless Chromium archiver + Meilisearch
+    # index) plus freshrss. Same failure mode as vm-app1: pvestatd auto-
+    # ballooning shrank the guest toward its floor during a host spike and never
+    # re-inflated it (hysteresis), collapsing the page cache into an iowait
+    # pressure stall. That IO storm saturated the shared datapool and dragged
+    # down vm-test too. Pin the full 8 GiB resident.
     memory = 8192;
-    balloon = 1536;
+    balloon = 0;
     skip_ipv6 = true;
 
     cpu = {
