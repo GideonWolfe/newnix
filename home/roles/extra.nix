@@ -33,6 +33,7 @@
     ../apps/godot/godot-theme.nix
     ../apps/astrolog/astrolog.nix
     ../apps/shortwave/shortwave.nix
+    ../apps/feishin/feishin.nix
     ../apps/sdrpp/sdrpp.nix
     ../apps/hackernews-tui/hackernews-tui.nix
     ../apps/sourcegit/sourcegit.nix

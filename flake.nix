@@ -42,6 +42,11 @@
       };
     };
 
+    # Colour manipulation in Nix (oklch conversion, blend, harmony palettes).
+    nix-colorizer = {
+      url = "github:nutsalhan87/nix-colorizer";
+    };
+
     # Declerative disk/filesystem management
     disko = {
       url = "github:nix-community/disko/latest";

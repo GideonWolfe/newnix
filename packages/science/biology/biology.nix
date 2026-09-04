@@ -4,6 +4,9 @@ let
   asciiMol = pkgs.python312Packages.callPackage ../custom/asciiMol.nix { };
   plascad = pkgs.callPackage ../../custom/plascad.nix { };
   proteinview = pkgs.callPackage ../../custom/proteinview.nix { };
+  splicecraft = pkgs.python3Packages.callPackage ../../custom/splicecraft.nix {
+    stylixColors = config.lib.stylix.colors.withHashtag;
+  };
   #ugene = pkgs.callPackage ../custom/ugene.nix { }; # BUG: failing build
 in {
   environment.systemPackages = [
@@ -19,6 +22,7 @@ in {
     #plascad
     #ugene
     proteinview
+    splicecraft
 
   ];
 
