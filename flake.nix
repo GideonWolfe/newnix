@@ -341,6 +341,15 @@
         modules = [ ./hosts/soteria ];
       };
 
+      #####################
+      # Monitoring VPS    #
+      #####################
+      nixosConfigurations.vps-monitoring = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/vps-monitoring ];
+      };
+
       # Terraform
       packages.x86_64-linux.terranix_proxmox = terranix.lib.terranixConfiguration {
         inherit system;

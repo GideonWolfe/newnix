@@ -13,6 +13,9 @@
 
     # Monitoring server stack
     ../../system/modules/server/monitoring/monitoring.nix
+
+    # Gatus for app-level uptime monitoring
+    #../../system/modules/server/monitoring/gatus
   ];
 
   # Here we could add our full HM configuration (core is automatically imported)
@@ -28,6 +31,6 @@
   # Give the machine a unique hostname
   networking.hostName = "argus";
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
 }

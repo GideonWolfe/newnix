@@ -14,6 +14,7 @@ keys:
       - &mnemosyne age1r3a6r8eupm6pm3l2rg0l5kz32un945nqmhvnnwutejaakwfgjvks5043gc
       - &ares age1eywe53hdwya9qw3589f5qrpzhzet0kg66nn4glqz7lvcm6kgs5fs4v8csl
       - &soteria age1a6lcea3tw49wlcv7ymwu8z8nndykkhd78u5yf2luf07d8eatr4rst602c2
+      - &monitoring age1qtfjzpuzc2saqy0zzelkjy65qrpmutt5lutwfx7uewa429sthf5qkkgdxs
 creation_rules:
   - path_regex: gideon_secrets.yaml$
     key_groups:
@@ -116,6 +117,7 @@ creation_rules:
     key_groups:
       - age:
           - *vm-test
+          - *monitoring
         pgp:
           - *gideon
   - path_regex: secrets_mikrotik.yaml$

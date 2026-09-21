@@ -1,8 +1,9 @@
 # This role can be cleanly imported into any configuration that is running in a DigitalOcean VM
-{ inputs, modulesPath, ... }:
+{ inputs, lib, modulesPath, ... }:
 {
   imports = [
     "${modulesPath}/virtualisation/digital-ocean-config.nix"
+    inputs.disko.nixosModules.disko
   ];
 
   boot.loader.grub = {
@@ -10,7 +11,16 @@
     efiInstallAsRemovable = true;
   };
 
+  # Upstream's partition grower assumes a plain root partition, not our LVM LV.
+  boot.growPartition = lib.mkForce false;
+
+  # Cloud-init renders networkd configuration; don't also let NM manage the NIC.
+  networking.networkmanager.enable = lib.mkForce false;
+  programs.nm-applet.enable = lib.mkForce false;
   networking.useDHCP = lib.mkForce false;
+
+  # This flake, rather than metadata user-data, owns the installed configuration.
+  virtualisation.digitalOcean.rebuildFromUserData = false;
 
   # Cloud Init settings
   services.cloud-init = {
@@ -26,8 +36,7 @@
         "seed_random"
         "bootcmd"
         "write_files"
-        "growpart"
-        "resizefs"
+        # Disko fills the disk at install; later LVM growth must include the PV/LV.
         #"set_hostname" # these should be handled from within nix
         #"update_hostname"
         #"set_password"
