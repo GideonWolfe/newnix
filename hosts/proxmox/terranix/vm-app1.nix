@@ -7,23 +7,24 @@
     full_clone = true;
     tags = "prod,app";
 
-    # Auto-start on host boot so the VM recovers after a host reboot or after
-    # the host OOM-killer reaps the kvm process (see 04:00 replication spike).
+    # Start after a node reboot; onboot alone does not recover a crashed VM.
     start_at_node_boot = true;
+    # HA-managed: on node failure the CRM cold-restarts this VM on its failover
+    # node (pve3). A strict node-affinity rule (pve2 primary, pve3 failover)
+    # is applied via `ha-manager rules add` — see hosts/proxmox/README.md.
+    hastate = "started";
 
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    # Ballooning DISABLED (balloon = 0): this VM's workload (immich + postgres
-    # + other docker services) is page-cache heavy, so it needs its full 8 GiB
-    # resident. With auto-ballooning on, pvestatd shrank this VM toward the old
-    # 3 GiB floor during a host spike and never re-inflated it (hysteresis),
-    # starving the page cache and causing immich to thrash node_modules off
-    # disk (iowait pressure stall). pve2 (16 GiB, ARC capped ~1.6 GiB) can back
-    # the full 8 GiB alongside ingress + home-assistant, so pin it like vm-ai.
-    memory = 8192;
-    balloon = 0;
+    # 16 GiB cap with a 10 GiB balloon floor. Page-cache-heavy (immich +
+    # postgres); at steady state it runs at the full 16 GiB. The floor only
+    # applies transiently when a failover overcommits the target node, letting
+    # every VM stay running (degraded) instead of being OOM-killed. It must not
+    # drop below the postgres/immich working set, hence 10 GiB not lower.
+    memory = 16384;
+    balloon = 10240;
     skip_ipv6 = true;
 
     cpu = {

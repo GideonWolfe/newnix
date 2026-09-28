@@ -8,20 +8,24 @@
     full_clone = true;
     tags = "prod,app";
 
-    # Auto-start on host boot so the VM recovers after a host reboot or an
-    # OOM-kill of the kvm process.
+    # Start after a node reboot; onboot alone does not recover a crashed VM.
     start_at_node_boot = true;
+    # HA-managed: cold-restarts on its failover node (pve2) if pve1 fails.
+    # Strict node-affinity rule (pve1 primary, pve2 failover) applied via
+    # `ha-manager rules add` — see hosts/proxmox/README.md. Requires a
+    # pve1->pve2 replication job for the replicated volumes.
+    hastate = "started";
 
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    # `memory` cap with `balloon` floor — 11 docker containers, mostly idle
-    # but jellyfin metadata scans + nzbget par2/unrar can briefly use the
-    # full 8 GiB. Balloon floor of 3 GiB keeps the working set hot and lets
-    # the host reclaim the rest under pressure (e.g. a failover scenario).
+    # 8 GiB cap with a 4 GiB balloon floor — 11 docker containers, mostly idle
+    # but jellyfin metadata scans + nzbget par2/unrar can briefly use the full
+    # 8 GiB. The floor keeps the working set hot and lets the host reclaim the
+    # rest during a transient failover overcommit.
     memory = 8192;
-    balloon = 3072;
+    balloon = 4096;
     skip_ipv6 = true;
 
     cpu = {

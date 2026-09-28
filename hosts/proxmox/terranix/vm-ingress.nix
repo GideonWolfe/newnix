@@ -7,9 +7,12 @@
     full_clone = true;
     tags = "prod,network";
 
-    # Auto-start on host boot so the VM recovers after a host reboot or an
-    # OOM-kill of the kvm process.
+    # Start after a node reboot; onboot alone does not recover a crashed VM.
     start_at_node_boot = true;
+    # HA-managed: cold-restarts on its failover node (pve3) if pve2 fails.
+    # Strict node-affinity rule (pve2 primary, pve3 failover) applied via
+    # `ha-manager rules add` — see hosts/proxmox/README.md.
+    hastate = "started";
 
     bios = "seabios";
     agent = 1;

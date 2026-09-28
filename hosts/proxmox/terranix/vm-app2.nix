@@ -7,23 +7,23 @@
     full_clone = true;
     tags = "prod,app";
 
-    # Auto-start on host boot so the VM recovers after a host reboot or an
-    # OOM-kill of the kvm process.
+    # Start after a node reboot; onboot alone does not recover a crashed VM.
     start_at_node_boot = true;
+    # HA-managed: cold-restarts on its failover node (pve2) if pve3 fails.
+    # Strict node-affinity rule (pve3 primary, pve2 failover) applied via
+    # `ha-manager rules add` — see hosts/proxmox/README.md.
+    hastate = "started";
 
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    # Ballooning DISABLED (balloon = 0): this VM's docker stack is page-cache
-    # heavy — karakeep (Next.js web + headless Chromium archiver + Meilisearch
-    # index) plus freshrss. Same failure mode as vm-app1: pvestatd auto-
-    # ballooning shrank the guest toward its floor during a host spike and never
-    # re-inflated it (hysteresis), collapsing the page cache into an iowait
-    # pressure stall. That IO storm saturated the shared datapool and dragged
-    # down vm-test too. Pin the full 8 GiB resident.
+    # 8 GiB cap with a 4 GiB balloon floor. Page-cache-heavy (karakeep Next.js
+    # + headless Chromium + Meilisearch, plus freshrss); runs at the full 8 GiB
+    # normally. The floor only bites transiently during a failover overcommit,
+    # keeping the VM alive (degraded) rather than OOM-killed.
     memory = 8192;
-    balloon = 0;
+    balloon = 4096;
     skip_ipv6 = true;
 
     cpu = {

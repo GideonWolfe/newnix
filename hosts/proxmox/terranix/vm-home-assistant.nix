@@ -38,6 +38,13 @@
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
 
+    # Boot from the scsi0 root disk only. The live VM's boot order was
+    # `order=scsi0;ide2;net0`, but Terraform removes the empty ide2 cdrom; if
+    # the boot order still referenced ide2, Proxmox rejects the update with
+    # "invalid bootorder: device 'ide2' does not exist". Pin scsi0 so the
+    # cdrom removal and boot order stay consistent.
+    boot = "order=scsi0";
+
     # 4 GiB cap with a 2 GiB balloon floor. Floor only bites during a transient
     # failover overcommit; steady state runs at the full 4 GiB.
     memory = 4096;
@@ -85,11 +92,23 @@
       };
     };
 
-    # See vm-ingress.nix for rationale — silences Telmate's cosmetic
-    # `startup_shutdown { -1 -> null }` non-diff. `qemu_os` is added because the
-    # imported guest reports an os type we don't want Terraform to churn.
+    # This VM was IMPORTED, not created by Terraform, so several attributes that
+    # only matter at creation time (or that the provider can't round-trip from
+    # an import) would otherwise force a destroy/recreate. Ignore them so the
+    # plan converges without replacing the running guest:
+    #   - full_clone: schema default (true) vs imported state (false) → ForceNew
+    #   - clone:      not applicable to an imported VM
+    #   - efidisk:    import doesn't populate the block; re-declaring it ForceNew
+    #   - startup_shutdown/qemu_os: cosmetic Telmate non-diffs
+    # The efidisk/scsi0 disks already exist on datapool and are left as-is.
     lifecycle = {
-      ignore_changes = [ "startup_shutdown" "qemu_os" ];
+      ignore_changes = [
+        "startup_shutdown"
+        "qemu_os"
+        "full_clone"
+        "clone"
+        "efidisk"
+      ];
     };
   };
 }

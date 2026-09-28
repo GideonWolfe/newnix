@@ -7,22 +7,22 @@
     full_clone = true;
     tags = "test,app";
 
-    # Auto-start on host boot so the VM recovers after a host reboot or an
-    # OOM-kill of the kvm process.
+    # Start after a node reboot; onboot alone does not recover a crashed VM.
     start_at_node_boot = true;
+    # HA-managed: cold-restarts on its failover node (pve2) if pve3 fails.
+    # Strict node-affinity rule (pve3 primary, pve2 failover) applied via
+    # `ha-manager rules add` — see hosts/proxmox/README.md.
+    hastate = "started";
 
     bios = "seabios";
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    # Ballooning DISABLED (balloon = 0): this VM runs the full monitoring
-    # stack (Prometheus/Loki/Tempo TSDB + Grafana), which is page-cache
-    # heavy. Same failure mode as vm-app1 — pvestatd auto-ballooning shrank
-    # the guest during a host spike and never re-inflated it (hysteresis),
-    # collapsing the page cache into an iowait pressure stall that starved
-    # the shared datapool. Pin the full 4 GiB resident.
+    # 4 GiB cap with a 2 GiB balloon floor. Monitoring stack (Prometheus/Loki/
+    # Tempo TSDB + Grafana) is page-cache-heavy and runs at the full 4 GiB
+    # normally; the floor only applies during a transient failover overcommit.
     memory = 4096;
-    balloon = 0;
+    balloon = 2048;
     skip_ipv6 = true;
 
     cpu = {

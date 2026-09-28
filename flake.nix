@@ -361,6 +361,7 @@
           ./hosts/proxmox/terranix/vm-app2.nix
           ./hosts/proxmox/terranix/vm-test.nix
           ./hosts/proxmox/terranix/vm-ai.nix
+          ./hosts/proxmox/terranix/vm-home-assistant.nix
           #./hosts/proxmox/terranix/vm-network.nix
         ];
       };
