@@ -64,6 +64,8 @@
     ../apps/calcure/calcure.nix
     #../apps/nanovna-saver/nanovna-saver.nix # buggy still
     ../apps/openscad/openscad.nix
+    ../apps/orcaslicer/sovol-sv08.nix
+    ../apps/orcaslicer/sovol-sv08-process.nix
     ../apps/cmus/cmus.nix
   ];
 }
