@@ -453,6 +453,13 @@ in
               };
             };
           }
+          {
+            Youtarr = {
+              href = "${svc.youtarr.protocol}://${svc.youtarr.ip}:${builtins.toString svc.youtarr.port}";
+              description = "YouTube Downloader";
+              icon = "mdi-youtube";
+            };
+          }
           # {
           #   Pinchflat = {
           #     icon = "pinchflat";

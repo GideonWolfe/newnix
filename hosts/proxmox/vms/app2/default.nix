@@ -2,6 +2,7 @@
 {
     imports = [
         ../../../../system/modules/server/apps/karakeep
+        ../../../../system/modules/server/apps/youtarr
         # Really slow and resource intensive, never downloaded any videos...
         #../../../../system/modules/server/apps/tubearchivist
         ../../../../system/modules/server/apps/freshrss

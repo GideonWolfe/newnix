@@ -265,6 +265,14 @@ in
       domain = "kk.gideonwolfe.xyz";
       protocol = "https";
     };
+    youtarr = mkService {
+      name = "Youtarr";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
+      port = 3087;
+      # LAN-only downloader; no public DNS or Traefik route.
+      domain = "";
+      protocol = "http";
+    };
     # tubearchivist = mkService {
     #   name = "TubeArchivist";
     #   ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
