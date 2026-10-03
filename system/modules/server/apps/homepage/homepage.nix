@@ -616,10 +616,11 @@ in
             #     href = "${svc.netbox.protocol}://${svc.netbox.ip}:${builtins.toString svc.netbox.port}";
             #     description = "NetBox";
             # }; }
-            # { Paperless = {
-            #     href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
-            #     description = "Paperless-ngx";
-            # }; }
+            { Paperless = {
+              href = "${svc.paperless.protocol}://${svc.paperless.ip}:${builtins.toString svc.paperless.port}";
+              description = "Document Archive";
+              icon = "paperless-ngx";
+            }; }
             { "IT Tools" = {
                 href = "${svc.it-tools.protocol}://${svc.it-tools.ip}:${builtins.toString svc.it-tools.port}";
                 description = "Developer Utilities";
@@ -667,6 +668,11 @@ in
                   fields = [ "photos" "videos" ];
                 };
 
+            }; }
+            { Printventory = {
+              href = "${svc.printventory.protocol}://${svc.printventory.ip}:${builtins.toString svc.printventory.port}";
+              description = "3D Model Library";
+              icon = "mdi-printer-3d";
             }; }
             { Dawarich = {
                 href = "${svc.dawarich.protocol}://${svc.dawarich.ip}:${builtins.toString svc.dawarich.port}";

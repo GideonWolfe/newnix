@@ -6,9 +6,11 @@
         ../../../../system/modules/server/apps/mealie
         ../../../../system/modules/server/apps/calibre-web-automated
         ../../../../system/modules/server/apps/shelfmark
+        ../../../../system/modules/server/apps/printventory
         #../../../../system/modules/server/apps/pinchflat
         ../../../../system/modules/server/apps/immich
         ../../../../system/modules/server/apps/dawarich
+        ../../../../system/modules/server/apps/paperless-ngx
     ];
 
     # Unique hostname for this VM

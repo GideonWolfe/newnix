@@ -194,13 +194,14 @@ in
       domain = "";
       protocol = "http";
     };
-    # paperless = mkService {
-    #   name = "Paperless-ngx";
-    #   ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
-    #   port = 4232;
-    #   domain = "";
-    #   protocol = "http";
-    # };
+    paperless = mkService {
+      name = "Paperless-ngx";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      port = 4232;
+      # Personal documents stay LAN/VPN-only; no public DNS or Traefik route.
+      domain = "";
+      protocol = "http";
+    };
     # kiwix = mkService {
     #   name = "Kiwix";
     #   ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
@@ -242,6 +243,14 @@ in
       # LAN-only companion to CWA - no Traefik router, no public DNS.
       domain = "";
       port = 8084;
+      protocol = "http";
+    };
+    printventory = mkService {
+      name = "Printventory";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
+      # No built-in authentication, including MCP: keep this LAN/VPN-only.
+      domain = "";
+      port = 5000;
       protocol = "http";
     };
     # pinchflat = mkService {
