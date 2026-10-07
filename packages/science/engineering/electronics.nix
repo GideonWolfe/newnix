@@ -18,6 +18,7 @@
     coulomb # GUI circuit simulator
     gtkwave # GTK waveform viewer
     (pkgs.callPackage ../../custom/color-code.nix { }) # resistor color code calculator
+    (pkgs.callPackage ../../custom/betaflight { }) # current native Betaflight App
 
   ];
 }

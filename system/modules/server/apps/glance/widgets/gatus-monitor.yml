@@ -1,0 +1,179 @@
+# Adapted from Nedra1998's community widget (CC0-1.0):
+# https://github.com/glanceapp/community-widgets/blob/main/widgets/gatus-monitor/README.md
+type: custom-api
+title: Gatus
+title-url: &gatus-url http://192.168.88.103:8085
+cache: 1m
+css-class: gatus-monitor
+options:
+  base-url: *gatus-url
+  style: compact # full also shows icons and both metrics
+  duration: 24h
+  group: ""
+  compact-metric: uptime # uptime or response-time
+  show-failing-only: false
+  show-only-configured: false
+
+  # Full-view icons. Add <endpoint-name>-url to override its Gatus detail link.
+  calibre-web-automated: sh:calibre-web
+  dawarich: sh:dawarich
+  freshrss: sh:freshrss
+  immich: sh:immich
+  it-tools: sh:it-tools
+  karakeep: sh:karakeep
+  mealie: sh:mealie
+  romm: sh:romm
+  shelfmark: mdi:bookshelf
+  scrutiny: sh:scrutiny
+  bazarr: sh:bazarr
+  jellyfin: sh:jellyfin
+  navidrome: sh:navidrome
+  netbox: sh:netbox
+  nzbget: sh:nzbget
+  prowlarr: sh:prowlarr
+  radarr: sh:radarr
+  seerr: mdi:movie-search
+  slskd: sh:slskd
+  sonarr: sh:sonarr
+  soulsync-webui: mdi:music-box-multiple
+  baikal: sh:baikal
+  grafana: sh:grafana
+  loki: sh:loki
+  prometheus: sh:prometheus
+  tempo: mdi:chart-timeline
+  crowdsec: sh:crowdsec
+  traefik: sh:traefik
+
+template: |
+  {{ $options := .Options }}
+  {{ $baseURL := trimSuffix "/" (.Options.StringOr "base-url" "") }}
+  {{ $duration := .Options.StringOr "duration" "24h" }}
+  {{ $isCompact := eq (.Options.StringOr "style" "full") "compact" }}
+  {{ $groupFilter := .Options.StringOr "group" "" }}
+  {{ $compactMetric := .Options.StringOr "compact-metric" "uptime" }}
+  {{ $showFailingOnly := .Options.BoolOr "show-failing-only" false }}
+  {{ $showOnlyConfigured := .Options.BoolOr "show-only-configured" false }}
+
+  {{ define "status" }}
+    <div data-popover-type="html" data-popover-position="above" data-popover-show-delay="500">
+      <div data-popover-html>
+        <div class="padding-block-5">
+          {{ if .Exists "success" }}
+            {{ range .Array "conditionResults" }}
+              <p class="{{ if .Bool "success" }}color-positive{{ else }}color-negative{{ end }}">{{ .String "condition" }}</p>
+            {{ end }}
+          {{ else }}
+            <p class="color-subdue">Waiting for the first check.</p>
+          {{ end }}
+        </div>
+      </div>
+      {{ if not (.Exists "success") }}
+        <svg role="img" aria-label="Unknown" fill="none" stroke="var(--color-text-subdue)" stroke-width="1.5" viewBox="0 0 20 20">
+          <circle cx="10" cy="10" r="8" />
+          <path d="M10 5v6m0 3v1" />
+        </svg>
+      {{ else if .Bool "success" }}
+        <svg role="img" aria-label="Up" fill="var(--color-positive)" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+        </svg>
+      {{ else }}
+        <svg role="img" aria-label="Down" fill="var(--color-negative)" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+        </svg>
+      {{ end }}
+    </div>
+  {{ end }}
+
+  {{ $endpoints := newRequest (concat $baseURL "/api/v1/endpoints/statuses") | getResponse }}
+  {{ if ne $endpoints.Response.StatusCode 200 }}
+    <p class="color-negative">Unable to load Gatus endpoints (HTTP {{ $endpoints.Response.StatusCode }}).</p>
+  {{ else if not ($endpoints.JSON.Exists "#") }}
+    <p class="color-negative">Gatus returned an unexpected response.</p>
+  {{ else }}
+    {{ $matchedItems := 0 }}
+    {{ $displayedItems := 0 }}
+    <ul class="dynamic-columns {{ if $isCompact }}list-gap-8{{ else }}list-gap-20 list-with-separator{{ end }}">
+      {{ range $endpoint := $endpoints.JSON.Array "" }}
+        {{ $name := $endpoint.String "name" }}
+        {{ $key := $endpoint.String "key" }}
+        {{ $group := $endpoint.String "group" }}
+        {{ $icon := $options.StringOr $name "" }}
+        {{ $linkUrlOption := $options.StringOr (concat $name "-url") "" }}
+        {{ $linkUrl := $options.StringOr (concat $name "-url") (concat $baseURL "/endpoints/" $key) }}
+
+        {{ if and $groupFilter (ne $groupFilter $group) }}{{ continue }}{{ end }}
+        {{ if and $showOnlyConfigured (or (eq $linkUrlOption "") (and (not $isCompact) (eq $icon ""))) }}{{ continue }}{{ end }}
+        {{ $matchedItems = add $matchedItems 1 }}
+
+        {{/* Empty histories are unknown, not up or down. */}}
+        {{ $results := $endpoint.Array "results" }}
+        {{ $hasResult := gt (len $results) 0 }}
+        {{ $lastResult := $endpoint }}
+        {{ if $hasResult }}{{ $lastResult = index $results (sub (len $results) 1) }}{{ end }}
+        {{ $latestSuccess := and $hasResult ($lastResult.Bool "success") }}
+        {{ if and $showFailingOnly $latestSuccess }}{{ continue }}{{ end }}
+        {{ $displayedItems = add $displayedItems 1 }}
+
+        {{ $uptimeText := "—" }}
+        {{ $responseTimeText := "—" }}
+        {{ if $hasResult }}
+          {{ if or (not $isCompact) (eq $compactMetric "uptime") }}
+            {{ $uptime := newRequest (concat $baseURL "/api/v1/endpoints/" $key "/uptimes/" $duration) | getResponse }}
+            {{ if eq $uptime.Response.StatusCode 200 }}
+              {{ $uptimeText = printf "%.1f%%" (mul 100 ($uptime.JSON.Float "")) }}
+            {{ end }}
+          {{ end }}
+          {{ if or (not $isCompact) (eq $compactMetric "response-time") }}
+            {{ $responseTime := newRequest (concat $baseURL "/api/v1/endpoints/" $key "/response-times/" $duration) | getResponse }}
+            {{ if eq $responseTime.Response.StatusCode 200 }}
+              {{ $responseTimeText = printf "%dms" ($responseTime.JSON.Int "") }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+
+        <li class="{{ if $isCompact }}flex items-center gap-12{{ else }}monitor-site flex items-center gap-15{{ end }}">
+          {{ if $isCompact }}
+            <a class="size-title-dynamic color-highlight text-truncate block grow" href="{{ $linkUrl | safeURL }}" target="_blank" rel="noreferrer">{{ $name }}</a>
+            <span>{{ if eq $compactMetric "uptime" }}{{ $uptimeText }}{{ else }}{{ $responseTimeText }}{{ end }}</span>
+          {{ else }}
+            {{ $iconUrl := $icon }}
+            {{ if $icon }}
+              {{ $iconPrefix := findMatch "^(si|di|mdi|sh):" $icon }}
+              {{ $iconBase := replaceMatches "^(si|di|mdi|sh):" "" $icon }}
+              {{ $iconExt := trimPrefix "." (findMatch "\\.[a-z]+$" $iconBase) }}
+              {{ $iconBase = replaceMatches "\\.[a-z]+$" "" $iconBase }}
+              {{ if eq $iconExt "" }}{{ $iconExt = "svg" }}{{ end }}
+              {{ if eq $iconPrefix "si:" }}
+                {{ $iconUrl = concat "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/" $iconBase ".svg" }}
+              {{ else if eq $iconPrefix "di:" }}
+                {{ $iconUrl = concat "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/" $iconExt "/" $iconBase "." $iconExt }}
+              {{ else if eq $iconPrefix "mdi:" }}
+                {{ $iconUrl = concat "https://cdn.jsdelivr.net/npm/@mdi/svg@latest/svg/" $iconBase ".svg" }}
+              {{ else if eq $iconPrefix "sh:" }}
+                {{ $iconUrl = concat "https://cdn.jsdelivr.net/gh/selfhst/icons/" $iconExt "/" $iconBase "." $iconExt }}
+              {{ end }}
+              <a href="{{ $linkUrl | safeURL }}" target="_blank" rel="noreferrer">
+                <img class="monitor-site-icon" src="{{ $iconUrl | safeURL }}" alt="" loading="lazy">
+              </a>
+            {{ end }}
+            <div class="grow min-width-0">
+              <a class="size-h3 color-highlight text-truncate block" href="{{ $linkUrl | safeURL }}" target="_blank" rel="noreferrer">{{ $name }}</a>
+              <ul class="list-horizontal-text">
+                <li class="{{ if and $hasResult (not $latestSuccess) }}color-negative{{ end }}">{{ $uptimeText }}</li>
+                <li>{{ $responseTimeText }}</li>
+              </ul>
+            </div>
+          {{ end }}
+          <a class="monitor-site-status-icon{{ if $isCompact }}-compact{{ end }}" href="{{ $linkUrl | safeURL }}" target="_blank" rel="noreferrer" aria-label="{{ $name }} status details">
+            {{ template "status" $lastResult }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+
+    {{ if eq $matchedItems 0 }}
+      <p class="color-subdue">No Gatus endpoints match the current filters.</p>
+    {{ else if eq $displayedItems 0 }}
+      <p class="color-positive">All matching sites are online.</p>
+    {{ end }}
+  {{ end }}

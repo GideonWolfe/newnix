@@ -1,0 +1,69 @@
+/* Snapshot of Ares's Stylix palette for direct editing; reconnect Stylix when converting to Nix. */
+:root {
+  --stylix-base00: #1e1e2e;
+  --stylix-base01: #313244;
+  --stylix-base02: #45475a;
+  --stylix-base03: #6c7086;
+  --stylix-base04: #a6adc8;
+  --stylix-base05: #cdd6f4;
+  --stylix-base06: #f5e0dc;
+  --stylix-base07: #b4befe;
+  --stylix-base08: #f38ba8;
+  --stylix-base09: #fab387;
+  --stylix-base0A: #f9e2af;
+  --stylix-base0B: #a6e3a1;
+  --stylix-base0C: #94e2d5;
+  --stylix-base0D: #89b4fa;
+  --stylix-base0E: #cba6f7;
+  --stylix-base0F: #f2cdcd;
+
+  --color-background: var(--stylix-base00);
+  --color-widget-background: var(--stylix-base01);
+  --color-widget-background-highlight: var(--stylix-base02);
+  --color-widget-content-border: var(--stylix-base02);
+  --color-separator: var(--stylix-base02);
+  --color-popover-background: var(--stylix-base01);
+  --color-popover-border: var(--stylix-base03);
+
+  --color-text-base: var(--stylix-base05);
+  --color-text-paragraph: var(--stylix-base05);
+  --color-text-highlight: var(--stylix-base06);
+  --color-text-base-muted: var(--stylix-base04);
+  --color-text-subdue: var(--stylix-base04);
+
+  --color-primary: var(--stylix-base0D);
+  --color-positive: var(--stylix-base0B);
+  --color-negative: var(--stylix-base08);
+  --color-warning: var(--stylix-base0A);
+  --color-progress-border: var(--stylix-base02);
+  --color-progress-value: var(--stylix-base0D);
+  --color-vertical-progress-value: var(--stylix-base0D);
+  --color-graph-gridlines: var(--stylix-base02);
+}
+
+::selection {
+  background-color: var(--stylix-base02);
+  color: var(--stylix-base06);
+}
+
+* {
+  scrollbar-color: var(--stylix-base03) var(--color-background);
+}
+
+.bookmarks-link:visited {
+  color: var(--stylix-base0E);
+}
+
+.bookmarks-link:hover,
+.bookmarks-link:focus-visible {
+  color: var(--stylix-base0C);
+}
+
+.bookmarks-icon-container,
+.bookmarks-icon {
+  opacity: 1;
+}
+
+.popover-frame {
+  --shadow-color: color-mix(in srgb, var(--stylix-base00) 70%, transparent);
+}

@@ -1,0 +1,190 @@
+# Save to reload the configuration, then refresh the browser.
+# Restore registry/Stylix references when converting to Nix.
+server:
+  host: 0.0.0.0
+  port: 8080
+  assets-path: /app/config/assets
+
+branding:
+  app-name: Dashboard
+  logo-text: GW
+  app-background-color: "#1e1e2e"
+
+theme:
+  light: false
+  disable-picker: true
+  background-color: 240 21 15
+  primary-color: 217 92 76
+  positive-color: 115 54 76
+  negative-color: 343 81 75
+  contrast-multiplier: 1.0
+  custom-css-file: /assets/stylix.css
+
+pages:
+  - name: Home
+    width: wide
+    head-widgets:
+      -
+        $include: widgets/gatus-monitor.yml
+    columns:
+      - size: small
+        widgets:
+          - type: bookmarks
+            title: Web
+            groups:
+              - title: Everyday
+                links:
+                  - title: YouTube
+                    url: https://youtube.com/
+                    icon: si:youtube
+                  - title: Reddit
+                    url: https://reddit.com/
+                    icon: si:reddit
+              - title: Development
+                links:
+                  - title: GitHub
+                    url: https://github.com/
+                    icon: si:github
+                  - title: NixOS Search
+                    url: https://search.nixos.org/
+                    icon: si:nixos
+
+          - type: search
+            search-engine: duckduckgo
+            bangs:
+              - title: Nix Search
+                shortcut: "!n"
+                url: https://nixsearch.thekoppe.com/?q={QUERY}
+
+      - size: full
+        widgets:
+          - type: bookmarks
+            title: Applications
+            groups:
+              - title: Personal
+                links:
+                  - title: Paperless
+                    url: http://192.168.88.101:4232
+                    icon: sh:paperless-ngx
+                  - title: Karakeep
+                    url: https://kk.gideonwolfe.xyz
+                    icon: sh:karakeep
+                  - title: Mealie
+                    url: https://mealie.gideonwolfe.xyz
+                    icon: sh:mealie
+                  - title: Immich
+                    url: http://192.168.88.101:2283
+                    icon: sh:immich
+                  - title: Home Assistant
+                    url: http://192.168.88.177:8123
+                    icon: sh:home-assistant
+              - title: Make
+                links:
+                  - title: Printventory
+                    url: http://192.168.88.101:5000
+                    icon: mdi:printer-3d
+                  - title: Mainsail
+                    url: http://192.168.88.176
+                    icon: sh:mainsail
+              - title: Acquire
+                links:
+                  - title: Seerr
+                    url: https://seerr.gideonwolfe.xyz
+                    icon: sh:seerr
+                  - title: Youtarr
+                    url: http://192.168.88.104:3087
+                    icon: sh:youtarr.png
+                  - title: Shelfmark
+                    url: http://192.168.88.101:8084
+                    icon: sh:shelfmark
+                  - title: SoulSync
+                    url: http://192.168.88.102:8008
+                    icon: sh:soulsync.png
+              - title: Tools
+                links:
+                  - title: IT Tools
+                    url: http://192.168.88.104:8765
+                    icon: sh:it-tools
+                  - title: FreshRSS
+                    url: http://192.168.88.104:8766
+                    icon: sh:freshrss
+                  - title: Copyparty
+                    url: http://192.168.88.205:3923
+                    icon: sh:copyparty
+                  - title: Open WebUI
+                    url: http://192.168.88.106:3000
+                    icon: sh:open-webui
+              - title: Watch & listen
+                links:
+                  - title: Jellyfin
+                    url: https://jellyfin.gideonwolfe.xyz
+                    icon: sh:jellyfin
+                  - title: Navidrome
+                    url: https://nd.gideonwolfe.xyz
+                    icon: sh:navidrome
+                  - title: RomM
+                    url: https://retro86.gideonwolfe.xyz
+                    icon: sh:romm
+                  - title: Calibre
+                    url: https://cw.gideonwolfe.xyz
+                    icon: sh:calibre-web
+              - title: Play
+                links:
+                  - title: Golf
+                    url: https://kindahardgolf.com
+                    icon: mdi:golf
+                  - title: OpenGuessr
+                    url: https://openguessr.com
+                    icon: mdi:map-marker-question-outline
+                  - title: Semantle
+                    url: https://semantle.com
+                    icon: mdi:chat-question-outline
+                  - title: Redactle
+                    url: https://www.redactle.net
+                    icon: sh:wikipedia
+
+
+      - size: small
+        widgets:
+          - type: bookmarks
+            title: Infrastructure
+            groups:
+              - title: Monitoring
+                links:
+                  - title: Gatus
+                    url: http://192.168.88.103:8085
+                    icon: sh:gatus
+                  - title: Grafana
+                    url: https://cromulus.gideonwolfe.xyz
+                    icon: sh:grafana
+                  - title: NAS Dashboard
+                    url: http://192.168.88.103:3000/d/agzdgq4/mnemosyne-zfs-pool-staging
+                    icon: sh:grafana
+                  - title: Backup NAS Dashboard
+                    url: http://192.168.88.103:3000/d/agdzndc/soteria-tank-zfs-pool-staging
+                    icon: sh:grafana
+                  - title: Scrutiny
+                    url: http://192.168.88.205:5232
+                    icon: sh:scrutiny
+              - title: Manage
+                links:
+                  - title: Traefik
+                    url: http://192.168.88.100:8080
+                    icon: sh:traefik
+                  - title: Router
+                    url: http://192.168.88.1
+                    icon: sh:mikrotik
+                  - title: Proxmox
+                    url: https://192.168.88.7:8006
+                    icon: sh:proxmox
+              - title: Nodes
+                links:
+                  - title: PVE 1
+                    url: http://192.168.88.8:8006
+                    icon: sh:proxmox
+                  - title: PVE 2
+                    url: http://192.168.88.9:8006
+                    icon: sh:proxmox
+                  - title: PVE 3
+                    url: http://192.168.88.10:8006
+                    icon: sh:proxmox

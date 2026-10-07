@@ -20,7 +20,7 @@
     #kdePackages.step # physics simulator
     openrocket # 3D rocket simulator/modeler
     leocad # 3D CAD modeler for legos
-    openscad
+    (pkgs.callPackage ../../custom/openscad { }) # Includes pinned libraries for offline generators
 
     # 3D printing
     #bambu-studio
