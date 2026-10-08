@@ -76,6 +76,12 @@ creation_rules:
           - *vm-app2
         pgp:
           - *gideon
+  - path_regex: secrets_forgejo.yaml$
+    key_groups:
+      - age:
+          - *vm-app2
+        pgp:
+          - *gideon
   - path_regex: secrets_freshrss.yaml$
     key_groups:
       - age:

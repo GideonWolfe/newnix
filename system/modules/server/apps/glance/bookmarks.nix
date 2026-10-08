@@ -29,6 +29,7 @@ in
         title = "Development";
         links = [
           { title = "GitHub"; url = "https://github.com/"; icon = "si:github"; }
+          (serviceLink "forgejo" "Forgejo" "sh:forgejo")
           { title = "NixOS Search"; url = "https://search.nixos.org/"; icon = "si:nixos"; }
         ];
       }

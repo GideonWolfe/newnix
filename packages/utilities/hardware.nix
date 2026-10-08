@@ -1,5 +1,11 @@
 { config, lib, pkgs, inputs, ... }:
 
+let
+  pkgs-unstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+in
 {
   environment.systemPackages = with pkgs; [
 
@@ -17,6 +23,7 @@
     #nvtopPackages.full # GPU monitor #BUG cuda fails during build
     gpu-viewer # GUI for GPU info
     pciutils # providing utils for PCI devices such as lspci command
+    pkgs-unstable.usbtree # TUI for inspecting the USB device tree (unstable until in stable)
     #vial # QMK fork and GUI for keyboard configuration
     gsmartcontrol # GUI for smartmontools hard drive health
     kdiskmark # disk benchmark GUI

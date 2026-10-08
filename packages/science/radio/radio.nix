@@ -1,6 +1,8 @@
 { config, lib, inputs, pkgs, ... }:
 
-let adsb_deku = pkgs.python312Packages.callPackage ../../custom/adsb_deku.nix { };
+let
+  adsb_deku = pkgs.python312Packages.callPackage ../../custom/adsb_deku.nix { };
+  qttinysa = pkgs.callPackage ../../custom/qttinysa.nix { };
 in {
   environment.systemPackages = [
     #########
@@ -40,6 +42,7 @@ in {
     pkgs.contact # Meshtastic TUI
     pkgs.nanovna-saver # GUI for NanoVNA devices
     pkgs.nanovna-qt # GUI for NanoVNA devices
+    qttinysa # GUI for TinySA / TinySA Ultra spectrum analysers
     pkgs.xnec2c # Antenna simulation software
   ];
 }

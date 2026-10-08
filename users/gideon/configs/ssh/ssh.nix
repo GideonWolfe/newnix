@@ -40,6 +40,18 @@
         User = "git";
       };
 
+      # Container Git SSH; vm-app2's administrative SSH stays separate on 2736.
+      forgejo = {
+        HostName = osConfig.custom.world.services.forgejo.ip;
+        Port = osConfig.custom.world.services.forgejo.sshPort;
+        User = "git";
+        IdentitiesOnly = true;
+        IdentityFile = [
+          "${config.home.homeDirectory}/.ssh/gideon_ssh_sk"
+          "${config.home.homeDirectory}/.ssh/gideon_backup_ssh_sk"
+        ];
+      };
+
       # Example of main server
       homeserver = {
         HostName = "66.108.176.86";
