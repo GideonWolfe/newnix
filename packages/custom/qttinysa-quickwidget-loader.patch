@@ -1,0 +1,21 @@
+Construct QQuickWidget directly in the UI loader.
+
+nixpkgs' PySide6 does not ship the Qt Designer plugin that registers
+QQuickWidget with QUiLoader, so loading the 3D graph widget from the .ui
+files fails and falls back to a plain QWidget. Handle it explicitly like
+the other custom widgets already are.
+
+--- a/src/QtTinySA.py
++++ b/src/QtTinySA.py
+@@ -92,6 +92,11 @@ class CustomLoader(QUiLoader):
+     def createWidget(self, className, parent=None, name=""):
+         logging.debug(f'className = {className}')
+         file_name = resource_path(name)
++        if className == "QQuickWidget":
++            from PySide6.QtQuickWidgets import QQuickWidget
++            widget = QQuickWidget(parent=parent)
++            widget.setObjectName(name)
++            return widget
+         if className == "PlotWidget":
+             return pyqtgraph.PlotWidget(parent=parent)
+         if className == "GraphicsView":

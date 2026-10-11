@@ -21,7 +21,12 @@ in stdenvNoCC.mkDerivation (finalAttrs: {
   };
 
   nativeBuildInputs = [ qt6.wrapQtAppsHook copyDesktopItems ];
-  buildInputs = [ pythonEnv qt6.qtbase ];
+  buildInputs =
+    [ pythonEnv qt6.qtbase qt6.qtdeclarative qt6.qtgraphs qt6.qtquick3d ];
+
+  # QUiLoader can't instantiate QQuickWidget without the Qt Designer plugin
+  # (not shipped by nixpkgs' PySide6), so construct it directly in the loader.
+  patches = [ ./qttinysa-quickwidget-loader.patch ];
 
   dontConfigure = true;
   dontBuild = true;

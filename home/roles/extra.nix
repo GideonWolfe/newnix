@@ -35,6 +35,7 @@
     ../apps/shortwave/shortwave.nix
     ../apps/feishin/feishin.nix
     ../apps/sdrpp/sdrpp.nix
+    ../apps/sdrtop/sdrtop.nix
     ../apps/hackernews-tui/hackernews-tui.nix
     ../apps/sourcegit/sourcegit.nix
     ../apps/xyosc/xyosc.nix

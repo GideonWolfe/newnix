@@ -3,6 +3,7 @@
 let
   adsb_deku = pkgs.python312Packages.callPackage ../../custom/adsb_deku.nix { };
   qttinysa = pkgs.callPackage ../../custom/qttinysa.nix { };
+  sdrtop = pkgs.callPackage ../../custom/sdrtop.nix { };
 in {
   environment.systemPackages = [
     #########
@@ -43,6 +44,7 @@ in {
     pkgs.nanovna-saver # GUI for NanoVNA devices
     pkgs.nanovna-qt # GUI for NanoVNA devices
     qttinysa # GUI for TinySA / TinySA Ultra spectrum analysers
+    sdrtop # TUI bench instrument for SDR hardware
     pkgs.xnec2c # Antenna simulation software
   ];
 }
