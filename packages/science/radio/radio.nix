@@ -47,4 +47,8 @@ in {
     sdrtop # TUI bench instrument for SDR hardware
     pkgs.xnec2c # Antenna simulation software
   ];
+  services.flatpak.packages = [
+    # Signal Identification Program
+    "com.aresvalley.artemis"
+  ];
 }

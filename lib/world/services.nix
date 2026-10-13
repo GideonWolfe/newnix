@@ -151,6 +151,14 @@ in
       domain = "jellyfin.gideonwolfe.xyz";
       protocol = "https";
     };
+    dispatcharr = mkService {
+      name = "Dispatcharr";
+      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
+      port = 9191;
+      # LAN-only IPTV management; no public DNS or Traefik route.
+      domain = "";
+      protocol = "http";
+    };
     bazarr = mkService {
       name = "Bazarr";
       ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;

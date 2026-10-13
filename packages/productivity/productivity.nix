@@ -9,6 +9,7 @@
     # Clocks and Timers #
     #####################
     pkgs.peaclock
+    (pkgs.callPackage ../custom/terrahour.nix { }) # TUI world clock and day/night map
     pkgs.mpris-timer # GTK Timer
     #pkgs.kronometer # ugly QT timer :(
 

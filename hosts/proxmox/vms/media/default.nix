@@ -35,6 +35,9 @@
         # eh don't even bother, it ignored my JSON anyways and is being updated too fast
         #../../../../system/modules/server/media/services/soulsync/soulsync-setup.nix
 
+        # IPTV channel and guide management
+        ../../../../system/modules/server/media/services/dispatcharr/dispatcharr.nix
+
         # Frontends
         ../../../../system/modules/server/media/services/jellyfin/jellyfin.nix
         ../../../../system/modules/server/media/services/seerr/seerr.nix

@@ -103,6 +103,9 @@ pages:
                   - title: SoulSync
                     url: http://192.168.88.102:8008
                     icon: sh:soulsync.png
+                  - title: Dispatcharr
+                    url: http://192.168.88.102:9191
+                    icon: sh:dispatcharr
               - title: Tools
                 links:
                   - title: IT Tools

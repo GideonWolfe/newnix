@@ -20,7 +20,7 @@
     agent = 1;
     scsihw = "virtio-scsi-single";
     os_type = "ubuntu";
-    # 8 GiB cap with a 4 GiB balloon floor — 11 docker containers, mostly idle
+    # 8 GiB cap with a 4 GiB balloon floor — media containers are mostly idle,
     # but jellyfin metadata scans + nzbget par2/unrar can briefly use the full
     # 8 GiB. The floor keeps the working set hot and lets the host reclaim the
     # rest during a transient failover overcommit.
