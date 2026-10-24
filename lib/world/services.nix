@@ -348,6 +348,14 @@ in
         };
       };
     };
+    tududi = mkService {
+      name = "Tududi";
+      ip = config.custom.world.hosts.proxmox.vms.vm_app2.ip;
+      port = 3002;
+      # Private code hosting stays LAN/VPN-only; no public DNS or Traefik route.
+      domain = "";
+      protocol = "http";
+    };
     scrutiny = mkService {
       name = "Scrutiny";
       ip = config.custom.world.hosts.mnemosyne.ip;

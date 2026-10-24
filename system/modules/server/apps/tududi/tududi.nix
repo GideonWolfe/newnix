@@ -33,7 +33,7 @@ in
     # Docker Hub tags drop the `v` prefix even though the git tags have it
     # (i.e. git `v1.1.0-rc.3` -> docker `1.1.0-rc.3`). Check available tags:
     #   https://hub.docker.com/r/chrisvel/tududi/tags
-    image = "chrisvel/tududi:1.1.0-rc.3";
+    image = "chrisvel/tududi:1.9.2";
     autoStart = true;
 
     # Publish the host port (from world.services) to the container's
@@ -72,7 +72,7 @@ in
       #
       # When this moves to vm_app1 + Traefik, replace with the public
       # https://tududi.gideonwolfe.xyz origin (or comma-separate both).
-      TUDUDI_ALLOWED_ORIGINS = "${svc.protocol}://${svc.ip}:${builtins.toString svc.port}";
+      #TUDUDI_ALLOWED_ORIGINS = "${svc.protocol}://${svc.ip}:${builtins.toString svc.port}";
 
       CALDAV_ENABLED = "true";
     };
