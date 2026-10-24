@@ -81,6 +81,9 @@ pages:
                   - title: Home Assistant
                     url: http://192.168.88.177:8123
                     icon: sh:home-assistant
+                  - title: Tududi
+                    url: http://192.168.88.104:3002
+                    icon: sh:tududi
               - title: Make
                 links:
                   - title: Printventory
@@ -141,6 +144,9 @@ pages:
                     icon: mdi:golf
                   - title: OpenGuessr
                     url: https://openguessr.com
+                    icon: mdi:map-marker-question-outline
+                  - title: Globle
+                    url: https://globle-game.com/game
                     icon: mdi:map-marker-question-outline
                   - title: Semantle
                     url: https://semantle.com

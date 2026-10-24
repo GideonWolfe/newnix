@@ -22,7 +22,7 @@ in
   };
 
   virtualisation.oci-containers.containers.printventory = {
-    image = "docker.io/printventory/printventory:2.2.15@sha256:ab20aa05aba52d8e2aabdd79e7810973ae5385bfa36ad3c300a7cb0eb4afcb19";
+    image = "docker.io/printventory/printventory:3.0.1";
     autoStart = true;
     ports = [ "${svc.ip}:${builtins.toString svc.port}:5000" ];
 
