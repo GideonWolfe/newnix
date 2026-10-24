@@ -124,4 +124,8 @@
 
 
   ];
+
+  services.flatpak.packages = [
+    "io.github.alescdb.mailviewer" # GUI for viewing .eml or .msg files
+  ];
 }

@@ -50,5 +50,9 @@ in {
   services.flatpak.packages = [
     # Signal Identification Program
     "com.aresvalley.artemis"
+    # Meshtastic GUI
+    "org.meshtastic.MeshtasticDesktop"
+    # Meshcore GUI
+    "page.codeberg.sesivany.Meshy"
   ];
 }

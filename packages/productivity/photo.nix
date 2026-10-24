@@ -19,4 +19,8 @@
     pkgs.loupe # gnome-image-viewer GUI for light editing and viewing
 
   ];
+  services.flatpak.packages = [
+    # Quickly remove backgrounds from images
+    "io.github.shonebinu.Defuse"
+  ];
 }
