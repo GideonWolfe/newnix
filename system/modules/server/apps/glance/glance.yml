@@ -78,6 +78,9 @@ pages:
                   - title: Immich
                     url: http://192.168.88.101:2283
                     icon: sh:immich
+                  - title: Dawarich
+                    url: http://192.168.88.101:4268
+                    icon: sh:dawarich
                   - title: Home Assistant
                     url: http://192.168.88.177:8123
                     icon: sh:home-assistant
@@ -154,6 +157,9 @@ pages:
                   - title: Redactle
                     url: https://www.redactle.net
                     icon: sh:wikipedia
+                  - title: Anthropeum
+                    url: https://www.anthropeum.com
+                    icon: mdi:calendar-question-outline
 
 
       - size: small

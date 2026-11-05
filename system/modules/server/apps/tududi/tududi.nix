@@ -22,8 +22,8 @@
 #     its SQLite users table.
 #
 # Bind mount layout (host -> container):
-#   /data/tududi/db       -> /app/backend/db        (SQLite + sessions)
-#   /data/tududi/uploads  -> /app/backend/uploads   (user attachments)
+#   /data/tududi/db       -> /app/db                (SQLite + sessions)
+#   /data/tududi/uploads  -> /app/uploads           (user attachments)
 let
   svc = config.custom.world.services.tududi;
   dataDir = "/data/tududi";
@@ -80,9 +80,9 @@ in
     volumes = [
       # SQLite DB + session store. This is the source of truth - back it
       # up with restic once we promote off the sandbox.
-      "${dataDir}/db:/app/backend/db"
+      "${dataDir}/db:/app/db"
       # User-uploaded attachments (note images, etc).
-      "${dataDir}/uploads:/app/backend/uploads"
+      "${dataDir}/uploads:/app/uploads"
     ];
   };
 
