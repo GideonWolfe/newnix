@@ -1,39 +1,77 @@
 { pkgs, lib, config, ... }:
 
-# Tududi - self-hosted GTD-style task / project / notes manager with a real
-# server-side SQLite DB, a REST API, and (importantly) built-in CalDAV so
+# Tududi - self-hosted GTD-style task / project / notes manager with a
+# PostgreSQL database, a REST API, and built-in CalDAV so
 # Apple Reminders / tasks.org / Thunderbird can sync natively.
 #
 # Upstream:        https://github.com/chrisvel/tududi
 # Container image: docker.io/chrisvel/tududi
 # Default port:    3002 (http, express)
 #
-# Trial mode (vm_test):
-#   * Admin email / password / session secret are wired in as plain
-#     `environment` values here. This is fine for a LAN-only sandbox VM,
-#     but if/when this is promoted to vm_app1 these MUST move into sops
-#     (see system/modules/server/apps/karakeep/secrets/ for the pattern).
-#     The session secret in particular is bootstrapping cookie signing,
-#     so rotating it later just invalidates current sessions - no DB
-#     damage.
-#   * The admin password below is the *initial* admin password. Change it
-#     in the web UI immediately after first login (Settings -> Profile).
-#     After that the value here is effectively unused; tududi reads from
-#     its SQLite users table.
-#
 # Bind mount layout (host -> container):
-#   /data/tududi/db       -> /app/db                (SQLite + sessions)
-#   /data/tududi/uploads  -> /app/uploads           (user attachments)
+#   /data/tududi/postgres -> /var/lib/postgresql/data
+#   /data/tududi/uploads  -> /app/uploads
+#   /data/tududi/backups  -> /app/backups
+#                            (including the Restic database dump under db/)
 let
   svc = config.custom.world.services.tududi;
   dataDir = "/data/tududi";
+  origin = "${svc.protocol}://${svc.ip}:${builtins.toString svc.port}";
 in
 {
+  # Keep the database private to the application bridge and wait for it to
+  # accept connections before starting Tududi.
+  systemd.services.docker-create-tududi-network = {
+    description = "Create Tududi Docker bridge network";
+    after = [ "docker.service" ];
+    requires = [ "docker.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      until ${pkgs.docker}/bin/docker info >/dev/null 2>&1; do sleep 1; done
+      ${pkgs.docker}/bin/docker network inspect tududi-network >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network create tududi-network >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network inspect tududi-network >/dev/null 2>&1
+    '';
+  };
+
+  systemd.services.docker-tududi-db.after = [ "docker-create-tududi-network.service" ];
+  systemd.services.docker-tududi-db.requires = [ "docker-create-tududi-network.service" ];
+
+  systemd.services.docker-tududi-db-ready = {
+    description = "Wait for Tududi PostgreSQL to accept connections";
+    after = [ "docker-tududi-db.service" ];
+    requires = [ "docker-tududi-db.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      for attempt in $(seq 1 60); do
+        if ${pkgs.docker}/bin/docker exec tududi-db pg_isready -U tududi -d tududi >/dev/null 2>&1; then
+          exit 0
+        fi
+        sleep 1
+      done
+      echo "Tududi PostgreSQL did not become ready within 60 seconds" >&2
+      exit 1
+    '';
+  };
+
+  systemd.services.docker-tududi.after = [
+    "docker-create-tududi-network.service"
+    "docker-tududi-db-ready.service"
+  ];
+  systemd.services.docker-tududi.requires = [
+    "docker-create-tududi-network.service"
+    "docker-tududi-db-ready.service"
+  ];
+
   virtualisation.oci-containers.containers.tududi = {
-    # Docker Hub tags drop the `v` prefix even though the git tags have it
-    # (i.e. git `v1.1.0-rc.3` -> docker `1.1.0-rc.3`). Check available tags:
-    #   https://hub.docker.com/r/chrisvel/tududi/tags
-    image = "chrisvel/tududi:1.9.2";
+    image = "chrisvel/tududi:2.1.0";
     autoStart = true;
 
     # Publish the host port (from world.services) to the container's
@@ -47,49 +85,46 @@ in
       PUID = "1000";
       PGID = "100";
 
-      # ---- Bootstrap admin (trial only - change on first login) -------
-      # These three are only read by the container on first start to
-      # seed the initial admin user + cookie signer. After first login
-      # the password is managed in the DB.
       TUDUDI_USER_EMAIL = "gideon@gideonwolfe.xyz";
-      # FIXME(sops): rotate + move to sops before promoting off vm_test.
-      TUDUDI_USER_PASSWORD = "changeme-on-first-login";
-      # FIXME(sops): same. `openssl rand -hex 64` when migrating.
-      TUDUDI_SESSION_SECRET =
-        "trial-mode-session-secret-rotate-me-before-promotion-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
-      # We're hitting it directly over LAN; not behind a proxy yet.
-      # When fronted by Traefik on vm-ingress, flip this to "true" and
-      # set TUDUDI_ALLOWED_ORIGINS to the public origin.
+      BASE_URL = origin;
+      TUDUDI_ALLOWED_ORIGINS = origin;
       TUDUDI_TRUST_PROXY = "false";
-
-      # As of 1.1.0, tududi enforces CSRF + CORS strictly: requests whose
-      # `Origin` header isn't in TUDUDI_ALLOWED_ORIGINS get rejected by
-      # the middleware before they ever hit a route. The image default
-      # only whitelists localhost:{3002,8080}, so LAN access from a
-      # browser at http://<vm_test ip>:3002 silently fails (login POST
-      # 403s, the SPA renders blank). Whitelist the exact origin we use.
-      #
-      # When this moves to vm_app1 + Traefik, replace with the public
-      # https://tududi.gideonwolfe.xyz origin (or comma-separate both).
-      #TUDUDI_ALLOWED_ORIGINS = "${svc.protocol}://${svc.ip}:${builtins.toString svc.port}";
-
       CALDAV_ENABLED = "true";
     };
 
+    environmentFiles = [ config.sops.templates."tududi-env".path ];
+
     volumes = [
-      # SQLite DB + session store. This is the source of truth - back it
-      # up with restic once we promote off the sandbox.
-      "${dataDir}/db:/app/db"
-      # User-uploaded attachments (note images, etc).
       "${dataDir}/uploads:/app/uploads"
+      "${dataDir}/backups:/app/backups"
     ];
+
+    extraOptions = [ "--network=tududi-network" ];
   };
 
-  # Pre-create the bind-mount targets with gideon:users (1000:100) 
+  virtualisation.oci-containers.containers.tududi-db = {
+    # Matches Tududi's recommended Compose database version.
+    image = "postgres:16-alpine";
+    autoStart = true;
+
+    environment = {
+      POSTGRES_DB = "tududi";
+      POSTGRES_USER = "tududi";
+    };
+    environmentFiles = [ config.sops.templates."tududi-db-env".path ];
+
+    volumes = [ "${dataDir}/postgres:/var/lib/postgresql/data" ];
+
+    extraOptions = [ "--network=tududi-network" ];
+  };
+
+  # PostgreSQL's entrypoint manages ownership of its data directory. Tududi
+  # runs as the configured PUID/PGID and needs writable upload/backup paths.
   systemd.tmpfiles.rules = [
-    "d ${dataDir}          0755 1000 100 - -"
-    "d ${dataDir}/db       0750 1000 100 - -"
-    "d ${dataDir}/uploads  0755 1000 100 - -"
+    "d ${dataDir}             0755 root root - -"
+    "d ${dataDir}/postgres    0755 root root - -"
+    "d ${dataDir}/uploads     0755 1000 100 - -"
+    "d ${dataDir}/backups     0755 1000 100 - -"
+    "d ${dataDir}/backups/db  0700 1000 100 - -"
   ];
 }

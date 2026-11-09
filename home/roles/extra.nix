@@ -9,6 +9,7 @@
     # Themed applications etc. #
     ###########################
     ../apps/imv/imv.nix
+    ../apps/gloom/gloom.nix
     ../apps/zathura/zathura.nix
     ../apps/foliate/foliate.nix
     ../apps/gnuplot/gnuplot.nix
