@@ -67,24 +67,41 @@ with config.lib.stylix.colors.withHashtag;
             --primary-color-hover: ${base0B} !important;
             --btn-color: ${base05} !important;
             --button-background-color: ${base01} !important;
-            --button-border-color: ${base0B} !important;
+            --button-border-color: ${base02} !important;
+            --button-hover-background-color: ${base02} !important;
+            --button-active-background-color: ${base02} !important;
+            --button-border-radius: 6px !important;
             --btn-bg: ${base01} !important;
             --btn-bg-hover: ${base00} !important;
             --popup-bg: ${base02} !important;
             --primary: ${base0D} !important;
             --layout-background-0: ${base00} !important;
             --layout-background-1: ${base01} !important;
-            --layout-background-2: ${base00} !important;
-            --layout-background-3: ${base00} !important;
-            --layout-border-0: ${base01} !important;
+            --layout-background-2: ${base01} !important;
+            --layout-background-3: ${base01} !important;
+            --layout-background-4: ${base02} !important;
+            --layout-border-0: ${base02} !important;
+            --layout-border-1: ${base02} !important;
+            --layout-border-2: ${base03} !important;
             --layout-color-1: ${base05} !important;
+            --layout-color-2: ${base04} !important;
+            --toolbar-background-color: ${base01} !important;
+            --toolbar-text-color: ${base05} !important;
+            --toolbar-field-background-color: ${base00} !important;
+            --toolbar-field-background-color-focus: ${base00} !important;
+            --toolbar-field-color: ${base05} !important;
+            --toolbar-field-text-color-focus: ${base05} !important;
+            --toolbar-field-border-color: ${base02} !important;
+            --toolbar-field-focus-border-color: ${base0D} !important;
+            --focus-outline-color: ${base0D} !important;
             --spaces-bg-color: ${base01} !important;
             --sidebar-background: ${base01} !important;
             --foldertree-background: ${base00} !important;
             --text-color-error: ${base08} !important;
             --text-color-deemphasized: ${base04} !important;
             --error-text-color: ${base08} !important;
-            --selected-item-text-color: ${base0E} !important;
+            --selected-item-color: ${base0D} !important;
+            --selected-item-text-color: ${base00} !important;
             --folderpane-unread-count-text: ${base00} !important;
             --folderpane-unread-new-count-background: ${base0A} !important;
             --folderpane-unread-count-background: ${base0B} !important;
@@ -108,7 +125,7 @@ with config.lib.stylix.colors.withHashtag;
 
             --tree-view-bg: ${base00} !important;
             --tree-view-color: ${base05} !important;
-            --tree-header-bg: ${base05} !important;
+            --tree-header-bg: ${base01} !important;
             --thread-pane-spam-fill: ${base00} !important;
             --thread-pane-spam-stroke: ${base08} !important;
             --thread-pane-unread-fill: ${base00} !important;
@@ -142,38 +159,148 @@ with config.lib.stylix.colors.withHashtag;
             --thread-pane-flag-stroke: ${base0A} !important;
 
 
-            --search-bar-border-color: ${base0B} !important;
-            --search-focus-outline-color: ${base0E} !important;
+            --search-bar-border-color: ${base02} !important;
+            --search-focus-outline-color: ${base0D} !important;
 
-            /* Calendar View Stuff */
-            /* BUG: being overriden by main calendar css */
-            --mmMainColor: ${base05} !important;
-            --mmMainBackground: ${base01} !important;
-            --mmMainBorderColor: ${base06} !important;
-            --mmBoxBackground: ${base00} !important;
-            --mmBoxBorderColor: ${base00} !important;
-            --mmBoxItemColor: ${base0D} !important;
-            --mmDayColor: ${base05} !important;
-            --mmDayOtherColor: ${base04} !important;
-            --mmDayWeekColor: ${base0B} !important;
-            --mmDayTodayColor: ${base0D} !important;
-            --mmDaySelectedColor: ${base0E} !important;
-            --mmDaySelectedTodayColor: color-mix(in srgb, ${base0F} 20%, transparent) !important;
+            --viewColor: ${base05} !important;
+            --viewBackground: ${base00} !important;
+            --viewBorderColor: ${base02} !important;
+            --viewCalendarHeaderBackground: ${base01} !important;
+            --viewTodayColor: ${base05} !important;
+            --viewTodayBackground: color-mix(in srgb, ${base0D} 6%, ${base00}) !important;
+            --viewTodayOffBackground: color-mix(in srgb, ${base0D} 6%, ${base01}) !important;
+            --viewTodayWeekendBackground: color-mix(in srgb, ${base0D} 6%, ${base01}) !important;
+            --viewTodayLabelColor: ${base00} !important;
+            --viewTodayLabelBackground: ${base0D} !important;
+            --viewTodayDayLabelBackground: color-mix(in srgb, ${base0D} 12%, ${base00}) !important;
+            --viewWeekendBackground: ${base01} !important;
+            --viewOffTimeBackground: ${base01} !important;
+            --viewMonthOtherBackground: ${base01} !important;
+            --viewMonthDayOtherBackground: ${base01} !important;
+            --viewMonthWeekLabelBackground: ${base02} !important;
+            --viewMonthDayOffLabelBackground: ${base01} !important;
+            --viewTimeBoxColor: ${base04} !important;
+            --viewDayLabelSelectedColor: ${base00} !important;
+            --viewDayLabelSelectedBackground: ${base0D} !important;
             --calendar-view-toggle-background: ${base00} !important;
-            --calendar-view-toggle-border-color: ${base0D} !important;
-            --viewTimeBoxColor: ${base0B} !important;
+            --calendar-view-toggle-border-color: ${base02} !important;
+            --calendar-view-toggle-selected-background: ${base02} !important;
+            --calendar-view-toggle-selected-hover-background: ${base02} !important;
+            --calendar-view-toggle-shadow-color: transparent !important;
           }
 
+          #navigation-toolbox {
+            background-color: ${base01} !important;
+            background-image: none !important;
+            color: ${base05} !important;
+          }
 
+          /* These tokens are defined on the widget, not inherited from :root. */
+          calendar-minimonth {
+            --mmMainBackground: ${base01} !important;
+            --mmMainBorderColor: ${base02} !important;
+            --mmBoxBackground: ${base00} !important;
+            --mmBoxBorderColor: ${base02} !important;
+            --mmBoxItemColor: ${base05} !important;
+            --mmHighlightColor: ${base00} !important;
+            --mmHighlightBackground: ${base0D} !important;
+            --mmHighlightBorderColor: ${base0D} !important;
+            --mmDayColor: ${base05} !important;
+            --mmDayOtherColor: ${base04} !important;
+            --mmDayWeekColor: ${base04} !important;
+            --mmDayTodayColor: ${base0D} !important;
+            --mmDayTodayBackground: color-mix(in srgb, ${base0D} 12%, ${base01}) !important;
+            --mmDayTodayBorderColor: ${base0D} !important;
+            --mmDaySelectedColor: ${base00} !important;
+            --mmDaySelectedBackground: ${base0D} !important;
+            --mmDaySelectedBorderColor: ${base0D} !important;
+            --mmDaySelectedTodayBackground: ${base0D} !important;
+            --mmDaySelectedTodayBorderColor: ${base0D} !important;
+            --mmDayBusyColor: ${base0D} !important;
+            border: 1px solid var(--mmMainBorderColor) !important;
+            border-radius: 8px !important;
+            padding: 6px !important;
+          }
 
-          /* force email reader to be right color */
-	  @media (prefers-color-scheme: dark) and -moz-pref("mail.dark-reader.enabled") {
-	    html {
-	      background-color: ${base00} !important;
-	      color: ${base05} !important;
-	    }
-	  }
+          #unifinder-searchBox,
+          #unifinder-search-results-tree treecol {
+            background-color: ${base01} !important;
+            color: ${base05} !important;
+            border-color: ${base02} !important;
+          }
 
+          #unifinder-search-field,
+          #unifinder-searchBox menulist {
+            background-color: ${base00} !important;
+            color: ${base05} !important;
+            border: 1px solid ${base02} !important;
+            border-radius: 6px !important;
+          }
+
+          #unifinder-search-field:focus-within,
+          #unifinder-searchBox menulist:focus-visible {
+            border-color: ${base0D} !important;
+            outline: 1px solid ${base0D} !important;
+          }
+
+          #unifinder-search-results-tree {
+            background-color: ${base00} !important;
+            color: ${base05} !important;
+          }
+
+          #unifinder-search-results-tree treechildren::-moz-tree-row(selected) {
+            background-color: ${base0D} !important;
+          }
+
+          #unifinder-search-results-tree treechildren::-moz-tree-cell-text(selected) {
+            color: ${base00} !important;
+          }
+
+          @-moz-document url("chrome://messenger/content/messengercompose/messengercompose.xhtml") {
+            #composeContentBox,
+            #messageArea,
+            #messageEditor {
+              background-color: ${base00} !important;
+              box-shadow: none !important;
+            }
+
+            #MsgHeadersToolbar,
+            #FormatToolbox {
+              background-color: ${base01} !important;
+              color: ${base05} !important;
+            }
+
+            #MsgHeadersToolbar {
+              padding-block: 6px !important;
+            }
+
+            #FormatToolbar {
+              padding-block: 4px !important;
+              border-bottom: 1px solid ${base02} !important;
+            }
+
+            #msgSubject,
+            .address-container {
+              background-color: ${base00} !important;
+              color: ${base05} !important;
+              border-color: ${base02} !important;
+              border-radius: 6px !important;
+            }
+
+            #msgSubject {
+              padding-block: 4px !important;
+            }
+
+            .address-container {
+              padding-block: 3px !important;
+            }
+
+            #msgSubject:focus,
+            .address-container[focused="true"] {
+              border-color: ${base0D} !important;
+              outline: 1px solid ${base0D} !important;
+            }
+          }
 
           /* indicator of current time of day on cal */
           .multiday-timebar-now-indicator {
@@ -250,7 +377,20 @@ with config.lib.stylix.colors.withHashtag;
 
         '';
 
-        userContent = "";
+        # Style the editor locally without changing received mail or outgoing HTML.
+        userContent = ''
+          @-moz-document url("about:blank?compose") {
+            html,
+            body {
+              background-color: ${base00} !important;
+              color: ${base05} !important;
+            }
+
+            body {
+              padding: 12px;
+            }
+          }
+        '';
       };
     };
   };
