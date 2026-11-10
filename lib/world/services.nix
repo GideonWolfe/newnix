@@ -70,13 +70,13 @@ in
       domain = "loki.gideonwolfe.xyz";
       protocol = "http";
     };
-    tempo = mkService {
-      name = "Tempo";
-      ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
-      port = 3200;
-      domain = "tempo.gideonwolfe.xyz";
-      protocol = "http";
-    };
+    # tempo = mkService {
+    #   name = "Tempo";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
+    #   port = 3200;
+    #   domain = "tempo.gideonwolfe.xyz";
+    #   protocol = "http";
+    # };
     gatus = mkService {
       name = "Gatus";
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
@@ -195,13 +195,13 @@ in
     };
     
     # Other Apps
-    netbox = mkService {
-      name = "NetBox";
-      ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
-      port = 9001;
-      domain = "";
-      protocol = "http";
-    };
+    # netbox = mkService {
+    #   name = "NetBox";
+    #   ip = config.custom.world.hosts.proxmox.vms.vm_media.ip;
+    #   port = 9001;
+    #   domain = "";
+    #   protocol = "http";
+    # };
     paperless = mkService {
       name = "Paperless-ngx";
       ip = config.custom.world.hosts.proxmox.vms.vm_app1.ip;
@@ -330,7 +330,7 @@ in
       name = "Baikal";
       ip = config.custom.world.hosts.proxmox.vms.vm_test.ip;
       port = 8800;
-      domain = "baikal.gideonwolfe.xyz";
+      #domain = "baikal.gideonwolfe.xyz";
       protocol = "http";
     };
     forgejo = mkService {

@@ -2,6 +2,17 @@
 
 let dedoc = pkgs.callPackage ../custom/dedoc.nix { };
 in {
+  # Stable's VS Code builder uses the old ripgrep path; unstable has the fix.
+  # Override it globally so the system and Home Manager use the same package.
+  nixpkgs.overlays = [
+    (_final: prev: {
+      vscode = (import inputs.nixpkgs-unstable {
+        system = prev.stdenv.hostPlatform.system;
+        config.allowUnfree = true;
+      }).vscode;
+    })
+  ];
+
   environment.systemPackages = [
 
     # UTILITIES #

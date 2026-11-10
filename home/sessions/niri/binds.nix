@@ -11,8 +11,8 @@
     "Mod+Return".action.spawn = "kitty";
     # Close focused window
     "Mod+Shift+Q".action.close-window = [ ];
-    # App launcher
-    "Mod+D".action.spawn = "dms ipc call spotlight toggle";
+    # App launcher: spawn takes an argument list, not a shell command string.
+    "Mod+D".action.spawn = [ "dms" "ipc" "call" "spotlight" "toggle" ];
     # Quick exit
     "Mod+Shift+E".action.quit = [ ];
     # On-demand hotkey overlay. We `skip-at-startup`, so this is the only

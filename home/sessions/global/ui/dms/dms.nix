@@ -13,27 +13,48 @@ with config.lib.stylix.colors.withHashtag;
         inputs.danksearch.homeModules.default
      ];
 
+    # Stylix still emits the pre-v24 dockTransparency key; map opacity below.
+    stylix.targets.dank-material-shell.opacity.enable = false;
 
-    # Ensure the DMS service is only pulled in by Niri (not Hyprland)
-    systemd.user.services."dank-material-shell" = {
-        Unit.PartOf = [ "niri.service" ];
-        Install.WantedBy = lib.mkForce [ "niri.service" ];
-    };
+    # DMS can miss watched-file changes when Home Manager replaces symlinks.
+    systemd.user.services.dms.Unit.X-Restart-Triggers =
+        lib.optionals config.programs.dank-material-shell.systemd.restartIfChanged (
+            [
+                config.xdg.configFile."dms/settings.json".source
+                config.xdg.configFile."dms/plugin_settings.json".source
+                config.xdg.configFile."dms/clsettings.json".source
+            ]
+            ++ lib.mapAttrsToList (_: plugin: toString plugin.src)
+                (lib.filterAttrs (_: plugin: plugin.enable)
+                    config.programs.dank-material-shell.plugins)
+        );
+
+    # Quick Capture uses wf-recorder for recording and these tools for exports/OCR.
+    home.packages = with pkgs; [
+        wf-recorder
+        ffmpeg
+        imagemagick
+        img2pdf
+        tesseract
+        zbar
+    ];
 
     programs.dank-material-shell = {
         enable = true;
         systemd.enable = true;
-        systemd.restartIfChanged = true; # doesn't seem to be working?
-        # Pulling in dgop from unstable until its in stable
-        dgop.package = inputs.dgop.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        # Only start DMS with Niri, not Hyprland.
+        systemd.target = "niri.service";
+        systemd.restartIfChanged = true;
         enableSystemMonitoring = true;
         #enableDynamicTheming = true;
         enableAudioWavelength = true;
         #enableCalendarEvents = true; # TODO: make dependent on khal/calendars being configured
 
         # Plugin Stuff
+        # Nix manages plugin_settings.json separately from the shell settings.
         managePluginSettings = true;
-        # List of plugins: https://github.com/AvengeMedia/dms-plugin-registry
+        # Registry IDs include third-party plugins; plugins outside it need a pinned src.
+        # List of plugins: https://github.com/duxlabs-dev/dux-plugin-registry
         plugins = {
             # Execute arbitrary actions from the DMS UI
             # TODO find a good use for this
@@ -62,17 +83,20 @@ with config.lib.stylix.colors.withHashtag;
             dankDesktopWeather.enable = true;
             aiAssistant.enable = true;
             webSearch.enable = true;
+            quickCapture.enable = true;
         };
 
 
         # Contents of DMS settings.json
         # To test changes, edit settings in DMS GUI.
-        # Once desired config is reached, click "Copy settings.json to clipboard"
-        # Run that through json2nix: nix run github:sempruijs/json2nix
+        # Once desired config is reached, click "Copy settings.json to clipboard".
+        # Convert with: nix run github:sempruijs/json2nix
+        # Preserve Stylix values and portable paths below.
+        # Migrate the settings structure before advancing configVersion.
         settings = {
             # Use our own custom color theme instead of stylix's DMS target colors.
-            # The stylix target still provides fonts, opacity, and wallpaper; we only
-            # override the color theme file here (mkForce beats the target's values).
+            # Stylix still provides fonts and wallpaper; opacity is mapped below.
+            # mkForce overrides the target's color theme file.
             currentThemeName = lib.mkForce "custom";
             currentThemeCategory = "generic";
             customThemeFile = lib.mkForce "${config.home.homeDirectory}/.config/DankMaterialShell/stylix.json";
@@ -80,144 +104,141 @@ with config.lib.stylix.colors.withHashtag;
             matugenScheme = "scheme-content";
             runUserMatugenTemplates = false;
             matugenTargetMonitor = "";
-            # popupTransparency / dockTransparency now set by stylix's DMS target
-            # popupTransparency = 1;
-            # dockTransparency = 0.5;
-            cornerRadius = 12;
-            e24HourClock = true;
+            # The dock and bar follow the Stylix surface opacity.
+            popupTransparency = config.stylix.opacity.popups;
+            radiusStrength = 38;
             showSeconds = true;
             useFahrenheit = true;
-            nightModeEnabled = false;
-            animationSpeed = 1;
-            customAnimationDuration = 500;
             wallpaperFillMode = "Fill";
+            density = "dense";
+            barElevationEnabled = false;
+            blurEnabled = false;
+            blurStrength = 136;
+            blurBorderEnabled = true;
+            blurBorderSeeded = true;
+            blurLayerOutlineOpacity = 0.03;
             blurredWallpaperLayer = false;
             blurWallpaperOnOverview = true;
-            showLauncherButton = true;
-            showWorkspaceSwitcher = true;
-            showFocusedWindow = true;
-            showWeather = true;
-            showMusic = true;
-            showClipboard = true;
-            showCpuUsage = true;
-            showMemUsage = true;
-            showCpuTemp = true;
-            showGpuTemp = true;
-            selectedGpuIndex = 0;
-            enabledGpuPciIds = [];
-            showSystemTray = true;
-            showClock = true;
-            showNotificationButton = true;
-            showBattery = true;
-            showControlCenterButton = true;
-            showCapsLockIndicator = true;
-            controlCenterShowNetworkIcon = true;
-            controlCenterShowBluetoothIcon = true;
-            controlCenterShowAudioIcon = true;
-            controlCenterShowAudioPercent = false;
-            controlCenterShowVpnIcon = true;
-            controlCenterShowBrightnessIcon = false;
-            controlCenterShowBrightnessPercent = false;
-            controlCenterShowMicIcon = false;
-            controlCenterShowMicPercent = false;
-            controlCenterShowBatteryIcon = false;
-            controlCenterShowPrinterIcon = false;
-            controlCenterShowScreenSharingIcon = true;
-            showPrivacyButton = true;
-            privacyShowMicIcon = false;
-            privacyShowCameraIcon = false;
-            privacyShowScreenShareIcon = false;
+            dmsWindowsFloatingSeeded = [ "niri" ];
             controlCenterWidgets = [
+                {
+                    id = "user";
+                    enabled = true;
+                    w = 5;
+                    h = 1;
+                }
+                {
+                    id = "settings";
+                    enabled = true;
+                    w = 1;
+                    h = 1;
+                    small = true;
+                }
+                {
+                    id = "lock";
+                    enabled = true;
+                    w = 1;
+                    h = 1;
+                    small = true;
+                }
+                {
+                    id = "power";
+                    enabled = true;
+                    w = 1;
+                    h = 1;
+                    small = true;
+                }
                 {
                     id = "volumeSlider";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "brightnessSlider";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "audioOutput";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "audioInput";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "wifi";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "bluetooth";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "builtin_vpn";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
-                # {
-                #     id = "diskUsage";
-                #     enabled = true;
-                #     width = 50;
-                #     instanceId = "ml7895cb6zpw62o2h3leyuoeplfq39";# this value is idk??
-                #     mountPath = "/";
-                # }
                 {
                     id = "displayMirror";
                     enabled = true;
-                    width = 50;
+                    w = 4;
+                    h = 1;
                 }
                 {
                     id = "nightMode";
                     enabled = true;
-                    width = 25;
+                    w = 2;
+                    h = 1;
                 }
                 {
                     id = "idleInhibitor";
                     enabled = true;
-                    width = 25;
+                    w = 2;
+                    h = 1;
                 }
                 {
                     id = "doNotDisturb";
                     enabled = true;
-                    width = 25;
+                    w = 2;
+                    h = 1;
+                }
+                {
+                    id = "edit";
+                    enabled = true;
+                    w = 1;
+                    h = 1;
+                    small = true;
+                }
+                {
+                    id = "runningApps";
+                    enabled = true;
+                    w = 4;
+                    h = 1;
+                    small = true;
+                    col = 0;
+                    row = 6;
                 }
             ];
-            showWorkspaceIndex = true;
-            showWorkspaceName = false;
-            showWorkspacePadding = false;
-            workspaceScrolling = false;
-            showWorkspaceApps = false;
-            maxWorkspaceIcons = 3;
-            groupWorkspaceApps = true;
-            workspaceFollowFocus = false;
-            showOccupiedWorkspacesOnly = false;
-            reverseScrolling = false;
-            dwlShowAllTags = false;
             workspaceNameIcons = {
                 gumbo = {
                     type = "icon";
                     value = "webhook";
                 };
             };
-            waveProgressEnabled = true;
             scrollTitleEnabled = true;
             audioVisualizerEnabled = true;
-            audioScrollMode = "volume";
-            clockCompactMode = false;
-            focusedWindowCompactMode = false;
-            runningAppsCompactMode = true;
-            keyboardLayoutNameCompactMode = false;
-            runningAppsCurrentWorkspace = false;
-            runningAppsGroupByApp = false;
             appIdSubstitutions = [
                 {
                     pattern = "Spotify";
@@ -248,18 +269,13 @@ with config.lib.stylix.colors.withHashtag;
             centeringMode = "index";
             clockDateFormat = "";
             lockDateFormat = "";
-            mediaSize = 1;
-            appLauncherViewMode = "grid";
-            spotlightModalViewMode = "list";
             sortAppsAlphabetically = false;
             appLauncherGridColumns = 4;
-            spotlightCloseNiriOverview = true;
             niriOverviewOverlayEnabled = true;
+            launcherStyle = "full";
             useAutoLocation = false;
             weatherEnabled = true;
             networkPreference = "auto";
-            vpnLastConnected = "";
-            iconTheme = "System Default";
             cursorSettings = {
                 theme = "${osConfig.stylix.cursor.name}";
                 size = osConfig.stylix.cursor.size;
@@ -273,13 +289,6 @@ with config.lib.stylix.colors.withHashtag;
                     inactiveTimeout = 0;
                 };
             };
-            launcherLogoMode = "custom";
-            launcherLogoCustomPath = "/home/${config.home.username}/profile.png";
-            launcherLogoColorOverride = "";
-            launcherLogoColorInvertOnMode = false;
-            launcherLogoBrightness = 0.5;
-            launcherLogoContrast = 1;
-            launcherLogoSizeOffset = 0;
             # fontFamily / monoFontFamily now set by stylix's DMS target
             # fontFamily = "${osConfig.stylix.fonts.sansSerif.name}";
             # monoFontFamily = "${osConfig.stylix.fonts.monospace.name}";
@@ -289,10 +298,6 @@ with config.lib.stylix.colors.withHashtag;
             notepadFontFamily = "";
             notepadFontSize = 14;
             notepadShowLineNumbers = false;
-            # notepadTransparencyOverride = "unknown character to parse: -";
-            # ",
-            # " = null;
-            #adLastCustomTransparency = 0.7;
             soundsEnabled = true;
             useSystemSoundTheme = false;
             soundNewNotification = false;
@@ -316,13 +321,6 @@ with config.lib.stylix.colors.withHashtag;
             fadeToDpmsEnabled = true;
             fadeToDpmsGracePeriod = 5;
             launchPrefix = "";
-            brightnessDevicePins = {};
-            wifiNetworkPins = {};
-            bluetoothDevicePins = {};
-            audioInputDevicePins = {};
-            audioOutputDevicePins = {};
-            gtkThemingEnabled = false;
-            qtThemingEnabled = false;
             syncModeWithPortal = false;
             terminalsAlwaysDark = false;
             runDmsMatugenTemplates = false; # don't interfere with stylix!
@@ -349,21 +347,77 @@ with config.lib.stylix.colors.withHashtag;
             ########
             # Dock #
             ########
-            showDock = false;
-            dockAutoHide = false;
-            dockGroupByApp = true;
-            dockOpenOnOverview = true;
-            dockPosition = 1;
-            dockSpacing = 3;
-            dockBottomGap = 0;
-            dockMargin = 0;
-            dockIconSize = 40;
-            dockIndicatorStyle = "line";
-            dockBorderEnabled = true;
-            dockBorderColor = "secondary";
-            dockBorderOpacity = 0.5;
-            dockBorderThickness = 1;
-            dockIsolateDisplays = true;
+            dockConfigs = [
+                {
+                    id = "dock";
+                    name = "Dock";
+                    enabled = false;
+                    screenPreferences = [ "all" ];
+                    showOnLastDisplay = true;
+                    position = 3;
+                    mode = "compact";
+                    middleClickAction = "close";
+                    taskbarAlign = "center";
+                    widgetExpansion = "popout";
+                    iconSize = 40;
+                    spacing = 3;
+                    itemSpacing = 4;
+                    margin = 0;
+                    bottomGap = 0;
+                    transparency = 1;
+                    followInterfaceStyle = true;
+                    autoHide = false;
+                    smartAutoHide = false;
+                    useOverlayLayer = false;
+                    editOnRightClick = false;
+                    showOnFullscreen = false;
+                    openOnOverview = true;
+                    groupByApp = true;
+                    separatePinnedAndRunningApps = false;
+                    restoreSpecialWorkspaceOnClick = false;
+                    isolateDisplays = true;
+                    indicatorStyle = "line";
+                    borderEnabled = true;
+                    borderColor = "secondary";
+                    borderOpacity = 0.5;
+                    borderThickness = 1;
+                    launcherEnabled = false;
+                    launcherLogoMode = "apps";
+                    launcherLogoCustomPath = "";
+                    launcherLogoColorOverride = "";
+                    launcherLogoSizeOffset = 0;
+                    launcherLogoBrightness = 0.5;
+                    launcherLogoContrast = 1;
+                    maxVisibleApps = 0;
+                    maxVisibleRunningApps = 0;
+                    showOverflowBadge = true;
+                    showTrash = false;
+                    trashFileManager = "default";
+                    trashCustomCommand = "";
+                    magnification = false;
+                    magnificationScale = 130;
+                    magnificationProfile = "parabolic";
+                    magnificationExpand = false;
+                    order = [];
+                    widgets = [
+                        {
+                            id = "dock_launcher";
+                            widgetId = "dockLauncher";
+                            enabled = true;
+                        }
+                        {
+                            id = "dock_apps";
+                            widgetId = "appsDock";
+                            enabled = true;
+                        }
+                        {
+                            id = "dock_trash";
+                            widgetId = "dockTrash";
+                            enabled = true;
+                        }
+                    ];
+                }
+            ];
 
             notificationOverlayEnabled = false;
             modalDarkenBackground = true;
@@ -372,17 +426,194 @@ with config.lib.stylix.colors.withHashtag;
             # Lock Screen #
             ###############
             lockScreenShowPowerActions = true;
-            lockScreenShowSystemIcons = true;
-            lockScreenShowTime = true;
-            lockScreenShowDate = true;
             lockScreenShowProfileImage = true;
-            lockScreenShowPasswordField = true;
             enableFprint = false;
             maxFprintTries = 15;
-            lockScreenActiveMonitor = "all";
             lockScreenInactiveColor = "${base01}";
-            lockScreenNotificationMode = 0;
-            hideBrightnessSlider = false;
+            lockScreenWidgetInstances = [
+                {
+                    id = "lock_date";
+                    widgetType = "lockDate";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        format = "short";
+                        colorMode = "default";
+                        customColor = "#ffffff";
+                    };
+                }
+                {
+                    id = "lock_auth";
+                    widgetType = "lockAuth";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        style = "expressive";
+                        profileVisibility = "always";
+                        passwordVisibility = "always";
+                    };
+                }
+                {
+                    id = "lock_notifications";
+                    widgetType = "lockNotifications";
+                    enabled = false;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        mode = 2;
+                    };
+                }
+                {
+                    id = "lock_status";
+                    widgetType = "lockStatus";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        showMediaPlayer = true;
+                        showWeather = true;
+                        background = false;
+                    };
+                }
+                {
+                    id = "lock_power";
+                    widgetType = "lockPower";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        shape = "round";
+                    };
+                }
+                {
+                    id = "lw_1794322531791_1jqjypisn";
+                    widgetType = "desktopClock";
+                    name = "Clock";
+                    enabled = true;
+                    config = {
+                        syncPositionAcrossScreens = true;
+                        style = "overlap";
+                        transparency = 0;
+                        colorMode = "default";
+                        customColor = "#ffffff";
+                        showDate = true;
+                        showAnalogNumbers = false;
+                        showAnalogSeconds = true;
+                        displayPreferences = [ "all" ];
+                        autoPosition = false;
+                        fontFamily = osConfig.stylix.fonts.monospace.name;
+                        weight = 0;
+                    };
+                }
+                {
+                    id = "lw_1794322692203_3vje7d4df";
+                    widgetType = "systemMonitor";
+                    name = "System Monitor";
+                    enabled = true;
+                    config = {
+                        syncPositionAcrossScreens = true;
+                        showHeader = false;
+                        transparency = 0;
+                        colorMode = "secondary";
+                        customColor = "#ffffff";
+                        showCpu = true;
+                        showCpuGraph = true;
+                        showCpuTemp = true;
+                        showGpuTemp = false;
+                        gpuPciId = "";
+                        showMemory = true;
+                        showMemoryGraph = true;
+                        showNetwork = true;
+                        showNetworkGraph = true;
+                        showDisk = true;
+                        showTopProcesses = false;
+                        topProcessCount = 3;
+                        topProcessSortBy = "cpu";
+                        layoutMode = "list";
+                        graphInterval = 60;
+                        displayPreferences = [ "all" ];
+                    };
+                }
+            ];
+            greeterWidgetInstances = [
+                {
+                    id = "lock_date";
+                    widgetType = "lockDate";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        format = "short";
+                        colorMode = "default";
+                        customColor = "#ffffff";
+                    };
+                }
+                {
+                    id = "lock_auth";
+                    widgetType = "lockAuth";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        style = "expressive";
+                        profileVisibility = "always";
+                        passwordVisibility = "always";
+                    };
+                }
+                {
+                    id = "lock_status";
+                    widgetType = "lockStatus";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        showMediaPlayer = true;
+                        showWeather = true;
+                        background = false;
+                    };
+                }
+                {
+                    id = "lock_power";
+                    widgetType = "lockPower";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                        shape = "round";
+                    };
+                }
+                {
+                    id = "lw_1794322531791_1jqjypisn";
+                    widgetType = "desktopClock";
+                    name = "Clock";
+                    enabled = true;
+                    config = {
+                        syncPositionAcrossScreens = true;
+                        style = "overlap";
+                        transparency = 0;
+                        colorMode = "default";
+                        customColor = "#ffffff";
+                        showDate = true;
+                        showAnalogNumbers = false;
+                        showAnalogSeconds = true;
+                        displayPreferences = [ "all" ];
+                        autoPosition = false;
+                        fontFamily = osConfig.stylix.fonts.monospace.name;
+                        weight = 0;
+                    };
+                }
+                {
+                    id = "greeter_session";
+                    widgetType = "greeterSession";
+                    enabled = true;
+                    config = {
+                        displayPreferences = [ "all" ];
+                        syncPositionAcrossScreens = true;
+                    };
+                }
+            ];
             #########################
             # Notification Settings #
             #########################
@@ -432,7 +663,6 @@ with config.lib.stylix.colors.withHashtag;
             customPowerActionHibernate = "";
             customPowerActionReboot = "";
             customPowerActionPowerOff = "";
-            updaterHideWidget = true;
             updaterUseCustomCommand = false;
             updaterCustomCommand = "";
             updaterTerminalAdditionalParams = "";
@@ -441,8 +671,7 @@ with config.lib.stylix.colors.withHashtag;
                 wallpaper = [];
             };
             showOnLastDisplay = {};
-            niriOutputSettings = {};
-            hyprlandOutputSettings = {};
+            connectedFrameBarStyleBackups = {};
             barConfigs = [
                 {
                     id = "default";
@@ -455,17 +684,53 @@ with config.lib.stylix.colors.withHashtag;
                     ];
                     showOnLastDisplay = true;
                     leftWidgets = [
-                        "launcherButton"
-                        "workspaceSwitcher"
-                        #"focusedWindow"
+                        {
+                            id = "launcherButton";
+                            enabled = true;
+                            launcherLogoMode = "custom";
+                            launcherLogoCustomPath = "${config.home.homeDirectory}/profile.png";
+                            launcherLogoColorOverride = "";
+                            launcherLogoBrightness = 0.5;
+                            launcherLogoContrast = 1;
+                            launcherLogoSizeOffset = 0;
+                        }
+                        {
+                            id = "workspaceSwitcher";
+                            enabled = true;
+                            showWorkspaceIndex = true;
+                            showWorkspaceName = false;
+                            showWorkspacePadding = false;
+                            showWorkspaceApps = false;
+                            maxWorkspaceIcons = 3;
+                            groupWorkspaceApps = true;
+                            workspaceFollowFocus = false;
+                            showOccupiedWorkspacesOnly = false;
+                            reverseScrolling = false;
+                            dwlShowAllTags = false;
+                            workspaceColorMode = "pri";
+                            workspaceUnfocusedColorMode = "s";
+                            workspaceUrgentColorMode = "err";
+                            workspaceFocusedBorderEnabled = true;
+                            workspaceFocusedBorderColor = "primary";
+                            workspaceFocusedBorderThickness = 1;
+                        }
                     ];
                     centerWidgets = [
-                        "music"
+                        {
+                            id = "music";
+                            enabled = true;
+                            mediaSize = 1;
+                            audioScrollMode = "volume";
+                        }
                         {
                             id = "separator";
                             enabled = true;
                         }
-                        "clock"
+                        {
+                            id = "clock";
+                            enabled = true;
+                            clockCompactMode = false;
+                        }
                         {
                             id = "separator";
                             enabled = true;
@@ -473,34 +738,50 @@ with config.lib.stylix.colors.withHashtag;
                         "weather"
                     ];
                     rightWidgets = [
+                        {
+                            id = "quickCapture";
+                            enabled = true;
+                        }
                         "notificationButton"
                         "idleInhibitor"
                         "clipboard"
                         "colorPicker"
-                        #"cpuUsage"
-                        #"memUsage"
                         "separator"
                         "battery"
-                        "controlCenterButton"
-                        # TODO kinda buggy lol
-                        # {
-                        #     id = "nixMonitor";
-                        #     enabled = true;
-                        # }
-                        # don't really need now? maybe for udiskie
-                        #"systemTray"
                         {
-                            id = "dankKDEConnect";
+                            id = "controlCenterButton";
+                            enabled = true;
+                            showNetworkIcon = true;
+                            showVpnIcon = true;
+                            showBluetoothIcon = true;
+                            showAudioIcon = true;
+                            showAudioPercent = false;
+                            showMicIcon = false;
+                            showMicPercent = false;
+                            showBrightnessIcon = false;
+                            showBrightnessPercent = false;
+                            showBatteryIcon = false;
+                            showPrinterIcon = false;
+                            showScreenSharingIcon = true;
+                        }
+                        {
+                            id = "privacyIndicator";
                             enabled = true;
                         }
-                        "displayManager"
-
                     ];
                     spacing = 0;
                     innerPadding = 4;
                     bottomGap = 0;
                     transparency = 1;
                     widgetTransparency = 1;
+                    followInterfaceStyle = true;
+                    widgetFollowInterfaceStyle = true;
+                    widgetPadding = 5;
+                    shadowIntensity = 0;
+                    attachToScreenEdge = false;
+                    dot = false;
+                    island = false;
+                    rightClickAction = "spotlight";
                     squareCorners = true;
                     noBackground = false;
                     gothCornersEnabled = false;
@@ -522,99 +803,30 @@ with config.lib.stylix.colors.withHashtag;
                     widgetOutlineColor= "primary";
                 }
             ];
-            # Cool clock widget
-            desktopClockEnabled = true;
-            desktopClockStyle = "analog";
-            desktopClockTransparency = 0.8;
-            desktopClockColorMode = "secondary";
-            desktopClockShowDate = true;
-            desktopClockShowAnalogNumbers = false;
-            desktopClockShowAnalogSeconds = true;
-            #desktopClockX = "unknown character to parse: -";
-            #",
-            #" = "unknown character to parse: d";
-            #sktopClockY = "unknown character to parse: -";
-            #",
-            #" = "unknown character to parse: d";
-            desktopClockWidth = 280;
-            desktopClockHeight = 180;
-            desktopClockDisplayPreferences = [
-                "all"
-            ];
-            systemMonitorEnabled = false;
-            systemMonitorShowHeader = true;
-            systemMonitorTransparency = 0.8;
-            systemMonitorColorMode = "primary";
-            # systemMonitorCustomColor = {
-            #     r = 1;
-            #     g = 1;
-            #     b = 1;
-            #     a = 1;
-            #     hsvHue = "unknown character to parse: -";
-            #     ",
-            #     " = "unknown character to parse: h";
-            #     vSaturation = 0;
-            #     hsvValue = 1;
-            #     hslHue = "unknown character to parse: -";
-            #     ",
-            #     " = "unknown character to parse: h";
-            #     lSaturation = 0;
-            #     hslLightness = 1;
-            #     valid = true;
-            # };
-            systemMonitorShowCpu = true;
-            systemMonitorShowCpuGraph = true;
-            systemMonitorShowCpuTemp = true;
-            systemMonitorShowGpuTemp = false;
-            systemMonitorGpuPciId = "";
-            systemMonitorShowMemory = true;
-            systemMonitorShowMemoryGraph = true;
-            systemMonitorShowNetwork = true;
-            systemMonitorShowNetworkGraph = true;
-            systemMonitorShowDisk = true;
-            systemMonitorShowTopProcesses = false;
-            systemMonitorTopProcessCount = 3;
-            systemMonitorTopProcessSortBy = "cpu";
-            systemMonitorGraphInterval = 60;
-            systemMonitorLayoutMode = "auto";
-            stemMonitorWidth = 320;
-            systemMonitorHeight = 480;
-            systemMonitorDisplayPreferences = [
-                "all"
-            ];
-            systemMonitorVariants = [];
-            desktopWidgetPositions = {};
-            desktopWidgetGridSettings = {};
+            # Desktop is empty; clock and system monitor are lock-screen instances.
             desktopWidgetInstances = [];
             desktopWidgetGroups = [];
             builtInPluginSettings = {
                 dms_settings_search = {
                     trigger = "?";
                 };
+                dms_qr_generator = {
+                    trigger = "qrg";
+                };
+                dms_power = {
+                    trigger = "pw";
+                };
+                dms_clipboard_search = {
+                    trigger = "cb";
+                };
             };
-            configVersion = 5;
-
+            configVersion = 42;
+            frameEnabled = false;
 
             # Theme related settings
             # Picking colors from the stylix theme and applying them to UI
             widgetBackgroundColor = "s";
-            surfaceBase = "s";
             widgetColorMode = "colorful";
-            # one of pri, s, sc, sch, none
-            workspaceColorMode = "pri";
-            # one of def, s, sc, sch
-            workspaceUnfocusedColorMode = "s";
-            # one of err, pri, sec, s, sc
-            workspaceUrgentColorMode = "err";
-            workspaceFocusedBorderEnabled = true;
-            workspaceFocusedBorderColor = "primary";
-            workspaceFocusedBorderThickness = 1;
-
-
-
-
-
-
         };
         clipboardSettings = {
             maxItems = 100;
@@ -622,8 +834,8 @@ with config.lib.stylix.colors.withHashtag;
     };
 
     # Export our own colors for DankMaterialShell as a JSON theme file.
-    # We use the stylix DMS target for fonts/opacity/wallpaper, but override the
-    # colors with this file (referenced via settings.customThemeFile above).
+    # Keep Stylix fonts, opacity, and wallpaper, but override the colors with
+    # this file (referenced via settings.customThemeFile above).
     # Schema mirrors stylix's dank-material-shell target so no keys are missed.
     xdg.configFile."DankMaterialShell/stylix.json" = lib.mkIf (lib.hasAttr "stylix" config.lib) {
         text = builtins.toJSON (

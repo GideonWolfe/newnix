@@ -264,11 +264,6 @@ in
                 description = "Logs";
                 icon = "loki";
             }; }
-            { Tempo = {
-                href = "${svc.tempo.protocol}://${svc.tempo.ip}:${builtins.toString svc.tempo.port}";
-                description = "Traces";
-                icon = "tempo";
-            }; }
             { Gatus = {
                 href = "${svc.gatus.protocol}://${svc.gatus.ip}:${builtins.toString svc.gatus.port}";
                 description = "Uptime Dashboard";
