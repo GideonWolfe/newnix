@@ -6,9 +6,9 @@ with config.lib.stylix.colors.withHashtag;
 	programs.chromium = {
 		enable = true;
         extensions = [
-            # Ublock Origin
+            # uBlock Origin Lite (Manifest V3)
             {
-                id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
+                id = "ddkjiahejlhfcafbddmgiahcphecmpfh";
             }
             # DarkReader
             {

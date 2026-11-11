@@ -102,6 +102,12 @@ in
       domain = "";
       protocol = "http";
     };
+    home-assistant = mkService {
+      name = "Home Assistant";
+      ip = "192.168.88.177";
+      port = 8123;
+      protocol = "http";
+    };
 
     ###############
     # Media Stack #

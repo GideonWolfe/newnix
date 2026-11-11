@@ -587,7 +587,7 @@ in
           }
           {
             "Home Assistant" = {
-              href = "http://192.168.88.177:8123";
+              href = "${svc.home-assistant.protocol}://${svc.home-assistant.ip}:${builtins.toString svc.home-assistant.port}";
               description = "Home Automation";
               icon = "home-assistant";
             };

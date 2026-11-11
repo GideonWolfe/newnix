@@ -9,8 +9,8 @@ let
   # and garbage-collects old ones, so a stale tag will 404 the build. Bump the
   # date + hash when that happens (latest tag: https://github.com/P3TERX/GeoLite.mmdb/releases/latest).
   geoipDB = pkgs.fetchurl {
-    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.09.19/GeoLite2-City.mmdb";
-    sha256 = "sha256-mkT8OiHwE6INMJgDiva41t5F2K4iOFyUzXcj7hoOAOU=";
+    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.11.10/GeoLite2-City.mmdb";
+    sha256 = "sha256-nbBOikRB7FQYNTfYd0wI5Ccg8iQxN91C6cx/eOorkns=";
   };
 in
 {

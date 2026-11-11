@@ -45,6 +45,10 @@
     ../apps/kdeconnect/kdeconnect.nix
     ../apps/kube/kube.nix
     ../apps/chromium/chromium.nix
+    ../apps/google-messages/google-messages.nix
+    ../apps/tududi/tududi.nix
+    ../apps/home-assistant/home-assistant.nix
+    ../apps/mealie/mealie.nix
     ../apps/firefox/firefox.nix
     ../apps/darkreader/darkreader.nix
     ../apps/startpage/service.nix

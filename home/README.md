@@ -38,11 +38,108 @@ home/
 
 Because each module is self-contained, you can remove or override a single app by tweaking just one import line.
 
+### Chromium
+
+[`apps/chromium/chromium.nix`](apps/chromium/chromium.nix) installs uBlock Origin
+Lite for ad blocking. Current Chromium requires Manifest V3; classic uBlock
+Origin remains configured separately for Firefox.
+
+### Google Messages
+
+[`apps/google-messages/google-messages.nix`](apps/google-messages/google-messages.nix)
+adds a Google Messages launcher through the `extra` role. It imports the Chromium
+module and opens Messages in app mode using the existing Chromium profile, sharing
+login state and extensions such as Dark Reader. Phone pairing and Dark Reader's
+site settings are managed in the browser.
+
+### Tududi
+
+[`apps/tududi/tududi.nix`](apps/tududi/tududi.nix) adds a Tududi launcher through
+the `extra` role. It uses Chromium app mode with the existing browser profile.
+The URL follows the protocol, IP, and port in `osConfig.custom.world.services.tududi`
+from [`lib/world/services.nix`](../lib/world/services.nix), requiring LAN/VPN
+access to the service.
+
+### Home Assistant
+
+[`apps/home-assistant/home-assistant.nix`](apps/home-assistant/home-assistant.nix)
+adds a Home Assistant launcher through the `extra` role, using Chromium app mode
+and the existing browser profile. Its LAN/VPN URL follows the protocol, IP, and
+port in `osConfig.custom.world.services.home-assistant` from
+[`lib/world/services.nix`](../lib/world/services.nix).
+
+### Mealie
+
+[`apps/mealie/mealie.nix`](apps/mealie/mealie.nix) adds a Mealie launcher through
+the `extra` role, using Chromium app mode with the existing browser profile.
+Its LAN/VPN URL follows the protocol, IP, and port in
+`osConfig.custom.world.services.mealie`.
+
+### Web app icons and dock matching
+
+The Chromium web app modules install pinned icons from
+[Dashboard Icons](https://github.com/homarr-labs/dashboard-icons) into the
+user's hicolor icon theme. The [DMS configuration](sessions/global/ui/dms/dms.nix)
+maps Chromium's generated window IDs to their desktop entries so the dock uses
+the app names and icons. Matches allow different Chromium profile suffixes;
+LAN app matches follow the shared service IPs. Chromium omits ports from these
+window IDs, so apps on the same host and path cannot be distinguished this way.
+
+After rebuilding, restart DMS if needed. If an app was previously pinned under
+its Chromium-generated ID, unpin it and pin the named launcher instead.
+
 ## Working with sessions
 
 - Place global, session-agnostic resources in `sessions/global` (environment variables, shared UI defaults, background services such as `blueman-applet`).
 - Keep desktop or compositor specific pieces in their own subdirectory (`sessions/hypr`, `sessions/sway`, etc.). Each folder can expose multiple modules (e.g. Hyprland, Hyprpaper, Hyprpanel) so compose only what a host needs.
 - Shared UI helpers (Stylix, cursor, GTK/Qt theming) live under `sessions/global/ui` so they can be re-used by every session.
+
+### Sands timers
+
+The [DMS configuration](sessions/global/ui/dms/dms.nix) enables Sands using its
+registry ID, `smartTimer`, and adds its widget next to the clock in the main bar.
+After rebuilding, enter `timer 20 min pasta` in the launcher to start a timer.
+The `timer` prefix is explicitly configured: Sands defaults to automatic
+detection, which lets DMS filter out a generated preview when the full query
+contains words absent from that preview (such as `timer` for a named timer).
+The bar pill appears only while timers are active; click it for the hourglass
+panel. Sands follows the DMS theme and uses PipeWire's `pw-play` for its alarm.
+The panel's `+1 min` and `+5 min` buttons adjust an existing timer; they do not
+create one. Opening an empty panel via IPC currently exposes an upstream
+null-timer error if those controls are clicked. To start a timer without the
+launcher, use `dms ipc call smartTimer start "20 min pasta"`.
+
+### Phone Connect
+
+The [DMS configuration](sessions/global/ui/dms/dms.nix) enables Phone Connect
+(`dankKDEConnect`) and places its widget in the right-hand bar section. Enabling
+the plugin alone does not add its widget to the bar.
+
+### Home Assistant Monitor
+
+The [DMS configuration](sessions/global/ui/dms/dms.nix) enables
+`programs.dank-material-shell.plugins.homeAssistantMonitor` from the pinned
+plugin registry and adds it to the main bar. Its URL follows
+`osConfig.custom.world.services.home-assistant`. The DMS package includes the
+plugin's required Qt WebSockets module. Bluetooth uses the stock DMS tile;
+Orbit Bluetooth is no longer enabled.
+
+Create a long-lived access token in your Home Assistant profile and add it to
+[`gideon_secrets.yaml`](../users/gideon/configs/secrets/gideon_secrets.yaml)
+using SOPS, under the nested key:
+
+```yaml
+home-assistant:
+  token: <long-lived access token>
+```
+
+Add the encrypted value before rebuilding: SOPS activation requires the key.
+The secret declaration gives your user access to the decrypted file, and
+`hassTokenPath` references `osConfig.sops.secrets."home-assistant/token".path`.
+The token is read at runtime, never embedded in the Nix configuration or store.
+The plugin settings are managed declaratively through
+`programs.dank-material-shell.plugins.homeAssistantMonitor.settings`; use the
+plugin's entity browser to choose devices and shortcuts.
 
 ## Adding new structure
 

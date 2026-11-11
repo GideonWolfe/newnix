@@ -2,6 +2,10 @@
   # This file contains the definitions for all my secrets
   # Used by sops-nix to decrypt and place secrets on the system
   sops.secrets = {
+    "home-assistant/token" = {
+      sopsFile = ./gideon_secrets.yaml;
+      owner = "gideon";
+    };
     "freshrss/apikey" = {
       sopsFile = ./gideon_secrets.yaml;
       owner = "gideon";

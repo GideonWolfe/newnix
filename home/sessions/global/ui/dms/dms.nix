@@ -41,6 +41,10 @@ with config.lib.stylix.colors.withHashtag;
 
     programs.dank-material-shell = {
         enable = true;
+        # Home Assistant Monitor imports QtWebSockets.
+        package = (inputs.dms.lib.mkDmsShell pkgs).override {
+            extraQtPackages = [ pkgs.kdePackages.qtwebsockets ];
+        };
         systemd.enable = true;
         # Only start DMS with Niri, not Hyprland.
         systemd.target = "niri.service";
@@ -84,6 +88,23 @@ with config.lib.stylix.colors.withHashtag;
             aiAssistant.enable = true;
             webSearch.enable = true;
             quickCapture.enable = true;
+            smartTimer = {
+                enable = true;
+                settings = {
+                    # Strip the prefix before DMS filters Sands' generated previews.
+                    noTrigger = false;
+                    trigger = "timer";
+                };
+            };
+            homeAssistantMonitor = {
+                enable = true;
+                settings = {
+                    hassUrl =
+                        let service = osConfig.custom.world.services.home-assistant;
+                        in "${service.protocol}://${service.ip}:${toString service.port}";
+                    hassTokenPath = osConfig.sops.secrets."home-assistant/token".path;
+                };
+            };
         };
 
 
@@ -240,6 +261,27 @@ with config.lib.stylix.colors.withHashtag;
             scrollTitleEnabled = true;
             audioVisualizerEnabled = true;
             appIdSubstitutions = [
+                # Chromium URL-app IDs encode the host/path, but omit the port.
+                {
+                    pattern = "chrome-messages.google.com__web_-";
+                    replacement = "google-messages";
+                    type = "contains";
+                }
+                {
+                    pattern = "chrome-${osConfig.custom.world.services.tududi.ip}__-";
+                    replacement = "tududi";
+                    type = "contains";
+                }
+                {
+                    pattern = "chrome-${osConfig.custom.world.services.home-assistant.ip}__-";
+                    replacement = "home-assistant";
+                    type = "contains";
+                }
+                {
+                    pattern = "chrome-${osConfig.custom.world.services.mealie.ip}__-";
+                    replacement = "mealie";
+                    type = "contains";
+                }
                 {
                     pattern = "Spotify";
                     replacement = "spotify";
@@ -273,6 +315,10 @@ with config.lib.stylix.colors.withHashtag;
             appLauncherGridColumns = 4;
             niriOverviewOverlayEnabled = true;
             launcherStyle = "full";
+            dashOptions = {
+                clock.tone = "";
+                calendar.weekends = true;
+            };
             useAutoLocation = false;
             weatherEnabled = true;
             networkPreference = "auto";
@@ -732,12 +778,24 @@ with config.lib.stylix.colors.withHashtag;
                             clockCompactMode = false;
                         }
                         {
+                            id = "smartTimer";
+                            enabled = true;
+                        }
+                        {
                             id = "separator";
                             enabled = true;
                         }
                         "weather"
                     ];
                     rightWidgets = [
+                        {
+                            id = "dankKDEConnect";
+                            enabled = true;
+                        }
+                        {
+                            id = "homeAssistantMonitor";
+                            enabled = true;
+                        }
                         {
                             id = "quickCapture";
                             enabled = true;
