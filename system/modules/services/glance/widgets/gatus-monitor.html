@@ -1,50 +1,5 @@
-# Adapted from Nedra1998's community widget (CC0-1.0):
-# https://github.com/glanceapp/community-widgets/blob/main/widgets/gatus-monitor/README.md
-type: custom-api
-title: Gatus
-title-url: &gatus-url http://192.168.88.103:8085
-cache: 1m
-css-class: gatus-monitor
-options:
-  base-url: *gatus-url
-  style: compact # full also shows icons and both metrics
-  duration: 24h
-  group: ""
-  compact-metric: uptime # uptime or response-time
-  show-failing-only: false
-  show-only-configured: false
-
-  # Full-view icons. Add <endpoint-name>-url to override its Gatus detail link.
-  calibre-web-automated: sh:calibre-web
-  dawarich: sh:dawarich
-  freshrss: sh:freshrss
-  immich: sh:immich
-  it-tools: sh:it-tools
-  karakeep: sh:karakeep
-  mealie: sh:mealie
-  romm: sh:romm
-  shelfmark: mdi:bookshelf
-  scrutiny: sh:scrutiny
-  bazarr: sh:bazarr
-  jellyfin: sh:jellyfin
-  navidrome: sh:navidrome
-  netbox: sh:netbox
-  nzbget: sh:nzbget
-  prowlarr: sh:prowlarr
-  radarr: sh:radarr
-  seerr: mdi:movie-search
-  slskd: sh:slskd
-  sonarr: sh:sonarr
-  soulsync-webui: mdi:music-box-multiple
-  baikal: sh:baikal
-  grafana: sh:grafana
-  loki: sh:loki
-  prometheus: sh:prometheus
-  tempo: mdi:chart-timeline
-  crowdsec: sh:crowdsec
-  traefik: sh:traefik
-
-template: |
+{{/* Adapted from Nedra1998's Gatus Monitor (CC0-1.0):
+https://github.com/glanceapp/community-widgets/blob/main/widgets/gatus-monitor/README.md */}}
   {{ $options := .Options }}
   {{ $baseURL := trimSuffix "/" (.Options.StringOr "base-url" "") }}
   {{ $duration := .Options.StringOr "duration" "24h" }}

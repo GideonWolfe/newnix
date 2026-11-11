@@ -6,12 +6,18 @@ let
     in
     {
       inherit title icon;
-      # Registered domains use Traefik's TLS endpoint; LAN-only services stay direct.
-      url = if service.domain != "" then
-        "https://${service.domain}"
-      else
-        "${service.protocol}://${service.ip}:${toString service.port}";
+      # The backend ports serve HTTP; TLS terminates at Traefik, not these IPs.
+      url = "http://${service.ip}:${toString service.port}";
     };
+  grafanaLink = title: path:
+    (serviceLink "grafana" title "sh:grafana") // {
+      url = "${(serviceLink "grafana" title "sh:grafana").url}${path}";
+    };
+  nodeLink = name: title: {
+    inherit title;
+    url = "https://${world.hosts.proxmox.nodes.${name}.ip}:8006";
+    icon = "sh:proxmox";
+  };
 in
 {
   web = {
@@ -47,7 +53,26 @@ in
           (serviceLink "karakeep" "Karakeep" "sh:karakeep")
           (serviceLink "mealie" "Mealie" "sh:mealie")
           (serviceLink "immich" "Immich" "sh:immich")
+          (serviceLink "dawarich" "Dawarich" "sh:dawarich")
+          (serviceLink "home-assistant" "Home Assistant" "sh:home-assistant")
+          (serviceLink "tududi" "Tududi" "sh:tududi")
+        ];
+      }
+      {
+        title = "Make";
+        links = [
           (serviceLink "printventory" "Printventory" "mdi:printer-3d")
+          { title = "Mainsail"; url = "http://192.168.88.176"; icon = "sh:mainsail"; }
+        ];
+      }
+      {
+        title = "Acquire";
+        links = [
+          (serviceLink "seerr" "Seerr" "sh:seerr")
+          (serviceLink "youtarr" "Youtarr" "sh:youtarr.png")
+          (serviceLink "shelfmark" "Shelfmark" "sh:shelfmark")
+          (serviceLink "soulsync-webui" "SoulSync" "sh:soulsync.png")
+          (serviceLink "dispatcharr" "Dispatcharr" "sh:dispatcharr")
         ];
       }
       {
@@ -59,28 +84,24 @@ in
           (serviceLink "open-webui" "Open WebUI" "sh:open-webui")
         ];
       }
-    ];
-  };
-
-  media = {
-    type = "bookmarks";
-    title = "Media";
-    groups = [
       {
         title = "Watch & listen";
         links = [
           (serviceLink "jellyfin" "Jellyfin" "sh:jellyfin")
           (serviceLink "navidrome" "Navidrome" "sh:navidrome")
-          (serviceLink "seerr" "Seerr" "mdi:movie-search")
-          (serviceLink "youtarr" "Youtarr" "si:youtube")
+          (serviceLink "romm" "RomM" "sh:romm")
+          (serviceLink "calibre-web-automated" "Calibre" "sh:calibre-web")
         ];
       }
       {
-        title = "Read & play";
+        title = "Play";
         links = [
-          (serviceLink "calibre-web-automated" "Calibre" "sh:calibre-web")
-          (serviceLink "shelfmark" "Shelfmark" "mdi:bookshelf")
-          (serviceLink "romm" "RomM" "sh:romm")
+          { title = "Golf"; url = "https://kindahardgolf.com"; icon = "mdi:golf"; }
+          { title = "OpenGuessr"; url = "https://openguessr.com"; icon = "mdi:map-marker-question-outline"; }
+          { title = "Globle"; url = "https://globle-game.com/game"; icon = "mdi:map-marker-question-outline"; }
+          { title = "Semantle"; url = "https://semantle.com"; icon = "mdi:chat-question-outline"; }
+          { title = "Redactle"; url = "https://www.redactle.net"; icon = "sh:wikipedia"; }
+          { title = "Anthropeum"; url = "https://www.anthropeum.com"; icon = "mdi:calendar-question-outline"; }
         ];
       }
     ];
@@ -95,8 +116,9 @@ in
         links = [
           (serviceLink "gatus" "Gatus" "sh:gatus")
           (serviceLink "grafana" "Grafana" "sh:grafana")
+          (grafanaLink "NAS Dashboard" "/d/agzdgq4/mnemosyne-zfs-pool-staging")
+          (grafanaLink "Backup NAS Dashboard" "/d/agdzndc/soteria-tank-zfs-pool-staging")
           (serviceLink "scrutiny" "Scrutiny" "sh:scrutiny")
-          (serviceLink+"/d/agdzndc/soteria-tank-zfs-pool-staging" "soteria" "Soteria" "sh:grafana")
         ];
       }
       {
@@ -106,13 +128,17 @@ in
           {
             title = "Router";
             url = "http://${world.hosts.router.ip}";
-            icon = "mdi:router-network";
+            icon = "sh:mikrotik";
           }
-          {
-            title = "Proxmox";
-            url = "https://${world.hosts.proxmox.nodes.pvenet.ip}:8006";
-            icon = "sh:proxmox";
-          }
+          (nodeLink "pvenet" "Proxmox")
+        ];
+      }
+      {
+        title = "Nodes";
+        links = [
+          (nodeLink "pve1" "PVE 1")
+          (nodeLink "pve2" "PVE 2")
+          (nodeLink "pve3" "PVE 3")
         ];
       }
     ];

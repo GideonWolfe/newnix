@@ -1,9 +1,26 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, osConfig, ... }:
 
 with config.lib.stylix.colors.withHashtag;
 
 let
   json = pkgs.formats.json { };
+  homeAssistant = osConfig.custom.world.services.home-assistant;
+  # Developer overrides replace all built-in fixes, so retain a pinned baseline.
+  upstreamFixes = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/darkreader/darkreader/dbf2a1029131280d9dab21ed29f1dfdeb51a6cc7/src/config/dynamic-theme-fixes.config";
+    sha256 = "sha256-Iv2wIKjdun4fEFpTXtRLUyv2NRBITAa/CZnILloKwjo=";
+  };
+  dynamicThemeFixes = builtins.readFile upstreamFixes + ''
+
+    ================================
+
+    ${homeAssistant.ip}:${toString homeAssistant.port}
+
+    CSS
+    hui-view-background {
+        background-color: ''${#fff} !important;
+    }
+  '';
   configData =  {
     schemeVersion = 0;
     enabled = true;
@@ -61,22 +78,18 @@ let
   };
 in
 {
-  # Current approach: generate a config.json that has to be imported into Dark
-  # Reader by hand each time it changes.
+  # Chromium still needs manual imports; Firefox uses the same settings below.
   xdg.configFile.darkreader = {
     enable = true;
-    # onChange = manually tell darkreader to refresh somehow?
     target = "darkreader/config.json";
     source = json.generate "darkreader-config.json" configData;
   };
 
-  # Alternative (WIP): bake the settings straight into the Firefox profile so
-  # they no longer need manual importing. Home Manager writes these into the
-  # extension's storage, so Dark Reader picks them up on the next browser start.
-  # Requires `extensions.force = true` on the profile (set in firefox.nix) and a
-  # full browser restart after a rebuild to apply. Note: enabling this flips the
-  # profile to the JSON storage backend, which resets extension state once (e.g.
-  # a one-time Bitwarden re-login).
-  # programs.firefox.profiles.default.extensions.settings."addon@darkreader.org".settings =
-  #   configData;
+  xdg.configFile."darkreader/dynamic-theme-fixes.config".text = dynamicThemeFixes;
+
+  # Restart Firefox after rebuilding; extensions.force is set in firefox.nix.
+  programs.firefox.profiles.default.extensions.settings."addon@darkreader.org".settings =
+    lib.mkIf config.programs.firefox.enable (configData // {
+      dev_dynamic_theme_fixes = dynamicThemeFixes;
+    });
 }

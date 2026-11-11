@@ -1,7 +1,7 @@
 # Niri keybindings. One entry per chord, in the direct/readable form supported
 # by niri-flake (see https://github.com/sodiboo/niri-flake/blob/main/docs.md
 # under `programs.niri.settings.binds`).
-{ ... }:
+{ pkgs, lib, ... }:
 {
   programs.niri.settings.binds = {
 
@@ -13,6 +13,11 @@
     "Mod+Shift+Q".action.close-window = [ ];
     # App launcher: spawn takes an argument list, not a shell command string.
     "Mod+D".action.spawn = [ "dms" "ipc" "call" "spotlight" "toggle" ];
+    # Keep unmodified right-click available to applications.
+    "Mod+MouseRight" = {
+      action.spawn = [ "${lib.getExe pkgs.kando}" "--trigger" "desktop-menu" ];
+      hotkey-overlay.title = "Open Kando menu";
+    };
     # Quick exit
     "Mod+Shift+E".action.quit = [ ];
     # On-demand hotkey overlay. We `skip-at-startup`, so this is the only

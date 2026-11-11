@@ -10,7 +10,6 @@ let
 
   css = ''
     :root {
-      /* Expose the complete palette for future custom widgets too. */
       ${paletteCSS}
 
       --color-background: var(--stylix-base00);

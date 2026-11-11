@@ -68,6 +68,31 @@ and the existing browser profile. Its LAN/VPN URL follows the protocol, IP, and
 port in `osConfig.custom.world.services.home-assistant` from
 [`lib/world/services.nix`](../lib/world/services.nix).
 
+### Dark Reader
+
+[`apps/darkreader/darkreader.nix`](apps/darkreader/darkreader.nix) writes settings
+and site fixes directly into the default Firefox profile's Dark Reader storage.
+Fully quit Firefox before rebuilding, then reopen it; no manual import is needed.
+These settings are declarative, so browser-side changes may be replaced on rebuild.
+Home Manager uses Firefox's JSON extension-storage backend for this feature.
+Switching from IndexedDB can reset other extensions' local state once, requiring
+reconfiguration or sign-in.
+
+The site fixes include a Home Assistant-only correction for the dashboard's
+shadow-DOM background. Its address follows the shared service configuration,
+and its color follows the Stylix-derived Dark Reader theme. Since Developer
+Tools overrides replace all built-in fixes, the module includes a pinned
+upstream baseline from Dark Reader 4.9.135. Update that baseline when updating
+the extension's site fixes.
+
+Chromium still requires manual imports after rebuilding:
+
+- Import `~/.config/darkreader/config.json` through Dark Reader's settings.
+- Open **Developer Tools → Dynamic Theme Editor → Full Editor**, replace the
+  contents with `~/.config/darkreader/dynamic-theme-fixes.config`, and click
+  **Apply**. This file contains the upstream rules plus the Home Assistant fix;
+  keep any additional custom rules in the module so they are not lost.
+
 ### Mealie
 
 [`apps/mealie/mealie.nix`](apps/mealie/mealie.nix) adds a Mealie launcher through
@@ -93,6 +118,15 @@ its Chromium-generated ID, unpin it and pin the named launcher instead.
 - Place global, session-agnostic resources in `sessions/global` (environment variables, shared UI defaults, background services such as `blueman-applet`).
 - Keep desktop or compositor specific pieces in their own subdirectory (`sessions/hypr`, `sessions/sway`, etc.). Each folder can expose multiple modules (e.g. Hyprland, Hyprpaper, Hyprpanel) so compose only what a host needs.
 - Shared UI helpers (Stylix, cursor, GTK/Qt theming) live under `sessions/global/ui` so they can be re-used by every session.
+
+### Kando on Niri
+
+The [Niri bindings](sessions/niri/binds.nix) open Kando's `desktop-menu` with
+**Super + right-click**. The command starts Kando if necessary, so no separate
+autostart is required. Plain right-click remains available to applications.
+This replaces Niri's default Super + right-click window-resize gesture;
+Super + left-click still moves windows. Niri does not support desktop-only
+mouse bindings.
 
 ### Sands timers
 

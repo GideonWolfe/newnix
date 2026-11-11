@@ -21,6 +21,8 @@
     ../modules/system/flatpak.nix
     # Desktop virtualization (virt-manager/libvirt/SPICE)
     ../modules/system/libvirt.nix
+    # Local service dashboard
+    ../modules/services/glance/glance.nix
 
     ############
     # Packages #
