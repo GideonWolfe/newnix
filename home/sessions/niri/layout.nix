@@ -3,6 +3,14 @@
 # etc. available throughout the file.
 { config, ... }:
 with config.lib.stylix.colors.withHashtag;
+let
+  urgentGradient = {
+    from = red;
+    to = orange;
+    angle = 45;
+    in' = "oklab";
+  };
+in
 {
   programs.niri.settings = {
     # Desktop layout
@@ -21,28 +29,34 @@ with config.lib.stylix.colors.withHashtag;
         # Subtle stylix-derived color for unfocused windows so they don't
         # fight the focus-ring gradient for attention.
         inactive.color = "${base02}";
+        urgent.gradient = urgentGradient;
       };
 
       # Give Windows a shadow
       shadow = {
         enable = true;
+        # A faint blue glow for focus; keep other windows' shadows neutral.
+        color = "${blue}26";
+        inactive-color = "${base00}70";
       };
 
       # Highlight around currently focused window
       focus-ring = {
+        enable = false;
         active = {
           gradient = {
             from = "${blue}";
             to = "${orange}";
             angle = 90;
             relative-to = "workspace-view";
-            "in" = "oklch longer hue";
+            in' = "oklch longer hue";
           };
         };
         # Muted ring on the last-focused window of *other* monitors.
         # Without this we'd inherit niri's default, which clashes with the
         # stylix palette on multi-monitor setups.
         inactive.color = "${base02}";
+        urgent.gradient = urgentGradient;
       };
 
       # Indicator above tabbed window columns
@@ -60,9 +74,7 @@ with config.lib.stylix.colors.withHashtag;
           gradient = { from = "${base0A}"; to = "${base0E}"; angle = 45; };
         };
         # Color of tab when window is urgent
-        urgent = {
-          color = "${red}";
-        };
+        urgent.gradient = urgentGradient;
       };
 
       # Hint when dragging windows in overview mode

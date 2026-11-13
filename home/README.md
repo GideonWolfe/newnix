@@ -44,6 +44,20 @@ Because each module is self-contained, you can remove or override a single app b
 Lite for ad blocking. Current Chromium requires Manifest V3; classic uBlock
 Origin remains configured separately for Firefox.
 
+### Amethyst Mod Manager
+
+[`apps/amethyst/amethyst.nix`](apps/amethyst/amethyst.nix) generates a complete
+**Stylix** theme in `~/.config/AmethystModManager/themes/stylix.json`, included
+through the `extra` role. After rebuilding, restart Amethyst and select
+**Stylix** in its appearance settings. Other application settings remain mutable.
+
+All colors come directly from the Stylix Base16 palette, without blending or
+generated shades. The accent uses `base07`, which is lavender in Catppuccin
+Mocha. Status colors use the palette's semantic colors on neutral backgrounds;
+conflict highlights share a neutral selection color. The generated theme follows
+palette changes. Edit the Nix module rather than saving over this Home
+Manager-managed theme in Amethyst's theme editor.
+
 ### Google Messages
 
 [`apps/google-messages/google-messages.nix`](apps/google-messages/google-messages.nix)
@@ -118,6 +132,18 @@ its Chromium-generated ID, unpin it and pin the named launcher instead.
 - Place global, session-agnostic resources in `sessions/global` (environment variables, shared UI defaults, background services such as `blueman-applet`).
 - Keep desktop or compositor specific pieces in their own subdirectory (`sessions/hypr`, `sessions/sway`, etc.). Each folder can expose multiple modules (e.g. Hyprland, Hyprpaper, Hyprpanel) so compose only what a host needs.
 - Shared UI helpers (Stylix, cursor, GTK/Qt theming) live under `sessions/global/ui` so they can be re-used by every session.
+
+### Niri colors
+
+The [layout module](sessions/niri/layout.nix) uses Stylix colors for window
+decorations and the overview. The focus ring is disabled; its workspace-wide
+blue-to-orange OKLCH gradient remains configured for optional use.
+Active windows have a blue shadow at approximately 15% opacity;
+inactive shadows use the theme's neutral background color.
+
+Urgent borders, focus rings, and tab indicators share a red-to-orange OKLab
+gradient. Its red endpoint matches the DMS theme's `error` color. The Nix
+`urgent.gradient` options generate Niri's `urgent-gradient` settings.
 
 ### Kando on Niri
 

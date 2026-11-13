@@ -1,9 +1,16 @@
 # Packages used on gaming machines
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+let
+  pkgs-unstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+in
 {
   environment.systemPackages = [
       pkgs.protontricks
       pkgs.lutris
+      (pkgs-unstable.callPackage ../custom/amethyst-mod-manager.nix {})
       pkgs.itch
       #pkgs.nexusmods-app-unfree
       pkgs.mangohud

@@ -9,6 +9,7 @@
     pkgs.gnome-maps
     #pkgs.mapscii # tui braille map
     pkgs.globe-cli # TUI globe
+    (pkgs.callPackage ../../custom/terrascope.nix { }) # TUI map with live weather, aircraft, and earthquakes
     pkgs.qgis # GIS software
     # BUG: has CVE preventing build
     #pkgs.gpx-viewer # GUI for GPX files (location tracking)

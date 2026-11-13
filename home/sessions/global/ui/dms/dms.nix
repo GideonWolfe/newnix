@@ -316,7 +316,18 @@ with config.lib.stylix.colors.withHashtag;
             niriOverviewOverlayEnabled = true;
             launcherStyle = "full";
             dashOptions = {
+                # An empty tone selects Surface.
                 clock.tone = "";
+                weather = {
+                    tone = "";
+                    # The Weather tab stores tones per widget, separately from overview.
+                    widgets = [
+                        { id = "conditions"; tone = ""; }
+                        { id = "readings"; }
+                        { id = "hourly"; }
+                        { id = "daily"; }
+                    ];
+                };
                 calendar.weekends = true;
             };
             useAutoLocation = false;

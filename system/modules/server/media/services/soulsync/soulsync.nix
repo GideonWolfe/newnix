@@ -2,7 +2,7 @@
 {
   virtualisation.oci-containers.containers.soulsync-webui = {
     # https://hub.docker.com/r/boulderbadgedad/soulsync/tags
-    image = "boulderbadgedad/soulsync:3.0.1";
+    image = "boulderbadgedad/soulsync:3.6.4";
     extraOptions = [ "--network=media" ];
     ports = [
       "${builtins.toString config.custom.world.services.soulsync-webui.port}:8008"

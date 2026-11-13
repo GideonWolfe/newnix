@@ -8,6 +8,7 @@
     ###########################
     # Themed applications etc. #
     ###########################
+    ../apps/amethyst/amethyst.nix
     ../apps/imv/imv.nix
     ../apps/gloom/gloom.nix
     ../apps/zathura/zathura.nix
