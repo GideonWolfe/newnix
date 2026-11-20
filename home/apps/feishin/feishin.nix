@@ -30,8 +30,8 @@ let
     mantineOverride = {
       primaryColor = "primary";
       primaryShade = {
-        dark = 6;
-        light = 6;
+        dark = 2;
+        light = 2;
       };
       colors = {
         primary = [

@@ -31,6 +31,11 @@
   /* Rule view header/pseudo-element bars and computed view rows */
   --rule-header-background-color: var(--base01) !important;
   --rule-highlight-background-color: var(--base02) !important;
+  /* Layout accordions and the rule view's pseudo-elements toggle */
+  --theme-accordion-header-background: var(--base01) !important;
+  --theme-accordion-header-color: var(--base05) !important;
+  --theme-accordion-header-hover-background: var(--base02) !important;
+  --theme-accordion-header-hover-color: var(--base06) !important;
   /* Changes panel diff colors */
   --theme-diff-add-background: color-mix(in srgb, var(--base0B) 20%, transparent) !important;
   --theme-diff-add-color: var(--base0B) !important;
@@ -39,6 +44,8 @@
   --theme-text-color-alt: var(--base04) !important;
   --theme-text-color-strong: var(--base06) !important;
   --theme-link-color: var(--base0D) !important;
+  --theme-internal-link-color: var(--base0D) !important;
+  --frame-link-line-color: var(--base0D) !important;
   --theme-focus-outline-color: var(--base0D) !important;
   --theme-highlight-blue: var(--base0D) !important;
   --theme-highlight-red: var(--base08) !important;
@@ -62,6 +69,7 @@
   --theme-toolbar-hover-color: var(--theme-text-color-strong) !important;
   --theme-toolbar-selected-background: var(--base02) !important;
   --theme-toolbar-selected-color: var(--theme-link-color) !important;
+  --theme-toolbar-highlighted-color: var(--base0B) !important;
   --theme-toolbar-separator: var(--base03) !important;
 
   --toolbarbutton-background: var(--theme-toolbar-background) !important;
@@ -96,6 +104,39 @@
   --theme-icon-checked-color: var(--theme-highlight-green) !important;
   --theme-icon-error-color: var(--theme-highlight-red) !important;
   --theme-icon-warning-color: var(--theme-highlight-yellow) !important;
+
+  /* Console warning rows */
+  --theme-warning-background: color-mix(in srgb, var(--base0A) 12%, var(--base00)) !important;
+  --theme-warning-border: color-mix(in srgb, var(--base0A) 30%, var(--base00)) !important;
+  --theme-warning-color: var(--base0A) !important;
+
+  /* Console errors and their expanded stack traces */
+  --theme-error-background: color-mix(in srgb, var(--base08) 12%, var(--base00)) !important;
+  --theme-error-border: color-mix(in srgb, var(--base08) 30%, var(--base00)) !important;
+  --theme-error-color: var(--base08) !important;
+  --theme-text-color-error: var(--base08) !important;
+  --theme-stack-trace-text: var(--base08) !important;
+
+  /* Debugger pause reason and paused-line highlights */
+  --paused-background-color: var(--theme-warning-background) !important;
+  --paused-color: var(--theme-warning-color) !important;
+  --paused-error-color: var(--theme-error-color) !important;
+
+  /* Inspector pills, including collapsed-node ellipses and toggled highlighters */
+  --badge-background-color: var(--base01) !important;
+  --badge-border-color: var(--base03) !important;
+  --badge-color: var(--base05) !important;
+  --badge-interactive-background-color: var(--base02) !important;
+  --badge-interactive-border-color: var(--base04) !important;
+  --badge-interactive-color: var(--base0D) !important;
+  --badge-hover-interactive-background-color: color-mix(in srgb, var(--base0D) 20%, var(--base00)) !important;
+  --badge-hover-interactive-color: var(--base0D) !important;
+  --badge-active-background-color: var(--base0D) !important;
+  --badge-active-border-color: var(--base0D) !important;
+  --badge-scrollable-background-color: var(--base02) !important;
+  --badge-scrollable-color: var(--base0E) !important;
+  --badge-scrollable-active-background-color: var(--base0E) !important;
+  --badge-scrollable-active-color: var(--base00) !important;
 
   /* Global page toolbar colors. Mostly affects PDF reader */
   --toolbar-bg-color: var(--theme-toolbar-background) !important;
@@ -241,6 +282,13 @@ input {
 .changes-list {
 	background-color: var(--theme-sidebar-background) !important;
 	color: var(--theme-body-color) !important;
+}
+
+/* Keep native checkbox behavior and limit the accent override to DevTools. */
+@-moz-document url-prefix("chrome://devtools/") {
+  input[type="checkbox"] {
+    accent-color: var(--base0D) !important;
+  }
 }
 
 /* Toolbox tab bar (Inspector / Console / Debugger / ... row) */
